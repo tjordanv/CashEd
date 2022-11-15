@@ -1,16 +1,16 @@
-import { useCallback, useEffect, useState } from "react";
-import SubCategory from "./subCategory";
-import { bindActionCreators } from "redux";
-import { useDispatch, useSelector } from "react-redux";
-import data from "../app/data";
+import { useCallback, useEffect, useState } from "react"
+import SubCategory from "./subcategory"
+import { bindActionCreators } from "redux"
+import { useDispatch, useSelector } from "react-redux"
+import data from "../app/data"
 
-import Paper from "@mui/material/Paper";
-import { styled } from "@mui/material/styles";
-import Stack from "@mui/material/Stack";
-import { IconButton } from "@mui/material";
-import AddBoxIcon from "@mui/icons-material/AddBox";
+import Paper from "@mui/material/Paper"
+import { styled } from "@mui/material/styles"
+import Stack from "@mui/material/Stack"
+import { IconButton } from "@mui/material"
+import AddBoxIcon from "@mui/icons-material/AddBox"
 
-import { subCategoryActionCreators } from "../state/index";
+import { subCategoryActionCreators } from "../state/index"
 
 const TransactionCategory = ({ category }) => {
   const Item = styled(Paper)(({ theme }) => ({
@@ -28,48 +28,48 @@ const TransactionCategory = ({ category }) => {
     textAlign: "center",
     position: "relative",
     minWidth: "130px"
-  }));
+  }))
 
-  const dispatch = useDispatch();
-  const { importSubCategories } = bindActionCreators(subCategoryActionCreators, dispatch);
+  const dispatch = useDispatch()
+  const { importSubCategories } = bindActionCreators(subCategoryActionCreators, dispatch)
 
-  const [subs, setSubs] = useState([]);
+  const [subs, setSubs] = useState([])
 
   // the fake api call to get the subcategories
   const subCategoryAPICall = new Promise(function (myResolve, myReject) {
     let subCategories = data.subCategories.filter(
       (subCategory) => subCategory.categoryID === category.ID
-    );
+    )
 
     if (subCategories) {
-      myResolve(subCategories);
+      myResolve(subCategories)
     } else {
-      console.log("Subcategory 'API' call failed");
-      myReject([]);
+      console.log("Subcategory 'API' call failed")
+      myReject([])
     }
-  });
+  })
 
   // Fills the subcategories pulled from the DB into the global state
   useEffect(() => {
     subCategoryAPICall.then((res) => {
-      setSubs(res);
-      importSubCategories(res);
-    });
-  }, []);
+      setSubs(res)
+      importSubCategories(res)
+    })
+  }, [])
 
-  const num = 0;
+  const num = 0
   const total = useSelector((state) =>
     state.subCategories
       .filter((subCategory) => subCategory.categoryID === category.ID)
       .reduce((sum, subCategory) => sum + subCategory.Total, num)
       .toFixed(2)
-  );
+  )
 
-  const su = useSelector((state) => state.subCategories);
+  const su = useSelector((state) => state.subCategories)
 
   const logs = () => {
-    console.log(su);
-  };
+    console.log(su)
+  }
 
   return (
     <Item elevation={4}>
@@ -94,7 +94,7 @@ const TransactionCategory = ({ category }) => {
         <AddBoxIcon color="lightWhite" fontSize="medium" />
       </IconButton>
     </Item>
-  );
-};
+  )
+}
 
-export default TransactionCategory;
+export default TransactionCategory

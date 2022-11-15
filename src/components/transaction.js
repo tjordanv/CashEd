@@ -1,11 +1,11 @@
-import { Draggable } from "react-beautiful-dnd";
-import { useDispatch } from "react-redux";
-import { bindActionCreators } from "redux";
-import { styled } from "@mui/material/styles";
-import { subCategoryActionCreators, transactionsActionCreators } from "../state";
+import { Draggable } from "react-beautiful-dnd"
+import { useDispatch } from "react-redux"
+import { styled } from "@mui/material/styles"
+import { deleteTransaction } from "../state/transactionsSlice"
+import { updateSubCategoryTotal } from "../state/subcategoriesSlice"
 
-import { Card } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { Card } from "@mui/material"
+import DeleteIcon from "@mui/icons-material/Delete"
 
 const Transaction = ({ transaction, index }) => {
   const Item = styled(Card)(({ theme }) => ({
@@ -23,24 +23,20 @@ const Transaction = ({ transaction, index }) => {
         : "rgba(254, 109, 115, 0.4)",
     width: "175px",
     minHeight: "32px"
-  }));
+  }))
 
-  const dispatch = useDispatch();
-  const { deleteTransaction } = bindActionCreators(transactionsActionCreators, dispatch);
-  const { updateSubCategoryTotal } = bindActionCreators(
-    subCategoryActionCreators,
-    dispatch
-  );
+  const dispatch = useDispatch()
+
   const deleteTrans = () => {
     if (transaction.subCategoryID) {
-      updateSubCategoryTotal(transaction.subCategoryID, -transaction.Amount);
+      dispatch(updateSubCategoryTotal(transaction.subCategoryID, -transaction.Amount))
     }
-    deleteTransaction(index);
-  };
+    dispatch(deleteTransaction(index))
+  }
 
   const log = () => {
-    console.log(index);
-  };
+    console.log(index)
+  }
   return (
     // I may need to add additional identifiers to the draggableID to account for transactions
     // having the same description/name
@@ -68,7 +64,7 @@ const Transaction = ({ transaction, index }) => {
         </Item>
       )}
     </Draggable>
-  );
-};
+  )
+}
 
-export default Transaction;
+export default Transaction
