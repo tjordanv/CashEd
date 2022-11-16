@@ -1,24 +1,26 @@
-import data from "./app/data";
-import "./styles.css";
+import data from "./app/data"
+import "./styles.css"
 
-import { bindActionCreators } from "redux";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux"
 
-import { DragDropContext } from "react-beautiful-dnd";
-import { subCategoryActionCreators, transactionsActionCreators } from "./state";
-import { useState } from "react";
+import { DragDropContext } from "react-beautiful-dnd"
 
-import { IconButton } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import AddBoxIcon from "@mui/icons-material/AddBox";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { Grid } from "@mui/material";
+import { IconButton } from "@mui/material"
+import { createTheme, ThemeProvider } from "@mui/material/styles"
+import AddBoxIcon from "@mui/icons-material/AddBox"
+import { Grid } from "@mui/material"
 
-import TransactionsList from "./components/transactionsList";
-import TransactionCategories from "./components/transactionCategories";
-import { SignalWifiStatusbarNullSharp } from "@mui/icons-material";
+import TransactionsList from "./components/transactionsList"
+import TransactionCategories from "./components/transactionCategories"
 
-const dataSet = data;
+import {
+  importTransactions,
+  reorderTransactions,
+  addSubcategory
+} from "./state/transactionsSlice"
+import { updateSubCategoryTotal } from "./state/subcategoriesSlice"
+
+const dataSet = data
 
 const theme = createTheme({
   palette: {
@@ -29,33 +31,25 @@ const theme = createTheme({
       main: "rgba(255, 255, 255, 0.9)"
     }
   }
-});
+})
 
 export default function App() {
-  const dispatch = useDispatch();
-  const { importTransactions, reorderTransactions, addSubcategory } = bindActionCreators(
-    transactionsActionCreators,
-    dispatch
-  );
-  const { updateSubCategoryTotal } = bindActionCreators(
-    subCategoryActionCreators,
-    dispatch
-  );
+  const dispatch = useDispatch()
 
-  const subCategories = useSelector((state) => state.subCategories);
-  const transactions = useSelector((state) => state.transactions);
-  const selectedSubCategoryID = useSelector((state) => state.selectedSubCategoryID);
+  const subCategories = useSelector((state) => state.subCategories)
+  const transactions = useSelector((state) => state.transactions)
+  const selectedSubCategoryID = useSelector((state) => state.selectedSubCategoryID)
 
   const imports = (transactions) => {
-    importTransactions(dataSet.transactions);
-  };
+    dispatch(importTransactions(dataSet.transactions))
+  }
 
   const onDragEnd = (e) => {
-    const { destination, source } = e;
+    const { destination, source } = e
     //console.log(e);
     if (!destination) {
       //console.log("dropped in a no drop zone");
-      return;
+      return
     }
 
     // do nothing if dropped in same spot
@@ -64,7 +58,7 @@ export default function App() {
       destination.index === source.index
     ) {
       //console.log("dropped in place");
-      return;
+      return
     }
 
     // reorder if dropped into same list. Has no real productive use but could be fun for users
@@ -72,7 +66,7 @@ export default function App() {
       destination.droppableId === source.droppableId &&
       destination.index !== source.index
     ) {
-      reorderTransactions(source.index, destination.index);
+      dispatch(reorderTransactions(source.index, destination.index))
       // console.log("reordered")
     }
 
@@ -82,43 +76,49 @@ export default function App() {
       // transaction and subcategory states are both being impacted
       const destinationSubcategory = subCategories.filter(
         (subCategory) => subCategory.name === destination.droppableId
-      );
-      const sourceSubCategoryID = transactions[source.index].subCategoryID;
+      )
+      const sourceSubCategoryID = transactions[source.index].subCategoryID
 
       // logic for moving transaction from category out to import list
       if (destinationSubcategory.length === 0) {
         transactions.forEach((transaction, index) => {
           if (transaction.Description === e.draggableId) {
-            addSubcategory(index, null, null);
-            reorderTransactions(index, destination.index);
+            dispatch(addSubcategory(index, null, null))
+            dispatch(reorderTransactions(index, destination.index))
           }
-        });
+        })
       } else {
         // add transaction to a subcategory
-        addSubcategory(
-          source.index,
-          destinationSubcategory[0].ID,
-          destinationSubcategory[0].categoryID
-        );
-        updateSubCategoryTotal(
-          destinationSubcategory[0].ID,
-          transactions[source.index].Amount
-        );
+        dispatch(
+          addSubcategory(
+            source.index,
+            destinationSubcategory[0].ID,
+            destinationSubcategory[0].categoryID
+          )
+        )
+        dispatch(
+          updateSubCategoryTotal(
+            destinationSubcategory[0].ID,
+            transactions[source.index].Amount
+          )
+        )
       }
       // reduce source subCategory total when moving transaction to another location
       if (source.droppableId === "subCategoryTransactionsList") {
         subCategories.forEach((subCategory) => {
           if (subCategory.ID === sourceSubCategoryID) {
-            updateSubCategoryTotal(
-              sourceSubCategoryID,
-              -transactions[source.index].Amount
-            );
+            dispatch(
+              updateSubCategoryTotal(
+                sourceSubCategoryID,
+                -transactions[source.index].Amount
+              )
+            )
           }
-        });
+        })
       }
-      return;
+      return
     }
-  };
+  }
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -145,5 +145,5 @@ export default function App() {
         </div>
       </ThemeProvider>
     </DragDropContext>
-  );
+  )
 }

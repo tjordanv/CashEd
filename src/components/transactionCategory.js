@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import SubCategory from "./subcategory"
-import { bindActionCreators } from "redux"
 import { useDispatch, useSelector } from "react-redux"
 import data from "../app/data"
 
@@ -10,7 +9,7 @@ import Stack from "@mui/material/Stack"
 import { IconButton } from "@mui/material"
 import AddBoxIcon from "@mui/icons-material/AddBox"
 
-import { subCategoryActionCreators } from "../state/index"
+import { importSubCategories } from "../state/subcategoriesSlice"
 
 const TransactionCategory = ({ category }) => {
   const Item = styled(Paper)(({ theme }) => ({
@@ -31,7 +30,6 @@ const TransactionCategory = ({ category }) => {
   }))
 
   const dispatch = useDispatch()
-  const { importSubCategories } = bindActionCreators(subCategoryActionCreators, dispatch)
 
   const [subs, setSubs] = useState([])
 
@@ -53,7 +51,7 @@ const TransactionCategory = ({ category }) => {
   useEffect(() => {
     subCategoryAPICall.then((res) => {
       setSubs(res)
-      importSubCategories(res)
+      dispatch(importSubCategories(res))
     })
   }, [])
 

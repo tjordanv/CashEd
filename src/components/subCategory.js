@@ -1,11 +1,9 @@
-import { useState } from "react";
-import { Droppable, style } from "react-beautiful-dnd";
-import { useDispatch, useSelector } from "react-redux";
-import { bindActionCreators } from "redux";
-import { styled } from "@mui/material/styles";
-import { selectedSubCategoryIDActionCreators } from "../state";
+import { Droppable } from "react-beautiful-dnd"
+import { useDispatch, useSelector } from "react-redux"
+import { styled } from "@mui/material/styles"
+import { selectSubcategory } from "../state/selectedSubcategoryIDSlice"
 
-import Paper from "@mui/material/Paper";
+import Paper from "@mui/material/Paper"
 
 // const Container = styled.div`
 //   display: flex;
@@ -36,7 +34,7 @@ import Paper from "@mui/material/Paper";
 // `;
 
 const SubCategory = ({ subCategory, droppable }) => {
-  const selectedSubcategoryID = useSelector((state) => state.selectedSubCategoryID);
+  const selectedSubcategoryID = useSelector((state) => state.selectedSubCategoryID)
 
   const Item = styled(Paper)(({ theme }) => ({
     height: "35px",
@@ -44,23 +42,19 @@ const SubCategory = ({ subCategory, droppable }) => {
       selectedSubcategoryID === subCategory.ID
         ? "rgba(255, 255, 255, 0.5)"
         : "rgba(255, 255, 255, 0.9)"
-  }));
+  }))
 
-  const dispatch = useDispatch();
-  const { selectSubCategory } = bindActionCreators(
-    selectedSubCategoryIDActionCreators,
-    dispatch
-  );
+  const dispatch = useDispatch()
 
   const transactions = useSelector((state) =>
     state.transactions.filter(
       (transaction) => transaction.subCategoryID === subCategory.ID
     )
-  );
+  )
 
   const log = () => {
-    selectSubCategory(subCategory.ID);
-  };
+    dispatch(selectSubcategory(subCategory.ID))
+  }
   return (
     <Droppable droppableId={subCategory.name} isDropDisabled={droppable}>
       {(provided, snapshot) => (
@@ -78,7 +72,7 @@ const SubCategory = ({ subCategory, droppable }) => {
         // {/* </Container> */}
       )}
     </Droppable>
-  );
-};
+  )
+}
 
-export default SubCategory;
+export default SubCategory
