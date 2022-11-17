@@ -33,13 +33,13 @@ import Paper from "@mui/material/Paper"
 //   font-size: 16px;
 // `;
 
-const SubCategory = ({ subCategory, droppable }) => {
-  const selectedSubcategoryID = useSelector((state) => state.selectedSubCategoryID)
+const Subcategory = ({ subcategory, droppable }) => {
+  const selectedSubcategoryID = useSelector((state) => state.selectedSubcategoryID.value)
 
   const Item = styled(Paper)(({ theme }) => ({
     height: "35px",
     backgroundColor:
-      selectedSubcategoryID === subCategory.ID
+      selectedSubcategoryID === subcategory.ID
         ? "rgba(255, 255, 255, 0.5)"
         : "rgba(255, 255, 255, 0.9)"
   }))
@@ -47,27 +47,27 @@ const SubCategory = ({ subCategory, droppable }) => {
   const dispatch = useDispatch()
 
   const transactions = useSelector((state) =>
-    state.transactions.filter(
-      (transaction) => transaction.subCategoryID === subCategory.ID
+    state.transactions.value.filter(
+      (transaction) => transaction.subcategoryID === subcategory.ID
     )
   )
 
   const log = () => {
-    dispatch(selectSubcategory(subCategory.ID))
+    dispatch(selectSubcategory(subcategory.ID))
   }
   return (
-    <Droppable droppableId={subCategory.name} isDropDisabled={droppable}>
+    <Droppable droppableId={subcategory.name} isDropDisabled={droppable}>
       {(provided, snapshot) => (
         // <Container
         <Item
-          elevation={selectedSubcategoryID === subCategory.ID ? 8 : 2}
+          elevation={selectedSubcategoryID === subcategory.ID ? 8 : 2}
           // will need to find another way to inject this logic below
           // isSelected={isSelected}
           ref={provided.innerRef}
           {...provided.droppableProps}
           onClick={log}
         >
-          <p>{subCategory.name + ":" + subCategory.Total}</p>
+          <p>{subcategory.name + ":" + subcategory.Total}</p>
         </Item>
         // {/* </Container> */}
       )}
@@ -75,4 +75,4 @@ const SubCategory = ({ subCategory, droppable }) => {
   )
 }
 
-export default SubCategory
+export default Subcategory

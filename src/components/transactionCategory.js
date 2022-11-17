@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import SubCategory from "./subcategory"
+import Subcategory from "./subcategory"
 import { useDispatch, useSelector } from "react-redux"
 import data from "../app/data"
 
@@ -9,7 +9,7 @@ import Stack from "@mui/material/Stack"
 import { IconButton } from "@mui/material"
 import AddBoxIcon from "@mui/icons-material/AddBox"
 
-import { importSubCategories } from "../state/subcategoriesSlice"
+import { importSubcategories } from "../state/subcategoriesSlice"
 
 const TransactionCategory = ({ category }) => {
   const Item = styled(Paper)(({ theme }) => ({
@@ -34,13 +34,13 @@ const TransactionCategory = ({ category }) => {
   const [subs, setSubs] = useState([])
 
   // the fake api call to get the subcategories
-  const subCategoryAPICall = new Promise(function (myResolve, myReject) {
-    let subCategories = data.subCategories.filter(
-      (subCategory) => subCategory.categoryID === category.ID
+  const subcategoryAPICall = new Promise(function (myResolve, myReject) {
+    let subcategories = data.subcategories.filter(
+      (subcategory) => subcategory.categoryID === category.ID
     )
 
-    if (subCategories) {
-      myResolve(subCategories)
+    if (subcategories) {
+      myResolve(subcategories)
     } else {
       console.log("Subcategory 'API' call failed")
       myReject([])
@@ -49,21 +49,21 @@ const TransactionCategory = ({ category }) => {
 
   // Fills the subcategories pulled from the DB into the global state
   useEffect(() => {
-    subCategoryAPICall.then((res) => {
+    subcategoryAPICall.then((res) => {
       setSubs(res)
-      dispatch(importSubCategories(res))
+      dispatch(importSubcategories(res))
     })
   }, [])
 
   const num = 0
   const total = useSelector((state) =>
-    state.subCategories
-      .filter((subCategory) => subCategory.categoryID === category.ID)
-      .reduce((sum, subCategory) => sum + subCategory.Total, num)
+    state.subcategories.value
+      .filter((subcategory) => subcategory.categoryID === category.ID)
+      .reduce((sum, subcategory) => sum + subcategory.Total, num)
       .toFixed(2)
   )
 
-  const su = useSelector((state) => state.subCategories)
+  const su = useSelector((state) => state.subcategories.value)
 
   const logs = () => {
     console.log(su)
@@ -78,12 +78,12 @@ const TransactionCategory = ({ category }) => {
       </div>
       <Stack spacing={1} className={"subs"}>
         {subs.map(
-          (subCategory) =>
-            subCategory.categoryID === category.ID && (
-              <SubCategory
-                subCategory={subCategory}
+          (subcategory) =>
+            subcategory.categoryID === category.ID && (
+              <Subcategory
+                subcategory={subcategory}
                 droppable={false}
-                key={subCategory.ID}
+                key={subcategory.ID}
               />
             )
         )}

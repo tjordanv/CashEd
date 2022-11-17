@@ -6,7 +6,7 @@ const data = {
       { name: "Fixed Expenditures", ID: 4 }
     ],
   
-    subCategories: [
+    subcategories: [
       { name: "Groceries", ID: 1, categoryID: 3, Total: 0 },
       { name: "Alcohol", ID: 2, categoryID: 3, Total: 0 },
       { name: "Eating Out", ID: 3, categoryID: 3, Total: 0 },
@@ -26,7 +26,7 @@ const data = {
         ID: 0,
         Description: "Tusker's Indian Fusion",
         Amount: 46.2,
-        subCategoryID: null,
+        subcategoryID: null,
         categoryID: null,
         isCredit: false
       },
@@ -34,7 +34,7 @@ const data = {
         ID: 1,
         Description: "Giant Grocery",
         Amount: 6.67,
-        subCategoryID: null,
+        subcategoryID: null,
         categoryID: null,
         isCredit: false
       },
@@ -42,7 +42,7 @@ const data = {
         ID: 2,
         Description: "Bob's Beer Barn",
         Amount: 19.99,
-        subCategoryID: null,
+        subcategoryID: null,
         categoryID: null,
         isCredit: false
       },
@@ -50,7 +50,7 @@ const data = {
         ID: 3,
         Description: "Wendy's 1821",
         Amount: 14.03,
-        subCategoryID: null,
+        subcategoryID: null,
         categoryID: null,
         isCredit: false
       },
@@ -58,7 +58,7 @@ const data = {
         ID: 4,
         Description: "Jimbo's Downtown Comedy",
         Amount: 29.99,
-        subCategoryID: null,
+        subcategoryID: null,
         categoryID: null,
         isCredit: false
       },
@@ -66,7 +66,7 @@ const data = {
         ID: 5,
         Description: "Walmart",
         Amount: 89.14,
-        subCategoryID: null,
+        subcategoryID: null,
         categoryID: null,
         isCredit: false
       },
@@ -75,7 +75,7 @@ const data = {
         ID: 6,
         Description: "Teleosoft Payroll",
         Amount: 200.0,
-        subCategoryID: null,
+        subcategoryID: null,
         categoryID: null,
         isCredit: true
       },
@@ -83,7 +83,7 @@ const data = {
         ID: 7,
         Description: "Tusker's Indi",
         Amount: 46.2,
-        subCategoryID: null,
+        subcategoryID: null,
         categoryID: null,
         isCredit: false
       },
@@ -91,7 +91,7 @@ const data = {
         ID: 8,
         Description: "Giant ery",
         Amount: 6.67,
-        subCategoryID: null,
+        subcategoryID: null,
         categoryID: null,
         isCredit: false
       },
@@ -99,7 +99,7 @@ const data = {
         ID: 9,
         Description: "Bob's Barn",
         Amount: 19.99,
-        subCategoryID: null,
+        subcategoryID: null,
         categoryID: null,
         isCredit: false
       },
@@ -107,7 +107,7 @@ const data = {
         ID: 10,
         Description: "Wen 1821",
         Amount: 14.03,
-        subCategoryID: null,
+        subcategoryID: null,
         categoryID: null,
         isCredit: false
       },
@@ -115,7 +115,7 @@ const data = {
         ID: 11,
         Description: "Jimbo's Downomedy",
         Amount: 29.99,
-        subCategoryID: null,
+        subcategoryID: null,
         categoryID: null,
         isCredit: false
       },
@@ -123,7 +123,7 @@ const data = {
         ID: 12,
         Description: "mart",
         Amount: 89.14,
-        subCategoryID: null,
+        subcategoryID: null,
         categoryID: null,
         isCredit: false
       },
@@ -132,7 +132,7 @@ const data = {
         ID: 13,
         Description: "Teleosyroll",
         Amount: 200.0,
-        subCategoryID: null,
+        subcategoryID: null,
         categoryID: null,
         isCredit: true
       }

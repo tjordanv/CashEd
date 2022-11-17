@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { styled } from "@mui/material/styles";
 import Stack from "@mui/material/Stack";
 
-const TransactionsList = ({ droppableID, subCategoryID }) => {
+const TransactionsList = ({ droppableID, subcategoryID }) => {
   const Item = styled(Stack)(({ theme }) => ({
     maxHeight: "620px",
     overflowX: "hidden",
@@ -14,10 +14,10 @@ const TransactionsList = ({ droppableID, subCategoryID }) => {
   }));
 
   TransactionsList.defaultProps = {
-    subCategoryID: null
+    subcategoryID: null
   };
 
-  const transactions = useSelector((state) => state.transactions);
+  const transactions = useSelector((state) => state.transactions.value);
 
   const print = () => {
     console.log(transactions);
@@ -29,7 +29,7 @@ const TransactionsList = ({ droppableID, subCategoryID }) => {
           {/* <button onClick={print}>print</button> */}
           {transactions.map(
             (transaction, index) =>
-              transaction.subCategoryID === subCategoryID && (
+              transaction.subcategoryID === subcategoryID && (
                 // this causes the draggable indexes to be non-consecutive, opening up potential unexpected bugs
                 // consider rendering all transactions but hidding the ones that do not belong.
                 <Transaction

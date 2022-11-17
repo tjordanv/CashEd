@@ -2,7 +2,7 @@ import { Draggable } from "react-beautiful-dnd"
 import { useDispatch } from "react-redux"
 import { styled } from "@mui/material/styles"
 import { deleteTransaction } from "../state/transactionsSlice"
-import { updateSubCategoryTotal } from "../state/subcategoriesSlice"
+import { updateSubcategoryTotal } from "../state/subcategoriesSlice"
 
 import { Card } from "@mui/material"
 import DeleteIcon from "@mui/icons-material/Delete"
@@ -28,8 +28,8 @@ const Transaction = ({ transaction, index }) => {
   const dispatch = useDispatch()
 
   const deleteTrans = () => {
-    if (transaction.subCategoryID) {
-      dispatch(updateSubCategoryTotal(transaction.subCategoryID, -transaction.Amount))
+    if (transaction.subcategoryID) {
+      dispatch(updateSubcategoryTotal(transaction.subcategoryID, -transaction.Amount))
     }
     dispatch(deleteTransaction(index))
   }

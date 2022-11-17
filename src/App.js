@@ -18,7 +18,7 @@ import {
   reorderTransactions,
   addSubcategory
 } from "./state/transactionsSlice"
-import { updateSubCategoryTotal } from "./state/subcategoriesSlice"
+import { updateSubcategoryTotal } from "./state/subcategoriesSlice"
 
 const dataSet = data
 
@@ -36,9 +36,9 @@ const theme = createTheme({
 export default function App() {
   const dispatch = useDispatch()
 
-  const subCategories = useSelector((state) => state.subCategories)
-  const transactions = useSelector((state) => state.transactions)
-  const selectedSubCategoryID = useSelector((state) => state.selectedSubCategoryID)
+  const subcategories = useSelector((state) => state.subcategories.value)
+  const transactions = useSelector((state) => state.transactions.value)
+  const selectedSubcategoryID = useSelector((state) => state.selectedSubcategoryID.value)
 
   const imports = (transactions) => {
     dispatch(importTransactions(dataSet.transactions))
@@ -74,10 +74,10 @@ export default function App() {
     else {
       // when these actions are created, basically the entire page must rerender since
       // transaction and subcategory states are both being impacted
-      const destinationSubcategory = subCategories.filter(
-        (subCategory) => subCategory.name === destination.droppableId
+      const destinationSubcategory = subcategories.filter(
+        (subcategory) => subcategory.name === destination.droppableId
       )
-      const sourceSubCategoryID = transactions[source.index].subCategoryID
+      const sourceSubcategoryID = transactions[source.index].subcategoryID
 
       // logic for moving transaction from category out to import list
       if (destinationSubcategory.length === 0) {
@@ -97,19 +97,19 @@ export default function App() {
           )
         )
         dispatch(
-          updateSubCategoryTotal(
+          updateSubcategoryTotal(
             destinationSubcategory[0].ID,
             transactions[source.index].Amount
           )
         )
       }
-      // reduce source subCategory total when moving transaction to another location
-      if (source.droppableId === "subCategoryTransactionsList") {
-        subCategories.forEach((subCategory) => {
-          if (subCategory.ID === sourceSubCategoryID) {
+      // reduce source subcategory total when moving transaction to another location
+      if (source.droppableId === "subcategoryTransactionsList") {
+        subcategories.forEach((subcategory) => {
+          if (subcategory.ID === sourceSubcategoryID) {
             dispatch(
-              updateSubCategoryTotal(
-                sourceSubCategoryID,
+              updateSubcategoryTotal(
+                sourceSubcategoryID,
                 -transactions[source.index].Amount
               )
             )
@@ -135,8 +135,8 @@ export default function App() {
           </Grid>
           <Grid className={"maingrid"} xs={3}>
             <TransactionsList
-              droppableID={"subCategoryTransactionsList"}
-              subCategoryID={selectedSubCategoryID}
+              droppableID={"subcategoryTransactionsList"}
+              subcategoryID={selectedSubcategoryID}
             />
           </Grid>
         </Grid>

@@ -18,7 +18,7 @@ export const transactionsSlice = createSlice({
       return state
     },
     addSubcategory: (state, action) => {
-      state.value[action.payload.transactionIndex].subCategoryID =
+      state.value[action.payload.transactionIndex].subcategoryID =
         action.payload.subcategoryID
       state.value[action.payload.transactionIndex].categoryID = action.payload.categoryID
       return state

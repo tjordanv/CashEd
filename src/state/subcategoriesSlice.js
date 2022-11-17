@@ -6,23 +6,23 @@ export const subcategoriesSlice = createSlice({
     value: []
   },
   reducers: {
-    importSubCategories: (state, action) => {
+    importSubcategories: (state, action) => {
       state.value = state.value.concat(action.payload)
     },
-    filterSubCategories: (state, action) => {
-      state.value = state.value.filter((subCategory) => subCategory.ID === action.payload)
+    filterSubcategories: (state, action) => {
+      state.value = state.value.filter((subcategory) => subcategory.ID === action.payload)
     },
-    updateSubCategoryTotal: (state, action) => {
-      state.value = state.value.forEach((subCategory) => {
-        if (subCategory.ID === action.payload.categoryId) {
-          subCategory.Total = subCategory.Total + action.payload.amount
+    updateSubcategoryTotal: (state, action) => {
+      state.value = state.value.forEach((subcategory) => {
+        if (subcategory.ID === action.payload.categoryId) {
+          subcategory.Total = subcategory.Total + action.payload.amount
         }
       })
     }
   }
 })
 
-export const { importSubCategories, filterSubCategories, updateSubCategoryTotal } =
+export const { importSubcategories, filterSubcategories, updateSubcategoryTotal } =
   subcategoriesSlice.actions
 
 export default subcategoriesSlice.reducer
