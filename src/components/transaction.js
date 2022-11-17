@@ -29,13 +29,13 @@ const Transaction = ({ transaction, index }) => {
 
   const deleteTrans = () => {
     if (transaction.subcategoryID) {
-      dispatch(updateSubcategoryTotal(transaction.subcategoryID, -transaction.Amount))
+      dispatch(updateSubcategoryTotal({subcategoryID: transaction.subcategoryID, amount: -transaction.Amount}))
     }
     dispatch(deleteTransaction(index))
   }
 
   const log = () => {
-    console.log(index)
+    console.log(transaction)
   }
   return (
     // I may need to add additional identifiers to the draggableID to account for transactions

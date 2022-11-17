@@ -66,8 +66,8 @@ export default function App() {
       destination.droppableId === source.droppableId &&
       destination.index !== source.index
     ) {
-      dispatch(reorderTransactions(source.index, destination.index))
-      // console.log("reordered")
+      dispatch(reorderTransactions({sourceIndex: source.index, destinationIndex: destination.index}))
+      // console.log("reordered", source.index, destination.index)
     }
 
     // move transaction to another list or subcategory
@@ -83,24 +83,24 @@ export default function App() {
       if (destinationSubcategory.length === 0) {
         transactions.forEach((transaction, index) => {
           if (transaction.Description === e.draggableId) {
-            dispatch(addSubcategory(index, null, null))
-            dispatch(reorderTransactions(index, destination.index))
+            dispatch(addSubcategory({transactionIndex: index, subcategoryID: null, categoryID: null}))
+            dispatch(reorderTransactions({sourceIndex: index, destinationIndex: destination.index}))
           }
         })
       } else {
         // add transaction to a subcategory
         dispatch(
-          addSubcategory(
-            source.index,
-            destinationSubcategory[0].ID,
-            destinationSubcategory[0].categoryID
-          )
+          addSubcategory({
+            transactionIndex: source.index,
+            subcategoryID: destinationSubcategory[0].ID,
+            categoryID: destinationSubcategory[0].categoryID
+      })
         )
         dispatch(
-          updateSubcategoryTotal(
-            destinationSubcategory[0].ID,
-            transactions[source.index].Amount
-          )
+          updateSubcategoryTotal({
+            subcategoryID: destinationSubcategory[0].ID,
+            amount: transactions[source.index].Amount
+      })
         )
       }
       // reduce source subcategory total when moving transaction to another location
@@ -109,8 +109,8 @@ export default function App() {
           if (subcategory.ID === sourceSubcategoryID) {
             dispatch(
               updateSubcategoryTotal(
-                sourceSubcategoryID,
-                -transactions[source.index].Amount
+                {subcategoryID: sourceSubcategoryID,
+                amount: -transactions[source.index].Amount}
               )
             )
           }

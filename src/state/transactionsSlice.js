@@ -26,7 +26,7 @@ export const transactionsSlice = createSlice({
     // this needs to return some sort of data for the app to store to prevent transaction
     // from being pulled into future imports
     deleteTransaction: (state, action) => {
-      state.value.splice(action.payload.index, 1)
+      state.value.splice(action.payload, 1)
       return state
     }
   }
