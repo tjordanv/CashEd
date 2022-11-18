@@ -1,6 +1,6 @@
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid"
 
-import TransactionCategory from "./transactionCategory";
+import TransactionCategory from "./transactionCategory"
 
 const TransactionCategories = () => {
   return (
@@ -18,7 +18,7 @@ const TransactionCategories = () => {
         <TransactionCategory category={{ name: "Savings & Investments", ID: 2 }} />
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
-export default TransactionCategories;
+export default TransactionCategories

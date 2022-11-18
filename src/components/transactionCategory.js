@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import Subcategory from "./subcategory"
 import { useDispatch, useSelector } from "react-redux"
 import data from "../app/data"
+import "../styles.css"
 
 import Paper from "@mui/material/Paper"
 import { styled } from "@mui/material/styles"
@@ -12,7 +13,7 @@ import AddBoxIcon from "@mui/icons-material/AddBox"
 import { importSubcategories } from "../state/subcategoriesSlice"
 
 const TransactionCategory = ({ category }) => {
-  const Item = styled(Paper)(({ theme }) => ({
+  const SubcategoryPaper = styled(Paper)(({ theme }) => ({
     backgroundColor:
       category.ID === 1
         ? "rgba(23, 195, 178, 0.45)"
@@ -27,6 +28,14 @@ const TransactionCategory = ({ category }) => {
     textAlign: "center",
     position: "relative",
     minWidth: "130px"
+  }))
+
+  const FooterButton = styled(IconButton)(({ theme }) => ({
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    margin: "0 auto 0 auto"
   }))
 
   const dispatch = useDispatch()
@@ -69,7 +78,7 @@ const TransactionCategory = ({ category }) => {
   }
 
   return (
-    <Item elevation={4}>
+    <SubcategoryPaper elevation={4}>
       <div className={"headers"}>
         <span className={"TransactionCategoryText"}>{category.name}</span>
         <br />
@@ -87,10 +96,10 @@ const TransactionCategory = ({ category }) => {
             )
         )}
       </Stack>
-      <IconButton className={"footer"} aria-label="Import" onClick={logs}>
+      <FooterButton aria-label="Import" onClick={logs}>
         <AddBoxIcon color="lightWhite" fontSize="medium" />
-      </IconButton>
-    </Item>
+      </FooterButton>
+    </SubcategoryPaper>
   )
 }
 

@@ -19,6 +19,7 @@ import {
   addSubcategory
 } from "./state/transactionsSlice"
 import { updateSubcategoryTotal } from "./state/subcategoriesSlice"
+import { Stack } from "@mui/system"
 
 const dataSet = data
 
@@ -136,9 +137,29 @@ export default function App() {
   }
 
   return (
+    // I am going to need to figure out how to position things. Grid may or may not be the best option, unfortunately, it's reactivity could break
+    // design that I am going for.
     <DragDropContext onDragEnd={onDragEnd}>
       <ThemeProvider theme={theme}>
-        <Grid justifyContent={"center"} container spacing={1}>
+        <Stack direction="row">
+          <h1>header</h1>
+          <div>
+            <TransactionsList droppableID={"importedTransactionsList"} />
+            <IconButton aria-label="Import" onClick={imports}>
+              <AddBoxIcon color="primary" fontSize="large" />
+            </IconButton>
+          </div>
+          <TransactionCategories />
+
+          <TransactionsList
+            droppableID={"subcategoryTransactionsList"}
+            subcategoryID={selectedSubcategoryID}
+          />
+        </Stack>
+        {/* <Grid justifyContent={"center"} container spacing={1}>
+          <Grid className={"maingrid"} xs={12}>
+            header
+          </Grid>
           <Grid className={"maingrid"} xs={2}>
             <TransactionsList droppableID={"importedTransactionsList"} />
             <IconButton aria-label="Import" onClick={imports}>
@@ -154,10 +175,7 @@ export default function App() {
               subcategoryID={selectedSubcategoryID}
             />
           </Grid>
-        </Grid>
-        <div className="App">
-          {/* <Paper className='TransactionCategory' elevation={4}> <h1>paper</h1></Paper> */}
-        </div>
+        </Grid> */}
       </ThemeProvider>
     </DragDropContext>
   )
