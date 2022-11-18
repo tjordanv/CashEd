@@ -52,7 +52,7 @@ const Subcategory = ({ subcategory, droppable }) => {
     )
   )
 
-  const log = () => {
+  const select = () => {
     dispatch(selectSubcategory(subcategory.ID))
   }
   return (
@@ -65,7 +65,7 @@ const Subcategory = ({ subcategory, droppable }) => {
           // isSelected={isSelected}
           ref={provided.innerRef}
           {...provided.droppableProps}
-          onClick={log}
+          onClick={select}
         >
           <p>{subcategory.name + ":" + subcategory.Total}</p>
         </Item>

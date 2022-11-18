@@ -39,7 +39,6 @@ export default function App() {
   const subcategories = useSelector((state) => state.subcategories.value)
   const transactions = useSelector((state) => state.transactions.value)
   const selectedSubcategoryID = useSelector((state) => state.selectedSubcategoryID.value)
-
   const imports = (transactions) => {
     dispatch(importTransactions(dataSet.transactions))
   }
@@ -66,7 +65,12 @@ export default function App() {
       destination.droppableId === source.droppableId &&
       destination.index !== source.index
     ) {
-      dispatch(reorderTransactions({sourceIndex: source.index, destinationIndex: destination.index}))
+      dispatch(
+        reorderTransactions({
+          sourceIndex: source.index,
+          destinationIndex: destination.index
+        })
+      )
       // console.log("reordered", source.index, destination.index)
     }
 
@@ -83,8 +87,19 @@ export default function App() {
       if (destinationSubcategory.length === 0) {
         transactions.forEach((transaction, index) => {
           if (transaction.Description === e.draggableId) {
-            dispatch(addSubcategory({transactionIndex: index, subcategoryID: null, categoryID: null}))
-            dispatch(reorderTransactions({sourceIndex: index, destinationIndex: destination.index}))
+            dispatch(
+              addSubcategory({
+                transactionIndex: index,
+                subcategoryID: null,
+                categoryID: null
+              })
+            )
+            dispatch(
+              reorderTransactions({
+                sourceIndex: index,
+                destinationIndex: destination.index
+              })
+            )
           }
         })
       } else {
@@ -94,13 +109,13 @@ export default function App() {
             transactionIndex: source.index,
             subcategoryID: destinationSubcategory[0].ID,
             categoryID: destinationSubcategory[0].categoryID
-      })
+          })
         )
         dispatch(
           updateSubcategoryTotal({
             subcategoryID: destinationSubcategory[0].ID,
             amount: transactions[source.index].Amount
-      })
+          })
         )
       }
       // reduce source subcategory total when moving transaction to another location
@@ -108,10 +123,10 @@ export default function App() {
         subcategories.forEach((subcategory) => {
           if (subcategory.ID === sourceSubcategoryID) {
             dispatch(
-              updateSubcategoryTotal(
-                {subcategoryID: sourceSubcategoryID,
-                amount: -transactions[source.index].Amount}
-              )
+              updateSubcategoryTotal({
+                subcategoryID: sourceSubcategoryID,
+                amount: -transactions[source.index].Amount
+              })
             )
           }
         })

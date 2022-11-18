@@ -31,8 +31,6 @@ const TransactionCategory = ({ category }) => {
 
   const dispatch = useDispatch()
 
-  const [subs, setSubs] = useState([])
-
   // the fake api call to get the subcategories
   const subcategoryAPICall = new Promise(function (myResolve, myReject) {
     let subcategories = data.subcategories.filter(
@@ -50,10 +48,11 @@ const TransactionCategory = ({ category }) => {
   // Fills the subcategories pulled from the DB into the global state
   useEffect(() => {
     subcategoryAPICall.then((res) => {
-      setSubs(res)
       dispatch(importSubcategories(res))
     })
   }, [])
+
+  const subcategories = useSelector((state) => state.subcategories.value)
 
   const num = 0
   const total = useSelector((state) =>
@@ -77,7 +76,7 @@ const TransactionCategory = ({ category }) => {
         <span className={"TransactionCategoryText"}>{total}</span>
       </div>
       <Stack spacing={1} className={"subs"}>
-        {subs.map(
+        {subcategories.map(
           (subcategory) =>
             subcategory.categoryID === category.ID && (
               <Subcategory

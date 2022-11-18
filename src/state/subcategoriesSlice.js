@@ -13,7 +13,7 @@ export const subcategoriesSlice = createSlice({
       state.value = state.value.filter((subcategory) => subcategory.ID === action.payload)
     },
     updateSubcategoryTotal: (state, action) => {
-      state.value = state.value.forEach((subcategory) => {
+      state = state.value.forEach((subcategory) => {
         if (subcategory.ID === action.payload.subcategoryID) {
           subcategory.Total = subcategory.Total + action.payload.amount
         }
