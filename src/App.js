@@ -12,6 +12,7 @@ import { Grid } from "@mui/material"
 
 import TransactionsList from "./components/transactionsList"
 import TransactionCategories from "./components/transactionCategories"
+import Header from "./components/header"
 
 import {
   importTransactions,
@@ -137,24 +138,26 @@ export default function App() {
   }
 
   return (
-    // I am going to need to figure out how to position things. Grid may or may not be the best option, unfortunately, it's reactivity could break
-    // design that I am going for.
     <DragDropContext onDragEnd={onDragEnd}>
       <ThemeProvider theme={theme}>
-        <Stack direction="row">
-          <h1>header</h1>
+        <Header />
+        <Stack direction="row" spacing={3}>
           <div>
             <TransactionsList droppableID={"importedTransactionsList"} />
+            {/* Swap this icon button with a speed dial component */}
             <IconButton aria-label="Import" onClick={imports}>
               <AddBoxIcon color="primary" fontSize="large" />
             </IconButton>
           </div>
+
           <TransactionCategories />
 
-          <TransactionsList
-            droppableID={"subcategoryTransactionsList"}
-            subcategoryID={selectedSubcategoryID}
-          />
+          <div>
+            <TransactionsList
+              droppableID={"subcategoryTransactionsList"}
+              subcategoryID={selectedSubcategoryID}
+            />
+          </div>
         </Stack>
         {/* <Grid justifyContent={"center"} container spacing={1}>
           <Grid className={"maingrid"} xs={12}>

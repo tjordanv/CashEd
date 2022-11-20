@@ -1,27 +1,26 @@
-import { Droppable } from "react-beautiful-dnd";
-import Transaction from "./transaction";
-import { useSelector } from "react-redux";
+import { Droppable } from "react-beautiful-dnd"
+import Transaction from "./transaction"
+import { useSelector } from "react-redux"
 
-import { styled } from "@mui/material/styles";
-import Stack from "@mui/material/Stack";
+import { styled } from "@mui/material/styles"
+import Stack from "@mui/material/Stack"
 
 const TransactionsList = ({ droppableID, subcategoryID }) => {
   const Item = styled(Stack)(({ theme }) => ({
     maxHeight: "620px",
     overflowX: "hidden",
-    width: "175px",
-    margin: "10px"
-  }));
+    width: "175px"
+  }))
 
   TransactionsList.defaultProps = {
     subcategoryID: null
-  };
+  }
 
-  const transactions = useSelector((state) => state.transactions.value);
+  const transactions = useSelector((state) => state.transactions.value)
 
   const print = () => {
-    console.log(transactions);
-  };
+    console.log(transactions)
+  }
   return (
     <Droppable droppableId={droppableID}>
       {(provided, snapshot) => (
@@ -43,7 +42,7 @@ const TransactionsList = ({ droppableID, subcategoryID }) => {
         </Item>
       )}
     </Droppable>
-  );
-};
+  )
+}
 
-export default TransactionsList;
+export default TransactionsList

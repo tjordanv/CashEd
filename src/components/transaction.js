@@ -29,7 +29,12 @@ const Transaction = ({ transaction, index }) => {
 
   const deleteTrans = () => {
     if (transaction.subcategoryID) {
-      dispatch(updateSubcategoryTotal({subcategoryID: transaction.subcategoryID, amount: -transaction.Amount}))
+      dispatch(
+        updateSubcategoryTotal({
+          subcategoryID: transaction.subcategoryID,
+          amount: -transaction.Amount
+        })
+      )
     }
     dispatch(deleteTransaction(index))
   }
