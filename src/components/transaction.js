@@ -6,6 +6,7 @@ import { updateSubcategoryTotal } from "../state/subcategoriesSlice"
 
 import { Card } from "@mui/material"
 import DeleteIcon from "@mui/icons-material/Delete"
+import Typography from "@mui/material/Typography"
 
 const Transaction = ({ transaction, index }) => {
   const Item = styled(Card)(({ theme }) => ({
@@ -22,9 +23,26 @@ const Transaction = ({ transaction, index }) => {
         ? "rgba(255, 203, 119, 0.4)"
         : "rgba(254, 109, 115, 0.4)",
     width: "175px",
-    minHeight: "32px"
+    minHeight: "32px",
+    flexShrink: 0,
+    position: "relative",
+    borderColor: "#ffffff",
+    "&:hover": { border: "1px solid red" }
   }))
 
+  const TransactionText = styled(Typography)(({ theme }) => ({
+    fontWeight: 300,
+    fontSize: "12px",
+    maxWidth: "160px"
+  }))
+
+  const DeleteButton = styled(DeleteIcon)(({ theme }) => ({
+    position: "absolute",
+    bottom: 0,
+    left: 160,
+    right: 0
+    //margin: "0 auto 0 auto"
+  }))
   const dispatch = useDispatch()
 
   const deleteTrans = () => {
@@ -55,14 +73,15 @@ const Transaction = ({ transaction, index }) => {
           {...provided.dragHandleProps}
           onClick={log}
         >
-          <span>{transaction.Description}</span>
-          <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-          <span>{"$" + transaction.Amount}</span>
-          <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-          <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-          <DeleteIcon
+          <TransactionText variant="body2" align="center">
+            {transaction.Description}
+          </TransactionText>
+          <TransactionText variant="body2" align="center">
+            {"$" + transaction.Amount}
+          </TransactionText>
+          <DeleteButton
             onClick={deleteTrans}
-            fontSize="small"
+            fontSize=""
             color="error"
             cursor="pointer"
           />

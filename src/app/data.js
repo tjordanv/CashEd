@@ -113,7 +113,7 @@ const data = {
       },
       {
         ID: 11,
-        Description: "Jimbo's Downomedy",
+        Description: "Jimbo's Downomedy but really long w overflow",
         Amount: 29.99,
         subcategoryID: null,
         categoryID: null,
@@ -135,7 +135,40 @@ const data = {
         subcategoryID: null,
         categoryID: null,
         isCredit: true
-      }
+      },
+      {
+        ID: 14,
+        Description: "Wen 1821 is super crappy",
+        Amount: 14.03,
+        subcategoryID: null,
+        categoryID: null,
+        isCredit: false
+      },
+      {
+        ID: 15,
+        Description: "Jimbo's Downomedy but really long w overflow plus even more",
+        Amount: 2329.99,
+        subcategoryID: null,
+        categoryID: null,
+        isCredit: false
+      },
+      {
+        ID: 16,
+        Description: "mart super boiii",
+        Amount: 11289.14,
+        subcategoryID: null,
+        categoryID: null,
+        isCredit: false
+      },
+  
+      {
+        ID: 17,
+        Description: "Teleosyroll but also longer",
+        Amount: 200.0,
+        subcategoryID: null,
+        categoryID: null,
+        isCredit: true
+      },
     ]
   };
   

@@ -7,9 +7,23 @@ import Stack from "@mui/material/Stack"
 
 const TransactionsList = ({ droppableID, subcategoryID }) => {
   const Item = styled(Stack)(({ theme }) => ({
-    maxHeight: "620px",
+    margin: "20px 0 20px 0",
+    maxHeight: "80vh",
     overflowX: "hidden",
-    width: "175px"
+    minWidth: "175px",
+
+    "&::-webkit-scrollbar": {
+      margin: 0,
+      width: "7px"
+    },
+    "&::-webkit-scrollbar-track": {
+      backgroundColor: "rgba(119,119,119,0.15)",
+      borderRadius: "8px"
+    },
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: "rgba(119,119,119,.7)",
+      borderRadius: "8px"
+    }
   }))
 
   TransactionsList.defaultProps = {

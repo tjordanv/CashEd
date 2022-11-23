@@ -5,10 +5,18 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { DragDropContext } from "react-beautiful-dnd"
 
-import { IconButton } from "@mui/material"
-import { createTheme, ThemeProvider } from "@mui/material/styles"
+import { Divider, IconButton, Typography } from "@mui/material"
+import { createTheme, ThemeProvider, styled } from "@mui/material/styles"
 import AddBoxIcon from "@mui/icons-material/AddBox"
 import { Grid } from "@mui/material"
+
+import SpeedDial from "@mui/material/SpeedDial"
+import SpeedDialIcon from "@mui/material/SpeedDialIcon"
+import SpeedDialAction from "@mui/material/SpeedDialAction"
+import FileCopyIcon from "@mui/icons-material/FileCopyOutlined"
+import SaveIcon from "@mui/icons-material/Save"
+import PrintIcon from "@mui/icons-material/Print"
+import ShareIcon from "@mui/icons-material/Share"
 
 import TransactionsList from "./components/transactionsList"
 import TransactionCategories from "./components/transactionCategories"
@@ -20,7 +28,8 @@ import {
   addSubcategory
 } from "./state/transactionsSlice"
 import { updateSubcategoryTotal } from "./state/subcategoriesSlice"
-import { Stack } from "@mui/system"
+import { Container, Stack } from "@mui/system"
+import { DownloadForOfflineRounded, EditRounded } from "@mui/icons-material"
 
 const dataSet = data
 
@@ -36,6 +45,14 @@ const theme = createTheme({
 })
 
 export default function App() {
+  const TransactionImports = styled(Container)(({ theme }) => ({
+    minHeight: "93.5vh",
+    width: "250px",
+    margin: 0,
+    padding: 0,
+    borderRight: "2px solid rgba(119, 119, 119, 0.2)"
+  }))
+
   const dispatch = useDispatch()
 
   const subcategories = useSelector((state) => state.subcategories.value)
@@ -137,18 +154,50 @@ export default function App() {
     }
   }
 
+  const actions = [
+    {
+      icon: <DownloadForOfflineRounded fontSize="small" />,
+      name: "Automatic Import",
+      onClick: imports
+    },
+    { icon: <EditRounded />, name: "Manual Entry" }
+  ]
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <ThemeProvider theme={theme}>
         <Header />
         <Stack direction="row" spacing={3}>
-          <div>
+          <TransactionImports>
+            <Typography sx={{ textAlign: "center" }}>Imported Transactions</Typography>
+            <Divider />
             <TransactionsList droppableID={"importedTransactionsList"} />
+            <Divider />
             {/* Swap this icon button with a speed dial component */}
-            <IconButton aria-label="Import" onClick={imports}>
+            {/* <IconButton aria-label="Import" onClick={imports}>
               <AddBoxIcon color="primary" fontSize="large" />
-            </IconButton>
-          </div>
+            </IconButton> */}
+
+            <SpeedDial
+              ariaLabel="SpeedDial basic example"
+              sx={{
+                position: "absolute",
+                "& .MuiFab-primary": { width: 38, height: 38 }
+              }}
+              icon={<SpeedDialIcon />}
+              direction="right"
+            >
+              {actions.map((action) => (
+                <SpeedDialAction
+                  key={action.name}
+                  icon={action.icon}
+                  tooltipTitle={action.name}
+                  onClick={action.onClick}
+                  sx={{ height: 35, width: 35 }}
+                />
+              ))}
+            </SpeedDial>
+          </TransactionImports>
 
           <TransactionCategories />
 
@@ -159,26 +208,6 @@ export default function App() {
             />
           </div>
         </Stack>
-        {/* <Grid justifyContent={"center"} container spacing={1}>
-          <Grid className={"maingrid"} xs={12}>
-            header
-          </Grid>
-          <Grid className={"maingrid"} xs={2}>
-            <TransactionsList droppableID={"importedTransactionsList"} />
-            <IconButton aria-label="Import" onClick={imports}>
-              <AddBoxIcon color="primary" fontSize="large" />
-            </IconButton>
-          </Grid>
-          <Grid className={"maingrid"} xs={6}>
-            <TransactionCategories />
-          </Grid>
-          <Grid className={"maingrid"} xs={3}>
-            <TransactionsList
-              droppableID={"subcategoryTransactionsList"}
-              subcategoryID={selectedSubcategoryID}
-            />
-          </Grid>
-        </Grid> */}
       </ThemeProvider>
     </DragDropContext>
   )
