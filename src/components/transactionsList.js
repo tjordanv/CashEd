@@ -8,7 +8,7 @@ import Stack from "@mui/material/Stack"
 const TransactionsList = ({ droppableID, subcategoryID }) => {
   const Item = styled(Stack)(({ theme }) => ({
     margin: "20px 0 20px 0",
-    maxHeight: "80vh",
+    height: "70vh",
     overflowX: "hidden",
     minWidth: "175px",
 

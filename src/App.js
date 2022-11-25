@@ -30,6 +30,7 @@ import {
 import { updateSubcategoryTotal } from "./state/subcategoriesSlice"
 import { Container, Stack } from "@mui/system"
 import { DownloadForOfflineRounded, EditRounded } from "@mui/icons-material"
+import { useState } from "react"
 
 const dataSet = data
 
@@ -40,17 +41,19 @@ const theme = createTheme({
     },
     lightWhite: {
       main: "rgba(255, 255, 255, 0.9)"
+    },
+    greyText: {
+      main: "#454545"
     }
   }
 })
 
 export default function App() {
-  const TransactionImports = styled(Container)(({ theme }) => ({
+  const TransactionImportsContainer = styled(Container)(({ theme }) => ({
     minHeight: "93.5vh",
     width: "250px",
     margin: 0,
-    padding: 0,
-    borderRight: "2px solid rgba(119, 119, 119, 0.2)"
+    padding: 0
   }))
 
   const dispatch = useDispatch()
@@ -58,8 +61,12 @@ export default function App() {
   const subcategories = useSelector((state) => state.subcategories.value)
   const transactions = useSelector((state) => state.transactions.value)
   const selectedSubcategoryID = useSelector((state) => state.selectedSubcategoryID.value)
+
+  const [isTransactions, setIsTransactions] = useState(false)
+
   const imports = (transactions) => {
     dispatch(importTransactions(dataSet.transactions))
+    setIsTransactions(true)
   }
 
   const onDragEnd = (e) => {
@@ -168,24 +175,30 @@ export default function App() {
       <ThemeProvider theme={theme}>
         <Header />
         <Stack direction="row" spacing={3}>
-          <TransactionImports>
-            <Typography sx={{ textAlign: "center" }}>Imported Transactions</Typography>
+          <TransactionImportsContainer>
+            <Typography
+              sx={{
+                textAlign: "center",
+                color: "#451115",
+                fontStyle: "italic",
+                marginTop: "20px"
+              }}
+            >
+              Imported Transactions
+            </Typography>
             <Divider />
             <TransactionsList droppableID={"importedTransactionsList"} />
             <Divider />
-            {/* Swap this icon button with a speed dial component */}
-            {/* <IconButton aria-label="Import" onClick={imports}>
-              <AddBoxIcon color="primary" fontSize="large" />
-            </IconButton> */}
-
             <SpeedDial
               ariaLabel="SpeedDial basic example"
               sx={{
                 position: "absolute",
+                top: isTransactions ? null : "45%",
+                left: isTransactions ? null : "90px",
                 "& .MuiFab-primary": { width: 38, height: 38 }
               }}
               icon={<SpeedDialIcon />}
-              direction="right"
+              direction={isTransactions ? "right" : "down"}
             >
               {actions.map((action) => (
                 <SpeedDialAction
@@ -197,16 +210,33 @@ export default function App() {
                 />
               ))}
             </SpeedDial>
-          </TransactionImports>
+          </TransactionImportsContainer>
+          <Container
+            sx={{
+              borderLeft: "2px solid rgba(119, 119, 119, 0.2)",
+              borderRight: "2px solid rgba(119, 119, 119, 0.2)"
+            }}
+          >
+            <TransactionCategories />
+          </Container>
 
-          <TransactionCategories />
-
-          <div>
+          <TransactionImportsContainer>
+            <Typography
+              sx={{
+                textAlign: "center",
+                color: "#451115",
+                fontStyle: "italic",
+                marginTop: "20px"
+              }}
+            >
+              Imported Transactions
+            </Typography>
+            <Typography>amount</Typography>
             <TransactionsList
               droppableID={"subcategoryTransactionsList"}
               subcategoryID={selectedSubcategoryID}
             />
-          </div>
+          </TransactionImportsContainer>
         </Stack>
       </ThemeProvider>
     </DragDropContext>

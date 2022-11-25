@@ -5,12 +5,15 @@ import { Box } from "@mui/system"
 import TransactionCategory from "./transactionCategory"
 
 const TransactionCategories = () => {
-  const GridContainerd = styled(Box)(({ theme }) => ({
-    MinWidth: "455px"
+  const GridContainer = styled(Box)(({ theme }) => ({
+    MinWidth: "455px",
+    marginTop: "25px"
   }))
 
+  // when using this styled Box, it seems to continually re-render
   return (
-    <Box sx={{ minWidth: 455 }}>
+    // <GridContainer>
+    <Box sx={{ minWidth: 455, margin: "24px 0 0 24px !important" }}>
       <Grid container spacing={1}>
         <Grid className="Grid" xs={4}>
           <TransactionCategory category={{ name: "Income", ID: 1 }} />
@@ -26,6 +29,7 @@ const TransactionCategories = () => {
         </Grid>
       </Grid>
     </Box>
+    // </GridContainer>
   )
 }
 

@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-export const selectedSubcategoryIDSlice = createSlice({
-  name: "selectedSubcategoryID",
+export const selectedSubcategorySlice = createSlice({
+  name: "selectedSubcategory",
   initialState: {
-    value: 0
+    value: { ID: 0, Total: null, Name: null }
   },
   reducers: {
     selectSubcategory: (state, action) => {
@@ -12,6 +12,6 @@ export const selectedSubcategoryIDSlice = createSlice({
   }
 })
 
-export const { selectSubcategory } = selectedSubcategoryIDSlice.actions
+export const { selectSubcategory } = selectedSubcategorySlice.actions
 
-export default selectedSubcategoryIDSlice.reducer
+export default selectedSubcategorySlice.reducer
