@@ -17,8 +17,8 @@ const data = {
     { Name: "Phone Bill", ID: 8, categoryID: 4, Total: 0, isSelected: false },
     { Name: "Work Payroll", ID: 9, categoryID: 1, Total: 0, isSelected: false },
     { Name: "Passive Income", ID: 10, categoryID: 1, Total: 0, isSelected: false },
-    { Name: "Savings", ID: 11, categoryID: 2, Total: 0 },
-    { Name: "401k", ID: 12, categoryID: 2, Total: 0 }
+    { Name: "Savings", ID: 11, categoryID: 2, Total: 0, isSelected: false },
+    { Name: "401k", ID: 12, categoryID: 2, Total: 0, isSelected: false }
   ],
 
   transactions: [

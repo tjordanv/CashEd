@@ -20,7 +20,12 @@ export const subcategoriesSlice = createSlice({
       })
     },
     selectSubcategory: (state, action) => {
-      state.value = state.value.forEach((subcategory) => {
+      state = state.value.forEach((subcategory) => {
+        // unselect other subcategory if already selected
+        if (subcategory.ID !== action.payload) {
+          subcategory.isSelected = false
+        }
+        // unselect the clicked subcategory if already selected, otherwise select it
         if (subcategory.ID === action.payload) {
           subcategory.isSelected = subcategory.isSelected ? false : true
         }

@@ -31,7 +31,6 @@ import { updateSubcategoryTotal } from "./state/subcategoriesSlice"
 import { Container, Stack } from "@mui/system"
 import { DownloadForOfflineRounded, EditRounded } from "@mui/icons-material"
 import { useState } from "react"
-import { updateSelectedTotal } from "./state/selectedSubcategorySlice"
 
 const dataSet = data
 
@@ -61,11 +60,14 @@ export default function App() {
 
   const subcategories = useSelector((state) => state.subcategories.value)
   const transactions = useSelector((state) => state.transactions.value)
-  // the selected subcategory logic will need toi run after data is loaded in.
   const selectedSubcategory = useSelector((state) => {
+    //this is wrapped in a try bc there are no subcategories when the page is first loaded in. I am
+    // sure there is a way (a hook) to simply run this once the initial render is finished
     try {
-      state.subcategories.value.filter((subcategory) => subcategory.isSelected)
-    } catch (e) {}
+      return state.subcategories.value.filter((subcategory) => subcategory.isSelected)
+    } catch (e) {
+      return false
+    }
   })
 
   const [isTransactions, setIsTransactions] = useState(false)
@@ -77,9 +79,7 @@ export default function App() {
 
   const onDragEnd = (e) => {
     const { destination, source } = e
-    //console.log(e);
     if (!destination) {
-      //console.log("dropped in a no drop zone");
       return
     }
 
@@ -88,7 +88,6 @@ export default function App() {
       destination.droppableId === source.droppableId &&
       destination.index === source.index
     ) {
-      //console.log("dropped in place");
       return
     }
 
@@ -103,7 +102,6 @@ export default function App() {
           destinationIndex: destination.index
         })
       )
-      // console.log("reordered", source.index, destination.index)
     }
 
     // move transaction to another list or subcategory
@@ -163,13 +161,6 @@ export default function App() {
           }
         })
       }
-      // Update selectedCategory information when dropping into or out of selectedCategory
-      if (destinationSubcategory[0].ID === selectedSubcategory.ID) {
-        dispatch(updateSelectedTotal(transactions[source.index].Amount))
-      } else if (sourceSubcategoryID === selectedSubcategory.ID) {
-        dispatch(updateSelectedTotal(-transactions[source.index].Amount))
-      }
-      return
     }
   }
 
@@ -232,23 +223,25 @@ export default function App() {
             <TransactionCategories />
           </Container>
 
-          <TransactionImportsContainer>
-            {/* <Typography
-              sx={{
-                textAlign: "center",
-                color: "#451115",
-                fontStyle: "italic",
-                marginTop: "20px"
-              }}
-            >
-              {selectedSubcategory.Name}
-            </Typography>
-            <Typography>{selectedSubcategory.Total}</Typography> */}
-            <TransactionsList
-              droppableID={"subcategoryTransactionsList"}
-              subcategoryID={selectedSubcategory.ID}
-            />
-          </TransactionImportsContainer>
+          {selectedSubcategory.length > 0 && (
+            <TransactionImportsContainer>
+              <Typography
+                sx={{
+                  textAlign: "center",
+                  color: "#451115",
+                  fontStyle: "italic",
+                  marginTop: "20px"
+                }}
+              >
+                {selectedSubcategory[0].Name}
+              </Typography>
+              <Typography>{selectedSubcategory[0].Total}</Typography>
+              <TransactionsList
+                droppableID={"subcategoryTransactionsList"}
+                subcategoryID={selectedSubcategory[0].ID}
+              />
+            </TransactionImportsContainer>
+          )}
         </Stack>
       </ThemeProvider>
     </DragDropContext>
