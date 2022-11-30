@@ -80,7 +80,7 @@ const TransactionCategory = ({ category }) => {
   return (
     <SubcategoryPaper elevation={4}>
       <div className={"headers"}>
-        <span className={"TransactionCategoryText"}>{category.name}</span>
+        <span className={"TransactionCategoryText"}>{category.Name}</span>
         <br />
         <span className={"TransactionCategoryText"}>{total}</span>
       </div>

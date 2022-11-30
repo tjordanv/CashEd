@@ -31,6 +31,7 @@ import { updateSubcategoryTotal } from "./state/subcategoriesSlice"
 import { Container, Stack } from "@mui/system"
 import { DownloadForOfflineRounded, EditRounded } from "@mui/icons-material"
 import { useState } from "react"
+import { updateSelectedTotal } from "./state/selectedSubcategorySlice"
 
 const dataSet = data
 
@@ -60,7 +61,12 @@ export default function App() {
 
   const subcategories = useSelector((state) => state.subcategories.value)
   const transactions = useSelector((state) => state.transactions.value)
-  const selectedSubcategoryID = useSelector((state) => state.selectedSubcategoryID.value)
+  // the selected subcategory logic will need toi run after data is loaded in.
+  const selectedSubcategory = useSelector((state) => {
+    try {
+      state.subcategories.value.filter((subcategory) => subcategory.isSelected)
+    } catch (e) {}
+  })
 
   const [isTransactions, setIsTransactions] = useState(false)
 
@@ -105,7 +111,7 @@ export default function App() {
       // when these actions are created, basically the entire page must rerender since
       // transaction and subcategory states are both being impacted
       const destinationSubcategory = subcategories.filter(
-        (subcategory) => subcategory.name === destination.droppableId
+        (subcategory) => subcategory.Name === destination.droppableId
       )
       const sourceSubcategoryID = transactions[source.index].subcategoryID
 
@@ -156,6 +162,12 @@ export default function App() {
             )
           }
         })
+      }
+      // Update selectedCategory information when dropping into or out of selectedCategory
+      if (destinationSubcategory[0].ID === selectedSubcategory.ID) {
+        dispatch(updateSelectedTotal(transactions[source.index].Amount))
+      } else if (sourceSubcategoryID === selectedSubcategory.ID) {
+        dispatch(updateSelectedTotal(-transactions[source.index].Amount))
       }
       return
     }
@@ -221,7 +233,7 @@ export default function App() {
           </Container>
 
           <TransactionImportsContainer>
-            <Typography
+            {/* <Typography
               sx={{
                 textAlign: "center",
                 color: "#451115",
@@ -229,12 +241,12 @@ export default function App() {
                 marginTop: "20px"
               }}
             >
-              Imported Transactions
+              {selectedSubcategory.Name}
             </Typography>
-            <Typography>amount</Typography>
+            <Typography>{selectedSubcategory.Total}</Typography> */}
             <TransactionsList
               droppableID={"subcategoryTransactionsList"}
-              subcategoryID={selectedSubcategoryID}
+              subcategoryID={selectedSubcategory.ID}
             />
           </TransactionImportsContainer>
         </Stack>

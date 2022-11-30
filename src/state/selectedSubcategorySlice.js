@@ -7,11 +7,14 @@ export const selectedSubcategorySlice = createSlice({
   },
   reducers: {
     selectSubcategory: (state, action) => {
-      state.value = state.value === action.payload ? 0 : action.payload
+      state.value = state.value.ID === action.payload.ID ? 0 : action.payload
+    },
+    updateSelectedTotal: (state, action) => {
+      state.value.Total += action.payload
     }
   }
 })
 
-export const { selectSubcategory } = selectedSubcategorySlice.actions
+export const { selectSubcategory, updateSelectedTotal } = selectedSubcategorySlice.actions
 
 export default selectedSubcategorySlice.reducer

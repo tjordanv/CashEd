@@ -18,11 +18,22 @@ export const subcategoriesSlice = createSlice({
           subcategory.Total = subcategory.Total + action.payload.amount
         }
       })
+    },
+    selectSubcategory: (state, action) => {
+      state.value = state.value.forEach((subcategory) => {
+        if (subcategory.ID === action.payload) {
+          subcategory.isSelected = subcategory.isSelected ? false : true
+        }
+      })
     }
   }
 })
 
-export const { importSubcategories, filterSubcategories, updateSubcategoryTotal } =
-  subcategoriesSlice.actions
+export const {
+  importSubcategories,
+  filterSubcategories,
+  updateSubcategoryTotal,
+  selectSubcategory
+} = subcategoriesSlice.actions
 
 export default subcategoriesSlice.reducer
