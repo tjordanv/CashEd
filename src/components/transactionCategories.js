@@ -1,19 +1,13 @@
 import Grid from "@mui/material/Grid"
-import { styled } from "@mui/material/styles"
 import { Box } from "@mui/system"
 
 import TransactionCategory from "./transactionCategory"
 
 const TransactionCategories = () => {
-  const GridContainer = styled(Box)(({ theme }) => ({
-    MinWidth: "455px",
-    marginTop: "25px"
-  }))
-
   // when using this styled Box, it seems to continually re-render
   return (
     // <GridContainer>
-    <Box sx={{ minWidth: 455, margin: "24px 0 0 24px !important" }}>
+    <Box sx={{ minWidth: 455, margin: "24px 0 0 0 !important" }}>
       <Grid container spacing={1}>
         <Grid className="Grid" xs={4}>
           <TransactionCategory category={{ name: "Income", ID: 1 }} />

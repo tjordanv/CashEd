@@ -17,6 +17,7 @@ import FileCopyIcon from "@mui/icons-material/FileCopyOutlined"
 import SaveIcon from "@mui/icons-material/Save"
 import PrintIcon from "@mui/icons-material/Print"
 import ShareIcon from "@mui/icons-material/Share"
+import DeleteIcon from "@mui/icons-material/Delete"
 
 import TransactionsList from "./components/transactionsList"
 import TransactionCategories from "./components/transactionCategories"
@@ -51,7 +52,8 @@ const theme = createTheme({
 export default function App() {
   const TransactionImportsContainer = styled(Container)(({ theme }) => ({
     minHeight: "93.5vh",
-    width: "250px",
+    width: "300px",
+    minWidth: "150px",
     margin: 0,
     padding: 0
   }))
@@ -177,7 +179,7 @@ export default function App() {
     <DragDropContext onDragEnd={onDragEnd}>
       <ThemeProvider theme={theme}>
         <Header />
-        <Stack direction="row" spacing={3}>
+        <Stack direction="row" spacing={0}>
           <TransactionImportsContainer>
             <Typography
               sx={{
@@ -213,9 +215,14 @@ export default function App() {
                 />
               ))}
             </SpeedDial>
+            {/* <IconButton onClick={deleteTrans}>
+              <DeleteIcon color="error" cursor="pointer" />
+            </IconButton> */}
           </TransactionImportsContainer>
           <Container
             sx={{
+              margin: 0,
+              width: "50vw",
               borderLeft: "2px solid rgba(119, 119, 119, 0.2)",
               borderRight: "2px solid rgba(119, 119, 119, 0.2)"
             }}

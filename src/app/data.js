@@ -28,7 +28,8 @@ const data = {
       Amount: 46.2,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
     {
       ID: 1,
@@ -36,7 +37,8 @@ const data = {
       Amount: 6.67,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
     {
       ID: 2,
@@ -44,7 +46,8 @@ const data = {
       Amount: 19.99,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
     {
       ID: 3,
@@ -52,7 +55,8 @@ const data = {
       Amount: 14.03,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
     {
       ID: 4,
@@ -60,7 +64,8 @@ const data = {
       Amount: 29.99,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
     {
       ID: 5,
@@ -68,7 +73,8 @@ const data = {
       Amount: 89.14,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
 
     {
@@ -77,7 +83,8 @@ const data = {
       Amount: 200.0,
       subcategoryID: null,
       categoryID: null,
-      isCredit: true
+      isCredit: true,
+      date: "12/02/2022"
     },
     {
       ID: 7,
@@ -85,7 +92,8 @@ const data = {
       Amount: 46.2,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
     {
       ID: 8,
@@ -93,7 +101,8 @@ const data = {
       Amount: 6.67,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
     {
       ID: 9,
@@ -101,7 +110,8 @@ const data = {
       Amount: 19.99,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
     {
       ID: 10,
@@ -109,7 +119,8 @@ const data = {
       Amount: 14.03,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
     {
       ID: 11,
@@ -117,7 +128,8 @@ const data = {
       Amount: 29.99,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
     {
       ID: 12,
@@ -125,7 +137,8 @@ const data = {
       Amount: 89.14,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
 
     {
@@ -134,7 +147,8 @@ const data = {
       Amount: 200.0,
       subcategoryID: null,
       categoryID: null,
-      isCredit: true
+      isCredit: true,
+      date: "12/02/2022"
     },
     {
       ID: 14,
@@ -142,7 +156,8 @@ const data = {
       Amount: 14.03,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
     {
       ID: 15,
@@ -150,7 +165,8 @@ const data = {
       Amount: 2329.99,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
     {
       ID: 16,
@@ -158,7 +174,8 @@ const data = {
       Amount: 11289.14,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
 
     {
@@ -167,7 +184,8 @@ const data = {
       Amount: 200.0,
       subcategoryID: null,
       categoryID: null,
-      isCredit: true
+      isCredit: true,
+      date: "12/02/2022"
     }
   ]
 }

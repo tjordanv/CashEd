@@ -72,3 +72,10 @@ code {
 .maingrid {
   margin: 20px;
 }
+
+.TransactionToolTipUnderlinedText {
+  text-align: right;
+  display: inline-block;
+  min-width: 75px;
+  margin-right: 10px;
+}
