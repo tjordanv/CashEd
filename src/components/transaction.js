@@ -22,10 +22,12 @@ import DeleteIcon from "@mui/icons-material/Delete"
 import InfoIcon from "@mui/icons-material/Info"
 
 import { forwardRef, useState } from "react"
+import { textAlign } from "@mui/system"
 
 const Transaction = ({ transaction, index }) => {
   const Item = styled(Card)(({ theme }) => ({
     display: "flex",
+    marginRight: "3px !important",
     backgroundColor:
       transaction.categoryID === null && !transaction.isCredit
         ? "rgba(119, 119, 119, 0.15)"
@@ -48,7 +50,7 @@ const Transaction = ({ transaction, index }) => {
 
   const TransactionText = styled(Typography)(({ theme }) => ({
     fontWeight: 300,
-    fontSize: "12px",
+    fontSize: "14px",
     minWidth: "160px"
   }))
 
@@ -98,29 +100,52 @@ const Transaction = ({ transaction, index }) => {
           onClick={log}
         >
           <Tooltip
+            cursor="default"
+            arrow
             title={
-              <>
-                <Typography variant="subtitle2">
-                  <span className="TransactionToolTipUnderlinedText">
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <Box sx={{ display: "flex", flexDirection: "row" }}>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{
+                      textAlign: "right",
+                      minWidth: "80px",
+                      marginRight: "10px"
+                    }}
+                  >
                     <u>Date:</u>
-                  </span>
-                  {transaction.date}
-                </Typography>
-                <Typography variant="subtitle2">
-                  <span className="TransactionToolTipUnderlinedText">
+                  </Typography>
+                  <Typography variant="subtitle2">{transaction.date}</Typography>
+                </Box>
+                <Box sx={{ display: "flex", flexDirection: "row" }}>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{
+                      textAlign: "right",
+                      minWidth: "80px",
+                      marginRight: "10px"
+                    }}
+                  >
                     <u>Description:</u>
-                  </span>
-                  {transaction.Description}
-                </Typography>
-                <Typography variant="subtitle2">
-                  <span className="TransactionToolTipUnderlinedText">
+                  </Typography>
+                  <Typography variant="subtitle2">{transaction.Description}</Typography>
+                </Box>
+                <Box sx={{ display: "flex", flexDirection: "row" }}>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{
+                      textAlign: "right",
+                      minWidth: "80px",
+                      marginRight: "10px"
+                    }}
+                  >
                     <u>Amount:</u>
-                  </span>
-                  {transaction.Amount}
-                </Typography>
-              </>
+                  </Typography>
+                  <Typography variant="subtitle2">{transaction.Amount}</Typography>
+                </Box>
+              </Box>
             }
-            placement="right"
+            placement="top-end"
           >
             <InfoIcon
               fontSize="small"
@@ -133,9 +158,9 @@ const Transaction = ({ transaction, index }) => {
               align="center"
               sx={{ paddingTop: "2px", paddingBottom: "2px" }}
             >
-              {transaction.Description}
+              {transaction.Description.slice(0, 25)}
             </TransactionText>
-            <Divider variant="middle" light="true" />
+            <Divider variant="middle" />
             <TransactionText
               variant="body2"
               align="center"

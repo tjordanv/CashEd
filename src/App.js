@@ -184,7 +184,7 @@ export default function App() {
             <Typography
               sx={{
                 textAlign: "center",
-                color: "#451115",
+                color: "#454545",
                 fontStyle: "italic",
                 marginTop: "20px"
               }}
@@ -222,7 +222,7 @@ export default function App() {
           <Container
             sx={{
               margin: 0,
-              width: "50vw",
+              width: "60vw",
               borderLeft: "2px solid rgba(119, 119, 119, 0.2)",
               borderRight: "2px solid rgba(119, 119, 119, 0.2)"
             }}

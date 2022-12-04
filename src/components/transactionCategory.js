@@ -7,13 +7,15 @@ import "../styles.css"
 import Paper from "@mui/material/Paper"
 import { styled } from "@mui/material/styles"
 import Stack from "@mui/material/Stack"
-import { IconButton } from "@mui/material"
+import { Divider, IconButton, Typography } from "@mui/material"
+import Container from "@mui/material/Container"
 import AddBoxIcon from "@mui/icons-material/AddBox"
 
 import { importSubcategories } from "../state/subcategoriesSlice"
 
 const TransactionCategory = ({ category }) => {
-  const SubcategoryPaper = styled(Paper)(({ theme }) => ({
+  const CategoryPaper = styled(Paper)(({ theme }) => ({
+    margin: "0 10px 0 10px",
     backgroundColor:
       category.ID === 1
         ? "rgba(23, 195, 178, 0.45)"
@@ -22,7 +24,7 @@ const TransactionCategory = ({ category }) => {
         : category.ID === 3
         ? "rgba(255, 203, 119, 0.55)"
         : "rgba(254, 109, 115, 0.6)",
-    height: category.ID <= 2 ? "235px" : "500px",
+    height: category.ID <= 2 ? "35vh" : "75vh",
     ...theme.typography.body2,
     padding: theme.spacing(1),
     textAlign: "center",
@@ -30,12 +32,21 @@ const TransactionCategory = ({ category }) => {
     minWidth: "130px"
   }))
 
-  const FooterButton = styled(IconButton)(({ theme }) => ({
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    margin: "0 auto 0 auto"
+  const SubcategoryList = styled(Stack)(({ theme }) => ({
+    height: category.ID <= 2 ? "20vh" : "55vh",
+    overflowY: "auto",
+
+    "&::-webkit-scrollbar": {
+      width: "7px"
+    },
+    "&::-webkit-scrollbar-track": {
+      backgroundColor: "rgba(255,255,255,0.9)",
+      borderRadius: "8px"
+    },
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: "rgba(119,119,119,.7)",
+      borderRadius: "8px"
+    }
   }))
 
   const dispatch = useDispatch()
@@ -78,13 +89,23 @@ const TransactionCategory = ({ category }) => {
   }
 
   return (
-    <SubcategoryPaper elevation={4}>
-      <div className={"headers"}>
-        <span className={"TransactionCategoryText"}>{category.Name}</span>
-        <br />
-        <span className={"TransactionCategoryText"}>{total}</span>
-      </div>
-      <Stack spacing={1} className={"subs"}>
+    <CategoryPaper elevation={4}>
+      <Container sx={{ marginBottom: "2vh" }}>
+        <Typography
+          variant="h6"
+          sx={{
+            textAlign: "center",
+            color: "#454545",
+            fontStyle: "italic"
+          }}
+        >
+          {category.name}
+        </Typography>
+        <Divider variant="middle" />
+        <Typography>{total}</Typography>
+        <Divider variant="middle" />
+      </Container>
+      <SubcategoryList spacing={2}>
         {subcategories.map(
           (subcategory) =>
             subcategory.categoryID === category.ID && (
@@ -95,11 +116,21 @@ const TransactionCategory = ({ category }) => {
               />
             )
         )}
-      </Stack>
-      <FooterButton aria-label="Import" onClick={logs}>
-        <AddBoxIcon color="lightWhite" fontSize="medium" />
-      </FooterButton>
-    </SubcategoryPaper>
+      </SubcategoryList>
+      <IconButton
+        aria-label="Import"
+        onClick={logs}
+        sx={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          margin: "0 auto 0 auto"
+        }}
+      >
+        <AddBoxIcon color="lightWhite" fontSize="large" />
+      </IconButton>
+    </CategoryPaper>
   )
 }
 

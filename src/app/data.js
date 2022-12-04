@@ -18,7 +18,19 @@ const data = {
     { Name: "Work Payroll", ID: 9, categoryID: 1, Total: 0, isSelected: false },
     { Name: "Passive Income", ID: 10, categoryID: 1, Total: 0, isSelected: false },
     { Name: "Savings", ID: 11, categoryID: 2, Total: 0, isSelected: false },
-    { Name: "401k", ID: 12, categoryID: 2, Total: 0, isSelected: false }
+    { Name: "401k", ID: 12, categoryID: 2, Total: 0, isSelected: false },
+    { Name: "Shopping", ID: 13, categoryID: 3, Total: 0, isSelected: false },
+    {
+      Name: "Home & Vehicle Maintenance",
+      ID: 14,
+      categoryID: 3,
+      Total: 0,
+      isSelected: false
+    },
+    { Name: "Some Filler Category", ID: 15, categoryID: 3, Total: 0, isSelected: false },
+    { Name: "Another Filler", ID: 16, categoryID: 3, Total: 0, isSelected: false },
+    { Name: "Yup, another filler", ID: 17, categoryID: 3, Total: 0, isSelected: false },
+    { Name: "Miscellaneous", ID: 18, categoryID: 3, Total: 0, isSelected: false }
   ],
 
   transactions: [
@@ -161,7 +173,8 @@ const data = {
     },
     {
       ID: 15,
-      Description: "Jimbo's Downomedy but really long w overflow plus even more",
+      Description:
+        "Jimbo's Downomedy but really long w overflow plus even more so it is super super long for no good reason really. idk",
       Amount: 2329.99,
       subcategoryID: null,
       categoryID: null,

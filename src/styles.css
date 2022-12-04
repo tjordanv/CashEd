@@ -45,11 +45,6 @@ code {
   background-color: rgba(23, 195, 178, 0.4);
 }
 
-.Grid {
-  height: 265px;
-  padding: 5px;
-}
-
 .Small {
   height: 235px;
 }
@@ -59,14 +54,6 @@ code {
 
 .Large {
   height: 500px;
-}
-
-.subs {
-  height: 100px;
-}
-
-.header {
-  max-height: 80px;
 }
 
 .maingrid {
