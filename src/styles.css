@@ -45,11 +45,6 @@ code {
   background-color: rgba(23, 195, 178, 0.4);
 }
 
-.Grid {
-  height: 265px;
-  padding: 5px;
-}
-
 .Small {
   height: 235px;
 }
@@ -61,14 +56,13 @@ code {
   height: 500px;
 }
 
-.subs {
-  height: 100px;
-}
-
-.header {
-  max-height: 80px;
-}
-
 .maingrid {
   margin: 20px;
+}
+
+.TransactionToolTipUnderlinedText {
+  text-align: right;
+  display: inline-block;
+  min-width: 75px;
+  margin-right: 10px;
 }

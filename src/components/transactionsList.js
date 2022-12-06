@@ -13,7 +13,6 @@ const TransactionsList = ({ droppableID, subcategoryID }) => {
     minWidth: "175px",
 
     "&::-webkit-scrollbar": {
-      margin: 0,
       width: "7px"
     },
     "&::-webkit-scrollbar-track": {

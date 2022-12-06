@@ -17,8 +17,20 @@ const data = {
     { Name: "Phone Bill", ID: 8, categoryID: 4, Total: 0, isSelected: false },
     { Name: "Work Payroll", ID: 9, categoryID: 1, Total: 0, isSelected: false },
     { Name: "Passive Income", ID: 10, categoryID: 1, Total: 0, isSelected: false },
-    { Name: "Savings", ID: 11, categoryID: 2, Total: 0 },
-    { Name: "401k", ID: 12, categoryID: 2, Total: 0 }
+    { Name: "Savings", ID: 11, categoryID: 2, Total: 0, isSelected: false },
+    { Name: "401k", ID: 12, categoryID: 2, Total: 0, isSelected: false },
+    { Name: "Shopping", ID: 13, categoryID: 3, Total: 0, isSelected: false },
+    {
+      Name: "Home & Vehicle Maintenance",
+      ID: 14,
+      categoryID: 3,
+      Total: 0,
+      isSelected: false
+    },
+    { Name: "Some Filler Category", ID: 15, categoryID: 3, Total: 0, isSelected: false },
+    { Name: "Another Filler", ID: 16, categoryID: 3, Total: 0, isSelected: false },
+    { Name: "Yup, another filler", ID: 17, categoryID: 3, Total: 0, isSelected: false },
+    { Name: "Miscellaneous", ID: 18, categoryID: 3, Total: 0, isSelected: false }
   ],
 
   transactions: [
@@ -28,7 +40,8 @@ const data = {
       Amount: 46.2,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
     {
       ID: 1,
@@ -36,7 +49,8 @@ const data = {
       Amount: 6.67,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
     {
       ID: 2,
@@ -44,7 +58,8 @@ const data = {
       Amount: 19.99,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
     {
       ID: 3,
@@ -52,7 +67,8 @@ const data = {
       Amount: 14.03,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
     {
       ID: 4,
@@ -60,7 +76,8 @@ const data = {
       Amount: 29.99,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
     {
       ID: 5,
@@ -68,7 +85,8 @@ const data = {
       Amount: 89.14,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
 
     {
@@ -77,7 +95,8 @@ const data = {
       Amount: 200.0,
       subcategoryID: null,
       categoryID: null,
-      isCredit: true
+      isCredit: true,
+      date: "12/02/2022"
     },
     {
       ID: 7,
@@ -85,7 +104,8 @@ const data = {
       Amount: 46.2,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
     {
       ID: 8,
@@ -93,7 +113,8 @@ const data = {
       Amount: 6.67,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
     {
       ID: 9,
@@ -101,7 +122,8 @@ const data = {
       Amount: 19.99,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
     {
       ID: 10,
@@ -109,7 +131,8 @@ const data = {
       Amount: 14.03,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
     {
       ID: 11,
@@ -117,7 +140,8 @@ const data = {
       Amount: 29.99,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
     {
       ID: 12,
@@ -125,7 +149,8 @@ const data = {
       Amount: 89.14,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
 
     {
@@ -134,7 +159,8 @@ const data = {
       Amount: 200.0,
       subcategoryID: null,
       categoryID: null,
-      isCredit: true
+      isCredit: true,
+      date: "12/02/2022"
     },
     {
       ID: 14,
@@ -142,15 +168,18 @@ const data = {
       Amount: 14.03,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
     {
       ID: 15,
-      Description: "Jimbo's Downomedy but really long w overflow plus even more",
+      Description:
+        "Jimbo's Downomedy but really long w overflow plus even more so it is super super long for no good reason really. idk",
       Amount: 2329.99,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
     {
       ID: 16,
@@ -158,7 +187,8 @@ const data = {
       Amount: 11289.14,
       subcategoryID: null,
       categoryID: null,
-      isCredit: false
+      isCredit: false,
+      date: "12/02/2022"
     },
 
     {
@@ -167,7 +197,8 @@ const data = {
       Amount: 200.0,
       subcategoryID: null,
       categoryID: null,
-      isCredit: true
+      isCredit: true,
+      date: "12/02/2022"
     }
   ]
 }

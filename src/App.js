@@ -17,6 +17,7 @@ import FileCopyIcon from "@mui/icons-material/FileCopyOutlined"
 import SaveIcon from "@mui/icons-material/Save"
 import PrintIcon from "@mui/icons-material/Print"
 import ShareIcon from "@mui/icons-material/Share"
+import DeleteIcon from "@mui/icons-material/Delete"
 
 import TransactionsList from "./components/transactionsList"
 import TransactionCategories from "./components/transactionCategories"
@@ -31,7 +32,6 @@ import { updateSubcategoryTotal } from "./state/subcategoriesSlice"
 import { Container, Stack } from "@mui/system"
 import { DownloadForOfflineRounded, EditRounded } from "@mui/icons-material"
 import { useState } from "react"
-import { updateSelectedTotal } from "./state/selectedSubcategorySlice"
 
 const dataSet = data
 
@@ -52,7 +52,8 @@ const theme = createTheme({
 export default function App() {
   const TransactionImportsContainer = styled(Container)(({ theme }) => ({
     minHeight: "93.5vh",
-    width: "250px",
+    width: "300px",
+    minWidth: "150px",
     margin: 0,
     padding: 0
   }))
@@ -61,11 +62,14 @@ export default function App() {
 
   const subcategories = useSelector((state) => state.subcategories.value)
   const transactions = useSelector((state) => state.transactions.value)
-  // the selected subcategory logic will need toi run after data is loaded in.
   const selectedSubcategory = useSelector((state) => {
+    //this is wrapped in a try bc there are no subcategories when the page is first loaded in. I am
+    // sure there is a way (a hook) to simply run this once the initial render is finished
     try {
-      state.subcategories.value.filter((subcategory) => subcategory.isSelected)
-    } catch (e) {}
+      return state.subcategories.value.filter((subcategory) => subcategory.isSelected)
+    } catch (e) {
+      return false
+    }
   })
 
   const [isTransactions, setIsTransactions] = useState(false)
@@ -77,9 +81,7 @@ export default function App() {
 
   const onDragEnd = (e) => {
     const { destination, source } = e
-    //console.log(e);
     if (!destination) {
-      //console.log("dropped in a no drop zone");
       return
     }
 
@@ -88,7 +90,6 @@ export default function App() {
       destination.droppableId === source.droppableId &&
       destination.index === source.index
     ) {
-      //console.log("dropped in place");
       return
     }
 
@@ -103,7 +104,6 @@ export default function App() {
           destinationIndex: destination.index
         })
       )
-      // console.log("reordered", source.index, destination.index)
     }
 
     // move transaction to another list or subcategory
@@ -163,13 +163,6 @@ export default function App() {
           }
         })
       }
-      // Update selectedCategory information when dropping into or out of selectedCategory
-      if (destinationSubcategory[0].ID === selectedSubcategory.ID) {
-        dispatch(updateSelectedTotal(transactions[source.index].Amount))
-      } else if (sourceSubcategoryID === selectedSubcategory.ID) {
-        dispatch(updateSelectedTotal(-transactions[source.index].Amount))
-      }
-      return
     }
   }
 
@@ -186,12 +179,12 @@ export default function App() {
     <DragDropContext onDragEnd={onDragEnd}>
       <ThemeProvider theme={theme}>
         <Header />
-        <Stack direction="row" spacing={3}>
+        <Stack direction="row" spacing={0}>
           <TransactionImportsContainer>
             <Typography
               sx={{
                 textAlign: "center",
-                color: "#451115",
+                color: "#454545",
                 fontStyle: "italic",
                 marginTop: "20px"
               }}
@@ -222,9 +215,14 @@ export default function App() {
                 />
               ))}
             </SpeedDial>
+            {/* <IconButton onClick={deleteTrans}>
+              <DeleteIcon color="error" cursor="pointer" />
+            </IconButton> */}
           </TransactionImportsContainer>
           <Container
             sx={{
+              margin: 0,
+              width: "60vw",
               borderLeft: "2px solid rgba(119, 119, 119, 0.2)",
               borderRight: "2px solid rgba(119, 119, 119, 0.2)"
             }}
@@ -232,23 +230,25 @@ export default function App() {
             <TransactionCategories />
           </Container>
 
-          <TransactionImportsContainer>
-            {/* <Typography
-              sx={{
-                textAlign: "center",
-                color: "#451115",
-                fontStyle: "italic",
-                marginTop: "20px"
-              }}
-            >
-              {selectedSubcategory.Name}
-            </Typography>
-            <Typography>{selectedSubcategory.Total}</Typography> */}
-            <TransactionsList
-              droppableID={"subcategoryTransactionsList"}
-              subcategoryID={selectedSubcategory.ID}
-            />
-          </TransactionImportsContainer>
+          {selectedSubcategory.length > 0 && (
+            <TransactionImportsContainer>
+              <Typography
+                sx={{
+                  textAlign: "center",
+                  color: "#451115",
+                  fontStyle: "italic",
+                  marginTop: "20px"
+                }}
+              >
+                {selectedSubcategory[0].Name}
+              </Typography>
+              <Typography>{selectedSubcategory[0].Total}</Typography>
+              <TransactionsList
+                droppableID={"subcategoryTransactionsList"}
+                subcategoryID={selectedSubcategory[0].ID}
+              />
+            </TransactionImportsContainer>
+          )}
         </Stack>
       </ThemeProvider>
     </DragDropContext>

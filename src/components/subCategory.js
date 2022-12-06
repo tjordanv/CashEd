@@ -5,15 +5,20 @@ import { styled } from "@mui/material/styles"
 import { selectSubcategory } from "../state/subcategoriesSlice"
 
 import Paper from "@mui/material/Paper"
+import Typography from "@mui/material/Typography"
 
 const Subcategory = ({ subcategory, droppable }) => {
   //const selectedSubcategoryID = useSelector((state) => state.selectedSubcategory.value.ID)
 
   const Item = styled(Paper)(({ theme }) => ({
-    height: "35px",
+    marginRight: "4px !important",
+    marginLeft: "3px !important",
+    cursor: "pointer",
+    height: "45px",
     backgroundColor: subcategory.isSelected
       ? "rgba(255, 255, 255, 0.5)"
-      : "rgba(255, 255, 255, 0.9)"
+      : "rgba(255, 255, 255, 0.9)",
+    flexShrink: 0
   }))
 
   const dispatch = useDispatch()
@@ -33,7 +38,7 @@ const Subcategory = ({ subcategory, droppable }) => {
           {...provided.droppableProps}
           onClick={select}
         >
-          <p>{subcategory.Name + ":" + subcategory.Total}</p>
+          <Typography>{subcategory.Name + ":" + subcategory.Total}</Typography>
         </Item>
         // {/* </Container> */}
       )}
