@@ -22,7 +22,6 @@ import DeleteIcon from "@mui/icons-material/Delete"
 import InfoIcon from "@mui/icons-material/Info"
 
 import { forwardRef, useState } from "react"
-import { textAlign } from "@mui/system"
 
 const Transaction = ({ transaction, index }) => {
   const Item = styled(Card)(({ theme }) => ({
@@ -92,7 +91,6 @@ const Transaction = ({ transaction, index }) => {
     <Draggable draggableId={transaction.Description} index={index} key={transaction.ID}>
       {(provided, snapshot) => (
         <Item
-          // className={`Transaction ${transaction.isCredit && "credit"}`}
           variant="outlined"
           ref={provided.innerRef}
           {...provided.draggableProps}

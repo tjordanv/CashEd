@@ -4,7 +4,6 @@ import Box from "@mui/material/Box"
 import Stack from "@mui/material/Stack"
 import Link from "@mui/material/Link"
 import Divider from "@mui/material/Divider"
-import { red } from "@mui/material/colors"
 
 const Header = () => {
   const HeaderContainer = styled(Box)(({ theme }) => ({

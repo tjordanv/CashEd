@@ -4,7 +4,6 @@ import { Provider } from "react-redux"
 import { store } from "./app/store"
 import App from "./App"
 import reportWebVitals from "./reportWebVitals"
-import "./styles.css"
 import { StyledEngineProvider } from "@mui/styled-engine-sc"
 
 const container = document.getElementById("root")

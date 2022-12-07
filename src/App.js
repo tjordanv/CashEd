@@ -1,5 +1,4 @@
 import data from "./app/data"
-import "./styles.css"
 
 import { useDispatch, useSelector } from "react-redux"
 
@@ -19,9 +18,9 @@ import PrintIcon from "@mui/icons-material/Print"
 import ShareIcon from "@mui/icons-material/Share"
 import DeleteIcon from "@mui/icons-material/Delete"
 
-import TransactionsList from "./components/transactionsList"
-import TransactionCategories from "./components/transactionCategories"
-import Header from "./components/header"
+import TransactionsList from "./components/TransactionsList"
+import TransactionCategories from "./components/TransactionCategories"
+import Header from "./components/Header"
 
 import {
   importTransactions,
@@ -215,9 +214,6 @@ export default function App() {
                 />
               ))}
             </SpeedDial>
-            {/* <IconButton onClick={deleteTrans}>
-              <DeleteIcon color="error" cursor="pointer" />
-            </IconButton> */}
           </TransactionImportsContainer>
           <Container
             sx={{

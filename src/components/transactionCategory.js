@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react"
-import Subcategory from "./subcategory"
+import { useEffect } from "react"
+import Subcategory from "./Subcategory"
 import { useDispatch, useSelector } from "react-redux"
 import data from "../app/data"
-import "../styles.css"
 
 import Paper from "@mui/material/Paper"
 import { styled } from "@mui/material/styles"
@@ -35,6 +34,8 @@ const TransactionCategory = ({ category }) => {
   const SubcategoryList = styled(Stack)(({ theme }) => ({
     height: category.ID <= 2 ? "20vh" : "55vh",
     overflowY: "auto",
+    paddingTop: "2px",
+    paddingBottom: "2px",
 
     "&::-webkit-scrollbar": {
       width: "7px"

@@ -1,15 +1,13 @@
 import { Droppable } from "react-beautiful-dnd"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { styled } from "@mui/material/styles"
-//import { selectSubcategory } from "../state/selectedSubcategorySlice"
 import { selectSubcategory } from "../state/subcategoriesSlice"
 
 import Paper from "@mui/material/Paper"
 import Typography from "@mui/material/Typography"
+import Box from "@mui/material/Box"
 
 const Subcategory = ({ subcategory, droppable }) => {
-  //const selectedSubcategoryID = useSelector((state) => state.selectedSubcategory.value.ID)
-
   const Item = styled(Paper)(({ theme }) => ({
     marginRight: "4px !important",
     marginLeft: "3px !important",
@@ -29,7 +27,6 @@ const Subcategory = ({ subcategory, droppable }) => {
   return (
     <Droppable droppableId={subcategory.Name} isDropDisabled={droppable}>
       {(provided, snapshot) => (
-        // <Container
         <Item
           elevation={subcategory.isSelected ? 8 : 2}
           // will need to find another way to inject this logic below
@@ -38,9 +35,41 @@ const Subcategory = ({ subcategory, droppable }) => {
           {...provided.droppableProps}
           onClick={select}
         >
-          <Typography>{subcategory.Name + ":" + subcategory.Total}</Typography>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              height: "45px",
+              width: "96%",
+              alignItems: "center",
+              paddingLeft: "2%",
+              paddingRight: "2%"
+            }}
+          >
+            <Box
+              sx={{
+                width: "75%",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "start"
+              }}
+            >
+              <Typography sx={{ textAlign: "start" }}>
+                {subcategory.Name + ":"}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                width: "25%",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "end"
+              }}
+            >
+              <Typography sx={{ textAlign: "end" }}>${subcategory.Total}</Typography>
+            </Box>
+          </Box>
         </Item>
-        // {/* </Container> */}
       )}
     </Droppable>
   )
