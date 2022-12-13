@@ -16,14 +16,21 @@ import DialogTitle from "@mui/material/DialogTitle"
 import DialogActions from "@mui/material/DialogActions"
 import Slide from "@mui/material/Slide"
 import Button from "@mui/material/Button"
+import Radio from "@mui/material/Radio"
+import RadioGroup from "@mui/material/RadioGroup"
+import FormControlLabel from "@mui/material/FormControlLabel"
 
 import DownloadForOfflineRounded from "@mui/icons-material/DownloadForOfflineRounded"
 import EditRounded from "@mui/icons-material/EditRounded"
 
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />
+})
+
 const TransactionImportButtons = () => {
   const dispatch = useDispatch()
 
-  const isTransactions = useSelector((state) => state.transactions.length > 0)
+  const isTransactions = useSelector((state) => state.transactions.value.length > 0)
   const [isOpen, setIsOpen] = useState(false)
   const [isSpeedDialOpen, setIsSpeedDialOpen] = useState(false)
 
@@ -44,10 +51,6 @@ const TransactionImportButtons = () => {
     dispatch(importTransactions(data.transactions))
   }
 
-  const Transition = forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />
-  })
-
   const actions = [
     {
       icon: <DownloadForOfflineRounded fontSize="small" />,
@@ -60,9 +63,9 @@ const TransactionImportButtons = () => {
   return (
     <Box>
       <SpeedDial
-        open={isSpeedDialOpen}
-        onClick={() => setIsSpeedDialOpen(!isSpeedDialOpen)}
-        onMouseOver={() => setIsSpeedDialOpen(true)}
+        // open={isSpeedDialOpen}
+        // onClick={() => setIsSpeedDialOpen(!isSpeedDialOpen)}
+        // onMouseOver={() => setIsSpeedDialOpen(true)}
         ariaLabel="SpeedDial basic example"
         sx={{
           position: "absolute",
@@ -87,14 +90,19 @@ const TransactionImportButtons = () => {
         open={isOpen}
         TransitionComponent={Transition}
         keepMounted={false}
-        //disableRestoreFocus={"true"}
+        disableRestoreFocus={true}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>Are you sure you want to delete this transaction?</DialogTitle>
+        <DialogTitle sx={{ textAlign: "center" }}>Single Transaction Entry</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            This cannot be undone and this transaction will not appear in future imports.
-          </DialogContentText>
+          <DialogContentText id="alert-dialog-slide-description"></DialogContentText>
+          <RadioGroup>
+            <FormControlLabel value={"bank 1"} control={<Radio />} label="Bank 1" />
+            <FormControlLabel value={"bank 2"} control={<Radio />} label="Bank 2" />
+            <FormControlLabel value={"bank 3"} control={<Radio />} label="Bank 3" />
+            {/* add the option to select "other" here with a corresponding text input so users
+            can enter things like cash, venmo, cashapp, etc */}
+          </RadioGroup>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog}>Cancel</Button>

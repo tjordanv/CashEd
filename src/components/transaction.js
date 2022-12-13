@@ -107,11 +107,13 @@ const Transaction = ({ transaction, index }) => {
                     variant="subtitle2"
                     sx={{
                       textAlign: "right",
-                      minWidth: "80px",
+                      minWidth: "85px",
                       marginRight: "10px"
                     }}
                   >
-                    <u>Date:</u>
+                    <u>
+                      <b>Date:</b>
+                    </u>
                   </Typography>
                   <Typography variant="subtitle2">{transaction.date}</Typography>
                 </Box>
@@ -120,11 +122,13 @@ const Transaction = ({ transaction, index }) => {
                     variant="subtitle2"
                     sx={{
                       textAlign: "right",
-                      minWidth: "80px",
+                      minWidth: "85px",
                       marginRight: "10px"
                     }}
                   >
-                    <u>Description:</u>
+                    <u>
+                      <b>Description:</b>
+                    </u>
                   </Typography>
                   <Typography variant="subtitle2">{transaction.Description}</Typography>
                 </Box>
@@ -133,11 +137,13 @@ const Transaction = ({ transaction, index }) => {
                     variant="subtitle2"
                     sx={{
                       textAlign: "right",
-                      minWidth: "80px",
+                      minWidth: "85px",
                       marginRight: "10px"
                     }}
                   >
-                    <u>Amount:</u>
+                    <u>
+                      <b>Amount:</b>
+                    </u>
                   </Typography>
                   <Typography variant="subtitle2">{transaction.Amount}</Typography>
                 </Box>
