@@ -31,6 +31,7 @@ import { updateSubcategoryTotal } from "./state/subcategoriesSlice"
 import { Container, Stack } from "@mui/system"
 import { DownloadForOfflineRounded, EditRounded } from "@mui/icons-material"
 import { useState } from "react"
+import TransactionImportButtons from "./components/TransactionImportButtons"
 
 const dataSet = data
 
@@ -193,7 +194,8 @@ export default function App() {
             <Divider />
             <TransactionsList droppableID={"importedTransactionsList"} />
             <Divider />
-            <SpeedDial
+            <TransactionImportButtons />
+            {/* <SpeedDial
               ariaLabel="SpeedDial basic example"
               sx={{
                 position: "absolute",
@@ -213,7 +215,7 @@ export default function App() {
                   sx={{ height: 35, width: 35 }}
                 />
               ))}
-            </SpeedDial>
+            </SpeedDial> */}
           </TransactionImportsContainer>
           <Container
             sx={{

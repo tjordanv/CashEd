@@ -175,8 +175,7 @@ const Transaction = ({ transaction, index }) => {
           <Dialog
             open={isOpen}
             TransitionComponent={Transition}
-            keepMounted
-            onClose={closeDialog}
+            keepMounted={false}
             aria-describedby="alert-dialog-slide-description"
           >
             <DialogTitle>Are you sure you want to delete this transaction?</DialogTitle>
