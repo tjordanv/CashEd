@@ -83,7 +83,7 @@ const TransactionCategory = ({ category }) => {
       .toFixed(2)
   )
 
-  const su = useSelector((state) => state.subcategories.value)
+  const su = useSelector((state) => state.transactions.value)
 
   const logs = () => {
     console.log(su)

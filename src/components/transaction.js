@@ -86,9 +86,11 @@ const Transaction = ({ transaction, index }) => {
     console.log(transaction)
   }
   return (
-    // I may need to add additional identifiers to the draggableID to account for transactions
-    // having the same description/name
-    <Draggable draggableId={transaction.Description} index={index} key={transaction.ID}>
+    <Draggable
+      draggableId={transaction.Description + transaction.date}
+      index={index}
+      key={transaction.ID}
+    >
       {(provided, snapshot) => (
         <Item
           variant="outlined"

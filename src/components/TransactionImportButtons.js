@@ -10,18 +10,14 @@ import SpeedDialAction from "@mui/material/SpeedDialAction"
 import SpeedDialIcon from "@mui/material/SpeedDialIcon"
 
 import Dialog from "@mui/material/Dialog"
-import DialogContent from "@mui/material/DialogContent"
-import DialogContentText from "@mui/material/DialogContentText"
 import DialogTitle from "@mui/material/DialogTitle"
-import DialogActions from "@mui/material/DialogActions"
 import Slide from "@mui/material/Slide"
-import Button from "@mui/material/Button"
-import Radio from "@mui/material/Radio"
-import RadioGroup from "@mui/material/RadioGroup"
-import FormControlLabel from "@mui/material/FormControlLabel"
 
 import DownloadForOfflineRounded from "@mui/icons-material/DownloadForOfflineRounded"
 import EditRounded from "@mui/icons-material/EditRounded"
+
+import AddTransactionForm from "./AddTransactionForm"
+import ImportTransactionsForm from "./ImportTransactionsForm"
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -30,42 +26,32 @@ const Transition = forwardRef(function Transition(props, ref) {
 const TransactionImportButtons = () => {
   const dispatch = useDispatch()
 
-  const isTransactions = useSelector((state) => state.transactions.value.length > 0)
+  const isTransactions = useSelector(
+    (state) =>
+      state.transactions.value.filter((transaction) => transaction.subcategoryID === null)
+        .length > 0
+  )
   const [isOpen, setIsOpen] = useState(false)
-  const [isSpeedDialOpen, setIsSpeedDialOpen] = useState(false)
+  const [isSingleTransaction, setIsSingleTransaction] = useState(false)
 
-  const openSpeedDial = () => {
-    setIsSpeedDialOpen(true)
-  }
-
-  const openDialog = () => {
+  const openDialog = (isAddTransaction) => {
     setIsOpen(true)
+    isAddTransaction === true && setIsSingleTransaction(true)
   }
 
   const closeDialog = () => {
     setIsOpen(false)
-    setIsSpeedDialOpen(false)
+    setIsSingleTransaction(false)
   }
 
   const imports = (transactions) => {
-    dispatch(importTransactions(data.transactions))
+    setIsOpen(true)
+    //dispatch(importTransactions(data.transactions))
   }
-
-  const actions = [
-    {
-      icon: <DownloadForOfflineRounded fontSize="small" />,
-      name: "Automatic Import",
-      onClick: imports
-    },
-    { icon: <EditRounded />, name: "Manual Entry", onClick: openDialog }
-  ]
 
   return (
     <Box>
       <SpeedDial
-        // open={isSpeedDialOpen}
-        // onClick={() => setIsSpeedDialOpen(!isSpeedDialOpen)}
-        // onMouseOver={() => setIsSpeedDialOpen(true)}
         ariaLabel="SpeedDial basic example"
         sx={{
           position: "absolute",
@@ -76,15 +62,20 @@ const TransactionImportButtons = () => {
         icon={<SpeedDialIcon />}
         direction={isTransactions ? "right" : "down"}
       >
-        {actions.map((action) => (
-          <SpeedDialAction
-            key={action.name}
-            icon={action.icon}
-            tooltipTitle={action.name}
-            onClick={action.onClick}
-            sx={{ height: 35, width: 35 }}
-          />
-        ))}
+        <SpeedDialAction
+          key="import"
+          icon={<DownloadForOfflineRounded fontSize="small" />}
+          tooltipTitle="Automatic Import"
+          onClick={imports}
+          sx={{ height: 35, width: 35 }}
+        />
+        <SpeedDialAction
+          key="AddSingleTransaction"
+          icon={<EditRounded fontSize="small" />}
+          tooltipTitle="Add Single Transaction"
+          onClick={() => openDialog(true)}
+          sx={{ height: 35, width: 35 }}
+        />
       </SpeedDial>
       <Dialog
         open={isOpen}
@@ -93,24 +84,16 @@ const TransactionImportButtons = () => {
         disableRestoreFocus={true}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle sx={{ textAlign: "center" }}>Single Transaction Entry</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description"></DialogContentText>
-          <RadioGroup>
-            <FormControlLabel value={"bank 1"} control={<Radio />} label="Bank 1" />
-            <FormControlLabel value={"bank 2"} control={<Radio />} label="Bank 2" />
-            <FormControlLabel value={"bank 3"} control={<Radio />} label="Bank 3" />
-            {/* add the option to select "other" here with a corresponding text input so users
-            can enter things like cash, venmo, cashapp, etc */}
-          </RadioGroup>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeDialog}>Cancel</Button>
-          <Button>Delete</Button>
-        </DialogActions>
+        <DialogTitle sx={{ textAlign: "center" }}>
+          {isSingleTransaction === true ? "Single Transaction Entry" : "Import"}
+        </DialogTitle>
+        {isSingleTransaction === true ? (
+          <AddTransactionForm isOpen={closeDialog} />
+        ) : (
+          <ImportTransactionsForm isOpen={closeDialog} />
+        )}
       </Dialog>
     </Box>
   )
 }
-
 export default TransactionImportButtons

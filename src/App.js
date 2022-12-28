@@ -195,27 +195,6 @@ export default function App() {
             <TransactionsList droppableID={"importedTransactionsList"} />
             <Divider />
             <TransactionImportButtons />
-            {/* <SpeedDial
-              ariaLabel="SpeedDial basic example"
-              sx={{
-                position: "absolute",
-                top: isTransactions ? null : "45%",
-                left: isTransactions ? null : "90px",
-                "& .MuiFab-primary": { width: 38, height: 38 }
-              }}
-              icon={<SpeedDialIcon />}
-              direction={isTransactions ? "right" : "down"}
-            >
-              {actions.map((action) => (
-                <SpeedDialAction
-                  key={action.name}
-                  icon={action.icon}
-                  tooltipTitle={action.name}
-                  onClick={action.onClick}
-                  sx={{ height: 35, width: 35 }}
-                />
-              ))}
-            </SpeedDial> */}
           </TransactionImportsContainer>
           <Container
             sx={{
