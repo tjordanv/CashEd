@@ -81,11 +81,11 @@ const AddTransactionForm = ({ isOpen }) => {
   }
 
   return (
-    <form onSubmit={(e) => createTransaction(e)}>
+    <form onSubmit={(e) => createTransaction(e)} style={{ minWidth: "400px" }}>
       <DialogContent>
         <DialogContentText id="alert-dialog-slide-description"></DialogContentText>
         <Box sx={{ padding: "15px" }}>
-          <Stack spacing={1}>
+          <Stack spacing={2}>
             <TextField
               id="accountSelect"
               select
@@ -113,6 +113,8 @@ const AddTransactionForm = ({ isOpen }) => {
             <TextField
               variant="outlined"
               type="date"
+              label="Transaction Date"
+              InputLabelProps={{ shrink: true }}
               value={date}
               onChange={(e) => setDate(e.target.value)}
             />

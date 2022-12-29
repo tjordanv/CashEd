@@ -1,9 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useState, forwardRef } from "react"
 
-import data from "../app/data"
-import { importTransactions } from "../state/transactionsSlice"
-
 import Box from "@mui/material/Box"
 import SpeedDial from "@mui/material/SpeedDial"
 import SpeedDialAction from "@mui/material/SpeedDialAction"
@@ -44,11 +41,6 @@ const TransactionImportButtons = () => {
     setIsSingleTransaction(false)
   }
 
-  const imports = (transactions) => {
-    setIsOpen(true)
-    //dispatch(importTransactions(data.transactions))
-  }
-
   return (
     <Box>
       <SpeedDial
@@ -66,7 +58,7 @@ const TransactionImportButtons = () => {
           key="import"
           icon={<DownloadForOfflineRounded fontSize="small" />}
           tooltipTitle="Automatic Import"
-          onClick={imports}
+          onClick={() => openDialog(false)}
           sx={{ height: 35, width: 35 }}
         />
         <SpeedDialAction

@@ -13,34 +13,12 @@ import DialogContent from "@mui/material/DialogContent"
 import DialogContentText from "@mui/material/DialogContentText"
 import DialogActions from "@mui/material/DialogActions"
 
-import { styled } from "@mui/material/styles"
-
-import { createSingleTransaction } from "../state/transactionsSlice"
-import { updateSubcategoryTotal } from "../state/subcategoriesSlice"
-
-const Item = styled(TextField)(({ theme }) => ({
-  "&::-webkit-scrollbar": {
-    width: "7px"
-  },
-  "&::-webkit-scrollbar-track": {
-    backgroundColor: "rgba(119,119,119,0.15)",
-    borderRadius: "8px"
-  },
-  "&::-webkit-scrollbar-thumb": {
-    backgroundColor: "rgba(119,119,119,.7)",
-    borderRadius: "8px"
-  }
-}))
+import { importTransactions } from "../state/transactionsSlice"
+import data from "../app/data"
 
 const ImportTransactionsForm = ({ isOpen }) => {
   const [accountID, setAccountID] = useState("")
-  const [description, setDescription] = useState("")
   const [date, setDate] = useState("")
-  const [amount, setAmount] = useState("")
-  const [subcategoryID, setSubcategoryID] = useState("")
-  const [categoryID, setCategoryID] = useState("")
-
-  const subcategories = useSelector((state) => state.subcategories.value)
 
   const accounts = [
     { ID: 1, name: "PNC Checking 1234" },
@@ -50,38 +28,12 @@ const ImportTransactionsForm = ({ isOpen }) => {
 
   const dispatch = useDispatch()
 
-  const createTransaction = (e) => {
-    e.preventDefault()
-    dispatch(
-      createSingleTransaction({
-        ID: 100,
-        accountID: accountID,
-        Description: description,
-        Date: date,
-        Amount: amount,
-        isCredit: false,
-        subcategoryID: subcategoryID || null,
-        categoryID: categoryID || null
-      })
-    )
-
-    dispatch(updateSubcategoryTotal({ subcategoryID: subcategoryID, amount: amount }))
-  }
-
-  const updateCategories = (e) => {
-    setSubcategoryID(e.target.value)
-
-    let categoryID
-    subcategories.forEach((subcategory) => {
-      if (subcategory.ID === e.target.value) {
-        categoryID = subcategory.categoryID
-      }
-    })
-    setCategoryID(categoryID)
+  const imports = (transactions) => {
+    dispatch(importTransactions(data.transactions))
   }
 
   return (
-    <form onSubmit={(e) => createTransaction(e)}>
+    <form onSubmit={imports} style={{ minWidth: "400px" }}>
       <DialogContent>
         <DialogContentText id="alert-dialog-slide-description"></DialogContentText>
         <Box sx={{ padding: "15px" }}>
@@ -103,49 +55,19 @@ const ImportTransactionsForm = ({ isOpen }) => {
             </TextField>
             <TextField
               variant="outlined"
-              label="Description"
-              required
-              multiline
-              maxRows={5}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-            <TextField
-              variant="outlined"
               type="date"
+              required
+              label="Starting date"
+              InputLabelProps={{ shrink: true }}
               value={date}
               onChange={(e) => setDate(e.target.value)}
             />
-            <TextField
-              variant="outlined"
-              type="number"
-              required
-              label="Amount"
-              InputProps={{
-                startAdornment: <InputAdornment position="start">$</InputAdornment>
-              }}
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-            />
-            <Item
-              variant="outlined"
-              label="Subcategory"
-              select
-              value={subcategoryID}
-              onChange={(e) => updateCategories(e)}
-            >
-              {subcategories.map((subcategory) => (
-                <MenuItem key={subcategory.ID} value={subcategory.ID}>
-                  {subcategory.Name}
-                </MenuItem>
-              ))}
-            </Item>
           </Stack>
         </Box>
       </DialogContent>
       <DialogActions>
         <Button onClick={isOpen}>Cancel</Button>
-        <Button type="submit">Create</Button>
+        <Button type="submit">Import</Button>
       </DialogActions>
     </form>
   )
