@@ -223,7 +223,7 @@ export default function App() {
             </TransactionImportsContainer>
           )}
         </Stack>
-        <Button onClick={grabData}>press</Button>
+        {/* <Button onClick={grabData}>press</Button> */}
       </ThemeProvider>
     </DragDropContext>
   )

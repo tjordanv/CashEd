@@ -3,25 +3,14 @@ import { useDispatch } from "react-redux"
 import { styled } from "@mui/material/styles"
 import { deleteTransaction } from "../state/transactionsSlice"
 import { updateSubcategoryTotal } from "../state/subcategoriesSlice"
+import DeleteConfirmationDialog from "./DeleteConfirmationDialog"
 
-import Button from "@mui/material/Button"
-import DialogTitle from "@mui/material/DialogTitle"
-import DialogContentText from "@mui/material/DialogContentText"
-import DialogContent from "@mui/material/DialogContent"
-import DialogActions from "@mui/material/DialogActions"
-import Dialog from "@mui/material/Dialog"
 import Card from "@mui/material/Card"
 import Tooltip from "@mui/material/Tooltip"
 import Box from "@mui/material/Box"
-import Slide from "@mui/material/Slide"
-import IconButton from "@mui/material/IconButton"
 import Divider from "@mui/material/Divider"
-import Zoom from "@mui/material/Zoom"
 import Typography from "@mui/material/Typography"
-import DeleteIcon from "@mui/icons-material/Delete"
 import InfoIcon from "@mui/icons-material/Info"
-
-import { forwardRef, useState } from "react"
 
 const Transaction = ({ transaction, index }) => {
   const Item = styled(Card)(({ theme }) => ({
@@ -53,11 +42,9 @@ const Transaction = ({ transaction, index }) => {
     minWidth: "160px"
   }))
 
-  const [isOpen, setIsOpen] = useState(false)
-
   const dispatch = useDispatch()
 
-  const deleteTrans = () => {
+  const deleteTransactionHandler = () => {
     if (transaction.subcategoryID) {
       dispatch(
         updateSubcategoryTotal({
@@ -67,20 +54,7 @@ const Transaction = ({ transaction, index }) => {
       )
     }
     dispatch(deleteTransaction(index))
-    setIsOpen(false)
   }
-
-  const openDialog = () => {
-    setIsOpen(true)
-  }
-
-  const closeDialog = () => {
-    setIsOpen(false)
-  }
-
-  const Transition = forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />
-  })
 
   const log = () => {
     console.log(transaction)
@@ -175,29 +149,7 @@ const Transaction = ({ transaction, index }) => {
               {"$" + transaction.Amount}
             </TransactionText>
           </Box>
-          <Tooltip title="Delete" arrow TransitionComponent={Zoom}>
-            <IconButton onClick={openDialog}>
-              <DeleteIcon fontSize="small" color="error" />
-            </IconButton>
-          </Tooltip>
-          <Dialog
-            open={isOpen}
-            TransitionComponent={Transition}
-            keepMounted={false}
-            aria-describedby="alert-dialog-slide-description"
-          >
-            <DialogTitle>Are you sure you want to delete this transaction?</DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-slide-description">
-                This cannot be undone and this transaction will not appear in future
-                imports.
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={closeDialog}>Cancel</Button>
-              <Button onClick={deleteTrans}>Delete</Button>
-            </DialogActions>
-          </Dialog>
+          <DeleteConfirmationDialog onDelete={deleteTransactionHandler} />
         </Item>
       )}
     </Draggable>
