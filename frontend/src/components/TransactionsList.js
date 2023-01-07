@@ -5,26 +5,25 @@ import { useSelector } from "react-redux"
 import { styled } from "@mui/material/styles"
 import Stack from "@mui/material/Stack"
 
+const Item = styled(Stack)(({ theme }) => ({
+  margin: "20px 0 20px 0",
+  height: "70vh",
+  overflowX: "hidden",
+  minWidth: "175px",
+
+  "&::-webkit-scrollbar": {
+    width: "7px"
+  },
+  "&::-webkit-scrollbar-track": {
+    backgroundColor: "rgba(119,119,119,0.15)",
+    borderRadius: "8px"
+  },
+  "&::-webkit-scrollbar-thumb": {
+    backgroundColor: "rgba(119,119,119,.7)",
+    borderRadius: "8px"
+  }
+}))
 const TransactionsList = ({ droppableID, subcategoryID }) => {
-  const Item = styled(Stack)(({ theme }) => ({
-    margin: "20px 0 20px 0",
-    height: "70vh",
-    overflowX: "hidden",
-    minWidth: "175px",
-
-    "&::-webkit-scrollbar": {
-      width: "7px"
-    },
-    "&::-webkit-scrollbar-track": {
-      backgroundColor: "rgba(119,119,119,0.15)",
-      borderRadius: "8px"
-    },
-    "&::-webkit-scrollbar-thumb": {
-      backgroundColor: "rgba(119,119,119,.7)",
-      borderRadius: "8px"
-    }
-  }))
-
   TransactionsList.defaultProps = {
     subcategoryID: null
   }
@@ -45,7 +44,7 @@ const TransactionsList = ({ droppableID, subcategoryID }) => {
                 // this causes the draggable indexes to be non-consecutive, opening up potential unexpected bugs
                 // consider rendering all transactions but hidding the ones that do not belong.
                 <Transaction
-                  key={transaction.ID}
+                  key={Math.floor(Math.random() * 99999)}
                   transaction={transaction}
                   index={index}
                 />

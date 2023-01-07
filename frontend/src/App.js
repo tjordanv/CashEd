@@ -4,19 +4,8 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { DragDropContext } from "react-beautiful-dnd"
 
-import { Divider, IconButton, Typography } from "@mui/material"
+import { Button, Divider, IconButton, Typography } from "@mui/material"
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles"
-import AddBoxIcon from "@mui/icons-material/AddBox"
-import { Grid } from "@mui/material"
-
-import SpeedDial from "@mui/material/SpeedDial"
-import SpeedDialIcon from "@mui/material/SpeedDialIcon"
-import SpeedDialAction from "@mui/material/SpeedDialAction"
-import FileCopyIcon from "@mui/icons-material/FileCopyOutlined"
-import SaveIcon from "@mui/icons-material/Save"
-import PrintIcon from "@mui/icons-material/Print"
-import ShareIcon from "@mui/icons-material/Share"
-import DeleteIcon from "@mui/icons-material/Delete"
 
 import TransactionsList from "./components/TransactionsList"
 import TransactionCategories from "./components/TransactionCategories"
@@ -31,6 +20,7 @@ import { updateSubcategoryTotal } from "./state/subcategoriesSlice"
 import { Container, Stack } from "@mui/system"
 import { DownloadForOfflineRounded, EditRounded } from "@mui/icons-material"
 import { useState } from "react"
+import TransactionImportButtons from "./components/TransactionImportButtons"
 
 const dataSet = data
 
@@ -165,6 +155,13 @@ export default function App() {
     }
   }
 
+  async function grabData() {
+    const response = await fetch("http://localhost:8080/goal-scores/1")
+    const data = await response.json()
+
+    console.log(data)
+  }
+
   const actions = [
     {
       icon: <DownloadForOfflineRounded fontSize="small" />,
@@ -193,27 +190,7 @@ export default function App() {
             <Divider />
             <TransactionsList droppableID={"importedTransactionsList"} />
             <Divider />
-            <SpeedDial
-              ariaLabel="SpeedDial basic example"
-              sx={{
-                position: "absolute",
-                top: isTransactions ? null : "45%",
-                left: isTransactions ? null : "90px",
-                "& .MuiFab-primary": { width: 38, height: 38 }
-              }}
-              icon={<SpeedDialIcon />}
-              direction={isTransactions ? "right" : "down"}
-            >
-              {actions.map((action) => (
-                <SpeedDialAction
-                  key={action.name}
-                  icon={action.icon}
-                  tooltipTitle={action.name}
-                  onClick={action.onClick}
-                  sx={{ height: 35, width: 35 }}
-                />
-              ))}
-            </SpeedDial>
+            <TransactionImportButtons />
           </TransactionImportsContainer>
           <Container
             sx={{
@@ -246,6 +223,7 @@ export default function App() {
             </TransactionImportsContainer>
           )}
         </Stack>
+        {/* <Button onClick={grabData}>press</Button> */}
       </ThemeProvider>
     </DragDropContext>
   )
