@@ -2,64 +2,56 @@ import Tooltip from "@mui/material/Tooltip"
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
 import InfoIcon from "@mui/icons-material/Info"
+import { styled } from "@mui/material/styles"
 
-const TransactionInfoTooltip = ({ transactionInfo }) => {
+const TransactionInfoTooltip = ({ date, description, amount }) => {
+  const TooltipInfoBox = styled(Box)(({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+
+    "& .RowBox": { display: "flex", flexDirection: "row" },
+
+    "& .InfoName": { textAlign: "right", minWidth: "85px", marginRight: "10px" }
+  }))
+
   return (
     <Tooltip
       cursor="default"
       arrow
+      placement="top-end"
       title={
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
-          <Box sx={{ display: "flex", flexDirection: "row" }}>
-            <Typography
-              variant="subtitle2"
-              sx={{
-                textAlign: "right",
-                minWidth: "85px",
-                marginRight: "10px"
-              }}
-            >
+        <TooltipInfoBox>
+          <Box className="RowBox">
+            <Typography className="InfoName" variant="subtitle2">
               <u>
                 <b>Date:</b>
               </u>
             </Typography>
-            <Typography variant="subtitle2">{transactionInfo.date}</Typography>
+            <Typography variant="subtitle2">{date}</Typography>
           </Box>
-          <Box sx={{ display: "flex", flexDirection: "row" }}>
-            <Typography
-              variant="subtitle2"
-              sx={{
-                textAlign: "right",
-                minWidth: "85px",
-                marginRight: "10px"
-              }}
-            >
+          <Box className="RowBox">
+            <Typography className="InfoName" variant="subtitle2">
               <u>
                 <b>Description:</b>
               </u>
             </Typography>
-            <Typography variant="subtitle2">{transactionInfo.Description}</Typography>
+            <Typography variant="subtitle2">{description}</Typography>
           </Box>
-          <Box sx={{ display: "flex", flexDirection: "row" }}>
-            <Typography
-              variant="subtitle2"
-              sx={{
-                textAlign: "right",
-                minWidth: "85px",
-                marginRight: "10px"
-              }}
-            >
+          <Box className="RowBox">
+            <Typography className="InfoName" variant="subtitle2">
               <u>
                 <b>Amount:</b>
               </u>
             </Typography>
-            <Typography variant="subtitle2">{transactionInfo.Amount}</Typography>
+            <Typography variant="subtitle2">{amount}</Typography>
           </Box>
-        </Box>
+        </TooltipInfoBox>
       }
-      placement="top-end"
     >
-      <InfoIcon fontSize="small" sx={{ margin: "auto 0 auto 0", color: "#777777" }} />
+      <InfoIcon
+        fontSize="small"
+        sx={{ margin: "auto 0 auto 0", color: "#777777" }}
+      />
     </Tooltip>
   )
 }
