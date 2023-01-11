@@ -56,6 +56,7 @@ const Transaction = ({ transaction, index }) => {
     dispatch(deleteTransaction(index))
   }
 
+  // make this function into something that allows the user to edit the transaction on double click
   const log = () => {
     console.log(transaction)
   }
@@ -71,7 +72,7 @@ const Transaction = ({ transaction, index }) => {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          onClick={log}
+          onDoubleClick={log}
         >
           <Tooltip
             cursor="default"
@@ -138,7 +139,7 @@ const Transaction = ({ transaction, index }) => {
               align="center"
               sx={{ paddingTop: "2px", paddingBottom: "2px" }}
             >
-              {transaction.Description.slice(0, 25)}
+              {transaction.Description.slice(0, 20)}
             </TransactionText>
             <Divider variant="middle" />
             <TransactionText
