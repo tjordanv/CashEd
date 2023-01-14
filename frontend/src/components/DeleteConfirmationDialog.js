@@ -8,15 +8,10 @@ import DialogActions from "@mui/material/DialogActions"
 import Dialog from "@mui/material/Dialog"
 import Slide from "@mui/material/Slide"
 
-import Card from "@mui/material/Card"
 import Tooltip from "@mui/material/Tooltip"
-import Box from "@mui/material/Box"
 import IconButton from "@mui/material/IconButton"
-import Divider from "@mui/material/Divider"
 import Zoom from "@mui/material/Zoom"
-import Typography from "@mui/material/Typography"
 import DeleteIcon from "@mui/icons-material/Delete"
-import InfoIcon from "@mui/icons-material/Info"
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />

@@ -12,7 +12,7 @@ const Subcategory = ({ subcategory, droppable }) => {
     marginRight: "4px !important",
     marginLeft: "3px !important",
     cursor: "pointer",
-    height: "45px",
+    height: "65px",
     backgroundColor: subcategory.isSelected
       ? "rgba(255, 255, 255, 0.5)"
       : "rgba(255, 255, 255, 0.9)",
@@ -39,7 +39,7 @@ const Subcategory = ({ subcategory, droppable }) => {
             sx={{
               display: "flex",
               flexDirection: "row",
-              height: "45px",
+              height: "65px",
               width: "96%",
               alignItems: "center",
               paddingLeft: "2%",
@@ -66,7 +66,9 @@ const Subcategory = ({ subcategory, droppable }) => {
                 justifyContent: "end"
               }}
             >
-              <Typography sx={{ textAlign: "end" }}>${subcategory.Total}</Typography>
+              <Typography sx={{ textAlign: "end" }}>
+                ${subcategory.Total}
+              </Typography>
             </Box>
           </Box>
         </Item>
