@@ -34,7 +34,11 @@ const Transaction = ({ transaction, index }) => {
     borderColor: "#ffffff",
     "&:hover": { border: "1px solid red" },
 
-    "& .MuiTypography-root": { fontWeight: 300, fontSize: "14px", minWidth: "160px" }
+    "& .MuiTypography-root": {
+      fontWeight: 300,
+      fontSize: "14px",
+      minWidth: "160px"
+    }
   }))
 
   const dispatch = useDispatch()
@@ -86,7 +90,11 @@ const Transaction = ({ transaction, index }) => {
             <Typography
               variant="body2"
               align="center"
-              sx={{ fontWeight: "600", paddingTop: "2px", paddingBottom: "2px" }}
+              sx={{
+                fontWeight: "600",
+                paddingTop: "2px",
+                paddingBottom: "2px"
+              }}
             >
               {"$" + transaction.Amount}
             </Typography>
