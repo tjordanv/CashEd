@@ -11,36 +11,37 @@ import Box from "@mui/material/Box"
 import Divider from "@mui/material/Divider"
 import Typography from "@mui/material/Typography"
 
+const Item = styled(Card, {
+  shouldForwardProp: (prop) => prop !== "categoryID" && prop !== "isCredit"
+})(({ theme, categoryID, isCredit }) => ({
+  display: "flex",
+  marginRight: "3px !important",
+  backgroundColor:
+    categoryID === null && !isCredit
+      ? "rgba(119, 119, 119, 0.15)"
+      : isCredit === true
+      ? "rgba(23, 195, 178, 0.3)"
+      : categoryID === 1
+      ? "rgba(23, 195, 178, 0.3)"
+      : categoryID === 2
+      ? "rgba(34, 124, 157, 0.4)"
+      : categoryID === 3
+      ? "rgba(255, 203, 119, 0.4)"
+      : "rgba(254, 109, 115, 0.4)",
+  minWidth: "175px",
+  minHeight: "32px",
+  flexShrink: 0,
+  position: "relative",
+  borderColor: "#ffffff",
+  "&:hover": { border: "1px solid red" },
+
+  "& .MuiTypography-root": {
+    fontWeight: 300,
+    fontSize: "14px",
+    minWidth: "160px"
+  }
+}))
 const Transaction = ({ transaction, index }) => {
-  const Item = styled(Card)(({ theme }) => ({
-    display: "flex",
-    marginRight: "3px !important",
-    backgroundColor:
-      transaction.categoryID === null && !transaction.isCredit
-        ? "rgba(119, 119, 119, 0.15)"
-        : transaction.isCredit === true
-        ? "rgba(23, 195, 178, 0.3)"
-        : transaction.categoryID === 1
-        ? "rgba(23, 195, 178, 0.3)"
-        : transaction.categoryID === 2
-        ? "rgba(34, 124, 157, 0.4)"
-        : transaction.categoryID === 3
-        ? "rgba(255, 203, 119, 0.4)"
-        : "rgba(254, 109, 115, 0.4)",
-    minWidth: "175px",
-    minHeight: "32px",
-    flexShrink: 0,
-    position: "relative",
-    borderColor: "#ffffff",
-    "&:hover": { border: "1px solid red" },
-
-    "& .MuiTypography-root": {
-      fontWeight: 300,
-      fontSize: "14px",
-      minWidth: "160px"
-    }
-  }))
-
   const dispatch = useDispatch()
 
   const deleteTransactionHandler = () => {
@@ -72,6 +73,8 @@ const Transaction = ({ transaction, index }) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           onDoubleClick={log}
+          categoryID={transaction.categoryID}
+          isCredit={transaction.isCredit}
         >
           <TransactionInfoTooltip
             date={transaction.date}

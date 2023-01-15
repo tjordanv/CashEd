@@ -4,16 +4,15 @@ import Typography from "@mui/material/Typography"
 import InfoIcon from "@mui/icons-material/Info"
 import { styled } from "@mui/material/styles"
 
+const TooltipInfoBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+
+  "& .RowBox": { display: "flex", flexDirection: "row" },
+
+  "& .InfoName": { textAlign: "right", minWidth: "85px", marginRight: "10px" }
+}))
 const TransactionInfoTooltip = ({ date, description, amount }) => {
-  const TooltipInfoBox = styled(Box)(({ theme }) => ({
-    display: "flex",
-    flexDirection: "column",
-
-    "& .RowBox": { display: "flex", flexDirection: "row" },
-
-    "& .InfoName": { textAlign: "right", minWidth: "85px", marginRight: "10px" }
-  }))
-
   return (
     <Tooltip
       cursor="default"

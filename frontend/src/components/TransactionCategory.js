@@ -12,27 +12,27 @@ import AddBoxIcon from "@mui/icons-material/AddBox"
 
 import { importSubcategories } from "../state/subcategoriesSlice"
 
-const TransactionCategory = ({ category }) => {
-  const CategoryPaper = styled(Paper)(({ theme }) => ({
-    margin: "0 10px 0 10px",
-    backgroundColor:
-      category.ID === 1
-        ? "rgba(23, 195, 178, 0.45)"
-        : category.ID === 2
-        ? "rgba(34, 124, 157, 0.65)"
-        : category.ID === 3
-        ? "rgba(255, 203, 119, 0.55)"
-        : "rgba(254, 109, 115, 0.6)",
-    height: category.ID <= 2 ? "35vh" : "75vh",
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: "center",
-    position: "relative",
-    minWidth: "130px"
-  }))
+const CategoryPaper = styled(Paper, {
+  shouldForwardProp: (prop) => prop !== "ID"
+})(({ theme, ID }) => ({
+  margin: "0 10px 0 10px",
+  backgroundColor:
+    ID === 1
+      ? "rgba(23, 195, 178, 0.45)"
+      : ID === 2
+      ? "rgba(34, 124, 157, 0.65)"
+      : ID === 3
+      ? "rgba(255, 203, 119, 0.55)"
+      : "rgba(254, 109, 115, 0.6)",
+  height: ID <= 2 ? "35vh" : "75vh",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  position: "relative",
+  minWidth: "130px",
 
-  const SubcategoryList = styled(Stack)(({ theme }) => ({
-    height: category.ID <= 2 ? "20vh" : "55vh",
+  "& .SubcategoryList": {
+    height: ID <= 2 ? "20vh" : "55vh",
     overflowY: "auto",
     paddingTop: "2px",
     paddingBottom: "2px",
@@ -48,8 +48,10 @@ const TransactionCategory = ({ category }) => {
       backgroundColor: "rgba(119,119,119,.7)",
       borderRadius: "8px"
     }
-  }))
+  }
+}))
 
+const TransactionCategory = ({ category }) => {
   const dispatch = useDispatch()
 
   // the fake api call to get the subcategories
@@ -90,7 +92,7 @@ const TransactionCategory = ({ category }) => {
   }
 
   return (
-    <CategoryPaper elevation={4}>
+    <CategoryPaper elevation={4} ID={category.ID}>
       <Container sx={{ marginBottom: "2vh" }}>
         <Typography
           variant="h6"
@@ -106,7 +108,7 @@ const TransactionCategory = ({ category }) => {
         <Typography>{total}</Typography>
         <Divider variant="middle" />
       </Container>
-      <SubcategoryList spacing={2}>
+      <Stack className="SubcategoryList" spacing={2}>
         {subcategories.map(
           (subcategory) =>
             subcategory.categoryID === category.ID && (
@@ -117,7 +119,7 @@ const TransactionCategory = ({ category }) => {
               />
             )
         )}
-      </SubcategoryList>
+      </Stack>
       <IconButton
         aria-label="Import"
         onClick={logs}

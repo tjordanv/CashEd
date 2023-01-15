@@ -38,15 +38,15 @@ const theme = createTheme({
   }
 })
 
-export default function App() {
-  const TransactionImportsContainer = styled(Container)(({ theme }) => ({
-    minHeight: "93.5vh",
-    width: "300px",
-    minWidth: "150px",
-    margin: 0,
-    padding: 0
-  }))
+const TransactionImportsContainer = styled(Container)(({ theme }) => ({
+  minHeight: "93.5vh",
+  width: "300px",
+  minWidth: "150px",
+  margin: 0,
+  padding: 0
+}))
 
+export default function App() {
   const dispatch = useDispatch()
 
   const subcategories = useSelector((state) => state.subcategories.value)
@@ -55,7 +55,9 @@ export default function App() {
     //this is wrapped in a try bc there are no subcategories when the page is first loaded in. I am
     // sure there is a way (a hook) to simply run this once the initial render is finished
     try {
-      return state.subcategories.value.filter((subcategory) => subcategory.isSelected)
+      return state.subcategories.value.filter(
+        (subcategory) => subcategory.isSelected
+      )
     } catch (e) {
       return false
     }
