@@ -13,8 +13,8 @@ import Slide from "@mui/material/Slide"
 import DownloadForOfflineRounded from "@mui/icons-material/DownloadForOfflineRounded"
 import EditRounded from "@mui/icons-material/EditRounded"
 
-import AddTransactionForm from "./AddTransactionForm"
-import ImportTransactionsForm from "./ImportTransactionsForm"
+import AddTransactionForm from "./AddTransactionFormSingle"
+import ImportTransactionsForm from "./AddTransactionFormImport"
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -25,8 +25,9 @@ const TransactionImportButtons = () => {
 
   const isTransactions = useSelector(
     (state) =>
-      state.transactions.value.filter((transaction) => transaction.subcategoryID === null)
-        .length > 0
+      state.transactions.value.filter(
+        (transaction) => transaction.subcategoryID === null
+      ).length > 0
   )
   const [isOpen, setIsOpen] = useState(false)
   const [isSingleTransaction, setIsSingleTransaction] = useState(false)

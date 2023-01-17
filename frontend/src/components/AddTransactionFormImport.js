@@ -16,7 +16,7 @@ import DialogActions from "@mui/material/DialogActions"
 import { importTransactions } from "../state/transactionsSlice"
 import data from "../app/data"
 
-const ImportTransactionsForm = ({ isOpen }) => {
+const AddTransactionsForm_Import = ({ isOpen }) => {
   const [accountID, setAccountID] = useState("")
   const [date, setDate] = useState("")
 
@@ -75,4 +75,4 @@ const ImportTransactionsForm = ({ isOpen }) => {
   )
 }
 
-export default ImportTransactionsForm
+export default AddTransactionsForm_Import
