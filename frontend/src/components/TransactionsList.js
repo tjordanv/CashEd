@@ -45,6 +45,7 @@ const TransactionsList = ({ droppableID, subcategoryID }) => {
                 // this causes the draggable indexes to be non-consecutive, opening up potential unexpected bugs
                 // consider rendering all transactions but hiding the ones that do not belong.
                 <ListItem
+                  key={Math.floor(Math.random() * 99999)}
                   sx={{
                     paddingTop: 0,
                     paddingLeft: "5px",

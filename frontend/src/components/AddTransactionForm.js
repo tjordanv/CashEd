@@ -65,7 +65,11 @@ const AddTransactionForm = ({ isOpen }) => {
       })
     )
 
-    dispatch(updateSubcategoryTotal({ subcategoryID: subcategoryID, amount: amount }))
+    dispatch(
+      updateSubcategoryTotal({ subcategoryID: subcategoryID, amount: amount })
+    )
+
+    isOpen()
   }
 
   const updateCategories = (e) => {
@@ -124,7 +128,9 @@ const AddTransactionForm = ({ isOpen }) => {
               required
               label="Amount"
               InputProps={{
-                startAdornment: <InputAdornment position="start">$</InputAdornment>
+                startAdornment: (
+                  <InputAdornment position="start">$</InputAdornment>
+                )
               }}
               value={amount}
               onChange={(e) => setAmount(e.target.value)}

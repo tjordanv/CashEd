@@ -28,12 +28,14 @@ const ImportTransactionsForm = ({ isOpen }) => {
 
   const dispatch = useDispatch()
 
-  const imports = (transactions) => {
+  const imports = (event) => {
+    event.preventDefault()
     dispatch(importTransactions(data.transactions))
+    isOpen()
   }
 
   return (
-    <form onSubmit={imports} style={{ minWidth: "400px" }}>
+    <form onSubmit={(event) => imports(event)} style={{ minWidth: "400px" }}>
       <DialogContent>
         <DialogContentText id="alert-dialog-slide-description"></DialogContentText>
         <Box sx={{ padding: "15px" }}>
