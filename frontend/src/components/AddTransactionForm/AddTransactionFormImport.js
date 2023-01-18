@@ -1,10 +1,9 @@
 import { useState } from "react"
 
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 
 import Box from "@mui/material/Box"
 import TextField from "@mui/material/TextField"
-import InputAdornment from "@mui/material/InputAdornment"
 import MenuItem from "@mui/material/MenuItem"
 import Stack from "@mui/material/Stack"
 import Button from "@mui/material/Button"
@@ -13,10 +12,10 @@ import DialogContent from "@mui/material/DialogContent"
 import DialogContentText from "@mui/material/DialogContentText"
 import DialogActions from "@mui/material/DialogActions"
 
-import { importTransactions } from "../state/transactionsSlice"
-import data from "../app/data"
+import { importTransactions } from "../../state/transactionsSlice"
+import data from "../../app/data"
 
-const AddTransactionsForm_Import = ({ isOpen }) => {
+const AddTransactionsForm_Import = ({ closeDialog }) => {
   const [accountID, setAccountID] = useState("")
   const [date, setDate] = useState("")
 
@@ -31,7 +30,7 @@ const AddTransactionsForm_Import = ({ isOpen }) => {
   const imports = (event) => {
     event.preventDefault()
     dispatch(importTransactions(data.transactions))
-    isOpen()
+    closeDialog()
   }
 
   return (
@@ -68,7 +67,7 @@ const AddTransactionsForm_Import = ({ isOpen }) => {
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={isOpen}>Cancel</Button>
+        <Button onClick={closeDialog}>Cancel</Button>
         <Button type="submit">Import</Button>
       </DialogActions>
     </form>

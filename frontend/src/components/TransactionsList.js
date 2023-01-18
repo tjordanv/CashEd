@@ -1,5 +1,5 @@
 import { Droppable } from "react-beautiful-dnd"
-import Transaction from "./Transaction"
+import Transaction from "./Transaction/Transaction"
 import { useSelector } from "react-redux"
 
 import { styled } from "@mui/material/styles"

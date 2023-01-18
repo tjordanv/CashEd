@@ -1,7 +1,7 @@
 import { useEffect } from "react"
-import Subcategory from "./Subcategory"
+import Subcategory from "../Subcategory"
 import { useDispatch, useSelector } from "react-redux"
-import data from "../app/data"
+import data from "../../app/data"
 
 import Paper from "@mui/material/Paper"
 import { styled } from "@mui/material/styles"
@@ -10,7 +10,7 @@ import { Divider, IconButton, Typography } from "@mui/material"
 import Container from "@mui/material/Container"
 import AddBoxIcon from "@mui/icons-material/AddBox"
 
-import { importSubcategories } from "../state/subcategoriesSlice"
+import { importSubcategories } from "../../state/subcategoriesSlice"
 
 const CategoryPaper = styled(Paper, {
   shouldForwardProp: (prop) => prop !== "ID"

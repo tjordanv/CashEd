@@ -1,8 +1,8 @@
 import { Draggable } from "react-beautiful-dnd"
 import { useDispatch } from "react-redux"
 import { styled } from "@mui/material/styles"
-import { deleteTransaction } from "../state/transactionsSlice"
-import { updateSubcategoryTotal } from "../state/subcategoriesSlice"
+import { deleteTransaction } from "../../state/transactionsSlice"
+import { updateSubcategoryTotal } from "../../state/subcategoriesSlice"
 import DeleteConfirmationDialog from "./DeleteConfirmationDialog"
 import TransactionInfoTooltip from "./TransactionInfoTooltip"
 
