@@ -1,4 +1,5 @@
 import { styled } from "@mui/material/styles"
+import { NavLink } from "react-router-dom"
 
 import Box from "@mui/material/Box"
 import Stack from "@mui/material/Stack"
@@ -10,7 +11,7 @@ const HeaderContainer = styled(Box)(({ theme }) => ({
   borderBottom: "2px solid rgba(119, 119, 119, 0.2)"
 }))
 
-const NavLink = styled(Link)(({ theme }) => ({
+const NavLinks = styled(Link)(({ theme }) => ({
   cursor: "pointer",
   color: "#454545",
   fontWeight: 350,
@@ -27,10 +28,10 @@ const Header = () => {
         spacing={6}
         divider={<Divider orientation="vertical" flexItem />}
       >
-        <NavLink href="#" underline="hover">
+        <NavLink to="/" underline="hover">
           Dashboard
         </NavLink>
-        <NavLink href="#" underline="hover">
+        <NavLink to="TransactionImport" underline="hover">
           Budget
         </NavLink>
         <NavLink href="#" underline="hover">
