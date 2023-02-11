@@ -5,19 +5,19 @@ import Stack from "@mui/material/Stack"
 import Link from "@mui/material/Link"
 import Divider from "@mui/material/Divider"
 
+const HeaderContainer = styled(Box)(({ theme }) => ({
+  height: "6vh",
+  borderBottom: "2px solid rgba(119, 119, 119, 0.2)"
+}))
+
+const NavLink = styled(Link)(({ theme }) => ({
+  cursor: "pointer",
+  color: "#454545",
+  fontWeight: 350,
+  fontSize: "16px"
+}))
+
 const Header = () => {
-  const HeaderContainer = styled(Box)(({ theme }) => ({
-    height: "6vh",
-    borderBottom: "2px solid rgba(119, 119, 119, 0.2)"
-  }))
-
-  const NavLink = styled(Link)(({ theme }) => ({
-    cursor: "pointer",
-    color: "#454545",
-    fontWeight: 350,
-    fontSize: "16px"
-  }))
-
   return (
     <HeaderContainer>
       <Stack

@@ -7,18 +7,19 @@ import Paper from "@mui/material/Paper"
 import Typography from "@mui/material/Typography"
 import Box from "@mui/material/Box"
 
+const Item = styled(Paper, {
+  shouldForwardProp: (prop) => prop !== "isSelected"
+})(({ theme, isSelected }) => ({
+  marginRight: "4px !important",
+  marginLeft: "3px !important",
+  cursor: "pointer",
+  height: "65px",
+  backgroundColor: isSelected
+    ? "rgba(255, 255, 255, 0.5)"
+    : "rgba(255, 255, 255, 0.9)",
+  flexShrink: 0
+}))
 const Subcategory = ({ subcategory, droppable }) => {
-  const Item = styled(Paper)(({ theme }) => ({
-    marginRight: "4px !important",
-    marginLeft: "3px !important",
-    cursor: "pointer",
-    height: "65px",
-    backgroundColor: subcategory.isSelected
-      ? "rgba(255, 255, 255, 0.5)"
-      : "rgba(255, 255, 255, 0.9)",
-    flexShrink: 0
-  }))
-
   const dispatch = useDispatch()
 
   const select = () => {
@@ -34,6 +35,7 @@ const Subcategory = ({ subcategory, droppable }) => {
           ref={provided.innerRef}
           {...provided.droppableProps}
           onClick={select}
+          isSelected={subcategory.isSelected}
         >
           <Box
             sx={{

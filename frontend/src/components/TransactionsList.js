@@ -1,9 +1,8 @@
 import { Droppable } from "react-beautiful-dnd"
-import Transaction from "./Transaction"
+import Transaction from "./Transaction/Transaction"
 import { useSelector } from "react-redux"
 
 import { styled } from "@mui/material/styles"
-import Stack from "@mui/material/Stack"
 import List from "@mui/material/List"
 import ListItem from "@mui/material/ListItem"
 
@@ -39,14 +38,20 @@ const TransactionsList = ({ droppableID, subcategoryID }) => {
   return (
     <Droppable droppableId={droppableID}>
       {(provided, snapshot) => (
-        // <Item spacing={2} ref={provided.innerRef} {...provided.droppableProps}>
         <Item ref={provided.innerRef} {...provided.droppableProps}>
           {transactions.map(
             (transaction, index) =>
               transaction.subcategoryID === subcategoryID && (
                 // this causes the draggable indexes to be non-consecutive, opening up potential unexpected bugs
                 // consider rendering all transactions but hiding the ones that do not belong.
-                <ListItem sx={{ paddingTop: 0, paddingLeft: "5px", paddingRight: "5px" }}>
+                <ListItem
+                  key={Math.floor(Math.random() * 99999)}
+                  sx={{
+                    paddingTop: 0,
+                    paddingLeft: "5px",
+                    paddingRight: "5px"
+                  }}
+                >
                   <Transaction
                     key={Math.floor(Math.random() * 99999)}
                     transaction={transaction}
@@ -57,7 +62,6 @@ const TransactionsList = ({ droppableID, subcategoryID }) => {
           )}
           {provided.placeholder}
         </Item>
-        // </Item>
       )}
     </Droppable>
   )

@@ -8,7 +8,7 @@ import { Button, Divider, IconButton, Typography } from "@mui/material"
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles"
 
 import TransactionsList from "./components/TransactionsList"
-import TransactionCategories from "./components/TransactionCategories"
+import TransactionCategories from "./components/TransactionCategory/TransactionCategories"
 import Header from "./components/Header"
 
 import {
@@ -20,7 +20,8 @@ import { updateSubcategoryTotal } from "./state/subcategoriesSlice"
 import { Container, Stack } from "@mui/system"
 import { DownloadForOfflineRounded, EditRounded } from "@mui/icons-material"
 import { useState } from "react"
-import TransactionImportButtons from "./components/TransactionImportButtons"
+import AddTransactionMenuButtons from "./components/AddTransactionForm/AddTransactionMenuButtons"
+import AddTransactionContainer from "./components/AddTransactionForm/AddTransactionContainer"
 
 const dataSet = data
 
@@ -38,15 +39,15 @@ const theme = createTheme({
   }
 })
 
-export default function App() {
-  const TransactionImportsContainer = styled(Container)(({ theme }) => ({
-    minHeight: "93.5vh",
-    width: "300px",
-    minWidth: "150px",
-    margin: 0,
-    padding: 0
-  }))
+const TransactionImportsContainer = styled(Container)(({ theme }) => ({
+  minHeight: "93.5vh",
+  width: "300px",
+  minWidth: "150px",
+  margin: 0,
+  padding: 0
+}))
 
+export default function App() {
   const dispatch = useDispatch()
 
   const subcategories = useSelector((state) => state.subcategories.value)
@@ -55,7 +56,9 @@ export default function App() {
     //this is wrapped in a try bc there are no subcategories when the page is first loaded in. I am
     // sure there is a way (a hook) to simply run this once the initial render is finished
     try {
-      return state.subcategories.value.filter((subcategory) => subcategory.isSelected)
+      return state.subcategories.value.filter(
+        (subcategory) => subcategory.isSelected
+      )
     } catch (e) {
       return false
     }
@@ -190,7 +193,7 @@ export default function App() {
             <Divider />
             <TransactionsList droppableID={"importedTransactionsList"} />
             <Divider />
-            <TransactionImportButtons />
+            <AddTransactionContainer />
           </TransactionImportsContainer>
           <Container
             sx={{

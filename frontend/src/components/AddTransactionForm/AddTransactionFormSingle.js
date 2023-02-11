@@ -15,8 +15,8 @@ import DialogActions from "@mui/material/DialogActions"
 
 import { styled } from "@mui/material/styles"
 
-import { createSingleTransaction } from "../state/transactionsSlice"
-import { updateSubcategoryTotal } from "../state/subcategoriesSlice"
+import { createSingleTransaction } from "../../state/transactionsSlice"
+import { updateSubcategoryTotal } from "../../state/subcategoriesSlice"
 
 const Item = styled(TextField)(({ theme }) => ({
   "&::-webkit-scrollbar": {
@@ -32,7 +32,7 @@ const Item = styled(TextField)(({ theme }) => ({
   }
 }))
 
-const AddTransactionForm = ({ isOpen }) => {
+const AddTransactionForm_Single = ({ closeDialog }) => {
   const [accountID, setAccountID] = useState("")
   const [description, setDescription] = useState("")
   const [date, setDate] = useState("")
@@ -65,7 +65,11 @@ const AddTransactionForm = ({ isOpen }) => {
       })
     )
 
-    dispatch(updateSubcategoryTotal({ subcategoryID: subcategoryID, amount: amount }))
+    dispatch(
+      updateSubcategoryTotal({ subcategoryID: subcategoryID, amount: amount })
+    )
+
+    closeDialog()
   }
 
   const updateCategories = (e) => {
@@ -124,7 +128,9 @@ const AddTransactionForm = ({ isOpen }) => {
               required
               label="Amount"
               InputProps={{
-                startAdornment: <InputAdornment position="start">$</InputAdornment>
+                startAdornment: (
+                  <InputAdornment position="start">$</InputAdornment>
+                )
               }}
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
@@ -146,11 +152,11 @@ const AddTransactionForm = ({ isOpen }) => {
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={isOpen}>Cancel</Button>
+        <Button onClick={closeDialog}>Cancel</Button>
         <Button type="submit">Create</Button>
       </DialogActions>
     </form>
   )
 }
 
-export default AddTransactionForm
+export default AddTransactionForm_Single
