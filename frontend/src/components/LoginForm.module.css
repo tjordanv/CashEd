@@ -1,0 +1,14 @@
+.container {
+  box-shadow: 1px 3px 4px 2px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  width: 40%;
+  padding: 15px;
+}
+
+.inputField {
+  /* width: 80%; */
+}
+
+.button {
+  width: 50%;
+}

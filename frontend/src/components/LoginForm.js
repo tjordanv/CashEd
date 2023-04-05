@@ -2,12 +2,21 @@ import { useState } from "react"
 
 import { useNavigate } from "react-router-dom"
 
+import Card from "@mui/material/Card"
 import Box from "@mui/material/Box"
 import Stack from "@mui/material/Stack"
 import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import Switch from "@mui/material/Switch"
+
+import { styled } from "@mui/material/styles"
+
+import classes from "./LoginForm.module.css"
+
+const LoginFormCard = styled(Card)(({ theme }) => ({
+  width: "20%"
+}))
 
 const LoginForm = () => {
   const [username, setUsername] = useState("")
@@ -20,13 +29,13 @@ const LoginForm = () => {
     e.preventDefault()
     console.log("signed in")
     if (username === dummyData.username && password === dummyData.password) {
-      navigate("/Dashboard")
+      navigate("/")
     }
   }
 
   return (
     <form onSubmit={signInHandler}>
-      <Box>
+      <Box className={classes.container}>
         <Stack spacing={1}>
           <TextField
             variant="outlined"
@@ -34,6 +43,7 @@ const LoginForm = () => {
             required
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            className={classes.inputField}
           />
           <TextField
             variant="outlined"
@@ -42,8 +52,9 @@ const LoginForm = () => {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className={classes.inputField}
           />
-          <Button type="submit" variant="contained">
+          <Button type="submit" variant="contained" className={classes.button}>
             Log in
           </Button>
           <FormControlLabel control={<Switch />} label="Remember Me" />

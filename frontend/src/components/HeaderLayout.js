@@ -6,6 +6,8 @@ import Stack from "@mui/material/Stack"
 import Link from "@mui/material/Link"
 import Divider from "@mui/material/Divider"
 
+import classes from "./HeaderLayout.module.css"
+
 const HeaderContainer = styled(Box)(({ theme }) => ({
   height: "6vh",
   borderBottom: "2px solid rgba(119, 119, 119, 0.2)"
@@ -22,25 +24,47 @@ const Header = () => {
   return (
     <HeaderContainer>
       <Stack
+        className={classes.list}
         justifyContent="center"
         alignItems="center"
         direction="row"
         spacing={6}
         divider={<Divider orientation="vertical" flexItem />}
       >
-        <NavLink to="/" underline="hover">
+        <NavLink
+          to="/"
+          className={({ isActive }) => (isActive ? classes.active : undefined)}
+        >
           Dashboard
         </NavLink>
-        <NavLink to="TransactionImport" underline="hover">
+        <NavLink
+          to="TransactionImport"
+          className={({ isActive }) => (isActive ? classes.active : undefined)}
+        >
+          Transaction Import
+        </NavLink>
+        <NavLink
+          to="nothing"
+          className={({ isActive }) => (isActive ? classes.active : undefined)}
+        >
           Budget
         </NavLink>
-        <NavLink href="#" underline="hover">
+        <NavLink
+          to="filler"
+          className={({ isActive }) => (isActive ? classes.active : undefined)}
+        >
           Accounts
         </NavLink>
-        <NavLink href="#" underline="hover">
+        <NavLink
+          to="more filler"
+          className={({ isActive }) => (isActive ? classes.active : undefined)}
+        >
           About Us
         </NavLink>
-        <NavLink href="#" underline="hover">
+        <NavLink
+          to="last"
+          className={({ isActive }) => (isActive ? classes.active : undefined)}
+        >
           Contact Us
         </NavLink>
       </Stack>
