@@ -126,13 +126,6 @@ const TransactionImport = () => {
     }
   }
 
-  async function grabData() {
-    const response = await fetch("http://localhost:8080/goal-scores/1")
-    const data = await response.json()
-
-    console.log(data)
-  }
-
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Stack direction="row" spacing={0}>
