@@ -13,7 +13,7 @@ public class TestDao {
 
    public TestModel getData() {
        TestModel model = new TestModel();
-       String sql = "select city, price_range_lower from plans limit 1";
+       String sql = "select names, nums from test limit 1";
        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
 
        if(results.next()) {
@@ -25,8 +25,8 @@ public class TestDao {
     private TestModel mapResultToModel(SqlRowSet result) {
         TestModel model = new TestModel();
 
-        model.setCity(result.getString("city"));
-        model.setMinimumPrice(result.getInt("price_range_lower"));
+        model.setName(result.getString("names"));
+        model.setNum(result.getInt("nums"));
 
         return model;
     }

@@ -1,31 +1,31 @@
 package com.tjv.FinApp.model;
 
 public class TestModel {
-    private String city;
-    private int minimumPrice;
+    private String name;
+    private int num;
 
     public TestModel() {
 
     }
 
-    public TestModel(String city, int minimumPrice) {
-        this.city = city;
-        this.minimumPrice = minimumPrice;
+    public TestModel(String name, int num) {
+        this.name = name;
+        this.num = num;
     }
 
-    public String getCity() {
-        return city;
+    public String getName() {
+        return name;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getMinimumPrice() {
-        return minimumPrice;
+    public int getNum() {
+        return num;
     }
 
-    public void setMinimumPrice(int minimumPrice) {
-        this.minimumPrice = minimumPrice;
+    public void setNum(int num) {
+        this.num = num;
     }
 }

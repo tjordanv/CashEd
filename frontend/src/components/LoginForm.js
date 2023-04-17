@@ -25,15 +25,8 @@ const LoginForm = () => {
     }
   }
 
-  async function grabData() {
-    const response = await fetch("http://localhost:8080/model")
-    const data = await response.json()
-
-    console.log(data)
-  }
-
   return (
-    <form onSubmit={signInHandler}>
+    <form onSubmit={signInHandler} method="post">
       <Box className={classes.container}>
         <Stack spacing={1}>
           <TextField
@@ -49,7 +42,7 @@ const LoginForm = () => {
             variant="outlined"
             label="Password"
             type="password"
-            name="username"
+            name="password"
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -57,13 +50,6 @@ const LoginForm = () => {
           />
           <Button type="submit" variant="contained" className={classes.button}>
             Log in
-          </Button>
-          <Button
-            onClick={grabData}
-            variant="contained"
-            className={classes.button}
-          >
-            fetch
           </Button>
           <FormControlLabel control={<Switch />} label="Remember Me" />
           {/* use a router Link or NavLink for "Create Account" */}

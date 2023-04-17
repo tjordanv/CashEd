@@ -4,6 +4,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles"
 import Login from "./pages/Login"
 import TransactionImport from "./pages/TransactionImport"
 import Header from "./pages/Header"
+import DashboardTest, { loader } from "./components/DashboardTest"
 
 const theme = createTheme({
   palette: {
@@ -26,12 +27,14 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <p>Dashboard</p>
+        element: <DashboardTest />,
+        loader: loader
       },
       { path: "TransactionImport", element: <TransactionImport /> }
     ]
   },
-  { path: "/login", element: <Login /> }
+  { path: "/login", element: <Login /> },
+  { path: "/logout", element: <p>logout</p> }
 ])
 
 export default function App() {

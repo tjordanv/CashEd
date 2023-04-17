@@ -22,8 +22,17 @@ public class TestController {
         return model;
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponse> testLogin(){
+    @GetMapping("/login")
+    public void testLogin(){
         System.out.println("login");
+
+        TestModel model = testDao.getData();
+        //return model;
     }
+
+//    @PostMapping("/logout")
+//    public void logout(){
+//
+//
+//    }
 }
