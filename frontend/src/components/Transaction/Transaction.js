@@ -57,7 +57,7 @@ const Transaction = ({ transaction, index }) => {
     </Tooltip>
   )
 
-  const dialogDetails = {
+  const confirmationDialogDetails = {
     title: "Are you sure you want to delete this transaction?",
     description:
       "This cannot be undone and this transaction will not appear in future imports.",
@@ -124,7 +124,7 @@ const Transaction = ({ transaction, index }) => {
           </Box>
 
           <ConfirmationDialog
-            details={dialogDetails}
+            details={confirmationDialogDetails}
             onConfirm={deleteTransactionHandler}
             Component={comp}
           />

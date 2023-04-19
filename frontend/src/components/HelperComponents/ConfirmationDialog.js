@@ -12,7 +12,12 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
 
-const ConfirmationDialog = ({ details, onConfirm, Component }) => {
+const ConfirmationDialog = ({
+  details,
+  onConfirm,
+  Component,
+  componentDetails
+}) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const openDialogHandler = () => {
@@ -42,7 +47,7 @@ const ConfirmationDialog = ({ details, onConfirm, Component }) => {
           <Button onClick={onConfirm}>{details.confirmationLabel}</Button>
         </DialogActions>
       </Dialog>
-      <Component func={openDialogHandler} />
+      <Component func={openDialogHandler} obj={componentDetails} />
     </>
   )
 }

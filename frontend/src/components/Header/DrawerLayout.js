@@ -15,9 +15,17 @@ import MenuIcon from "@mui/icons-material/Menu"
 import { Fragment, useState } from "react"
 import { IconButton } from "@mui/material"
 import { useNavigate } from "react-router-dom"
+import ConfirmationDialog from "../HelperComponents/ConfirmationDialog"
 
 const DrawerLayout = () => {
   const [isOpen, setIsOpen] = useState(false)
+
+  const confirmationDialogDetails = {
+    title: "Are you sure you want to delete this transaction?",
+    description:
+      "This cannot be undone and this transaction will not appear in future imports.",
+    confirmationLabel: "Delete"
+  }
 
   const toggleDrawer = (isOpen) => (event) => {
     if (
@@ -36,6 +44,15 @@ const DrawerLayout = () => {
     navigate("/login")
   }
 
+  const comp = ({ obj, func }) => (
+    <ListItemButton onClick={func}>
+      <ListItemIcon>
+        <obj.icon />
+      </ListItemIcon>
+      <ListItemText primary={obj.text} />
+    </ListItemButton>
+  )
+
   const list = () => (
     <Box
       sx={{ width: 250 }}
@@ -51,12 +68,12 @@ const DrawerLayout = () => {
           { text: "Logout", icon: LogoutIcon, eventHandler: logoutHandler }
         ].map((obj) => (
           <ListItem key={obj.text} disablePadding>
-            <ListItemButton onClick={obj.eventHandler}>
-              <ListItemIcon>
-                <obj.icon />
-              </ListItemIcon>
-              <ListItemText primary={obj.text} />
-            </ListItemButton>
+            <ConfirmationDialog
+              Component={comp}
+              componentDetails={obj}
+              details={confirmationDialogDetails}
+              onConfirm={obj.eventHandler}
+            />
           </ListItem>
         ))}
       </List>
