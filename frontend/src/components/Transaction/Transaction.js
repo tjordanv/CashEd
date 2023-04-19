@@ -102,6 +102,7 @@ const Transaction = ({ transaction, index }) => {
               {"$" + transaction.Amount}
             </Typography>
           </Box>
+
           <DeleteConfirmationDialog onDelete={deleteTransactionHandler} />
         </Item>
       )}

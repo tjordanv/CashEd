@@ -7,6 +7,7 @@ import Link from "@mui/material/Link"
 import Divider from "@mui/material/Divider"
 
 import classes from "./HeaderLayout.module.css"
+import DrawerLayout from "./DrawerLayout"
 
 const HeaderContainer = styled(Box)(({ theme }) => ({
   height: "6vh",
@@ -67,6 +68,7 @@ const Header = () => {
         >
           Contact Us
         </NavLink>
+        <DrawerLayout />
       </Stack>
     </HeaderContainer>
   )

@@ -19,7 +19,7 @@ const LoginForm = () => {
   const dummyData = { username: "username", password: "password" }
   const navigate = useNavigate()
 
-  const signInHandler = async (e) => {
+  const logInHandler = async (e) => {
     e.preventDefault()
     try {
       let response = await fetch("http://localhost:8080/auth/login", {
@@ -67,7 +67,7 @@ const LoginForm = () => {
   }
 
   return (
-    <form onSubmit={signInHandler}>
+    <form onSubmit={logInHandler}>
       <Box className={classes.container}>
         <Stack spacing={1}>
           <TextField

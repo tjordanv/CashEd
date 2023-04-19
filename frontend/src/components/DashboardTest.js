@@ -1,9 +1,10 @@
 import { redirect, useLoaderData, useNavigate } from "react-router-dom"
 
 import Button from "@mui/material/Button"
+import fetcher from "../wrappers/fetchAuthorize"
 
 async function grabData() {
-  const response = await fetch("http://localhost:8080/model")
+  const response = await fetcher("http://localhost:8080/model", {})
   try {
     const data = await response.json()
 

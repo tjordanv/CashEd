@@ -12,7 +12,7 @@ const TransactionCategories = () => {
         </Grid>
         <Grid sx={{ height: "40vh" }} xs={4}>
           <TransactionCategory
-            category={{ name: "Savings & Investments", ID: 3 }}
+            category={{ name: "Variable Expenditures", ID: 3 }}
           />
         </Grid>
         <Grid sx={{ height: "40vh" }} xs={4}>
