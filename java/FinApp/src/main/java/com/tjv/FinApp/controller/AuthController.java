@@ -18,6 +18,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RestController
 @CrossOrigin
 public class AuthController {
@@ -32,6 +34,18 @@ public class AuthController {
         this.tokenGenerator = tokenGenerator;
     }
 
+    @CrossOrigin
+    @GetMapping("/test")
+    @ResponseStatus(HttpStatus.OK)
+    public void Tester(Principal principal) {
+        System.out.println("test");
+        try {
+            System.out.println(principal.getName());
+        } catch (Exception e) {
+            System.out.println("no principal");
+        }
+    }
+
     @PostMapping("/auth/login")
     public ResponseEntity<AuthResponseDTO> login(@Valid @RequestBody LoginDTO loginDTO) {
         Authentication authentication = authenticationManager.authenticate(
@@ -39,7 +53,10 @@ public class AuthController {
                         loginDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = tokenGenerator.generateToken(authentication);
-        return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
+
+        User user = userDao.findByUsername(loginDTO.getUsername());
+
+        return new ResponseEntity<>(new AuthResponseDTO(token, user), HttpStatus.OK);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
