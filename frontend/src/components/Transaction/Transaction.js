@@ -3,13 +3,18 @@ import { useDispatch } from "react-redux"
 import { styled } from "@mui/material/styles"
 import { deleteTransaction } from "../../state/transactionsSlice"
 import { updateSubcategoryTotal } from "../../state/subcategoriesSlice"
-import DeleteConfirmationDialog from "./DeleteConfirmationDialog"
+import ConfirmationDialog from "../HelperComponents/ConfirmationDialog"
 import TransactionInfoTooltip from "./TransactionInfoTooltip"
 
 import Card from "@mui/material/Card"
 import Box from "@mui/material/Box"
 import Divider from "@mui/material/Divider"
 import Typography from "@mui/material/Typography"
+
+import Tooltip from "@mui/material/Tooltip"
+import IconButton from "@mui/material/IconButton"
+import Zoom from "@mui/material/Zoom"
+import DeleteIcon from "@mui/icons-material/Delete"
 
 const Item = styled(Card, {
   shouldForwardProp: (prop) => prop !== "categoryID" && prop !== "isCredit"
@@ -43,6 +48,21 @@ const Item = styled(Card, {
 }))
 const Transaction = ({ transaction, index }) => {
   const dispatch = useDispatch()
+
+  const comp = ({ func }) => (
+    <Tooltip title="Delete" arrow TransitionComponent={Zoom}>
+      <IconButton sx={{ padding: "auto" }} onClick={func}>
+        <DeleteIcon fontSize="small" color="error" />
+      </IconButton>
+    </Tooltip>
+  )
+
+  const dialogDetails = {
+    title: "Are you sure you want to delete this transaction?",
+    description:
+      "This cannot be undone and this transaction will not appear in future imports.",
+    confirmationLabel: "Delete"
+  }
 
   const deleteTransactionHandler = () => {
     if (transaction.subcategoryID) {
@@ -103,7 +123,11 @@ const Transaction = ({ transaction, index }) => {
             </Typography>
           </Box>
 
-          <DeleteConfirmationDialog onDelete={deleteTransactionHandler} />
+          <ConfirmationDialog
+            details={dialogDetails}
+            onConfirm={deleteTransactionHandler}
+            Component={comp}
+          />
         </Item>
       )}
     </Draggable>
