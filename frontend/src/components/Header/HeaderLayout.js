@@ -23,6 +23,7 @@ const NavLinks = styled(Link)(({ theme }) => ({
 
 const Header = () => {
   return (
+    // add confirmation functionality to prevent users from navigating without saving changes first
     <HeaderContainer>
       <Stack
         className={classes.list}

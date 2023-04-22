@@ -13,7 +13,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 })
 
 const ConfirmationDialog = ({
-  details,
+  dialogDetails,
   onConfirm,
   Component,
   componentDetails
@@ -36,15 +36,17 @@ const ConfirmationDialog = ({
         keepMounted={false}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{details.title}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            {details.description}
-          </DialogContentText>
-        </DialogContent>
+        <DialogTitle>{dialogDetails.title}</DialogTitle>
+        {dialogDetails.description && (
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              {dialogDetails.description}
+            </DialogContentText>
+          </DialogContent>
+        )}
         <DialogActions>
           <Button onClick={closeDialogHandler}>Cancel</Button>
-          <Button onClick={onConfirm}>{details.confirmationLabel}</Button>
+          <Button onClick={onConfirm}>{dialogDetails.confirmationLabel}</Button>
         </DialogActions>
       </Dialog>
       <Component func={openDialogHandler} obj={componentDetails} />

@@ -1,6 +1,5 @@
 import Box from "@mui/material/Box"
 import Drawer from "@mui/material/Drawer"
-import Button from "@mui/material/Button"
 import List from "@mui/material/List"
 import Divider from "@mui/material/Divider"
 import ListItem from "@mui/material/ListItem"
@@ -14,18 +13,14 @@ import LogoutIcon from "@mui/icons-material/Logout"
 import MenuIcon from "@mui/icons-material/Menu"
 import { Fragment, useState } from "react"
 import { IconButton } from "@mui/material"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import ConfirmationDialog from "../HelperComponents/ConfirmationDialog"
 
 const DrawerLayout = () => {
   const [isOpen, setIsOpen] = useState(false)
 
-  const confirmationDialogDetails = {
-    title: "Are you sure you want to delete this transaction?",
-    description:
-      "This cannot be undone and this transaction will not appear in future imports.",
-    confirmationLabel: "Delete"
-  }
+  const navigate = useNavigate()
+  const location = useLocation().pathname
 
   const toggleDrawer = (isOpen) => (event) => {
     if (
@@ -37,14 +32,13 @@ const DrawerLayout = () => {
     setIsOpen(isOpen)
   }
 
-  const navigate = useNavigate()
+  const navigationHandler = (pathname) => {
+    if (pathname === "/login") localStorage.removeItem("jwt")
 
-  const logoutHandler = () => {
-    localStorage.removeItem("jwt")
-    navigate("/login")
+    if (pathname !== location) navigate(pathname)
   }
 
-  const comp = ({ obj, func }) => (
+  const Comp = ({ obj, func }) => (
     <ListItemButton onClick={func}>
       <ListItemIcon>
         <obj.icon />
@@ -53,27 +47,56 @@ const DrawerLayout = () => {
     </ListItemButton>
   )
 
+  const confirmationDialogDetails = (obj) => {
+    return {
+      title:
+        obj.text === "Logout"
+          ? "Are you sure you want to logout?"
+          : "Are you sure you want to leave this page?",
+      description:
+        location === "/" ? undefined : "All unsaved progress will be lost",
+      confirmationLabel: obj.text === "Logout" ? "Logout" : "OK"
+    }
+  }
+
+  const drawerList = [
+    {
+      text: "Profile",
+      pathname: "/profile",
+      icon: AccountCircleIcon
+    },
+    {
+      text: "Notifications",
+      pathname: "/notifications",
+      icon: MailIcon
+    },
+    {
+      text: "Settings",
+      pathname: "/settings",
+      icon: SettingsIcon
+    },
+    {
+      text: "Logout",
+      pathname: "/login",
+      icon: LogoutIcon
+    }
+  ]
+
   const list = () => (
-    <Box
-      sx={{ width: 250 }}
-      role="presentation"
-      onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}
-    >
+    <Box sx={{ width: 250 }} role="presentation">
       <List>
-        {[
-          { text: "Profile", icon: AccountCircleIcon, eventHandler: null },
-          { text: "Notifications", icon: MailIcon, eventHandler: null },
-          { text: "Settings", icon: SettingsIcon, eventHandler: null },
-          { text: "Logout", icon: LogoutIcon, eventHandler: logoutHandler }
-        ].map((obj) => (
+        {drawerList.map((obj) => (
           <ListItem key={obj.text} disablePadding>
-            <ConfirmationDialog
-              Component={comp}
-              componentDetails={obj}
-              details={confirmationDialogDetails}
-              onConfirm={obj.eventHandler}
-            />
+            {location !== "/" || obj.text === "Logout" ? (
+              <ConfirmationDialog
+                Component={Comp}
+                componentDetails={obj}
+                dialogDetails={confirmationDialogDetails(obj)}
+                onConfirm={() => navigationHandler(obj.pathname)}
+              />
+            ) : (
+              <Comp obj={obj} func={() => navigationHandler(obj.pathname)} />
+            )}
           </ListItem>
         ))}
       </List>

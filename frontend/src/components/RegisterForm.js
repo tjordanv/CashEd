@@ -12,7 +12,7 @@ import Switch from "@mui/material/Switch"
 import classes from "./LoginForm.module.css"
 import { Typography } from "@mui/material"
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [message, setMessage] = useState("")
@@ -72,17 +72,15 @@ const LoginForm = () => {
           />
           {message && <Typography>User not found</Typography>}
           <Button type="submit" variant="contained" className={classes.button}>
-            Log in
+            Create Account
           </Button>
-          <FormControlLabel control={<Switch />} label="Remember Me" />
           <label>
-            Need an account? <NavLink to="/register">Create Account</NavLink>
+            Already have an account? <NavLink to="/login">Log In</NavLink>
           </label>
-          {/* use a router Link or NavLink for "Create Account" */}
         </Stack>
       </Box>
     </form>
   )
 }
 
-export default LoginForm
+export default RegisterForm

@@ -124,7 +124,7 @@ const Transaction = ({ transaction, index }) => {
           </Box>
 
           <ConfirmationDialog
-            details={confirmationDialogDetails}
+            dialogDetails={confirmationDialogDetails}
             onConfirm={deleteTransactionHandler}
             Component={comp}
           />

@@ -25,20 +25,25 @@ export async function loader() {
   return null
 }
 
+async function test() {
+  const response = await fetcher("http://localhost:8080/test", {})
+  if (response.status === 200) {
+    console.log("Authorized")
+  } else {
+    console.log("Unauthorized")
+  }
+}
+
 const DashboardTest = () => {
   const loaderData = useLoaderData()
 
   const navigate = useNavigate()
 
-  const logoutHandler = () => {
-    fetch("http://localhost:8080/logout", { method: "POST", mode: "cors" })
-    //navigate("/logout")
-  }
   return (
     <>
       <p>Dashboard</p>
-      <Button onClick={logoutHandler} variant="contained">
-        Logout
+      <Button variant="contained" onClick={test}>
+        test auth
       </Button>
     </>
   )
