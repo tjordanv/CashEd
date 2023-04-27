@@ -59,7 +59,7 @@ public class AuthController {
             User user = userDao.findByUsername(loginDTO.getUsername());
 
             return new ResponseEntity<>(new AuthResponseDTO(token, user), HttpStatus.OK);
-            
+
         } catch (BadCredentialsException e) {
             return null;
         }
