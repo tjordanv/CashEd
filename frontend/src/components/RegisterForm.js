@@ -36,6 +36,9 @@ const RegisterForm = () => {
           role: "USER"
         })
       })
+      // if (!response.ok) {
+      //   throw new Error(response)
+      // }
       if (response.status === 201) {
         try {
           let response = await fetch("http://localhost:8080/auth/login", {

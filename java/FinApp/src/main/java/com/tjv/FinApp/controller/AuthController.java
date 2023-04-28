@@ -18,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 
@@ -70,10 +71,17 @@ public class AuthController {
     public void register(@Valid @RequestBody RegisterDTO newUser) {
         try {
             User user = userDao.findByUsername(newUser.getUsername());
-            throw new UserAlreadyExistsException();
+            throw new UserAlreadyExistsException("Username taken.");
         } catch (UsernameNotFoundException e) {
             userDao.create(newUser.getUsername(),newUser.getEmail(),newUser.getPassword(), newUser.getRole());
         }
+    }
+
+    // This exception handler is handling when the UserAlreadyExistsException is thrown. Otherwise, the exceptionHandling method
+    // called in the SecurityFilterChain inside the WebSecurityConfig file handles it with the default AuthenticationException
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<?> handleUserAlreadyExistsException(UserAlreadyExistsException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
     static class LoginResponse {
