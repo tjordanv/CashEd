@@ -45,6 +45,7 @@ public class WebSecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
+                // requestMatchers.permitAll() allows those endpoints to be hit without auth
                 .requestMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

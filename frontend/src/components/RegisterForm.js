@@ -36,9 +36,9 @@ const RegisterForm = () => {
           role: "USER"
         })
       })
-      // if (!response.ok) {
-      //   throw new Error(response)
-      // }
+      if (!response.ok) {
+        throw new Error("User Taken")
+      }
       if (response.status === 201) {
         try {
           let response = await fetch("http://localhost:8080/auth/login", {
@@ -68,7 +68,7 @@ const RegisterForm = () => {
       }
     } catch (error) {
       setMessage("Error registering")
-      console.log("error registering")
+      console.log(error)
     }
   }
 
