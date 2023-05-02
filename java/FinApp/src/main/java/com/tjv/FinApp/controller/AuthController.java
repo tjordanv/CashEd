@@ -62,7 +62,7 @@ public class AuthController {
             return new ResponseEntity<>(new AuthResponseDTO(token, user), HttpStatus.OK);
 
         } catch (BadCredentialsException e) {
-            return null;
+            throw new BadCredentialsException("User not found.");
         }
     }
 
@@ -80,8 +80,13 @@ public class AuthController {
     // This exception handler is handling when the UserAlreadyExistsException is thrown. Otherwise, the exceptionHandling method
     // called in the SecurityFilterChain inside the WebSecurityConfig file handles it with the default AuthenticationException
     @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<?> handleUserAlreadyExistsException(UserAlreadyExistsException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    public ResponseEntity<String> handleUserAlreadyExistsException(UserAlreadyExistsException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<String> handleUserBadCredentialsException(BadCredentialsException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
     static class LoginResponse {

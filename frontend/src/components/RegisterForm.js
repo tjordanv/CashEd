@@ -9,6 +9,7 @@ import Button from "@mui/material/Button"
 
 import classes from "./LoginForm.module.css"
 import { Typography } from "@mui/material"
+import FetchError from "./HelperComponents/FetchError"
 
 const RegisterForm = () => {
   const [username, setUsername] = useState("")
@@ -37,8 +38,9 @@ const RegisterForm = () => {
         })
       })
       if (!response.ok) {
-        throw new Error("User Taken")
+        throw await FetchError.fromResponse(response)
       }
+      // If the user successfully registers, log them in.
       if (response.status === 201) {
         try {
           let response = await fetch("http://localhost:8080/auth/login", {
@@ -62,13 +64,11 @@ const RegisterForm = () => {
             }
           }
         } catch (error) {
-          setMessage("Error")
-          console.log(error)
+          setMessage("Account created but an error occurred. Please login.")
         }
       }
     } catch (error) {
-      setMessage("Error registering")
-      console.log(error)
+      if (error instanceof FetchError) setMessage(error.message)
     }
   }
 

@@ -3,7 +3,6 @@ import { useState } from "react"
 import { NavLink, useNavigate } from "react-router-dom"
 
 import Box from "@mui/material/Box"
-import Stack from "@mui/material/Stack"
 import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
 import FormControlLabel from "@mui/material/FormControlLabel"
@@ -11,6 +10,7 @@ import Switch from "@mui/material/Switch"
 
 import classes from "./LoginForm.module.css"
 import { Typography } from "@mui/material"
+import FetchError from "./HelperComponents/FetchError"
 
 const LoginForm = () => {
   const [username, setUsername] = useState("")
@@ -33,24 +33,30 @@ const LoginForm = () => {
           password: password
         })
       })
+      if (!response.ok) {
+        throw await FetchError.fromResponse(response)
+      }
       if (response.status === 200) {
         try {
           const responseJson = await response.json()
           localStorage.setItem("jwt", responseJson.accessToken)
           navigate("/")
         } catch (error) {
-          setMessage("user not found")
+          setMessage("Error authenticating")
         }
       }
     } catch (error) {
-      console.log(error)
+      if (error instanceof FetchError) setMessage(error.message)
     }
   }
 
   return (
-    <form onSubmit={logInHandler}>
-      <Box className={classes.container}>
-        <Stack spacing={1}>
+    <div className={classes.wrapper}>
+      <form onSubmit={logInHandler}>
+        <Box className={classes.container}>
+          <Typography variant="h4" className={classes.header}>
+            Finance App
+          </Typography>
           <TextField
             variant="outlined"
             label="Username"
@@ -70,18 +76,21 @@ const LoginForm = () => {
             onChange={(e) => setPassword(e.target.value)}
             className={classes.inputField}
           />
-          {message && <Typography>User not found</Typography>}
+          {message && <Typography>{message}</Typography>}
           <Button type="submit" variant="contained" className={classes.button}>
             Log in
           </Button>
-          <FormControlLabel control={<Switch />} label="Remember Me" />
-          <label>
+          <FormControlLabel
+            control={<Switch />}
+            label="Remember Me"
+            className={classes.switch}
+          />
+          <Typography className={classes.navLink}>
             Need an account? <NavLink to="/register">Create Account</NavLink>
-          </label>
-          {/* use a router Link or NavLink for "Create Account" */}
-        </Stack>
-      </Box>
-    </form>
+          </Typography>
+        </Box>
+      </form>
+    </div>
   )
 }
 

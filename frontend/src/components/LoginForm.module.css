@@ -1,15 +1,39 @@
-.container {
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.wrapper .container {
   box-shadow: 1px 3px 4px 2px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
-  width: 40%;
-  padding: 15px;
-  height: 400px;
+  padding: 35px;
+  height: 450px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.inputField {
-  /* width: 80%; */
+.container .header {
+  margin-bottom: 50px;
 }
 
-.button {
-  width: 50%;
+.container .inputField {
+  margin-top: 15px;
+  width: 100%;
+}
+
+.container .button {
+  margin-top: 25px;
+  width: 100%;
+}
+
+.container .switch {
+  margin-top: 10px;
+}
+
+.container .navLink {
+  margin-top: auto;
 }
