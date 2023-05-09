@@ -65,6 +65,7 @@ const LoginForm = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             className={classes.inputField}
+            size="small"
           />
           <TextField
             variant="outlined"
@@ -75,6 +76,7 @@ const LoginForm = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className={classes.inputField}
+            size="small"
           />
           {message && <Typography>{message}</Typography>}
           <Button type="submit" variant="contained" className={classes.button}>
@@ -85,9 +87,12 @@ const LoginForm = () => {
             label="Remember Me"
             className={classes.switch}
           />
-          <Typography className={classes.navLink}>
-            Need an account? <NavLink to="/register">Create Account</NavLink>
+          <Typography className={classes.navLinkLabel}>
+            Need an account?
           </Typography>
+          <NavLink to="/register" className={classes.navLink}>
+            Create Account
+          </NavLink>
         </Box>
       </form>
     </div>

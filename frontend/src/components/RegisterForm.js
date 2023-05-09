@@ -73,9 +73,12 @@ const RegisterForm = () => {
   }
 
   return (
-    <form onSubmit={logInHandler}>
-      <Box className={classes.container}>
-        <Stack spacing={1}>
+    <div className={classes.wrapper}>
+      <form onSubmit={logInHandler}>
+        <Box className={classes.container}>
+          <Typography variant="h4" className={classes.header}>
+            Finance App
+          </Typography>
           <TextField
             variant="outlined"
             label="Username"
@@ -84,6 +87,7 @@ const RegisterForm = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             className={classes.inputField}
+            size="small"
           />
           <TextField
             variant="outlined"
@@ -93,6 +97,7 @@ const RegisterForm = () => {
             value={emailAddress}
             onChange={(e) => setEmailAddress(e.target.value)}
             className={classes.inputField}
+            size="small"
           />
           <TextField
             variant="outlined"
@@ -103,6 +108,7 @@ const RegisterForm = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className={classes.inputField}
+            size="small"
           />
           <TextField
             variant="outlined"
@@ -113,17 +119,21 @@ const RegisterForm = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             className={classes.inputField}
+            size="small"
           />
           {message && <Typography>{message}</Typography>}
           <Button type="submit" variant="contained" className={classes.button}>
             Create Account
           </Button>
-          <label>
-            Already have an account? <NavLink to="/login">Log In</NavLink>
-          </label>
-        </Stack>
-      </Box>
-    </form>
+          <Typography className={classes.navLinkLabel}>
+            Already have an account?
+          </Typography>
+          <NavLink to="/login" className={classes.navLink}>
+            Log In
+          </NavLink>
+        </Box>
+      </form>
+    </div>
   )
 }
 
