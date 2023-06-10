@@ -36,8 +36,19 @@ html {
   width: 100%;
 }
 
+.container .messageContainer {
+  margin-top: 8px;
+  height: 25px;
+}
+
+.container .message {
+  border: 1px #ff095f solid;
+  border-radius: 4px;
+  color: #ff095f;
+}
+
 .container .button {
-  margin-top: 25px;
+  margin-top: 8px;
   width: 100%;
   color: white;
 }

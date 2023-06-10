@@ -78,7 +78,11 @@ const LoginForm = () => {
             className={classes.inputField}
             size="small"
           />
-          {message && <Typography>{message}</Typography>}
+          <div className={classes.messageContainer}>
+            {message && (
+              <Typography className={classes.message}>{message}</Typography>
+            )}
+          </div>
           <Button type="submit" variant="contained" className={classes.button}>
             Log in
           </Button>
