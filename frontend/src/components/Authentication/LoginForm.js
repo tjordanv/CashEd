@@ -7,10 +7,11 @@ import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import Switch from "@mui/material/Switch"
+import Typography from "@mui/material/Typography"
 
-import classes from "./LoginForm.module.css"
-import { Typography } from "@mui/material"
-import FetchError from "./HelperComponents/FetchError"
+import classes from "./LoginAndRegisterForms.module.css"
+import FetchError from "../HelperComponents/FetchError"
+import ErrorMessage from "./ErrorMessage"
 
 const LoginForm = () => {
   const [username, setUsername] = useState("")
@@ -78,11 +79,7 @@ const LoginForm = () => {
             className={classes.inputField}
             size="small"
           />
-          <div className={classes.messageContainer}>
-            {message && (
-              <Typography className={classes.message}>{message}</Typography>
-            )}
-          </div>
+          <ErrorMessage message={message} />
           <Button type="submit" variant="contained" className={classes.button}>
             Log in
           </Button>
@@ -91,6 +88,9 @@ const LoginForm = () => {
             label="Remember Me"
             className={classes.switch}
           />
+          <NavLink to="/login/help" className={classes.navLink}>
+            Having trouble logging in?
+          </NavLink>
           <Typography className={classes.navLinkLabel}>
             Need an account?
           </Typography>

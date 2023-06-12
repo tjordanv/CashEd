@@ -41,6 +41,8 @@ public class JdbcUserDao implements UserDao{
                 return user;
             }
         }
+        // this exception is thrown, but I do not think it is really caught or handled anywhere.
+        // That should be looked into
         throw new UsernameNotFoundException("User" + username + " was not found.");
     }
 

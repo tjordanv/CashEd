@@ -62,7 +62,7 @@ public class AuthController {
             return new ResponseEntity<>(new AuthResponseDTO(token, user), HttpStatus.OK);
 
         } catch (BadCredentialsException e) {
-            throw new BadCredentialsException("User not found.");
+            throw new BadCredentialsException("Username and password do not match.");
         }
     }
 

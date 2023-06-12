@@ -6,10 +6,11 @@ import Box from "@mui/material/Box"
 import Stack from "@mui/material/Stack"
 import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
+import Typography from "@mui/material/Typography"
 
-import classes from "./LoginForm.module.css"
-import { Typography } from "@mui/material"
-import FetchError from "./HelperComponents/FetchError"
+import classes from "./LoginAndRegisterForms.module.css"
+import FetchError from "../HelperComponents/FetchError"
+import ErrorMessage from "./ErrorMessage"
 
 const RegisterForm = () => {
   const [username, setUsername] = useState("")
@@ -121,7 +122,7 @@ const RegisterForm = () => {
             className={classes.inputField}
             size="small"
           />
-          {message && <Typography>{message}</Typography>}
+          <ErrorMessage message={message} />
           <Button type="submit" variant="contained" className={classes.button}>
             Create Account
           </Button>
