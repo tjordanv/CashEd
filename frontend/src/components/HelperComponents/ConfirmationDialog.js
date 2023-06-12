@@ -8,16 +8,16 @@ import DialogActions from "@mui/material/DialogActions"
 import Dialog from "@mui/material/Dialog"
 import Slide from "@mui/material/Slide"
 
-import Tooltip from "@mui/material/Tooltip"
-import IconButton from "@mui/material/IconButton"
-import Zoom from "@mui/material/Zoom"
-import DeleteIcon from "@mui/icons-material/Delete"
-
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
 
-const DeleteConfirmationDialog = ({ onDelete }) => {
+const ConfirmationDialog = ({
+  dialogDetails,
+  onConfirm,
+  Component,
+  componentDetails
+}) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const openDialogHandler = () => {
@@ -36,24 +36,22 @@ const DeleteConfirmationDialog = ({ onDelete }) => {
         keepMounted={false}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>Are you sure you want to delete this transaction?</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            This cannot be undone and this transaction will not appear in future imports.
-          </DialogContentText>
-        </DialogContent>
+        <DialogTitle>{dialogDetails.title}</DialogTitle>
+        {dialogDetails.description && (
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              {dialogDetails.description}
+            </DialogContentText>
+          </DialogContent>
+        )}
         <DialogActions>
           <Button onClick={closeDialogHandler}>Cancel</Button>
-          <Button onClick={onDelete}>Delete</Button>
+          <Button onClick={onConfirm}>{dialogDetails.confirmationLabel}</Button>
         </DialogActions>
       </Dialog>
-      <Tooltip title="Delete" arrow TransitionComponent={Zoom}>
-        <IconButton sx={{ padding: "auto" }} onClick={openDialogHandler}>
-          <DeleteIcon fontSize="small" color="error" />
-        </IconButton>
-      </Tooltip>
+      <Component func={openDialogHandler} obj={componentDetails} />
     </>
   )
 }
 
-export default DeleteConfirmationDialog
+export default ConfirmationDialog
