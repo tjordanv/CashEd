@@ -8,4 +8,5 @@ public interface UserDao {
     List<User> findAll();
     User findByUsername(String username);
     boolean create(String username, String email, String password, String role);
+    User getUserByEmailAddress(String emailAddress);
 }

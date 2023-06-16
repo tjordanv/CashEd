@@ -23,7 +23,8 @@ public class JdbcUserDao implements UserDao{
     @Override
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
-        String sql = "SELECT * FROM users";
+        String sql = "SELECT u.*, e.email_address FROM users u join user_email_addresses_xref ex on " +
+                "u.id = ex.user_id join email_addresses e on ex.email_address_id = e.id";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         while(results.next()) {
@@ -50,7 +51,7 @@ public class JdbcUserDao implements UserDao{
     public boolean create(String username, String email, String password, String role) {
         boolean userCreated = false;
 
-        String insertUser = "INSERT INTO users (username,email,password_hash,role) Values(?,?,?,?)";
+        String insertUser = "INSERT INTO users (username,password_hash,role) Values(?,?,?)";
         String password_hash = new BCryptPasswordEncoder().encode(password);
         String ssRole = "ROLE_" + role.toUpperCase();
 
@@ -59,23 +60,49 @@ public class JdbcUserDao implements UserDao{
         userCreated = jdbcTemplate.update(con -> {
             PreparedStatement ps = con.prepareStatement(insertUser, new String[]{id_column});
             ps.setString(1, username);
-            ps.setString(2, email);
-            ps.setString(3, password_hash);
-            ps.setString(4, ssRole);
+            ps.setString(2, password_hash);
+            ps.setString(3, ssRole);
             return ps;
         }
         , keyHolder) == 1;
 
         int newUserId = (int) keyHolder.getKeys().get(id_column);
+        int newEmailAddressID = createEmailAddress(email);
+
+        String sql = "INSERT INTO user_email_addresses_xref (user_id, email_address_id) VALUES (?, ?)";
+
+        jdbcTemplate.update(sql, newUserId, newEmailAddressID);
 
         return userCreated;
+    }
+
+    public int createEmailAddress(String emailAddress) {
+        String sql = "INSERT INTO email_addresses (email_address, is_active, is_verified) VALUES (?, true, false) RETURNING ID";
+
+        return jdbcTemplate.queryForObject(sql, Integer.class, emailAddress);
+    }
+    @Override
+    public User getUserByEmailAddress(String emailAddress) {
+        User user = new User();
+        String sql = "Select u.*, e.Email_Address from Users u join User_Email_Addresses_xref ex " +
+                "on u.ID = ex.User_ID Join Email_Addresses e on ex.Email_Address_ID = e.ID WHERE e.Email_Address = ?";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, emailAddress);
+
+        if(results.next()) {
+            user = mapRowToUser(results);
+        } else {
+            return null;
+        }
+
+        return user;
     }
 
     private User mapRowToUser(SqlRowSet rs) {
         User user = new User();
         user.setId(rs.getLong("id"));
         user.setUsername(rs.getString("username"));
-        user.setEmail(rs.getString("email"));
+        user.setEmail(rs.getString("email_address"));
         user.setPassword(rs.getString("password_hash"));
         user.setAuthorities(rs.getString("role"));
         user.setActivated(true);

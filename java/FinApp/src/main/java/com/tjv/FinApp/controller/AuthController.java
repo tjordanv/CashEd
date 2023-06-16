@@ -55,8 +55,8 @@ public class AuthController {
                     new UsernamePasswordAuthenticationToken(loginDTO.getUsername(),
                             loginDTO.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            String token = tokenGenerator.generateToken(authentication);
 
+            String token = tokenGenerator.generateToken(authentication);
             User user = userDao.findByUsername(loginDTO.getUsername());
 
             return new ResponseEntity<>(new AuthResponseDTO(token, user), HttpStatus.OK);
