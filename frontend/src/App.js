@@ -3,6 +3,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles"
 
 import Login from "./pages/Login"
 import Register from "./pages/Register"
+import UsernameRecovery from "./pages/UsernameRecovery"
+import PasswordReset from "./pages/PasswordReset.js"
 import TransactionImport from "./pages/TransactionImport"
 import Header from "./pages/Header"
 import DashboardTest, { loader } from "./components/DashboardTest"
@@ -36,6 +38,8 @@ const router = createBrowserRouter([
   },
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
+  { path: "/userRecovery/forgotUsername", element: <UsernameRecovery /> },
+  { path: "/userRecovery/resetPassword", element: <PasswordReset /> },
   { path: "/logout", element: <p>logout</p> }
 ])
 

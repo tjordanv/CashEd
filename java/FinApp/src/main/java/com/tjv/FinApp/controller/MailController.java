@@ -3,12 +3,10 @@ package com.tjv.FinApp.controller;
 import com.tjv.FinApp.dao.UserDao;
 import com.tjv.FinApp.email.GMailer;
 import com.tjv.FinApp.model.User;
+import com.tjv.FinApp.model.UserRecovery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
@@ -21,15 +19,15 @@ public class MailController {
         this.userDao = userDao;
     }
 
-    @GetMapping("/resetPassword/{recipientEmailAddress}")
-    public void resetPassword(@PathVariable String recipientEmailAddress) throws Exception {
+    @GetMapping("/auth/resetPassword")
+    public void resetPassword(@RequestBody UserRecovery userRecovery) throws Exception {
         try {
-            User user = userDao.getUserByEmailAddress(recipientEmailAddress);
+            User user = userDao.getUserByEmailAddress(userRecovery.getEmailAddress());
 
             if (user == null) {
                 throw new Exception("email was not found");
             }
-            new GMailer().sendMail(recipientEmailAddress, "A new message", """
+            new GMailer().sendMail(userRecovery.getEmailAddress(), "A new message", """
             Dear reader,
                             
             Hello world.

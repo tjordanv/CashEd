@@ -64,6 +64,12 @@ html {
   margin-top: auto;
 }
 
+.container .userRecoveryContainer {
+  width: 85%;
+  display: flex;
+  justify-content: space-between;
+}
+
 .container .navLink {
   color: #17c3b2;
 }

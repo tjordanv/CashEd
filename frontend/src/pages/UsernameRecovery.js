@@ -9,11 +9,11 @@ import FormControlLabel from "@mui/material/FormControlLabel"
 import Switch from "@mui/material/Switch"
 import Typography from "@mui/material/Typography"
 
-import classes from "./LoginAndRegisterForms.module.css"
-import FetchError from "../HelperComponents/FetchError"
-import ErrorMessage from "./ErrorMessage"
+import classes from "../components/Authentication/LoginAndRegisterForms.module.css"
+import FetchError from "../components/HelperComponents/FetchError"
+import ErrorMessage from "../components/Authentication/ErrorMessage"
 
-const LoginForm = () => {
+const UsernameRecovery = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [message, setMessage] = useState("")
@@ -91,21 +91,7 @@ const LoginForm = () => {
           <Typography className={classes.navLinkLabel}>
             Having trouble logging in?
           </Typography>
-          <div className={classes.userRecoveryContainer}>
-            <NavLink
-              to="/userRecovery/forgotUsername"
-              className={classes.navLink}
-            >
-              Forgot Username
-            </NavLink>
-            |
-            <NavLink
-              to="/userRecovery/passwordReset"
-              className={classes.navLink}
-            >
-              Forgot Password
-            </NavLink>
-          </div>
+
           <Typography className={classes.navLinkLabel}>
             Need an account?
           </Typography>
@@ -118,4 +104,4 @@ const LoginForm = () => {
   )
 }
 
-export default LoginForm
+export default UsernameRecovery
