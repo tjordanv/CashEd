@@ -25,7 +25,7 @@ public class MailController {
             User user = userDao.getUserByEmailAddress(userRecovery.getEmailAddress());
 
             if (user == null) {
-                throw new Exception("email was not found");
+                throw new Exception("user was not found");
             }
             new GMailer().sendMail(userRecovery.getEmailAddress(), "A new message", """
             Dear reader,
@@ -35,6 +35,30 @@ public class MailController {
             Best regards,
             Big Bone
             """);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    @GetMapping("/auth/usernameRecovery")
+    public void usernameRecovery(@RequestBody UserRecovery userRecovery) throws Exception {
+        try {
+            User user = userDao.getUserByEmailAddress(userRecovery.getEmailAddress());
+
+            if (user == null) {
+                throw new Exception("user was not found");
+            }
+            new GMailer().sendMail(userRecovery.getEmailAddress(), "User Recovery", """
+            Hello reader,
+                            
+            Thank you for using my sick application.
+            Below you will find your username. Try not to forget this again, buddy.
+            
+            %s
+                            
+            Best regards,
+            Big Bone
+            """.formatted(user.getUsername()));
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
