@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 public class SecurityQuestionController {
     private final SecurityQuestionDao securityQuestionDao;
@@ -23,5 +26,15 @@ public class SecurityQuestionController {
         }
 
         return securityQuestion;
+    }
+
+    @GetMapping("/getAllSecurityQuestions")
+    public List<SecurityQuestion> getAllSecurityQuestions() {
+        try {
+            return securityQuestionDao.getAllQuestions();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 }
