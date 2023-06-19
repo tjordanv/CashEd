@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class JdbcUserDao implements UserDao{
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
     public JdbcUserDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }

@@ -26,9 +26,9 @@ import java.security.Principal;
 @CrossOrigin
 public class AuthController {
 
-    private AuthenticationManager authenticationManager;
-    private UserDao userDao;
-    private TokenGenerator tokenGenerator;
+    private final AuthenticationManager authenticationManager;
+    private final UserDao userDao;
+    private final TokenGenerator tokenGenerator;
 
     public AuthController(AuthenticationManager authenticationManager, UserDao userDao, TokenGenerator tokenGenerator) {
         this.authenticationManager = authenticationManager;
@@ -36,16 +36,15 @@ public class AuthController {
         this.tokenGenerator = tokenGenerator;
     }
 
-    @CrossOrigin
-    @GetMapping("/test")
+    @GetMapping("/currentUser")
     @ResponseStatus(HttpStatus.OK)
-    public void Tester(Principal principal) {
-        System.out.println("test");
+    public Long currentUser(Principal principal) {
         try {
-            System.out.println(principal.getName());
+            return userDao.findByUsername(principal.getName()).getId();
         } catch (Exception e) {
-            System.out.println("no principal");
+            System.out.println("no current user");
         }
+        return null;
     }
 
     @PostMapping("/auth/login")
