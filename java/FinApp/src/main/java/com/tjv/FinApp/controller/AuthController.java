@@ -38,13 +38,13 @@ public class AuthController {
 
     @GetMapping("/currentUser")
     @ResponseStatus(HttpStatus.OK)
-    public Long currentUser(Principal principal) {
+    public int currentUser(Principal principal) {
         try {
-            return userDao.findByUsername(principal.getName()).getId();
+            return userDao.getUserIdByUsername(principal);
         } catch (Exception e) {
             System.out.println("no current user");
         }
-        return null;
+        return 0;
     }
 
     @PostMapping("/auth/login")

@@ -1,10 +1,12 @@
 package com.tjv.FinApp.dao;
 
-import com.tjv.FinApp.model.SecurityQuestion;
+import com.tjv.FinApp.model.securityQuestions.SecurityQuestion;
+import com.tjv.FinApp.model.securityQuestions.SecurityQuestionAnswer;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +46,27 @@ public class JdbcSecurityQuestionDao implements SecurityQuestionDao{
         return securityQuestions;
     }
 
+
     @Override
-    public boolean create() {
+    public boolean saveAnswer(SecurityQuestionAnswer securityQuestionAnswer, int userId) {
+        String sql = "INSERT INTO security_question_answers (answer) VALUES (?) RETURNING id";
+
+        Integer answerId = jdbcTemplate.queryForObject(sql, Integer.class, securityQuestionAnswer.getAnswer());
+        if (answerId != null) {
+            securityQuestionAnswer.setAnswer_id(answerId);
+        } else {
+            System.out.println("no answer id returned, check if the answer was saved.");
+            return false;
+        }
+
+        sql = "INSERT INTO user_security_question_answers_xref (user_id, question_id, answer_id) VALUES (?, ?, ?)";
+        try {
+            jdbcTemplate.update(sql, userId, securityQuestionAnswer.getQuestion_id(), securityQuestionAnswer.getAnswer_id());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+
         return true;
     }
 

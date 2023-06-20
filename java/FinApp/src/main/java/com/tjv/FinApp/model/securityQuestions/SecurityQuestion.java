@@ -1,4 +1,4 @@
-package com.tjv.FinApp.model;
+package com.tjv.FinApp.model.securityQuestions;
 
 public class SecurityQuestion {
     private int id;

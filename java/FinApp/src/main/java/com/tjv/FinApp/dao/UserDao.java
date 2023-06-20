@@ -2,6 +2,7 @@ package com.tjv.FinApp.dao;
 
 import com.tjv.FinApp.model.User;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface UserDao {
@@ -9,4 +10,5 @@ public interface UserDao {
     User findByUsername(String username);
     boolean create(String username, String email, String password, String role);
     User getUserByEmailAddress(String emailAddress);
+    public int getUserIdByUsername(Principal principal);
 }

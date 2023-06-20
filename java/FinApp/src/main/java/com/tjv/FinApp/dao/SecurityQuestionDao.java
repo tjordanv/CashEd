@@ -1,8 +1,9 @@
 package com.tjv.FinApp.dao;
 
-import com.tjv.FinApp.model.SecurityQuestion;
-import org.springframework.jdbc.support.rowset.SqlRowSet;
+import com.tjv.FinApp.model.securityQuestions.SecurityQuestion;
+import com.tjv.FinApp.model.securityQuestions.SecurityQuestionAnswer;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface SecurityQuestionDao {
@@ -10,7 +11,7 @@ public interface SecurityQuestionDao {
 
     public List<SecurityQuestion> getAllQuestions();
 
-    public boolean create();
+    public boolean saveAnswer(SecurityQuestionAnswer securityQuestionAnswer, int userId);
 
     public boolean validateAnswer();
 

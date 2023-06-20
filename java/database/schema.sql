@@ -80,7 +80,7 @@ CREATE TABLE security_question_answers (
 	id serial NOT NULL, 
 	answer varchar(50) NOT NULL, 
 	answer_date timestamptz DEFAULT Now(), 
-	expiration_date timestamptz DEFAULT (Now() + INTERVAL '150 days'),
+	expiration_date timestamptz DEFAULT (Now() + INTERVAL '200 days'),
 	is_expired boolean NOT NULL DEFAULT false, 
 
 	CONSTRAINT PK_security_question_answers PRIMARY KEY (id)

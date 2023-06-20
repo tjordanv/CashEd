@@ -5,6 +5,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import java.security.Principal;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
@@ -96,6 +97,13 @@ public class JdbcUserDao implements UserDao{
         }
 
         return user;
+    }
+
+    @Override
+    public int getUserIdByUsername(Principal principal) {
+        User user = this.findByUsername(principal.getName());
+
+        return user.getId() != null ? Math.toIntExact(user.getId()) : 0;
     }
 
     private User mapRowToUser(SqlRowSet rs) {
