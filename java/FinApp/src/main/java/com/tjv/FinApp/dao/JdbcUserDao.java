@@ -67,7 +67,9 @@ public class JdbcUserDao implements UserDao{
         }
         , keyHolder) == 1;
 
-        int newUserId = (int) keyHolder.getKeys().get(id_column);
+        Long newUserIdLong = (Long) keyHolder.getKeys().get(id_column);
+        int newUserId = newUserIdLong.intValue();
+
         int newEmailAddressID = createEmailAddress(email);
 
         String sql = "INSERT INTO user_email_addresses_xref (user_id, email_address_id) VALUES (?, ?)";
@@ -80,7 +82,13 @@ public class JdbcUserDao implements UserDao{
     public int createEmailAddress(String emailAddress) {
         String sql = "INSERT INTO email_addresses (email_address, is_active, is_verified) VALUES (?, true, false) RETURNING ID";
 
-        return jdbcTemplate.queryForObject(sql, Integer.class, emailAddress);
+        Integer userId = jdbcTemplate.queryForObject(sql, Integer.class, emailAddress);
+
+        if (userId != null) {
+            return userId;
+        } else {
+            throw new RuntimeException("Email address was not created: " + emailAddress);
+        }
     }
     @Override
     public User getUserByEmailAddress(String emailAddress) {
@@ -103,12 +111,12 @@ public class JdbcUserDao implements UserDao{
     public int getUserIdByUsername(Principal principal) {
         User user = this.findByUsername(principal.getName());
 
-        return user.getId() != null ? Math.toIntExact(user.getId()) : 0;
+        return user.getId() != null ? user.getId() : 0;
     }
 
     private User mapRowToUser(SqlRowSet rs) {
         User user = new User();
-        user.setId(rs.getLong("id"));
+        user.setId(rs.getInt("id"));
         user.setUsername(rs.getString("username"));
         user.setEmail(rs.getString("email_address"));
         user.setPassword(rs.getString("password_hash"));

@@ -14,7 +14,7 @@ CREATE SEQUENCE seq_user_id
 
 
 CREATE TABLE Users (
-	ID int DEFAULT nextval('seq_user_id'::regclass) NOT NULL,
+	ID bigint DEFAULT nextval('seq_user_id'::regclass) NOT NULL,
 	Username varchar(50) NOT NULL,
 	Password_Hash varchar(200) NOT NULL,
 	role varchar(50) NOT NULL,
@@ -38,8 +38,8 @@ CREATE TABLE Email_Addresses (
 INSERT INTO Email_Addresses (Email_Address, Is_Active, Is_Verified) VALUES ('tylervicari@yahoo.com', true, true), ('tylervicari@gmail.com', true, true);
 
 CREATE TABLE User_Email_Addresses_xref (
-	User_ID int NOT NULL,
-	Email_Address_ID int NOT NULL,
+	User_ID bigint NOT NULL,
+	Email_Address_ID bigint NOT NULL,
 	
 	CONSTRAINT FK_user_ID FOREIGN KEY (User_ID) REFERENCES Users (ID),
 	CONSTRAINT FK_Email_Address_ID FOREIGN KEY (Email_Address_ID) REFERENCES Email_Addresses (ID)
@@ -81,7 +81,7 @@ CREATE TABLE security_question_answers (
 	answer varchar(50) NOT NULL, 
 	answer_date timestamptz DEFAULT Now(), 
 	expiration_date timestamptz DEFAULT (Now() + INTERVAL '200 days'),
-	is_expired boolean NOT NULL DEFAULT false, 
+	is_active boolean NOT NULL DEFAULT true, 
 
 	CONSTRAINT PK_security_question_answers PRIMARY KEY (id)
 );

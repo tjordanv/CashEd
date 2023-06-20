@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -34,7 +35,7 @@ public class JdbcSecurityQuestionDao implements SecurityQuestionDao{
     }
 
     @Override
-    public List<SecurityQuestion> getAllQuestions() {
+    public List<SecurityQuestion> getQuestions() {
         List<SecurityQuestion> securityQuestions = new ArrayList<>();
         String sql = "SELECT id, question FROM security_questions";
 
@@ -46,6 +47,21 @@ public class JdbcSecurityQuestionDao implements SecurityQuestionDao{
         return securityQuestions;
     }
 
+
+    public List<SecurityQuestion> getQuestions(List<Integer> ids) {
+        List<SecurityQuestion> securityQuestions = new ArrayList<>();
+        // create the placeholder variable to ensure the sql string has the correct number or them.
+        //jdbcTemplate.queryForRowSet is a varargs method
+        String placeholders = String.join(",", Collections.nCopies(ids.size(), "?"));
+        String sql = "SELECT id, question FROM security_questions WHERE id in (" + placeholders + ")";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, ids.toArray());
+        while(results.next()) {
+            SecurityQuestion securityQuestion = mapRowToSecurityQuestion(results);
+            securityQuestions.add(securityQuestion);
+        }
+        return securityQuestions;
+    }
 
     @Override
     public boolean saveAnswer(SecurityQuestionAnswer securityQuestionAnswer, int userId) {
@@ -71,6 +87,21 @@ public class JdbcSecurityQuestionDao implements SecurityQuestionDao{
     }
 
     @Override
+    public List<SecurityQuestionAnswer> getActiveSecurityQuestionAnswersByUserId(int userId) {
+        List<SecurityQuestionAnswer> securityQuestionAnswers = new ArrayList<>();
+        String sql = "SELECT answer_id, question_id, answer FROM security_question_answers a JOIN " +
+                "user_security_question_answers_xref x on a.id = x.answer_id WHERE is_active = true and user_id = ?";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+        while (results.next()) {
+            SecurityQuestionAnswer securityQuestionAnswer = mapRowToSecurityQuestionAnswer(results);
+            securityQuestionAnswers.add(securityQuestionAnswer);
+        }
+
+        return securityQuestionAnswers;
+    }
+
+    @Override
     public boolean validateAnswer() {
        // String sql = SE
 
@@ -83,5 +114,14 @@ public class JdbcSecurityQuestionDao implements SecurityQuestionDao{
         securityQuestion.setQuestion(rs.getString("question"));
 
         return securityQuestion;
+    }
+
+    public SecurityQuestionAnswer mapRowToSecurityQuestionAnswer(SqlRowSet rs) {
+        SecurityQuestionAnswer securityQuestionAnswer = new SecurityQuestionAnswer();
+        securityQuestionAnswer.setAnswer(rs.getString("answer"));
+        securityQuestionAnswer.setAnswer_id(rs.getInt("answer_id"));
+        securityQuestionAnswer.setQuestion_id(rs.getInt("question_id"));
+
+        return securityQuestionAnswer;
     }
 }

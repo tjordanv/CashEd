@@ -8,11 +8,10 @@ import java.util.List;
 
 public interface SecurityQuestionDao {
     public SecurityQuestion getQuestion(int id);
-
-    public List<SecurityQuestion> getAllQuestions();
-
+    public List<SecurityQuestion> getQuestions();
+    //public List<SecurityQuestion> getQuestionsById(int[] ids);
     public boolean saveAnswer(SecurityQuestionAnswer securityQuestionAnswer, int userId);
-
+    public List<SecurityQuestionAnswer> getActiveSecurityQuestionAnswersByUserId(int userId);
     public boolean validateAnswer();
 
 }
