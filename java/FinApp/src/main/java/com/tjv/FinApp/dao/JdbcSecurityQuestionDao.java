@@ -47,7 +47,7 @@ public class JdbcSecurityQuestionDao implements SecurityQuestionDao{
         return securityQuestions;
     }
 
-
+    @Override
     public List<SecurityQuestion> getQuestions(List<Integer> ids) {
         List<SecurityQuestion> securityQuestions = new ArrayList<>();
         // create the placeholder variable to ensure the sql string has the correct number or them.
@@ -89,7 +89,7 @@ public class JdbcSecurityQuestionDao implements SecurityQuestionDao{
     @Override
     public List<SecurityQuestionAnswer> getActiveSecurityQuestionAnswersByUserId(int userId) {
         List<SecurityQuestionAnswer> securityQuestionAnswers = new ArrayList<>();
-        String sql = "SELECT answer_id, question_id, answer FROM security_question_answers a JOIN " +
+        String sql = "SELECT answer_id, question_id FROM security_question_answers a JOIN " +
                 "user_security_question_answers_xref x on a.id = x.answer_id WHERE is_active = true and user_id = ?";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
@@ -118,7 +118,6 @@ public class JdbcSecurityQuestionDao implements SecurityQuestionDao{
 
     public SecurityQuestionAnswer mapRowToSecurityQuestionAnswer(SqlRowSet rs) {
         SecurityQuestionAnswer securityQuestionAnswer = new SecurityQuestionAnswer();
-        securityQuestionAnswer.setAnswer(rs.getString("answer"));
         securityQuestionAnswer.setAnswer_id(rs.getInt("answer_id"));
         securityQuestionAnswer.setQuestion_id(rs.getInt("question_id"));
 

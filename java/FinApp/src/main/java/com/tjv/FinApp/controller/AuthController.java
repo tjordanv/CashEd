@@ -76,6 +76,17 @@ public class AuthController {
         }
     }
 
+    @GetMapping("/auth/getUserIdByEmail")
+    public int getUserByEmail(@RequestParam String emailAddress) {
+        User user = userDao.getUserByEmailAddress(emailAddress);
+
+        if (user != null) {
+            return user.getId();
+        } else {
+            return 0;
+        }
+    }
+
     // This exception handler is handling when the UserAlreadyExistsException is thrown. Otherwise, the exceptionHandling method
     // called in the SecurityFilterChain inside the WebSecurityConfig file handles it with the default AuthenticationException
     @ExceptionHandler(UserAlreadyExistsException.class)

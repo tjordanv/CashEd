@@ -10,6 +10,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class SecurityQuestionController {
     private final SecurityQuestionDao securityQuestionDao;
     private final UserDao userDao;
@@ -32,27 +33,19 @@ public class SecurityQuestionController {
         return securityQuestion;
     }
 
-    @GetMapping("/getSecurityQuestions")
+    @GetMapping("/auth/getSecurityQuestions")
     public List<SecurityQuestion> getSecurityQuestions(@RequestParam(required = false) List<Integer> ids) {
-        if (ids.size() > 0)
-
-        try {
-            return securityQuestionDao.getQuestions();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        if (ids != null)
+            return securityQuestionDao.getQuestions(ids);
+        else {
+            try {
+                return securityQuestionDao.getQuestions();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
         return null;
     }
-
-//    @GetMapping("/getSecurityQuestionsById")
-//    public List<SecurityQuestion> getSecurityQuestionsById(@RequestBody SecurityQuestionsArray securityQuestionsArray) {
-//        try {
-//            return securityQuestionDao.getQuestionsById(securityQuestionsArray.getIds());
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//        }
-//        return null;
-//    }
 
     @PostMapping("/saveSecurityQuestionAnswer")
     public boolean saveSecurityQuestionAnswer(@RequestBody SecurityQuestionAnswer securityQuestionAnswer, Principal principal) {
@@ -64,14 +57,14 @@ public class SecurityQuestionController {
         return false;
     }
 
-    @GetMapping("/getActiveSecurityQuestionAnswersByUserId")
-    public List<SecurityQuestionAnswer> getActiveSecurityQuestionAnswersByUserId(Principal principal) {
-        List<SecurityQuestionAnswer> securityQuestionAnswers = securityQuestionDao.getActiveSecurityQuestionAnswersByUserId(userDao.getUserIdByUsername(principal));
+    @GetMapping("/auth/getActiveSecurityQuestionAnswersByUserId")
+    public List<SecurityQuestionAnswer> getActiveSecurityQuestionAnswersByUserId(@RequestParam int id) {
+        List<SecurityQuestionAnswer> securityQuestionAnswers = securityQuestionDao.getActiveSecurityQuestionAnswersByUserId(id);
 
         if (securityQuestionAnswers.size() > 0) {
             return securityQuestionAnswers;
         } else {
-            System.out.println("no active security question answers found for" + principal.getName());
+            System.out.println("no active security question answers found for this user");
             return null;
         }
     }
