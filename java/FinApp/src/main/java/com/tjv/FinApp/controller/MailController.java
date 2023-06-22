@@ -42,9 +42,10 @@ public class MailController {
     }
     @GetMapping("/auth/usernameRecovery")
     public void usernameRecovery(@RequestParam int id) throws Exception {
+
         try {
             User user = userDao.getUserById(id);
-
+            System.out.println("check");
             if (user == null) {
                 throw new Exception("user was not found");
             }
