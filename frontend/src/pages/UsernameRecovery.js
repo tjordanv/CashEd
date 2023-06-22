@@ -15,6 +15,7 @@ const UsernameRecovery = () => {
   const [questions, setQuestions] = useState([])
   const [id, setId] = useState("")
   const [emailAddress, setEmailAddress] = useState("")
+  const [answer, setAnswer] = useState("")
   const [message, setMessage] = useState("")
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
 
@@ -84,7 +85,6 @@ const UsernameRecovery = () => {
 
         return question
       })
-
       setQuestions(updatedQuestions)
     } catch (error) {
       console.log(error.message)
@@ -96,6 +96,42 @@ const UsernameRecovery = () => {
       setCurrentQuestionIndex(0)
     } else {
       setCurrentQuestionIndex((prevCount) => prevCount + 1)
+    }
+  }
+
+  const validateAnswer = async (e) => {
+    console.log("in")
+    e.preventDefault()
+    try {
+      console.log("start")
+      const response = await fetch(
+        `http://localhost:8080/auth/validateAnswer?${new URLSearchParams({
+          answerProvided: answer,
+          id: id
+        })}`,
+        {
+          method: "GET",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      )
+      console.log("end")
+      if (!response.ok) {
+        console.log("errorrrr")
+        throw await FetchError.fromResponse(response)
+      }
+      if (response.status === 200) {
+        const responseJson = await response.json()
+        console.log(responseJson)
+      } else {
+        console.log("reseJson")
+        throw await FetchError.fromResponse(response)
+      }
+    } catch (error) {
+      console.log("huuuh")
+      if (error instanceof FetchError) setMessage(error.message)
     }
   }
 
@@ -127,6 +163,16 @@ const UsernameRecovery = () => {
               {questions[currentQuestionIndex].question}
             </Typography>
           )}
+          <TextField
+            // required
+            value={answer}
+            onChange={(e) => setAnswer(e.target.value)}
+            className={classes.inputField}
+            multiline
+            rows={2}
+          />
+          <Button onClick={validateAnswer}>Submit</Button>
+          {message && <Typography>{message}</Typography>}
         </Box>
       </form>
     </div>

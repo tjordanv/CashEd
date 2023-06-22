@@ -21,7 +21,7 @@ public class SecurityQuestionController {
         this.userDao = userDao;
     }
 
-    @GetMapping("/getSecurityQuestion")
+    @GetMapping("/auth/getSecurityQuestion")
     public SecurityQuestion getSecurityQuestion(@RequestParam int id) {
         SecurityQuestion securityQuestion = new SecurityQuestion();
         try {
@@ -67,5 +67,11 @@ public class SecurityQuestionController {
             System.out.println("no active security question answers found for this user");
             return null;
         }
+    }
+
+    @GetMapping("/auth/validateAnswer")
+    public boolean validateAnswer(@RequestParam String id, @RequestParam String answerProvided) {
+        int idInt = Integer.parseInt(id);
+        return securityQuestionDao.validateAnswer(idInt, answerProvided);
     }
 }

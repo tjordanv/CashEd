@@ -10,9 +10,7 @@ public interface SecurityQuestionDao {
     public SecurityQuestion getQuestion(int id);
     public List<SecurityQuestion> getQuestions();
     public List<SecurityQuestion> getQuestions(List<Integer> ids);
-    //public List<SecurityQuestion> getQuestionsById(int[] ids);
     public boolean saveAnswer(SecurityQuestionAnswer securityQuestionAnswer, int userId);
     public List<SecurityQuestionAnswer> getActiveSecurityQuestionAnswersByUserId(int userId);
-    public boolean validateAnswer();
-
+    public boolean validateAnswer(int id, String answerProvided);
 }

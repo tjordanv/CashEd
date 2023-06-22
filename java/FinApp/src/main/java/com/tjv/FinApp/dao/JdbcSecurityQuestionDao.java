@@ -102,10 +102,19 @@ public class JdbcSecurityQuestionDao implements SecurityQuestionDao{
     }
 
     @Override
-    public boolean validateAnswer() {
-       // String sql = SE
+    public boolean validateAnswer(int id, String answerProvided) {
+       String sql = "SELECT answer FROM security_question_answers WHERE id = ?";
 
-        return true;
+       SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
+
+       if (results.next()) {
+           String answer = results.getString("answer");
+           if (answer != null) {
+               return answer.trim().equalsIgnoreCase(answerProvided.trim());
+           }
+       }
+
+       return false;
     }
 
     public SecurityQuestion mapRowToSecurityQuestion(SqlRowSet rs) {
