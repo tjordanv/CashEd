@@ -5,18 +5,15 @@ import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 
-import classes from "../components/Authentication/LoginAndRegisterForms.module.css"
-import FetchError from "../components/HelperComponents/FetchError"
-import ErrorMessage from "../components/Authentication/ErrorMessage"
+import classes from "../LoginAndRegisterForms.module.css"
+import FetchError from "../../HelperComponents/FetchError"
+import ErrorMessage from "../ErrorMessage"
 
-const EmailLookup = () => {
-  const [questions, setQuestions] = useState([])
-  const [id, setId] = useState("")
+const EmailLookup = ({ setUserIdHandler }) => {
   const [emailAddress, setEmailAddress] = useState("")
-
   const [message, setMessage] = useState("")
 
-  const getUserInfoByEmail = async (e) => {
+  const getUserIdByEmail = async (e) => {
     e.preventDefault()
 
     try {
@@ -33,55 +30,7 @@ const EmailLookup = () => {
       if (!userResponse.ok) throw await FetchError.fromResponse(userResponse)
 
       const userId = await userResponse.json()
-
-      const questionAnswersResponse = await fetch(
-        `http://localhost:8080/auth/getActiveSecurityQuestionAnswersByUserId?${new URLSearchParams(
-          { id: userId }
-        )}`,
-        {
-          mode: "cors",
-          headers: { "Content-Type": "application/json" }
-        }
-      )
-
-      if (!questionAnswersResponse.ok)
-        throw await FetchError.fromResponse(questionAnswersResponse)
-
-      const questionAnswers = await questionAnswersResponse.json()
-
-      let params = new URLSearchParams()
-      questionAnswers.forEach((question) =>
-        params.append("ids", question.question_id)
-      )
-
-      const questionsResponse = await fetch(
-        `http://localhost:8080/auth/getSecurityQuestions?${params.toString()}`,
-        {
-          mode: "cors",
-          headers: { "Content-Type": "application/json" }
-        }
-      )
-
-      if (!questionsResponse.ok)
-        throw await FetchError.fromResponse(questionsResponse)
-
-      // remaining question info to add, the question itself
-      const questionsInfo = await questionsResponse.json()
-      // create a new array so we aren't mutating the questions state directly
-      const updatedQuestions = questionAnswers.map((question) => {
-        // merge the questions if found
-        const newQuestion = questionsInfo.find(
-          ({ id }) => id === question.question_id
-        )
-
-        if (newQuestion) {
-          return { ...question, ...newQuestion }
-        }
-
-        return question
-      })
-      setId(updatedQuestions[0].answer_id)
-      setQuestions(updatedQuestions)
+      setUserIdHandler(userId)
     } catch (error) {
       console.log(error.message)
     }
@@ -89,7 +38,7 @@ const EmailLookup = () => {
 
   return (
     <div className={classes.wrapper}>
-      <form onSubmit={getUserInfoByEmail}>
+      <form onSubmit={getUserIdByEmail}>
         <Box className={classes.container}>
           <Typography variant="h4" className={classes.header}>
             Finance App

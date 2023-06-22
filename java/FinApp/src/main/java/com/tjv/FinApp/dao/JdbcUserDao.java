@@ -106,6 +106,23 @@ public class JdbcUserDao implements UserDao{
 
         return user;
     }
+    @Override
+    public User getUserById(int id) {
+        User user = new User();
+        String sql = "Select username, email_address FROM users u " +
+                "join user_email_addresses_xref ex on u.id = ex.user_id" +
+                "join email_addresses e on ex.email_address_id = e.id WHERE u.id = ?";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
+
+        if(results.next()) {
+            user = mapRowToUser(results);
+        } else {
+            return null;
+        }
+
+        return user;
+    }
 
     @Override
     public int getUserIdByUsername(Principal principal) {

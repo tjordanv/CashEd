@@ -41,14 +41,14 @@ public class MailController {
         }
     }
     @GetMapping("/auth/usernameRecovery")
-    public void usernameRecovery(@RequestBody UserRecovery userRecovery) throws Exception {
+    public void usernameRecovery(@RequestParam int id) throws Exception {
         try {
-            User user = userDao.getUserByEmailAddress(userRecovery.getEmailAddress());
+            User user = userDao.getUserById(id);
 
             if (user == null) {
                 throw new Exception("user was not found");
             }
-            new GMailer().sendMail(userRecovery.getEmailAddress(), "User Recovery", """
+            new GMailer().sendMail(user.getEmail(), "User Recovery", """
             Hello reader,
                             
             Thank you for using my sick application.

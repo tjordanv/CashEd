@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 /src/main/resources/gmailAPI.json
+/src/main/resources/gmailAPI(old).json
 
 ### STS ###
 .apt_generated

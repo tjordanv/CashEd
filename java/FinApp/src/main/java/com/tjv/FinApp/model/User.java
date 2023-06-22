@@ -18,10 +18,11 @@ public class User {
 
     public User() { }
 
-    public User(Integer id, String username, String password, String authorities) {
+    public User(Integer id, String username, String password, String email, String authorities) {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.email = email;
         this.activated = true;
     }
 
