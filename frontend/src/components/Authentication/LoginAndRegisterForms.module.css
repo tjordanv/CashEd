@@ -4,6 +4,18 @@ html {
   padding: 0;
 }
 
+.form {
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+/*
 .wrapper {
   display: flex;
   justify-content: center;
@@ -11,8 +23,8 @@ html {
   height: 100vh;
   width: 100%;
   background-image: url("C:\Users\Tyler\Downloads/loginBackground.png");
-  background-repeat: repeat; /* Use 'no-repeat' if you don't want the pattern to repeat */
-  background-size: auto; /* Adjust this value if needed, e.g., 'cover', 'contain', or specific dimensions */
+  background-repeat: repeat;  Use 'no-repeat' if you don't want the pattern to repeat 
+  background-size: auto;  Adjust this value if needed, e.g., 'cover', 'contain', or specific dimensions 
 }
 
 .wrapper .container {
@@ -27,7 +39,7 @@ html {
   align-items: center;
   background-color: white;
 }
-
+*/
 .container .header {
   margin-bottom: 50px;
 }
@@ -58,10 +70,11 @@ html {
 
 .container .switch {
   margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .container .navLinkLabel {
-  margin-top: auto;
+  margin-top: 25px;
 }
 
 .container .userRecoveryContainer {

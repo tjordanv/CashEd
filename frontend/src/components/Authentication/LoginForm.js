@@ -52,7 +52,7 @@ const LoginForm = () => {
   }
 
   return (
-    <form onSubmit={logInHandler}>
+    <form onSubmit={logInHandler} className={classes.form}>
       <Box className={classes.container}>
         <TextField
           variant="outlined"

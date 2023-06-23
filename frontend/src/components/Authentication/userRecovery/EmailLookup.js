@@ -42,30 +42,25 @@ const EmailLookup = ({ setUserIdHandler }) => {
   }
 
   return (
-    <div className={classes.wrapper}>
-      <form onSubmit={getUserIdByEmail}>
-        <Box className={classes.container}>
-          <Typography variant="h4" className={classes.header}>
-            Finance App
-          </Typography>
-          <TextField
-            variant="outlined"
-            label="Email Address"
-            type="email"
-            name="emailAddress"
-            required
-            value={emailAddress}
-            onChange={(e) => setEmailAddress(e.target.value)}
-            className={classes.inputField}
-            size="small"
-          />
-          <ErrorMessage message={message} />
-          <Button type="submit" variant="contained" className={classes.button}>
-            Next
-          </Button>
-        </Box>
-      </form>
-    </div>
+    <form onSubmit={getUserIdByEmail} className={classes.form}>
+      <Box className={classes.container}>
+        <TextField
+          variant="outlined"
+          label="Email Address"
+          type="email"
+          name="emailAddress"
+          required
+          value={emailAddress}
+          onChange={(e) => setEmailAddress(e.target.value)}
+          className={classes.inputField}
+          size="small"
+        />
+        <ErrorMessage message={message} />
+        <Button type="submit" variant="contained" className={classes.button}>
+          Next
+        </Button>
+      </Box>
+    </form>
   )
 }
 

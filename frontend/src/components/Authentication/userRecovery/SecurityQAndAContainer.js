@@ -13,19 +13,17 @@ const SecurityQAndAContainer = ({ userId, setIsAuthenticatedHandler }) => {
     setAnswerId(answerId)
   }
   return (
-    <div className={classes.wrapper}>
-      <Box className={classes.container}>
-        <SecurityQuestions
-          userId={userId}
-          setAnswerIdHandler={setAnswerIdHandler}
-        />
-        <SecurityAnswer
-          answerId={answerId}
-          userId={userId}
-          setIsAuthenticatedHandler={setIsAuthenticatedHandler}
-        />
-      </Box>
-    </div>
+    <Box className={classes.container}>
+      <SecurityQuestions
+        userId={userId}
+        setAnswerIdHandler={setAnswerIdHandler}
+      />
+      <SecurityAnswer
+        answerId={answerId}
+        userId={userId}
+        setIsAuthenticatedHandler={setIsAuthenticatedHandler}
+      />
+    </Box>
   )
 }
 
