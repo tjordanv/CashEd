@@ -7,6 +7,7 @@ import UsernameRecovery from "./pages/UsernameRecovery"
 import PasswordReset from "./pages/PasswordReset.js"
 import TransactionImport from "./pages/TransactionImport"
 import Header from "./pages/Header"
+import AuthHeader from "./pages/AuthHeader"
 import DashboardTest, { loader } from "./components/DashboardTest"
 
 const theme = createTheme({
@@ -36,10 +37,16 @@ const router = createBrowserRouter([
       { path: "TransactionImport", element: <TransactionImport /> }
     ]
   },
-  { path: "/login", element: <Login /> },
-  { path: "/register", element: <Register /> },
-  { path: "/userRecovery/forgotUsername", element: <UsernameRecovery /> },
-  { path: "/userRecovery/resetPassword", element: <PasswordReset /> },
+  {
+    path: "/auth",
+    element: <AuthHeader />,
+    children: [
+      { index: true, path: "login", element: <Login /> },
+      { path: "register", element: <Register /> },
+      { path: "userRecovery/forgotUsername", element: <UsernameRecovery /> },
+      { path: "userRecovery/resetPassword", element: <PasswordReset /> }
+    ]
+  },
   { path: "/logout", element: <p>logout</p> }
 ])
 

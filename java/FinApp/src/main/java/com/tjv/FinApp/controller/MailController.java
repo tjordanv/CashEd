@@ -41,13 +41,13 @@ public class MailController {
         }
     }
     @GetMapping("/auth/usernameRecovery")
-    public void usernameRecovery(@RequestParam int id) throws Exception {
+    public boolean usernameRecovery(@RequestParam int id) throws Exception {
 
         try {
             User user = userDao.getUserById(id);
-            System.out.println("check");
             if (user == null) {
-                throw new Exception("user was not found");
+//                throw new Exception("user was not found");
+                return false;
             }
             new GMailer().sendMail(user.getEmail(), "User Recovery", """
             Hello reader,
@@ -61,9 +61,11 @@ public class MailController {
             Big Bone
             """.formatted(user.getUsername()));
 
+            return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        return false;
     }
 }
 

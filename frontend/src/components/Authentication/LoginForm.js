@@ -52,69 +52,64 @@ const LoginForm = () => {
   }
 
   return (
-    <div className={classes.wrapper}>
-      <form onSubmit={logInHandler}>
-        <Box className={classes.container}>
-          <Typography variant="h4" className={classes.header}>
-            Finance App
-          </Typography>
-          <TextField
-            variant="outlined"
-            label="Username"
-            name="username"
-            required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className={classes.inputField}
-            size="small"
-          />
-          <TextField
-            variant="outlined"
-            label="Password"
-            type="password"
-            name="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className={classes.inputField}
-            size="small"
-          />
-          <ErrorMessage message={message} />
-          <Button type="submit" variant="contained" className={classes.button}>
-            Log in
-          </Button>
-          <FormControlLabel
-            control={<Switch />}
-            label="Remember Me"
-            className={classes.switch}
-          />
-          <Typography className={classes.navLinkLabel}>
-            Having trouble logging in?
-          </Typography>
-          <div className={classes.userRecoveryContainer}>
-            <NavLink
-              to="/userRecovery/forgotUsername"
-              className={classes.navLink}
-            >
-              Forgot Username
-            </NavLink>
-            |
-            <NavLink
-              to="/userRecovery/passwordReset"
-              className={classes.navLink}
-            >
-              Forgot Password
-            </NavLink>
-          </div>
-          <Typography className={classes.navLinkLabel}>
-            Need an account?
-          </Typography>
-          <NavLink to="/register" className={classes.navLink}>
-            Create Account
+    <form onSubmit={logInHandler}>
+      <Box className={classes.container}>
+        <TextField
+          variant="outlined"
+          label="Username"
+          name="username"
+          required
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className={classes.inputField}
+          size="small"
+        />
+        <TextField
+          variant="outlined"
+          label="Password"
+          type="password"
+          name="password"
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className={classes.inputField}
+          size="small"
+        />
+        <ErrorMessage message={message} />
+        <Button type="submit" variant="contained" className={classes.button}>
+          Log in
+        </Button>
+        <FormControlLabel
+          control={<Switch />}
+          label="Remember Me"
+          className={classes.switch}
+        />
+        <Typography className={classes.navLinkLabel}>
+          Having trouble logging in?
+        </Typography>
+        <div className={classes.userRecoveryContainer}>
+          <NavLink
+            to="/auth/userRecovery/forgotUsername"
+            className={classes.navLink}
+          >
+            Forgot Username
           </NavLink>
-        </Box>
-      </form>
-    </div>
+          |
+          <NavLink
+            to="/auth/userRecovery/passwordReset"
+            className={classes.navLink}
+          >
+            Forgot Password
+          </NavLink>
+        </div>
+        <Typography className={classes.navLinkLabel}>
+          Need an account?
+        </Typography>
+        <NavLink to="/auth/register" className={classes.navLink}>
+          Create Account
+        </NavLink>
+      </Box>
+    </form>
   )
 }
 

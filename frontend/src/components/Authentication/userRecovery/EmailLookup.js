@@ -30,8 +30,13 @@ const EmailLookup = ({ setUserIdHandler }) => {
       if (!userResponse.ok) throw await FetchError.fromResponse(userResponse)
 
       const userId = await userResponse.json()
-      setUserIdHandler(userId)
+      if (userId !== 0) {
+        setUserIdHandler(userId)
+      } else {
+        throw new Error("Email Address not Found")
+      }
     } catch (error) {
+      setMessage(error.message)
       console.log(error.message)
     }
   }

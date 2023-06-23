@@ -2,19 +2,26 @@ import { useEffect, useState } from "react"
 
 import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
+import CircularProgress from "@mui/material/CircularProgress"
 
 import classes from "../LoginAndRegisterForms.module.css"
 import FetchError from "../../HelperComponents/FetchError"
+import ErrorMessage from "../ErrorMessage"
 
-const SecurityQAndAContainer = ({ answerId, setIsAuthenticatedHandler }) => {
+const SecurityQAndAContainer = ({
+  userId,
+  answerId,
+  setIsAuthenticatedHandler
+}) => {
   const [answer, setAnswer] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const [message, setMessage] = useState("")
 
   const validateAnswer = async (e) => {
-    console.log("in")
+    setIsLoading(true)
     e.preventDefault()
     try {
-      console.log("start")
-      const response = await fetch(
+      const answerResponse = await fetch(
         `http://localhost:8080/auth/validateAnswer?${new URLSearchParams({
           answerProvided: answer,
           id: answerId
@@ -27,23 +34,39 @@ const SecurityQAndAContainer = ({ answerId, setIsAuthenticatedHandler }) => {
           }
         }
       )
-      console.log("end")
-      if (!response.ok) {
-        console.log("errorrrr")
-        throw await FetchError.fromResponse(response)
-      }
-      if (response.status === 200) {
-        const responseJson = await response.json()
-        console.log(responseJson)
-        if (responseJson === true) setIsAuthenticatedHandler()
-        console.log(responseJson)
+
+      if (!answerResponse.ok) {
+        throw await FetchError.fromResponse(answerResponse)
       } else {
-        console.log("reseJson")
-        throw await FetchError.fromResponse(response)
+        const answerResponseJson = await answerResponse.json()
+        if (answerResponseJson === true) {
+          const emailResponse = await fetch(
+            `http://localhost:8080/auth/usernameRecovery?${new URLSearchParams({
+              id: userId
+            })}`,
+            {
+              method: "GET",
+              mode: "cors",
+              headers: {
+                "Content-Type": "application/json"
+              }
+            }
+          )
+
+          if (!emailResponse.ok) {
+            throw await FetchError.fromResponse(emailResponse)
+          } else {
+            const emailResponseJson = await emailResponse.json()
+            if (emailResponseJson === true) {
+              setIsAuthenticatedHandler()
+            }
+          }
+        } else {
+          throw new Error("Answer is incorrect, please try again.")
+        }
       }
     } catch (error) {
-      console.log("huuuh")
-      if (error instanceof FetchError) console.log(error.message)
+      setMessage(error.message)
     }
   }
 
@@ -60,6 +83,8 @@ const SecurityQAndAContainer = ({ answerId, setIsAuthenticatedHandler }) => {
       <Button type="submit" variant="contained" className={classes.button}>
         Submit
       </Button>
+      {message && <ErrorMessage message={message} />}
+      {isLoading && <CircularProgress />}
     </form>
   )
 }

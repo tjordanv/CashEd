@@ -14,6 +14,7 @@ const UsernameRecovery = () => {
   const setIsAuthenticatedHandler = () => {
     setIsAuthenticated(true)
   }
+
   return (
     <>
       {!userId && <EmailLookup setUserIdHandler={setUserIdHandler} />}

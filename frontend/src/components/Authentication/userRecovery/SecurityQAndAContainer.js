@@ -6,7 +6,7 @@ import Box from "@mui/material/Box"
 
 import classes from "../LoginAndRegisterForms.module.css"
 
-const UsernameRecovery = ({ userId, setIsAuthenticatedHandler }) => {
+const SecurityQAndAContainer = ({ userId, setIsAuthenticatedHandler }) => {
   const [answerId, setAnswerId] = useState("")
 
   const setAnswerIdHandler = (answerId) => {
@@ -21,6 +21,7 @@ const UsernameRecovery = ({ userId, setIsAuthenticatedHandler }) => {
         />
         <SecurityAnswer
           answerId={answerId}
+          userId={userId}
           setIsAuthenticatedHandler={setIsAuthenticatedHandler}
         />
       </Box>
@@ -28,4 +29,4 @@ const UsernameRecovery = ({ userId, setIsAuthenticatedHandler }) => {
   )
 }
 
-export default UsernameRecovery
+export default SecurityQAndAContainer

@@ -121,7 +121,6 @@ public class JdbcUserDao implements UserDao{
         } else {
             return null;
         }
-        System.out.println(user.getUsername());
         return user;
     }
 

@@ -19,7 +19,7 @@ export async function loader() {
   const data = await grabData()
   if (!data) {
     console.log("redirect")
-    return redirect("/login")
+    return redirect("/auth/login")
   }
   console.log(data)
   return null

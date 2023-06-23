@@ -70,7 +70,7 @@ public class SecurityQuestionController {
     }
 
     @GetMapping("/auth/validateAnswer")
-    public boolean validateAnswer(@RequestParam String id, @RequestParam String answerProvided) {
+    public boolean validateAnswer(@RequestParam String id, @RequestParam String answerProvided) throws InterruptedException {
         int idInt = Integer.parseInt(id);
         return securityQuestionDao.validateAnswer(idInt, answerProvided);
     }
