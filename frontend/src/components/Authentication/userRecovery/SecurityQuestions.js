@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 
-import classes from "../LoginAndRegisterForms.module.css"
+import classes from "../Auth.module.css"
 import FetchError from "../../HelperComponents/FetchError"
 
 const SecurityQuestions = ({ userId, setAnswerIdHandler }) => {

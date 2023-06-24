@@ -1,7 +1,7 @@
 import { redirect, useLoaderData, useNavigate } from "react-router-dom"
 
 import Button from "@mui/material/Button"
-import fetcher from "../wrappers/fetchAuthorize"
+import fetcher from "./HelperFunctions/fetchAuthorize"
 
 async function grabData() {
   const response = await fetcher("http://localhost:8080/model", {})

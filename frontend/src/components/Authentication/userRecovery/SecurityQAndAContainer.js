@@ -4,7 +4,7 @@ import SecurityAnswer from "./SecurityAnswer"
 
 import Box from "@mui/material/Box"
 
-import classes from "../LoginAndRegisterForms.module.css"
+import classes from "../Auth.module.css"
 
 const SecurityQAndAContainer = ({ userId, setIsAuthenticatedHandler }) => {
   const [answerId, setAnswerId] = useState("")
@@ -13,7 +13,7 @@ const SecurityQAndAContainer = ({ userId, setIsAuthenticatedHandler }) => {
     setAnswerId(answerId)
   }
   return (
-    <Box className={classes.container}>
+    <Box className={`${classes.container} ${classes.form}`}>
       <SecurityQuestions
         userId={userId}
         setAnswerIdHandler={setAnswerIdHandler}

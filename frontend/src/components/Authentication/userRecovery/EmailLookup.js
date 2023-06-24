@@ -5,9 +5,11 @@ import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 
-import classes from "../LoginAndRegisterForms.module.css"
+import { NavLink } from "react-router-dom"
+
+import classes from "../Auth.module.css"
 import FetchError from "../../HelperComponents/FetchError"
-import ErrorMessage from "../ErrorMessage"
+import ErrorMessage from "../../HelperComponents/ErrorMessage"
 
 const EmailLookup = ({ setUserIdHandler }) => {
   const [emailAddress, setEmailAddress] = useState("")
@@ -41,9 +43,16 @@ const EmailLookup = ({ setUserIdHandler }) => {
     }
   }
 
+  const cancel = () => {
+    console.log("cancelled")
+  }
+
   return (
     <form onSubmit={getUserIdByEmail} className={classes.form}>
       <Box className={classes.container}>
+        <Typography variant="body1">
+          Please enter the email address associated with your account.
+        </Typography>
         <TextField
           variant="outlined"
           label="Email Address"
@@ -59,6 +68,9 @@ const EmailLookup = ({ setUserIdHandler }) => {
         <Button type="submit" variant="contained" className={classes.button}>
           Next
         </Button>
+        <NavLink to="/auth/login" className={classes.navLink}>
+          Cancel
+        </NavLink>
       </Box>
     </form>
   )

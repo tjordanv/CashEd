@@ -1,4 +1,4 @@
-import AuthHeaderLayout from "../components/Authentication/AuthHeader"
+import AuthHeaderLayout from "../../components/Authentication/AuthHeader"
 
 const AuthHeader = () => {
   return (

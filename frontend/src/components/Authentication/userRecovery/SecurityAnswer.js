@@ -4,9 +4,9 @@ import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
 import CircularProgress from "@mui/material/CircularProgress"
 
-import classes from "../LoginAndRegisterForms.module.css"
+import classes from "../Auth.module.css"
 import FetchError from "../../HelperComponents/FetchError"
-import ErrorMessage from "../ErrorMessage"
+import ErrorMessage from "../../HelperComponents/ErrorMessage"
 
 const SecurityQAndAContainer = ({
   userId,
@@ -66,6 +66,7 @@ const SecurityQAndAContainer = ({
         }
       }
     } catch (error) {
+      setIsLoading(false)
       setMessage(error.message)
     }
   }

@@ -4,9 +4,9 @@
   align-items: center;
   height: 100vh;
   width: 100%;
-  background-image: url("C:\Users\Tyler\Downloads/loginBackground.png");
+  background-image: url("C:\Users\Tyler\Downloads/Twitter-Cyber-Background-Img.jpg");
   background-repeat: repeat; /* Use 'no-repeat' if you don't want the pattern to repeat */
-  background-size: auto; /* Adjust this value if needed, e.g., 'cover', 'contain', or specific dimensions */
+  background-size: contain; /* Adjust this value if needed, e.g., 'cover', 'contain', or specific dimensions */
 }
 
 .wrapper .container {

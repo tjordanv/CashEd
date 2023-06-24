@@ -1,13 +1,13 @@
 import { createBrowserRouter, Link, RouterProvider } from "react-router-dom"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 
-import Login from "./pages/Login"
-import Register from "./pages/Register"
-import UsernameRecovery from "./pages/UsernameRecovery"
-import PasswordReset from "./pages/PasswordReset.js"
+import Login from "./pages/auth/Login"
+import Register from "./pages/auth/Register"
+import UsernameRecovery from "./pages/auth/UsernameRecovery"
+import PasswordReset from "./pages/auth/PasswordReset.js"
 import TransactionImport from "./pages/TransactionImport"
 import Header from "./pages/Header"
-import AuthHeader from "./pages/AuthHeader"
+import AuthHeader from "./pages/auth/AuthHeader"
 import DashboardTest, { loader } from "./components/DashboardTest"
 
 const theme = createTheme({

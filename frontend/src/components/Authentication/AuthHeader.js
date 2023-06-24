@@ -9,7 +9,7 @@ const AuthHeader = () => {
   return (
     <div className={classes.wrapper}>
       <Box className={classes.container}>
-        <Typography sx={{ marginBottom: "50px" }} variant="h4">
+        <Typography sx={{ marginBottom: "auto" }} variant="h4">
           Finance App
         </Typography>
         <Outlet />

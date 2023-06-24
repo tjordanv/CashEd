@@ -9,9 +9,9 @@ import FormControlLabel from "@mui/material/FormControlLabel"
 import Switch from "@mui/material/Switch"
 import Typography from "@mui/material/Typography"
 
-import classes from "./LoginAndRegisterForms.module.css"
+import classes from "./Auth.module.css"
 import FetchError from "../HelperComponents/FetchError"
-import ErrorMessage from "./ErrorMessage"
+import ErrorMessage from "../HelperComponents/ErrorMessage"
 
 const LoginForm = () => {
   const [username, setUsername] = useState("")

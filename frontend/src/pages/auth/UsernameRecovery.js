@@ -1,7 +1,7 @@
 import { useState } from "react"
-import EmailLookup from "../components/Authentication/userRecovery/EmailLookup"
-import SecurityQAndA from "../components/Authentication/userRecovery/SecurityQAndAContainer"
-import FinalResponse from "../components/Authentication/userRecovery/FinalResponse"
+import EmailLookup from "../../components/Authentication/userRecovery/EmailLookup"
+import SecurityQAndA from "../../components/Authentication/userRecovery/SecurityQAndAContainer"
+import FinalResponse from "../../components/Authentication/userRecovery/FinalResponse"
 
 const UsernameRecovery = () => {
   const [userId, setUserId] = useState("")
