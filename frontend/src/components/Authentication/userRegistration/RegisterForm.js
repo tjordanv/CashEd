@@ -7,10 +7,13 @@ import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 
-import classes from "./Auth.module.css"
-import FetchError from "../HelperComponents/FetchError"
-import ErrorMessage from "../HelperComponents/ErrorMessage"
-import validatePasswordCriteria from "../HelperFunctions/validatePasswordCriteria"
+import classes from "../Auth.module.css"
+import FetchError from "../../HelperComponents/FetchError"
+import ErrorMessage from "../../HelperComponents/ErrorMessage"
+import validatePasswordCriteria from "../../HelperFunctions/validatePasswordCriteria"
+import { Visibility, VisibilityOff } from "@mui/icons-material"
+import { InputAdornment, IconButton } from "@mui/material"
+import PasswordInput from "../PasswordInput"
 
 const RegisterForm = () => {
   const [username, setUsername] = useState("")
@@ -18,26 +21,45 @@ const RegisterForm = () => {
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [message, setMessage] = useState("")
-  const [inputErrors, setInputError] = useState([
-    { name: "username", error: false },
-    { name: "password", error: false },
-    { namw: "email", error: false }
-  ])
+  const [errors, setErrors] = useState({
+    password: { isError: false, message: "" }
+  })
 
   const navigate = useNavigate()
+
+  const setErrorHandler = (error) => {
+    setErrors((prevState) => ({
+      ...prevState,
+      [error.inputField]: { isError: error.isError, message: error.message }
+    }))
+  }
 
   const registerHandler = async (e) => {
     e.preventDefault()
 
     try {
       // Check that the password meets baseline criteria before attempting to register
+      console.log(errors)
+      console.log(password)
       if (!validatePasswordCriteria(password)) {
-        setInputError((prevState) =>
-          prevState.map((input) => input.name === "username")
-        )
+        setErrorHandler({
+          inputField: "password",
+          isError: true,
+          message:
+            "Password must contain at least one uppercase, one number, one special character and be at least 8 characters long."
+        })
         throw new Error(
           "Password must contain at least one uppercase, one number, one special character and be at least 8 characters long."
         )
+      }
+      console.log(errors)
+
+      if (errors.password.isError) {
+        setErrorHandler({
+          inputField: "password",
+          isError: false,
+          message: ""
+        })
       }
 
       let response = await fetch("http://localhost:8080/auth/register", {
@@ -105,19 +127,7 @@ const RegisterForm = () => {
           className={classes.inputField}
           size="small"
         />
-        <TextField
-          variant="outlined"
-          label="Password"
-          type="password"
-          name="password"
-          error={inputErrors.password}
-          helperText={inputErrors.password ? "helper text" : ""}
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className={classes.inputField}
-          size="small"
-        />
+        <PasswordInput error={errors.password} />
         <TextField
           variant="outlined"
           label="Confirm Password"
@@ -129,7 +139,7 @@ const RegisterForm = () => {
           className={classes.inputField}
           size="small"
         />
-        <ErrorMessage message={message} />
+        {/* <ErrorMessage message={message} /> */}
         <Button type="submit" variant="contained" className={classes.button}>
           Create Account
         </Button>
