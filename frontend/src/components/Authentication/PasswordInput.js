@@ -6,29 +6,14 @@ import classes from "./Auth.module.css"
 import { Visibility, VisibilityOff } from "@mui/icons-material"
 import { InputAdornment, IconButton } from "@mui/material"
 
-const PasswordInput = ({ error }) => {
-  const [values, setValues] = useState({
-    password: "",
-    showPassword: false
-  })
-
-  const onChangeHandler = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value })
-  }
-
-  const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword })
-  }
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault()
-  }
+const PasswordInput = ({ password, inputHandler, error }) => {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
   return (
     <TextField
       variant="outlined"
       label="Password"
-      type={values.showPassword ? "text" : "password"}
+      type={isPasswordVisible ? "text" : "password"}
       name="password"
       error={error.isError}
       helperText={error.message}
@@ -37,18 +22,18 @@ const PasswordInput = ({ error }) => {
           <InputAdornment position="end">
             <IconButton
               aria-label="show password"
-              onClick={handleClickShowPassword}
-              onMouseDown={handleMouseDownPassword}
+              onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+              onMouseDown={(e) => e.preventDefault()}
               edge="end"
             >
-              {values.showPassword ? <Visibility /> : <VisibilityOff />}
+              {isPasswordVisible ? <Visibility /> : <VisibilityOff />}
             </IconButton>
           </InputAdornment>
         )
       }}
       required
-      value={values.password}
-      onChange={onChangeHandler("password")}
+      value={password}
+      onChange={(e) => inputHandler(e.target.value)}
       className={classes.inputField}
       size="small"
     />

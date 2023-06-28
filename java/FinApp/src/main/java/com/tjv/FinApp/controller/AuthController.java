@@ -91,7 +91,7 @@ public class AuthController {
     // called in the SecurityFilterChain inside the WebSecurityConfig file handles it with the default AuthenticationException
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<String> handleUserAlreadyExistsException(UserAlreadyExistsException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
     }
 
     @ExceptionHandler(BadCredentialsException.class)
