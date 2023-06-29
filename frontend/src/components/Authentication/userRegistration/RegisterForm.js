@@ -45,12 +45,16 @@ const RegisterForm = () => {
   const registerHandler = async (e) => {
     e.preventDefault()
 
+    let errorList = []
+
     try {
       // Check that the password meets baseline criteria before attempting to register
       if (!validatePasswordCriteria(password)) {
-        throw new InputError(
-          "Password must contain at least one uppercase, one number, one special character and be at least 8 characters long.",
-          "password"
+        errorList.push(
+          new InputError(
+            "Password must contain at least one uppercase, one number, one special character and be at least 8 characters long.",
+            "password"
+          )
         )
       }
 
@@ -65,7 +69,9 @@ const RegisterForm = () => {
 
       // Check that password and confirm password match
       if (password !== confirmPassword) {
-        throw new InputError("Passwords must match.", "confirmPassword")
+        errorList.push(
+          new InputError("Passwords must match.", "confirmPassword")
+        )
       }
 
       // Reset confirm password error state if passwords match
@@ -94,10 +100,21 @@ const RegisterForm = () => {
       if (!response.ok) {
         throw await FetchError.fromResponse(response)
       } else if (response.status === 200) {
-        throw new InputError("Username already taken.", "username")
+        errorList.push(new InputError("Username already taken.", "username"))
       }
+
+      if (errorList.length > 0) {
+        errorList.forEach((error) => {
+          setErrorHandler({
+            inputField: error.getInputName(),
+            isError: true,
+            message: error.getMessage()
+          })
+        })
+      }
+
       // If the user successfully registers, log them in.
-      if (response.status === 201) {
+      else if (response.status === 201) {
         let response = await fetch("http://localhost:8080/auth/login", {
           method: "POST",
           mode: "cors",

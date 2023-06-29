@@ -33,7 +33,7 @@ const DrawerLayout = () => {
   }
 
   const navigationHandler = (pathname) => {
-    if (pathname === "/login") localStorage.removeItem("jwt")
+    if (pathname === "/auth/login") localStorage.removeItem("jwt")
 
     if (pathname !== location) navigate(pathname)
   }
@@ -77,7 +77,7 @@ const DrawerLayout = () => {
     },
     {
       text: "Logout",
-      pathname: "/login",
+      pathname: "/auth/login",
       icon: LogoutIcon
     }
   ]
