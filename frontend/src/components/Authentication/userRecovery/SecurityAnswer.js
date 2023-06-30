@@ -8,7 +8,7 @@ import classes from "../Auth.module.css"
 import FetchError from "../../HelperComponents/FetchError"
 import ErrorMessage from "../../HelperComponents/ErrorMessage"
 
-const SecurityQAndAContainer = ({
+const SecurityQuestionAnswer = ({
   userId,
   answerId,
   setIsAuthenticatedHandler
@@ -90,4 +90,4 @@ const SecurityQAndAContainer = ({
   )
 }
 
-export default SecurityQAndAContainer
+export default SecurityQuestionAnswer

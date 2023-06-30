@@ -67,3 +67,11 @@ html {
 .container .navLink {
   color: #17c3b2;
 }
+
+.formControl .questionSelect {
+  white-space: normal;
+}
+
+#questions {
+  white-space: normal;
+}
