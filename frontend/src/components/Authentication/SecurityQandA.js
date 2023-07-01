@@ -2,18 +2,18 @@ import { useState } from "react"
 
 import { NavLink } from "react-router-dom"
 
-import SecurityQuestions from "../SecurityQuestions"
-import SecurityAnswer from "../SecurityAnswer"
-import FetchError from "../../HelperComponents/FetchError"
+import SecurityQuestions from "./SecurityQuestions"
+import SecurityAnswer from "./SecurityAnswer"
+import FetchError from "../HelperComponents/FetchError"
 
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
 import CircularProgress from "@mui/material/CircularProgress"
 
-import classes from "../Auth.module.css"
-import InputError from "../../HelperComponents/InputError"
+import classes from "./Auth.module.css"
+import InputError from "../HelperComponents/InputError"
 
-const SecurityQAndAContainer = ({ userId, setIsAuthenticatedHandler }) => {
+const SecurityQandA = ({ userId, setIsAuthenticatedHandler, type }) => {
   const [answerId, setAnswerId] = useState("")
   const [answer, setAnswer] = useState("")
   const [error, setError] = useState({ isError: false, message: "" })
@@ -100,8 +100,13 @@ const SecurityQAndAContainer = ({ userId, setIsAuthenticatedHandler }) => {
     }
   }
 
+  const saveAnswer = async (e) => {}
+
   return (
-    <form className={classes.form} onSubmit={validateAnswer}>
+    <form
+      className={classes.form}
+      onSubmit={type === "validation" ? validateAnswer : saveAnswer}
+    >
       <Box className={classes.container}>
         <SecurityQuestions
           userId={userId}
@@ -136,4 +141,4 @@ const SecurityQAndAContainer = ({ userId, setIsAuthenticatedHandler }) => {
   )
 }
 
-export default SecurityQAndAContainer
+export default SecurityQandA

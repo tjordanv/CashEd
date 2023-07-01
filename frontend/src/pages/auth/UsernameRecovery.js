@@ -1,6 +1,6 @@
 import { useState } from "react"
 import EmailLookup from "../../components/Authentication/userRecovery/EmailLookup"
-import SecurityQAndA from "../../components/Authentication/userRecovery/SecurityQAndAContainer"
+import SecurityQAndA from "../../components/Authentication/SecurityQandA"
 import FinalResponse from "../../components/Authentication/userRecovery/FinalResponse"
 
 const UsernameRecovery = () => {
@@ -22,6 +22,7 @@ const UsernameRecovery = () => {
         <SecurityQAndA
           userId={userId}
           setIsAuthenticatedHandler={setIsAuthenticatedHandler}
+          type={"validation"}
         />
       )}
       {isAuthenticated && <FinalResponse />}
