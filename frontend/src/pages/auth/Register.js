@@ -1,13 +1,11 @@
 import { useState } from "react"
 import RegisterForm from "../../components/Authentication/userRegistration/RegisterForm"
-import RegisterSecurityQuestions from "../../components/Authentication/userRegistration/RegisterSecurityQuestions"
+import RegisterSecurityQandA from "../../components/Authentication/RegisterSecurityQandA"
 
 const Register = () => {
   const [isRegistered, setIsRegistered] = useState(true)
 
-  return (
-    <>{(!isRegistered && <RegisterForm />) || <RegisterSecurityQuestions />}</>
-  )
+  return <>{(!isRegistered && <RegisterForm />) || <RegisterSecurityQandA />}</>
 }
 
 export default Register
