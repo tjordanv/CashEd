@@ -3,9 +3,29 @@ import RegisterForm from "../../components/Authentication/userRegistration/Regis
 import SecurityQandA from "../../components/Authentication/SecurityQandA"
 
 const Register = () => {
-  const [isRegistered, setIsRegistered] = useState(true)
+  const [isRegistered, setIsRegistered] = useState(false)
 
-  return <>{(!isRegistered && <RegisterForm />) || <SecurityQandA />}</>
+  const setIsRegisteredHandler = () => {
+    setIsRegistered(true)
+  }
+
+  return (
+    <>
+      {(!isRegistered && (
+        <RegisterForm setIsRegisteredHandler={setIsRegisteredHandler} />
+      )) || (
+        <>
+          {" "}
+          <p>
+            For additional security and user recovery, please answer 3 security
+            questions
+          </p>
+          <p>1/3</p>
+          <SecurityQandA type="register" />{" "}
+        </>
+      )}
+    </>
+  )
 }
 
 export default Register

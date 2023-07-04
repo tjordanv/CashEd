@@ -14,7 +14,7 @@ import validatePasswordCriteria from "../../HelperFunctions/validatePasswordCrit
 import PasswordInput from "../PasswordInput"
 import InputError from "../../HelperComponents/InputError"
 
-const RegisterForm = () => {
+const RegisterForm = ({ setIsRegisteredHandler }) => {
   const [username, setUsername] = useState("")
   const [emailAddress, setEmailAddress] = useState("")
   const [password, setPassword] = useState("")
@@ -129,7 +129,7 @@ const RegisterForm = () => {
         if (response.status === 200) {
           const responseJson = await response.json()
           localStorage.setItem("jwt", responseJson.accessToken)
-          navigate("/")
+          setIsRegisteredHandler()
         }
       }
     } catch (error) {

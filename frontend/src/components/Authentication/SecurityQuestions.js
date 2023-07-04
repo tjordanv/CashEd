@@ -8,7 +8,7 @@ import MenuItem from "@mui/material/MenuItem"
 import FormControl from "@mui/material/FormControl"
 import Select from "@mui/material/Select"
 
-const SecurityQuestions = ({ userId, setAnswerIdHandler }) => {
+const SecurityQuestions = ({ userId, setIdsHandler }) => {
   const [securityQuestions, setSecurityQuestions] = useState()
   const [question, setQuestion] = useState("")
 
@@ -82,9 +82,10 @@ const SecurityQuestions = ({ userId, setAnswerIdHandler }) => {
   const questionChangeHandler = (question) => {
     setQuestion(question)
 
-    if (setAnswerIdHandler) {
-      setAnswerIdHandler(question.answer_id)
+    if (setIdsHandler) {
+      setIdsHandler(question)
     }
+    console.log(question)
   }
 
   return (

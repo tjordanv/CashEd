@@ -12,9 +12,11 @@ import CircularProgress from "@mui/material/CircularProgress"
 
 import classes from "./Auth.module.css"
 import InputError from "../HelperComponents/InputError"
+import fetcher from "../HelperFunctions/fetchAuthorize"
 
 const SecurityQandA = ({ userId, setIsAuthenticatedHandler, type }) => {
   const [answerId, setAnswerId] = useState("")
+  const [questionId, setQuestionId] = useState("")
   const [answer, setAnswer] = useState("")
   const [error, setError] = useState({ isError: false, message: "" })
   const [isLoading, setIsLoading] = useState(false)
@@ -23,8 +25,12 @@ const SecurityQandA = ({ userId, setIsAuthenticatedHandler, type }) => {
   //   answerId
   // }[])
 
-  const setAnswerIdHandler = (answerId) => {
-    setAnswerId(answerId)
+  const setIdsHandler = (question) => {
+    setAnswerId(question.answer_id)
+
+    if (type === "register") {
+      setQuestionId(question.id)
+    }
   }
   const setAnswerHandler = (answer) => {
     setAnswer(answer)
@@ -35,7 +41,6 @@ const SecurityQandA = ({ userId, setIsAuthenticatedHandler, type }) => {
 
     // start the loading state
     setIsLoading(true)
-
     try {
       const answerResponse = await fetch(
         `http://localhost:8080/auth/validateAnswer?${new URLSearchParams({
@@ -100,18 +105,42 @@ const SecurityQandA = ({ userId, setIsAuthenticatedHandler, type }) => {
     }
   }
 
-  const saveAnswer = async (e) => {}
+  const saveAnswer = async (e) => {
+    e.preventDefault()
+    const response = await fetcher(
+      "http://localhost:8080/saveSecurityQuestionAnswer",
+      {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          answer: answer,
+          question_id: questionId
+        })
+      }
+    )
+  }
+
+  const test = (e) => {
+    e.preventDefault()
+    console.log(answerId, questionId)
+  }
 
   return (
     <form
       className={classes.form}
-      onSubmit={type === "validation" ? validateAnswer : saveAnswer}
+      onSubmit={
+        type === "validation"
+          ? validateAnswer
+          : type === "register"
+          ? saveAnswer
+          : test
+      }
     >
       <Box className={classes.container}>
-        <SecurityQuestions
-          userId={userId}
-          setAnswerIdHandler={setAnswerIdHandler}
-        />
+        <SecurityQuestions userId={userId} setIdsHandler={setIdsHandler} />
         <SecurityAnswer
           answer={answer}
           setAnswerHandler={setAnswerHandler}
