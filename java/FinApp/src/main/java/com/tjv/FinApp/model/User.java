@@ -10,6 +10,7 @@ public class User {
     private int id;
     private String username;
     private String email;
+    private int activeSecurityQuestions;
     @JsonIgnore
     private String password;
     @JsonIgnore
@@ -18,11 +19,12 @@ public class User {
 
     public User() { }
 
-    public User(Integer id, String username, String password, String email, String authorities) {
+    public User(Integer id, String username, String password, String email, int activeSecurityQuestions, String authorities) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.activeSecurityQuestions = activeSecurityQuestions;
         this.activated = true;
     }
 
@@ -59,6 +61,15 @@ public class User {
     public Set<Authority> getAuthorities() {
         return authorities;
     }
+
+    public int getActiveSecurityQuestions() {
+        return activeSecurityQuestions;
+    }
+
+    public void setActiveSecurityQuestions(int activeSecurityQuestions) {
+        this.activeSecurityQuestions = activeSecurityQuestions;
+    }
+
     public void setAuthorities(String authorities) {
         String[] roles = authorities.split(",");
         for(String role : roles) {

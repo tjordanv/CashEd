@@ -14,7 +14,12 @@ import classes from "./Auth.module.css"
 import InputError from "../HelperComponents/InputError"
 import fetcher from "../HelperFunctions/fetchAuthorize"
 
-const SecurityQandA = ({ userId, setIsAuthenticatedHandler, type }) => {
+const SecurityQandA = ({
+  type,
+  userId,
+  setIsAuthenticatedHandler,
+  setActiveSecurityQuestionsHandler
+}) => {
   const [answerId, setAnswerId] = useState("")
   const [questionId, setQuestionId] = useState("")
   const [answer, setAnswer] = useState("")
@@ -107,20 +112,30 @@ const SecurityQandA = ({ userId, setIsAuthenticatedHandler, type }) => {
 
   const saveAnswer = async (e) => {
     e.preventDefault()
-    const response = await fetcher(
-      "http://localhost:8080/saveSecurityQuestionAnswer",
-      {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          answer: answer,
-          question_id: questionId
-        })
+
+    try {
+      const response = await fetcher(
+        "http://localhost:8080/saveSecurityQuestionAnswer",
+        {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            answer: answer,
+            question_id: questionId
+          })
+        }
+      )
+      if (!response.ok) {
+        throw await FetchError.fromResponse(response)
+      } else if (response.status === 201) {
+        setActiveSecurityQuestionsHandler()
       }
-    )
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const test = (e) => {

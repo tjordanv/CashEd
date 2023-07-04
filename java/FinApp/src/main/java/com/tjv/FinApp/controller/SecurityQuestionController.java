@@ -4,6 +4,7 @@ import com.tjv.FinApp.dao.SecurityQuestionDao;
 import com.tjv.FinApp.dao.UserDao;
 import com.tjv.FinApp.model.securityQuestions.SecurityQuestion;
 import com.tjv.FinApp.model.securityQuestions.SecurityQuestionAnswer;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -48,13 +49,13 @@ public class SecurityQuestionController {
     }
 
     @PostMapping("/saveSecurityQuestionAnswer")
-    public boolean saveSecurityQuestionAnswer(@RequestBody SecurityQuestionAnswer securityQuestionAnswer, Principal principal) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public void saveSecurityQuestionAnswer(@RequestBody SecurityQuestionAnswer securityQuestionAnswer, Principal principal) {
         try {
-            return securityQuestionDao.saveAnswer(securityQuestionAnswer, userDao.getUserIdByUsername(principal));
+            securityQuestionDao.saveAnswer(securityQuestionAnswer, userDao.getUserIdByUsername(principal));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return false;
     }
 
     @GetMapping("/auth/getActiveSecurityQuestionAnswersByUserId")

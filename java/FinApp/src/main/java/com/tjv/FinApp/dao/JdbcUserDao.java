@@ -24,8 +24,13 @@ public class JdbcUserDao implements UserDao{
     @Override
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
-        String sql = "SELECT u.*, e.email_address FROM users u join user_email_addresses_xref ex on " +
-                "u.id = ex.user_id join email_addresses e on ex.email_address_id = e.id";
+        String sql = "SELECT u.*, e.email_address, COUNT(sqa.id) active_security_questions " +
+                        "FROM users u " +
+                        "JOIN user_email_addresses_xref ex ON u.id = ex.user_id " +
+                        "JOIN email_addresses e ON ex.email_address_id = e.id " +
+                        "LEFT JOIN user_security_question_answers_xref sqx ON u.id = sqx.user_id " +
+                        "LEFT JOIN security_question_answers sqa ON sqx.answer_id = sqa.id AND sqa.is_active = true " +
+                        "GROUP BY u.id, e.email_address";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         while(results.next()) {
@@ -136,6 +141,9 @@ public class JdbcUserDao implements UserDao{
         user.setId(rs.getInt("id"));
         user.setUsername(rs.getString("username"));
         user.setEmail(rs.getString("email_address"));
+        if (rs.getMetaData().getColumnCount() >= 6 && rs.findColumn("active_security_questions") > 0) {
+            user.setActiveSecurityQuestions(rs.getInt("active_security_questions"));
+        }
         user.setPassword(rs.getString("password_hash"));
         user.setAuthorities(rs.getString("role"));
         user.setActivated(true);

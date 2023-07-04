@@ -4,9 +4,14 @@ import SecurityQandA from "../../components/Authentication/SecurityQandA"
 
 const Register = () => {
   const [isRegistered, setIsRegistered] = useState(false)
+  const [activeSecurityQuestions, setActiveSecurityQuestions] = useState(0)
 
   const setIsRegisteredHandler = () => {
     setIsRegistered(true)
+  }
+
+  const setActiveSecurityQuestionsHandler = () => {
+    setActiveSecurityQuestions((prevCount) => prevCount + 1)
   }
 
   return (
@@ -20,8 +25,13 @@ const Register = () => {
             For additional security and user recovery, please answer 3 security
             questions
           </p>
-          <p>1/3</p>
-          <SecurityQandA type="register" />{" "}
+          <p>{activeSecurityQuestions} / 3</p>
+          <SecurityQandA
+            type="register"
+            setActiveSecurityQuestionsHandler={
+              setActiveSecurityQuestionsHandler
+            }
+          />{" "}
         </>
       )}
     </>
