@@ -8,9 +8,8 @@ import MenuItem from "@mui/material/MenuItem"
 import FormControl from "@mui/material/FormControl"
 import Select from "@mui/material/Select"
 
-const SecurityQuestions = ({ userId, setIdsHandler }) => {
+const SecurityQuestions = ({ question, userId, setQuestionHandler }) => {
   const [securityQuestions, setSecurityQuestions] = useState()
-  const [question, setQuestion] = useState("")
 
   useEffect(() => {
     const getSecurityQuestions = async () => {
@@ -61,7 +60,6 @@ const SecurityQuestions = ({ userId, setIdsHandler }) => {
 
           return question
         })
-        // setAnswerIdHandler(updatedQuestions[0].answer_id)
         setSecurityQuestions(updatedQuestions)
       } else {
         let response = await fetch(
@@ -79,15 +77,6 @@ const SecurityQuestions = ({ userId, setIdsHandler }) => {
     getSecurityQuestions()
   }, [])
 
-  const questionChangeHandler = (question) => {
-    setQuestion(question)
-
-    if (setIdsHandler) {
-      setIdsHandler(question)
-    }
-    console.log(question)
-  }
-
   return (
     <FormControl fullWidth>
       <InputLabel id="questionsLabel">Question</InputLabel>
@@ -97,7 +86,7 @@ const SecurityQuestions = ({ userId, setIdsHandler }) => {
         id={classes.questions}
         value={question}
         label="Question"
-        onChange={(e) => questionChangeHandler(e.target.value)}
+        onChange={(e) => setQuestionHandler(e.target.value)}
         multiline
         required
       >
@@ -114,8 +103,6 @@ const SecurityQuestions = ({ userId, setIdsHandler }) => {
           ))}
       </Select>
     </FormControl>
-    // <Button onClick={() => console.log(securityQuestions)}>test</Button>
-    // <Button onClick={() => console.log(question)}>testQ</Button>
   )
 }
 

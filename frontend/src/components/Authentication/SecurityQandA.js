@@ -20,25 +20,16 @@ const SecurityQandA = ({
   setIsAuthenticatedHandler,
   setActiveSecurityQuestionsHandler
 }) => {
-  const [answerId, setAnswerId] = useState("")
-  const [questionId, setQuestionId] = useState("")
   const [answer, setAnswer] = useState("")
+  const [question, setQuestion] = useState("")
   const [error, setError] = useState({ isError: false, message: "" })
   const [isLoading, setIsLoading] = useState(false)
 
-  // useEffect(() => {
-  //   answerId
-  // }[])
-
-  const setIdsHandler = (question) => {
-    setAnswerId(question.answer_id)
-
-    if (type === "register") {
-      setQuestionId(question.id)
-    }
-  }
   const setAnswerHandler = (answer) => {
     setAnswer(answer)
+  }
+  const setQuestionHandler = (question) => {
+    setQuestion(question)
   }
 
   const validateAnswer = async (e) => {
@@ -50,7 +41,7 @@ const SecurityQandA = ({
       const answerResponse = await fetch(
         `http://localhost:8080/auth/validateAnswer?${new URLSearchParams({
           answerProvided: answer,
-          id: answerId
+          id: question.answer_Id
         })}`,
         {
           method: "GET",
@@ -124,7 +115,7 @@ const SecurityQandA = ({
           },
           body: JSON.stringify({
             answer: answer,
-            question_id: questionId
+            question_id: question.id
           })
         }
       )
@@ -132,6 +123,8 @@ const SecurityQandA = ({
         throw await FetchError.fromResponse(response)
       } else if (response.status === 201) {
         setActiveSecurityQuestionsHandler()
+        setAnswer("")
+        setQuestion("")
       }
     } catch (error) {
       console.log(error)
@@ -140,7 +133,7 @@ const SecurityQandA = ({
 
   const test = (e) => {
     e.preventDefault()
-    console.log(answerId, questionId)
+    console.log(question)
   }
 
   return (
@@ -155,13 +148,15 @@ const SecurityQandA = ({
       }
     >
       <Box className={classes.container}>
-        <SecurityQuestions userId={userId} setIdsHandler={setIdsHandler} />
+        <SecurityQuestions
+          userId={userId}
+          setQuestionHandler={setQuestionHandler}
+          question={question}
+        />
         <SecurityAnswer
           answer={answer}
           setAnswerHandler={setAnswerHandler}
           error={error}
-          //userId={userId}
-          // setIsAuthenticatedHandler={setIsAuthenticatedHandler}
         />
         <Button
           type="submit"
@@ -171,9 +166,11 @@ const SecurityQandA = ({
         >
           Submit
         </Button>
-        <NavLink to="/auth/login" className={classes.navLink}>
-          Cancel
-        </NavLink>
+        {type === "validate" && (
+          <NavLink to="/auth/login" className={classes.navLink}>
+            Cancel
+          </NavLink>
+        )}
         {/* {message && <ErrorMessage message={message} />} */}
         {isLoading ? (
           <CircularProgress />
