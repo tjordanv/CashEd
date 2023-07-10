@@ -108,4 +108,14 @@ INSERT INTO user_security_question_answers_xref (user_id, question_id, answer_id
 	(2,6,3),
 	(2,5,4);
 
+CREATE TABLE password_reset_jwt (
+	id serial NOT NULL,
+	token varchar(4096) NOT NULL,
+	create_date timestamptz DEFAULT Now(),
+	expiration_date timestamptz DEFAULT (Now() + INTERVAL '20 minutes'),
+	is_active boolean NOT NULL DEFAULT true,
+
+	CONSTRAINT PK_password_reset_jwt PRIMARY KEY (id)
+);
+
 COMMIT TRANSACTION;

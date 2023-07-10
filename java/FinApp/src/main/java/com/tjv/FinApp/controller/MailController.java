@@ -1,40 +1,50 @@
 package com.tjv.FinApp.controller;
 
+import com.tjv.FinApp.dao.PasswordResetJWTGenerator;
 import com.tjv.FinApp.dao.UserDao;
 import com.tjv.FinApp.email.GMailer;
 import com.tjv.FinApp.model.User;
-import com.tjv.FinApp.model.UserRecovery;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
 public class MailController {
     private final GMailer gMailer;
+    private final PasswordResetJWTGenerator tokenGenerator;
     private UserDao userDao;
 
-    @Autowired MailController(GMailer gMailer, UserDao userDao) {
+    @Autowired MailController(GMailer gMailer, PasswordResetJWTGenerator tokenGenerator, UserDao userDao) {
         this.gMailer = gMailer;
+        this.tokenGenerator = tokenGenerator;
         this.userDao = userDao;
     }
 
-    @GetMapping("/auth/resetPassword")
-    public void resetPassword(@RequestBody UserRecovery userRecovery) throws Exception {
+    @PostMapping("/auth/resetPassword")
+    public void resetPassword(@RequestParam String username, @RequestParam String email) throws Exception {
         try {
-            User user = userDao.getUserByEmailAddress(userRecovery.getEmailAddress());
-
-            if (user == null) {
-                throw new Exception("user was not found");
+            String token;
+            User user = userDao.findByUsername(username);
+            if (user.getEmail().equals(email)){
+                // If username and email match, generate and store token
+                token = tokenGenerator.generateToken(user.getId(), email);
+                tokenGenerator.storeToken(token);
+            } else {
+                throw new Exception("Username and/or Email do not exist");
             }
-            new GMailer().sendMail(userRecovery.getEmailAddress(), "A new message", """
+
+            String body = String.format("""
             Dear reader,
                             
             Hello world.
+            
+            <a href="http://localhost:3000/auth/resetPassword/%s">reset password</a>
                             
             Best regards,
             Big Bone
-            """);
+            """, token);
+
+            new GMailer().sendMailWithHTML(email, "A new message", body);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());

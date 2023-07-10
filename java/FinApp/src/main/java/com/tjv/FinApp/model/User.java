@@ -90,6 +90,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", activated=" + activated +
                 ", authorities=" + authorities +
+                ", email=" + email +
                 '}';
     }
 }

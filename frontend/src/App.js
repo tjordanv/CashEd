@@ -31,8 +31,8 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <DashboardTest />,
-        loader: loader
+        element: <DashboardTest />
+        // loader: loader
       },
       { path: "TransactionImport", element: <TransactionImport /> }
     ]
@@ -44,7 +44,8 @@ const router = createBrowserRouter([
       { index: true, path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
       { path: "userRecovery/forgotUsername", element: <UsernameRecovery /> },
-      { path: "userRecovery/resetPassword", element: <PasswordReset /> }
+      { path: "userRecovery/resetPassword", element: <PasswordReset /> },
+      { path: "resetPassword/:token", element: <p>yoooo</p> }
     ]
   },
   { path: "/logout", element: <p>logout</p> }
