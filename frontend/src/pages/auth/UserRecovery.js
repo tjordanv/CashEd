@@ -1,14 +1,14 @@
 import { useState } from "react"
-import EmailLookup from "../../components/Authentication/userRecovery/EmailLookup"
+import UserLookup from "../../components/Authentication/UserLookup"
 import SecurityQAndA from "../../components/Authentication/SecurityQandA"
 import FinalResponse from "../../components/Authentication/userRecovery/FinalResponse"
 
-const UsernameRecovery = () => {
-  const [userId, setUserId] = useState("")
+const UserRecovery = ({ isPasswordReset }) => {
+  const [user, setUser] = useState("")
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
-  const setUserIdHandler = (userId) => {
-    setUserId(userId)
+  const setUserHandler = (newValue) => {
+    setUser(newValue)
   }
 
   const setIsAuthenticatedHandler = () => {
@@ -17,12 +17,18 @@ const UsernameRecovery = () => {
 
   return (
     <>
-      {!userId && <EmailLookup setUserIdHandler={setUserIdHandler} />}
-      {userId && !isAuthenticated && (
+      {!user && (
+        <UserLookup
+          setUserHandler={setUserHandler}
+          isPasswordReset={isPasswordReset}
+        />
+      )}
+      {user && !isAuthenticated && (
         <SecurityQAndA
-          userId={userId}
+          user={user}
           setIsAuthenticatedHandler={setIsAuthenticatedHandler}
           type={"validation"}
+          isPasswordReset={isPasswordReset}
         />
       )}
       {isAuthenticated && <FinalResponse />}
@@ -30,4 +36,4 @@ const UsernameRecovery = () => {
   )
 }
 
-export default UsernameRecovery
+export default UserRecovery

@@ -16,7 +16,8 @@ import fetcher from "../HelperFunctions/fetchAuthorize"
 
 const SecurityQandA = ({
   type,
-  userId,
+  isPasswordReset,
+  user,
   setIsAuthenticatedHandler,
   setActiveSecurityQuestionsHandler
 }) => {
@@ -41,7 +42,7 @@ const SecurityQandA = ({
       const answerResponse = await fetch(
         `http://localhost:8080/auth/validateAnswer?${new URLSearchParams({
           answerProvided: answer,
-          id: question.answer_Id
+          id: question.answer_id
         })}`,
         {
           method: "GET",
@@ -56,19 +57,39 @@ const SecurityQandA = ({
         throw await FetchError.fromResponse(answerResponse)
       } else {
         const answerResponseJson = await answerResponse.json()
+        // send email if answer is correct
         if (answerResponseJson === true) {
-          const emailResponse = await fetch(
-            `http://localhost:8080/auth/usernameRecovery?${new URLSearchParams({
-              id: userId
-            })}`,
-            {
-              method: "GET",
-              mode: "cors",
-              headers: {
-                "Content-Type": "application/json"
+          let emailResponse
+          if (isPasswordReset) {
+            emailResponse = await fetch(
+              `http://localhost:8080/auth/resetPassword?${new URLSearchParams({
+                username: user.username,
+                email: user.email
+              })}`,
+              {
+                method: "GET",
+                mode: "cors",
+                headers: {
+                  "Content-Type": "application/json"
+                }
               }
-            }
-          )
+            )
+          } else {
+            emailResponse = await fetch(
+              `http://localhost:8080/auth/usernameRecovery?${new URLSearchParams(
+                {
+                  id: user.id
+                }
+              )}`,
+              {
+                method: "GET",
+                mode: "cors",
+                headers: {
+                  "Content-Type": "application/json"
+                }
+              }
+            )
+          }
           // If answer was correct but email failed to send, throw fetch error
           if (!emailResponse.ok) {
             throw await FetchError.fromResponse(emailResponse)
@@ -96,6 +117,7 @@ const SecurityQandA = ({
         console.log("server error")
       } else {
         console.log("failed to validate")
+        console.log(error.message)
       }
       setIsLoading(false)
     }
@@ -133,7 +155,7 @@ const SecurityQandA = ({
 
   const test = (e) => {
     e.preventDefault()
-    console.log(question)
+    console.log(user)
   }
 
   return (
@@ -149,7 +171,7 @@ const SecurityQandA = ({
     >
       <Box className={classes.container}>
         <SecurityQuestions
-          userId={userId}
+          userId={user.id}
           setQuestionHandler={setQuestionHandler}
           question={question}
         />

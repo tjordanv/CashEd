@@ -20,8 +20,8 @@ public class MailController {
         this.userDao = userDao;
     }
 
-    @PostMapping("/auth/resetPassword")
-    public void resetPassword(@RequestParam String username, @RequestParam String email) throws Exception {
+    @GetMapping("/auth/resetPassword")
+    public boolean resetPassword(@RequestParam String username, @RequestParam String email) throws Exception {
         try {
             String token;
             User user = userDao.findByUsername(username);
@@ -46,9 +46,12 @@ public class MailController {
 
             new GMailer().sendMailWithHTML(email, "A new message", body);
 
+            return true;
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        return false;
     }
     @GetMapping("/auth/usernameRecovery")
     public boolean usernameRecovery(@RequestParam int id) throws Exception {

@@ -84,6 +84,18 @@ public class JdbcUserDao implements UserDao{
         return userCreated;
     }
 
+    @Override
+    public void updatePassword(User user) {
+        String sql = "UPDATE users " +
+                "SET password_hash = ? " +
+                "WHERE id = ?";
+
+        System.out.println(user.getPassword());
+        String passwordHash = new BCryptPasswordEncoder().encode(user.getPassword());
+        System.out.println(passwordHash);
+        jdbcTemplate.update(sql, passwordHash, user.getId());
+    }
+
     public int createEmailAddress(String emailAddress) {
         String sql = "INSERT INTO email_addresses (email_address, is_active, is_verified) VALUES (?, true, false) RETURNING ID";
 

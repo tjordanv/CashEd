@@ -6,14 +6,10 @@ import RegisterForm from "../../components/Authentication/userRegistration/Regis
 import SecurityQandA from "../../components/Authentication/SecurityQandA"
 
 const Register = () => {
-  const [isRegistered, setIsRegistered] = useState(false)
+  const [user, setUser] = useState("")
   const [activeSecurityQuestions, setActiveSecurityQuestions] = useState(0)
 
   const navigate = useNavigate()
-
-  const setIsRegisteredHandler = () => {
-    setIsRegistered(true)
-  }
 
   const setActiveSecurityQuestionsHandler = () => {
     setActiveSecurityQuestions((prevCount) => prevCount + 1)
@@ -25,10 +21,8 @@ const Register = () => {
 
   return (
     <>
-      {!isRegistered && (
-        <RegisterForm setIsRegisteredHandler={setIsRegisteredHandler} />
-      )}
-      {isRegistered && (
+      {!user && <RegisterForm setUserHandler={setUser} />}
+      {user && (
         <>
           {" "}
           <p>
@@ -38,6 +32,7 @@ const Register = () => {
           <p>{activeSecurityQuestions} / 3</p>
           <SecurityQandA
             type="register"
+            user={user}
             setActiveSecurityQuestionsHandler={
               setActiveSecurityQuestionsHandler
             }

@@ -12,4 +12,5 @@ public interface UserDao {
     boolean create(String username, String email, String password, String role);
     User getUserByEmailAddress(String emailAddress);
     public int getUserIdByUsername(Principal principal);
+    public void updatePassword(User user);
 }

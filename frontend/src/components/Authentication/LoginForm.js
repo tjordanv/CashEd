@@ -96,7 +96,7 @@ const LoginForm = () => {
           </NavLink>
           |
           <NavLink
-            to="/auth/userRecovery/passwordReset"
+            to="/auth/userRecovery/resetPassword"
             className={classes.navLink}
           >
             Forgot Password

@@ -1,6 +1,7 @@
 package com.tjv.FinApp.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tjv.FinApp.dao.PasswordResetJWTGenerator;
 import com.tjv.FinApp.dao.UserDao;
 import com.tjv.FinApp.model.AuthResponseDTO;
 import com.tjv.FinApp.model.LoginDTO;
@@ -18,7 +19,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 
@@ -29,11 +29,13 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserDao userDao;
     private final TokenGenerator tokenGenerator;
+    private final PasswordResetJWTGenerator resetTokenGenerator;
 
-    public AuthController(AuthenticationManager authenticationManager, UserDao userDao, TokenGenerator tokenGenerator) {
+    public AuthController(AuthenticationManager authenticationManager, UserDao userDao, TokenGenerator tokenGenerator, PasswordResetJWTGenerator resetTokenGenerator) {
         this.authenticationManager = authenticationManager;
         this.userDao = userDao;
         this.tokenGenerator = tokenGenerator;
+        this.resetTokenGenerator = resetTokenGenerator;
     }
 
     @GetMapping("/currentUser")
@@ -65,6 +67,17 @@ public class AuthController {
         }
     }
 
+    @GetMapping("/auth/verifyToken")
+    public User verifyResetPassword(@RequestParam String token) {
+        System.out.println(token);
+        return resetTokenGenerator.verifyToken(token);
+    }
+
+    @PutMapping("/auth/updatePassword")
+    public void updatePassword(@Valid @RequestBody User user) {
+        userDao.updatePassword(user);
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/auth/register")
     public void register(@Valid @RequestBody RegisterDTO newUser) {
@@ -76,11 +89,14 @@ public class AuthController {
         }
     }
 
-    @GetMapping("/auth/getUserIdByEmail")
-    public int getUserByEmail(@RequestParam String emailAddress) {
+    @GetMapping("/auth/getUserIdByEmailAndUsername")
+    public int getUserByEmail(@RequestParam String emailAddress, @RequestParam(required = false) String username) {
         User user = userDao.getUserByEmailAddress(emailAddress);
 
         if (user != null) {
+            if (username != null) {
+                return username.equals(user.getUsername()) ? user.getId() : 0;
+            }
             return user.getId();
         } else {
             return 0;
