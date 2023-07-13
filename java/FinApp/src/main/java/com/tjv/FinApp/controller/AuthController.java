@@ -69,7 +69,6 @@ public class AuthController {
 
     @GetMapping("/auth/verifyToken")
     public User verifyResetPassword(@RequestParam String token) {
-        System.out.println(token);
         return resetTokenGenerator.verifyToken(token);
     }
 

@@ -68,4 +68,6 @@ public class PasswordResetJWTGenerator {
         }
         return null;
     }
+
+    public User
 }
