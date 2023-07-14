@@ -1,4 +1,9 @@
-import { redirect, useParams, useLoaderData } from "react-router-dom"
+import {
+  redirect,
+  useParams,
+  useLoaderData,
+  useNavigate
+} from "react-router-dom"
 import { useEffect, useState } from "react"
 
 import Button from "@mui/material/Button"
@@ -9,6 +14,7 @@ import PasswordInput from "../../components/Authentication/PasswordInput"
 import classes from "../../components/Authentication/Auth.module.css"
 import validatePasswordCriteria from "../../components/HelperFunctions/validatePasswordCriteria"
 import InputError from "../../components/HelperComponents/InputError"
+import FetchError from "../../components/HelperComponents/FetchError"
 
 // validate the token from the URL before allowing users onto this page
 const loader = async (token) => {
@@ -43,7 +49,9 @@ const PasswordReset = () => {
   const [error, setError] = useState({ isError: false, message: "" })
   const [message, setMessage] = useState("")
 
-  const resetPassword = (e) => {
+  const navigate = useNavigate()
+
+  const resetPassword = async (e) => {
     e.preventDefault()
 
     try {
@@ -51,6 +59,27 @@ const PasswordReset = () => {
         throw new InputError(
           "Password must contain at least one uppercase, one number, one special character and be at least 8 characters long."
         )
+      } else {
+        console.log(userData)
+        let response = await fetch(
+          "http://localhost:8080/auth/updatePassword",
+          {
+            method: "PUT",
+            mode: "cors",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ id: userData.id, password: password })
+          }
+        )
+        if (!response.ok) {
+          throw new FetchError.fromResponse(response)
+        } else if (response.status === 200) {
+          const responseJson = await response.json()
+          if (responseJson === true) {
+            navigate("/auth/login")
+          }
+        }
       }
       // Send request to update password if valid
     } catch (error) {

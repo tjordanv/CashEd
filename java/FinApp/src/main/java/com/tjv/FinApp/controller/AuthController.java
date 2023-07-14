@@ -73,8 +73,14 @@ public class AuthController {
     }
 
     @PutMapping("/auth/updatePassword")
-    public void updatePassword(@Valid @RequestBody User user) {
-        userDao.updatePassword(user);
+    public boolean updatePassword(@Valid @RequestBody User user) {
+        try {
+            userDao.updatePassword(user);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
     }
 
     @ResponseStatus(HttpStatus.CREATED)

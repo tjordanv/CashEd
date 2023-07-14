@@ -54,9 +54,11 @@ public class GMailer {
             throws IOException {
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(jsonFactory, new InputStreamReader(GMailer.class.getResourceAsStream("/gmailAPI.json")));
 
+        FileDataStoreFactory fileDataStoreFactory = new FileDataStoreFactory(Paths.get("tokens").toFile());
+
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 httpTransport, jsonFactory, clientSecrets, Set.of(GMAIL_SEND))
-                .setDataStoreFactory(new FileDataStoreFactory(Paths.get("tokens").toFile()))
+                .setDataStoreFactory(fileDataStoreFactory)
                 .setAccessType("offline")
                 .build();
 
