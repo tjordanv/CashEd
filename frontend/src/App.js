@@ -1,11 +1,14 @@
 import { createBrowserRouter, Link, RouterProvider } from "react-router-dom"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 
-import Login from "./pages/Login"
-import Register from "./pages/Register"
+import Login from "./pages/auth/Login"
+import Register from "./pages/auth/Register"
+import UserRecovery from "./pages/auth/UserRecovery"
 import TransactionImport from "./pages/TransactionImport"
 import Header from "./pages/Header"
-import DashboardTest, { loader } from "./components/DashboardTest"
+import AuthHeader from "./pages/auth/AuthHeader"
+import PasswordReset, { loader } from "./pages/auth/PasswordReset"
+import DashboardTest from "./components/DashboardTest"
 
 const theme = createTheme({
   palette: {
@@ -28,14 +31,32 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <DashboardTest />,
-        loader: loader
+        element: <DashboardTest />
+        // loader: loader
       },
       { path: "TransactionImport", element: <TransactionImport /> }
     ]
   },
-  { path: "/login", element: <Login /> },
-  { path: "/register", element: <Register /> },
+  {
+    path: "/auth",
+    element: <AuthHeader />,
+    children: [
+      { index: true, path: "login", element: <Login /> },
+      { path: "register", element: <Register /> },
+      { path: "userRecovery/forgotUsername", element: <UserRecovery /> },
+      {
+        path: "userRecovery/resetPassword",
+        element: <UserRecovery isPasswordReset={true} />
+      },
+      {
+        path: "resetPassword/:token",
+        element: <PasswordReset />,
+        loader: ({ params }) => {
+          return loader(params.token)
+        }
+      }
+    ]
+  },
   { path: "/logout", element: <p>logout</p> }
 ])
 

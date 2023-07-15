@@ -7,28 +7,32 @@ import java.util.Objects;
 import java.util.Set;
 
 public class User {
-    private Long id;
+    private int id;
     private String username;
     private String email;
+    private int activeSecurityQuestions;
     @JsonIgnore
     private String password;
     @JsonIgnore
     private boolean activated;
+    @JsonIgnore
     private Set<Authority> authorities = new HashSet<>();
 
     public User() { }
 
-    public User(Long id, String username, String password, String authorities) {
+    public User(Integer id, String username, String password, String email, int activeSecurityQuestions, String authorities) {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.email = email;
+        this.activeSecurityQuestions = activeSecurityQuestions;
         this.activated = true;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     public String getUsername() {
@@ -58,6 +62,15 @@ public class User {
     public Set<Authority> getAuthorities() {
         return authorities;
     }
+
+    public int getActiveSecurityQuestions() {
+        return activeSecurityQuestions;
+    }
+
+    public void setActiveSecurityQuestions(int activeSecurityQuestions) {
+        this.activeSecurityQuestions = activeSecurityQuestions;
+    }
+
     public void setAuthorities(String authorities) {
         String[] roles = authorities.split(",");
         for(String role : roles) {
@@ -78,6 +91,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", activated=" + activated +
                 ", authorities=" + authorities +
+                ", email=" + email +
                 '}';
     }
 }

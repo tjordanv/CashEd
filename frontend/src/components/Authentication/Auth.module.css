@@ -4,23 +4,12 @@ html {
   padding: 0;
 }
 
-.wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+.form {
+  margin: auto;
   width: 100%;
-  background-image: url("C:\Users\Tyler\Downloads/loginBackground.png");
-  background-repeat: repeat; /* Use 'no-repeat' if you don't want the pattern to repeat */
-  background-size: auto; /* Adjust this value if needed, e.g., 'cover', 'contain', or specific dimensions */
 }
 
-.wrapper .container {
-  box-shadow: 1px 3px 4px 2px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
-  padding: 35px;
-  height: 450px;
-  width: 275px;
+.container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -56,14 +45,33 @@ html {
   color: white;
 }
 
+.container .cancel {
+  color: #ff095f;
+}
+
 .container .switch {
   margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .container .navLinkLabel {
-  margin-top: auto;
+  margin-top: 25px;
+}
+
+.container .userRecoveryContainer {
+  width: 85%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .container .navLink {
   color: #17c3b2;
+}
+
+.formControl .questionSelect {
+  white-space: normal;
+}
+
+#questions {
+  white-space: normal;
 }

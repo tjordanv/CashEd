@@ -1,6 +1,7 @@
 package com.tjv.FinApp.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tjv.FinApp.dao.PasswordResetJWTGenerator;
 import com.tjv.FinApp.dao.UserDao;
 import com.tjv.FinApp.model.AuthResponseDTO;
 import com.tjv.FinApp.model.LoginDTO;
@@ -18,7 +19,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 
@@ -26,26 +26,27 @@ import java.security.Principal;
 @CrossOrigin
 public class AuthController {
 
-    private AuthenticationManager authenticationManager;
-    private UserDao userDao;
-    private TokenGenerator tokenGenerator;
+    private final AuthenticationManager authenticationManager;
+    private final UserDao userDao;
+    private final TokenGenerator tokenGenerator;
+    private final PasswordResetJWTGenerator resetTokenGenerator;
 
-    public AuthController(AuthenticationManager authenticationManager, UserDao userDao, TokenGenerator tokenGenerator) {
+    public AuthController(AuthenticationManager authenticationManager, UserDao userDao, TokenGenerator tokenGenerator, PasswordResetJWTGenerator resetTokenGenerator) {
         this.authenticationManager = authenticationManager;
         this.userDao = userDao;
         this.tokenGenerator = tokenGenerator;
+        this.resetTokenGenerator = resetTokenGenerator;
     }
 
-    @CrossOrigin
-    @GetMapping("/test")
+    @GetMapping("/currentUser")
     @ResponseStatus(HttpStatus.OK)
-    public void Tester(Principal principal) {
-        System.out.println("test");
+    public int currentUser(Principal principal) {
         try {
-            System.out.println(principal.getName());
+            return userDao.getUserIdByUsername(principal);
         } catch (Exception e) {
-            System.out.println("no principal");
+            System.out.println("no current user");
         }
+        return 0;
     }
 
     @PostMapping("/auth/login")
@@ -55,15 +56,33 @@ public class AuthController {
                     new UsernamePasswordAuthenticationToken(loginDTO.getUsername(),
                             loginDTO.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            String token = tokenGenerator.generateToken(authentication);
 
+            String token = tokenGenerator.generateToken(authentication);
             User user = userDao.findByUsername(loginDTO.getUsername());
 
             return new ResponseEntity<>(new AuthResponseDTO(token, user), HttpStatus.OK);
 
         } catch (BadCredentialsException e) {
-            throw new BadCredentialsException("Username and password do not match.");
+            System.out.printf("Username: %s and the provided password Password not found%n", loginDTO.getUsername());
+            return null;
+            //throw new BadCredentialsException("Username and password do not match.");
         }
+    }
+
+    @GetMapping("/auth/verifyToken")
+    public User verifyResetPassword(@RequestParam String token) {
+        return resetTokenGenerator.verifyToken(token);
+    }
+
+    @PutMapping("/auth/updatePassword")
+    public boolean updatePassword(@Valid @RequestBody User user) {
+        try {
+            userDao.updatePassword(user);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -77,11 +96,25 @@ public class AuthController {
         }
     }
 
+    @GetMapping("/auth/getUserIdByEmailAndUsername")
+    public int getUserByEmail(@RequestParam String emailAddress, @RequestParam(required = false) String username) {
+        User user = userDao.getUserByEmailAddress(emailAddress);
+
+        if (user != null) {
+            if (username != null) {
+                return username.equals(user.getUsername()) ? user.getId() : 0;
+            }
+            return user.getId();
+        } else {
+            return 0;
+        }
+    }
+
     // This exception handler is handling when the UserAlreadyExistsException is thrown. Otherwise, the exceptionHandling method
     // called in the SecurityFilterChain inside the WebSecurityConfig file handles it with the default AuthenticationException
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<String> handleUserAlreadyExistsException(UserAlreadyExistsException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.OK);
     }
 
     @ExceptionHandler(BadCredentialsException.class)

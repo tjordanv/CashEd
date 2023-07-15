@@ -1,4 +1,4 @@
-import classes from "./LoginAndRegisterForms.module.css"
+import classes from "../Authentication/Auth.module.css"
 
 import Typography from "@mui/material/Typography"
 

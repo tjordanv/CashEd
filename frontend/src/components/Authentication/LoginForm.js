@@ -9,19 +9,24 @@ import FormControlLabel from "@mui/material/FormControlLabel"
 import Switch from "@mui/material/Switch"
 import Typography from "@mui/material/Typography"
 
-import classes from "./LoginAndRegisterForms.module.css"
+import classes from "./Auth.module.css"
 import FetchError from "../HelperComponents/FetchError"
-import ErrorMessage from "./ErrorMessage"
+import ErrorMessage from "../HelperComponents/ErrorMessage"
+import PasswordInput from "./PasswordInput"
+import UsernameInput from "./UsernameInput"
+import validatePasswordCriteria from "../HelperFunctions/validatePasswordCriteria"
 
 const LoginForm = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [error, setError] = useState({ isError: false, message: "" })
   const [message, setMessage] = useState("")
 
   const navigate = useNavigate()
 
   const logInHandler = async (e) => {
     e.preventDefault()
+
     try {
       let response = await fetch("http://localhost:8080/auth/login", {
         method: "POST",
@@ -38,68 +43,74 @@ const LoginForm = () => {
         throw await FetchError.fromResponse(response)
       }
       if (response.status === 200) {
-        try {
-          const responseJson = await response.json()
+        // Check that there is a loginDTO response before attempting to parse JSON data
+        const responseText = await response.text()
+
+        if (responseText) {
+          const responseJson = JSON.parse(responseText)
+          // Store the returned access token if user is successfully authenticated
           localStorage.setItem("jwt", responseJson.accessToken)
           navigate("/")
-        } catch (error) {
-          setMessage("Error authenticating")
+        } else {
+          setError({
+            isError: true,
+            message: "Username and Password do not match."
+          })
         }
       }
     } catch (error) {
-      if (error instanceof FetchError) setMessage(error.message)
+      if (error instanceof FetchError) {
+        setMessage(error.message)
+      } else {
+        console.log(error.message)
+      }
     }
   }
 
   return (
-    <div className={classes.wrapper}>
-      <form onSubmit={logInHandler}>
-        <Box className={classes.container}>
-          <Typography variant="h4" className={classes.header}>
-            Finance App
-          </Typography>
-          <TextField
-            variant="outlined"
-            label="Username"
-            name="username"
-            required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className={classes.inputField}
-            size="small"
-          />
-          <TextField
-            variant="outlined"
-            label="Password"
-            type="password"
-            name="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className={classes.inputField}
-            size="small"
-          />
-          <ErrorMessage message={message} />
-          <Button type="submit" variant="contained" className={classes.button}>
-            Log in
-          </Button>
-          <FormControlLabel
-            control={<Switch />}
-            label="Remember Me"
-            className={classes.switch}
-          />
-          <NavLink to="/login/help" className={classes.navLink}>
-            Having trouble logging in?
+    <form onSubmit={logInHandler} className={classes.form}>
+      <Box className={classes.container}>
+        <UsernameInput username={username} setUsernameHandler={setUsername} />
+        <PasswordInput
+          password={password}
+          inputHandler={setPassword}
+          error={error}
+        />
+        <ErrorMessage message={message} />
+        <Button type="submit" variant="contained" className={classes.button}>
+          Log in
+        </Button>
+        <FormControlLabel
+          control={<Switch />}
+          label="Remember Me"
+          className={classes.switch}
+        />
+        <Typography className={classes.navLinkLabel}>
+          Having trouble logging in?
+        </Typography>
+        <div className={classes.userRecoveryContainer}>
+          <NavLink
+            to="/auth/userRecovery/forgotUsername"
+            className={classes.navLink}
+          >
+            Forgot Username
           </NavLink>
-          <Typography className={classes.navLinkLabel}>
-            Need an account?
-          </Typography>
-          <NavLink to="/register" className={classes.navLink}>
-            Create Account
+          |
+          <NavLink
+            to="/auth/userRecovery/resetPassword"
+            className={classes.navLink}
+          >
+            Forgot Password
           </NavLink>
-        </Box>
-      </form>
-    </div>
+        </div>
+        <Typography className={classes.navLinkLabel}>
+          Need an account?
+        </Typography>
+        <NavLink to="/auth/register" className={classes.navLink}>
+          Create Account
+        </NavLink>
+      </Box>
+    </form>
   )
 }
 
