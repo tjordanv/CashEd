@@ -40,4 +40,8 @@ const PasswordInput = ({ password, inputHandler, error }) => {
   )
 }
 
+PasswordInput.defaultProps = {
+  error: { isError: false, message: "" }
+}
+
 export default PasswordInput

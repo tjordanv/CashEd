@@ -20,4 +20,8 @@ const UsernameInput = ({ username, setUsernameHandler, error }) => {
   )
 }
 
+UsernameInput.defaultProps = {
+  error: { isError: false, message: "" }
+}
+
 export default UsernameInput
