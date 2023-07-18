@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-import { NavLink, useNavigate } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 
 import Box from "@mui/material/Box"
 import TextField from "@mui/material/TextField"
@@ -22,14 +22,12 @@ const RegisterForm = ({ setUserHandler }) => {
   const [message, setMessage] = useState("")
   const [errors, setErrors] = useState({
     username: { isError: false, message: "", username: "" },
+    emailAddress: { isError: false, message: "" },
     password: { isError: false, message: "" },
     confirmPassword: { isError: false, message: "" }
   })
 
-  const navigate = useNavigate()
-
   const setErrorHandler = (error) => {
-    console.log(error.username)
     if (error.username) {
       setErrors((prevState) => ({
         ...prevState,
@@ -60,25 +58,11 @@ const RegisterForm = ({ setUserHandler }) => {
     let errorList = []
 
     try {
-      // If username was set to an error state but the username has since changed, clear the error state.
-      // This does not necessarily indicate that the username is not taken but without resetting the error state here, it will permanently appear as taken
-      // console.log(errors.username)
-      // console.log(username)
-      // console.log(errors.username.username)
-      if (errors.username.isError && errors.username.username !== username) {
-        setErrorHandler({
-          inputField: "username",
-          isError: false,
-          message: ""
-          //username: username
-        })
-      }
-
       // Check that the password meets baseline criteria before attempting to register
       if (!validatePasswordCriteria(password)) {
         errorList.push(
           new InputError(
-            "Password must contain at least one uppercase, one number, one special character and be at least 8 characters long.",
+            "Password must contain at least one uppercase, one number, one special character (@$!%*?&) and be at least 8 characters long.",
             "password"
           )
         )
@@ -109,6 +93,54 @@ const RegisterForm = ({ setUserHandler }) => {
         })
       }
 
+      // Reset username error state if successfully validated
+      if (errors.username.isError) {
+        setErrorHandler({
+          inputField: "username",
+          isError: false,
+          message: ""
+        })
+      }
+
+      // Reset email error state if successfully validated
+      if (errors.emailAddress.isError) {
+        setErrorHandler({
+          inputField: "emailAddress",
+          isError: false,
+          message: ""
+        })
+      }
+
+      // Check that the username and email address are available.
+      let usernameAndEmailResponse = await fetch(
+        `http://localhost:8080/auth/checkUsernameAndEmail?${new URLSearchParams(
+          { username: username, email: emailAddress }
+        )}`,
+        {
+          method: "GET",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      )
+
+      if (!usernameAndEmailResponse.ok) {
+        throw await FetchError.fromResponse(usernameAndEmailResponse)
+      } else if (usernameAndEmailResponse.status === 200) {
+        const usernameAndEmailResponseJson =
+          await usernameAndEmailResponse.json()
+        if (usernameAndEmailResponseJson[0] === true) {
+          errorList.push(new InputError("Username already taken.", "username"))
+        }
+        if (usernameAndEmailResponseJson[1] === true) {
+          errorList.push(
+            new InputError("Email address already taken.", "emailAddress")
+          )
+        }
+      }
+
+      // Handle any input errors
       if (errorList.length > 0) {
         errorList.forEach((error) => {
           setErrorHandler({
@@ -120,29 +152,33 @@ const RegisterForm = ({ setUserHandler }) => {
         throw new InputError()
       }
 
-      let response = await fetch("http://localhost:8080/auth/register", {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          username: username,
-          email: emailAddress,
-          password: password,
-          confirmPassword: confirmPassword,
-          role: "USER"
-        })
-      })
-      if (!response.ok) {
-        throw await FetchError.fromResponse(response)
-      } else if (response.status === 200) {
-        throw new InputError("Username already taken.", "username")
+      let registerResponse = await fetch(
+        "http://localhost:8080/auth/register",
+        {
+          method: "POST",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            username: username,
+            email: emailAddress,
+            password: password,
+            confirmPassword: confirmPassword,
+            role: "USER"
+          })
+        }
+      )
+      if (!registerResponse.ok) {
+        throw await FetchError.fromResponse(registerResponse)
+      } else if (registerResponse.status === 200) {
+        console.log("user not created")
+        // handle this scenario; no input errors prevented register request but user not created
       }
 
       // If the user successfully registers, log them in.
-      else if (response.status === 201) {
-        let response = await fetch("http://localhost:8080/auth/login", {
+      else if (registerResponse.status === 201) {
+        let loginResponse = await fetch("http://localhost:8080/auth/login", {
           method: "POST",
           mode: "cors",
           headers: {
@@ -153,26 +189,20 @@ const RegisterForm = ({ setUserHandler }) => {
             password: password
           })
         })
-        if (response.status === 200) {
-          const responseJson = await response.json()
-          localStorage.setItem("jwt", responseJson.accessToken)
+        if (loginResponse.status === 200) {
+          const loginResponseJson = await loginResponse.json()
+          localStorage.setItem("jwt", loginResponseJson.accessToken)
           setUserHandler({
-            id: responseJson.id,
-            username: responseJson.username,
-            email: responseJson.email
+            id: loginResponseJson.id,
+            username: loginResponseJson.username,
+            email: loginResponseJson.email
           })
         }
       }
     } catch (error) {
       if (error instanceof InputError) {
-        if (error.getInputName() === "username") {
-          setErrorHandler({
-            inputField: error.getInputName(),
-            isError: true,
-            message: error.getMessage(),
-            username: username
-          })
-        }
+        console.log("input error")
+        // handle input error
       } else if (error instanceof FetchError) {
         setMessage(error.message)
       }
@@ -204,6 +234,8 @@ const RegisterForm = ({ setUserHandler }) => {
           onChange={(e) => setEmailAddress(e.target.value)}
           className={classes.inputField}
           size="small"
+          error={errors.emailAddress.isError}
+          helperText={errors.emailAddress.message}
         />
         <PasswordInput
           password={password}

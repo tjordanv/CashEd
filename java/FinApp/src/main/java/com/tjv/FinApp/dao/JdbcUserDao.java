@@ -96,6 +96,38 @@ public class JdbcUserDao implements UserDao{
         jdbcTemplate.update(sql, passwordHash, user.getId());
     }
 
+    @Override
+    public List<Boolean> checkUsernameAndEmail(String username, String email) {
+        String sql = "SELECT u.username, e.email_address " +
+                "FROM users u " +
+                "LEFT JOIN user_email_addresses_xref ex ON u.id = ex.user_id " +
+                "LEFT JOIN email_addresses e on ex.email_address_id = e.id " +
+                "WHERE u.username = ? " +
+//               Once this flag is added, this will need to be included "AND u.isActive" +
+                "OR e.email_address = ? " +
+                "AND e.is_active = true";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username, email);
+
+        boolean isUsernameTaken = false;
+        boolean isEmailTaken = false;
+
+        while(results.next()) {
+            if (results.getString("username").equals(username)) {
+                isUsernameTaken = true;
+            }
+            if (results.getString("email_address").equals(email)) {
+                isEmailTaken = true;
+            }
+
+            if(isUsernameTaken && isEmailTaken) {
+                return new ArrayList<>(List.of(true, true));
+            }
+        }
+
+        return new ArrayList<>(List.of(isUsernameTaken, isEmailTaken));
+    }
+
     public int createEmailAddress(String emailAddress) {
         String sql = "INSERT INTO email_addresses (email_address, is_active, is_verified) VALUES (?, true, false) RETURNING ID";
 

@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -83,6 +84,10 @@ public class AuthController {
             System.out.println(e.getMessage());
         }
         return false;
+    }
+    @GetMapping("/auth/checkUsernameAndEmail")
+    public List<Boolean> checkUsernameAndEmail(@RequestParam String username, @RequestParam String email) {
+        return userDao.checkUsernameAndEmail(username, email);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
