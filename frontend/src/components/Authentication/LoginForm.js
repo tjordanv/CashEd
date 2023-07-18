@@ -53,8 +53,14 @@ const LoginForm = () => {
           navigate("/")
         } else {
           setError({
-            isError: true,
-            message: "Username and Password do not match."
+            username: {
+              isError: true,
+              message: ""
+            },
+            password: {
+              isError: true,
+              message: "Username and Password do not match."
+            }
           })
         }
       }
@@ -70,11 +76,15 @@ const LoginForm = () => {
   return (
     <form onSubmit={logInHandler} className={classes.form}>
       <Box className={classes.container}>
-        <UsernameInput username={username} setUsernameHandler={setUsername} />
+        <UsernameInput
+          username={username}
+          setUsernameHandler={setUsername}
+          error={error.username}
+        />
         <PasswordInput
           password={password}
           inputHandler={setPassword}
-          error={error}
+          error={error.password}
         />
         <ErrorMessage message={message} />
         <Button type="submit" variant="contained" className={classes.button}>

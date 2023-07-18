@@ -21,7 +21,7 @@ const RegisterForm = ({ setUserHandler }) => {
   const [confirmPassword, setConfirmPassword] = useState("")
   const [message, setMessage] = useState("")
   const [errors, setErrors] = useState({
-    username: { isError: false, message: "" },
+    username: { isError: false, message: "", username: "" },
     password: { isError: false, message: "" },
     confirmPassword: { isError: false, message: "" }
   })
@@ -29,10 +29,22 @@ const RegisterForm = ({ setUserHandler }) => {
   const navigate = useNavigate()
 
   const setErrorHandler = (error) => {
-    setErrors((prevState) => ({
-      ...prevState,
-      [error.inputField]: { isError: error.isError, message: error.message }
-    }))
+    console.log(error.username)
+    if (error.username) {
+      setErrors((prevState) => ({
+        ...prevState,
+        [error.inputField]: {
+          isError: error.isError,
+          message: error.message,
+          username: error.username
+        }
+      }))
+    } else {
+      setErrors((prevState) => ({
+        ...prevState,
+        [error.inputField]: { isError: error.isError, message: error.message }
+      }))
+    }
   }
 
   const setPasswordHandler = (newPassword) => {
@@ -48,6 +60,20 @@ const RegisterForm = ({ setUserHandler }) => {
     let errorList = []
 
     try {
+      // If username was set to an error state but the username has since changed, clear the error state.
+      // This does not necessarily indicate that the username is not taken but without resetting the error state here, it will permanently appear as taken
+      // console.log(errors.username)
+      // console.log(username)
+      // console.log(errors.username.username)
+      if (errors.username.isError && errors.username.username !== username) {
+        setErrorHandler({
+          inputField: "username",
+          isError: false,
+          message: ""
+          //username: username
+        })
+      }
+
       // Check that the password meets baseline criteria before attempting to register
       if (!validatePasswordCriteria(password)) {
         errorList.push(
@@ -83,6 +109,17 @@ const RegisterForm = ({ setUserHandler }) => {
         })
       }
 
+      if (errorList.length > 0) {
+        errorList.forEach((error) => {
+          setErrorHandler({
+            inputField: error.getInputName(),
+            isError: true,
+            message: error.getMessage()
+          })
+        })
+        throw new InputError()
+      }
+
       let response = await fetch("http://localhost:8080/auth/register", {
         method: "POST",
         mode: "cors",
@@ -100,17 +137,7 @@ const RegisterForm = ({ setUserHandler }) => {
       if (!response.ok) {
         throw await FetchError.fromResponse(response)
       } else if (response.status === 200) {
-        errorList.push(new InputError("Username already taken.", "username"))
-      }
-
-      if (errorList.length > 0) {
-        errorList.forEach((error) => {
-          setErrorHandler({
-            inputField: error.getInputName(),
-            isError: true,
-            message: error.getMessage()
-          })
-        })
+        throw new InputError("Username already taken.", "username")
       }
 
       // If the user successfully registers, log them in.
@@ -138,11 +165,14 @@ const RegisterForm = ({ setUserHandler }) => {
       }
     } catch (error) {
       if (error instanceof InputError) {
-        setErrorHandler({
-          inputField: error.getInputName(),
-          isError: true,
-          message: error.getMessage()
-        })
+        if (error.getInputName() === "username") {
+          setErrorHandler({
+            inputField: error.getInputName(),
+            isError: true,
+            message: error.getMessage(),
+            username: username
+          })
+        }
       } else if (error instanceof FetchError) {
         setMessage(error.message)
       }
@@ -184,6 +214,7 @@ const RegisterForm = ({ setUserHandler }) => {
           password={confirmPassword}
           inputHandler={setConfirmPasswordHandler}
           error={errors.confirmPassword}
+          isConfirmation={true}
         />
         <Button type="submit" variant="contained" className={classes.button}>
           Create Account

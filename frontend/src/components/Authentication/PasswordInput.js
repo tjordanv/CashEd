@@ -6,13 +6,13 @@ import classes from "./Auth.module.css"
 import { Visibility, VisibilityOff } from "@mui/icons-material"
 import { InputAdornment, IconButton } from "@mui/material"
 
-const PasswordInput = ({ password, inputHandler, error }) => {
+const PasswordInput = ({ password, inputHandler, error, isConfirmation }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
   return (
     <TextField
       variant="outlined"
-      label="Password"
+      label={isConfirmation ? "Confirm Password" : "Password"}
       type={isPasswordVisible ? "text" : "password"}
       name="password"
       error={error.isError}
