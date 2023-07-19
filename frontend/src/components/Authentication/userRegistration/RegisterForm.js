@@ -13,6 +13,7 @@ import ErrorMessage from "../../HelperComponents/ErrorMessage"
 import validatePasswordCriteria from "../../HelperFunctions/validatePasswordCriteria"
 import PasswordInput from "../PasswordInput"
 import InputError from "../../HelperComponents/InputError"
+import { validateUsername } from "../UsernameInput"
 
 const RegisterForm = ({ setUserHandler }) => {
   const [username, setUsername] = useState("")
@@ -21,28 +22,17 @@ const RegisterForm = ({ setUserHandler }) => {
   const [confirmPassword, setConfirmPassword] = useState("")
   const [message, setMessage] = useState("")
   const [errors, setErrors] = useState({
-    username: { isError: false, message: "", username: "" },
+    username: { isError: false, message: "" },
     emailAddress: { isError: false, message: "" },
     password: { isError: false, message: "" },
     confirmPassword: { isError: false, message: "" }
   })
 
   const setErrorHandler = (error) => {
-    if (error.username) {
-      setErrors((prevState) => ({
-        ...prevState,
-        [error.inputField]: {
-          isError: error.isError,
-          message: error.message,
-          username: error.username
-        }
-      }))
-    } else {
-      setErrors((prevState) => ({
-        ...prevState,
-        [error.inputField]: { isError: error.isError, message: error.message }
-      }))
-    }
+    setErrors((prevState) => ({
+      ...prevState,
+      [error.inputField]: { isError: error.isError, message: error.message }
+    }))
   }
 
   const setPasswordHandler = (newPassword) => {
@@ -111,7 +101,7 @@ const RegisterForm = ({ setUserHandler }) => {
         })
       }
 
-      // Check that the username and email address are available.
+      // Check that the username and email address are valid and available.
       let usernameAndEmailResponse = await fetch(
         `http://localhost:8080/auth/checkUsernameAndEmail?${new URLSearchParams(
           { username: username, email: emailAddress }
@@ -130,7 +120,15 @@ const RegisterForm = ({ setUserHandler }) => {
       } else if (usernameAndEmailResponse.status === 200) {
         const usernameAndEmailResponseJson =
           await usernameAndEmailResponse.json()
-        if (usernameAndEmailResponseJson[0] === true) {
+        // Validate username
+        if (!validateUsername(username)) {
+          errorList.push(
+            new InputError(
+              "Username must be between 4 and 15 characters and can only contain with no special characters or spaces other than dash(-) and underscore(_).",
+              "username"
+            )
+          )
+        } else if (usernameAndEmailResponseJson[0] === true) {
           errorList.push(new InputError("Username already taken.", "username"))
         }
         if (usernameAndEmailResponseJson[1] === true) {

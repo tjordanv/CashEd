@@ -1,5 +1,5 @@
 function validate(password) {
-  // At least one uppercase, one number, one special character and minimum 10 characters
+  // At least one uppercase, one number, one special character and minimum 8 characters
   const regex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
 
