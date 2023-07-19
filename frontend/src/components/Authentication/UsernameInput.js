@@ -25,3 +25,11 @@ UsernameInput.defaultProps = {
 }
 
 export default UsernameInput
+
+const validateUsername = ({ username }) => {
+  const regex = /^(?!.*[\s@!#])[\w-]{4,15}$/
+  console.log(regex.test(username))
+  return regex.test(username)
+}
+
+export { validateUsername }
