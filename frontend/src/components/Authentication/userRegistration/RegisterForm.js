@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography"
 import classes from "../Auth.module.css"
 import FetchError from "../../HelperComponents/FetchError"
 import ErrorMessage from "../../HelperComponents/ErrorMessage"
-import validatePasswordCriteria from "../../HelperFunctions/validatePasswordCriteria"
+import { validatePassword } from "../PasswordInput"
 import PasswordInput from "../PasswordInput"
 import InputError from "../../HelperComponents/InputError"
 import { validateUsername } from "../UsernameInput"
@@ -49,7 +49,7 @@ const RegisterForm = ({ setUserHandler }) => {
 
     try {
       // Check that the password meets baseline criteria before attempting to register
-      if (!validatePasswordCriteria(password)) {
+      if (!validatePassword(password)) {
         errorList.push(
           new InputError(
             "Password must contain at least one uppercase, one number, one special character (@$!%*?&) and be at least 8 characters long.",

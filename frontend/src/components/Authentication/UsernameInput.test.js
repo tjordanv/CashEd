@@ -41,8 +41,13 @@ describe("UsernameInput", () => {
   })
 
   test("validates username correctly with validateUsername function", () => {
-    expect(validateUsername({ username: "validUsername" })).toBe(true)
+    expect(validateUsername({ username: "userWNum123" })).toBe(true)
+    expect(validateUsername({ username: "valid_Username" })).toBe(true)
     expect(validateUsername({ username: "inv@lid_username" })).toBe(false)
     expect(validateUsername({ username: "use" })).toBe(false)
+    expect(validateUsername({ username: "usernameIsTooLongToPass" })).toBe(
+      false
+    )
+    expect(validateUsername({ username: undefined })).toBe(false)
   })
 })

@@ -28,9 +28,13 @@ export default UsernameInput
 
 const validateUsername = ({ username }) => {
   const regex = /^[a-zA-Z0-9.,_-]{4,15}$/
+
+  if (typeof username !== "string" || username.trim().length === 0) {
+    return false
+  }
   console.log(username)
   console.log(regex.test(username))
-  return regex.test(username)
+  return regex.test(username.trim())
 }
 
 export { validateUsername }

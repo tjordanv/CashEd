@@ -10,9 +10,10 @@ import Button from "@mui/material/Button"
 import Box from "@mui/material/Box"
 
 import ErrorMessage from "../../components/HelperComponents/ErrorMessage"
-import PasswordInput from "../../components/Authentication/PasswordInput"
+import PasswordInput, {
+  validatePassword
+} from "../../components/Authentication/PasswordInput"
 import classes from "../../components/Authentication/Auth.module.css"
-import validatePasswordCriteria from "../../components/HelperFunctions/validatePasswordCriteria"
 import InputError from "../../components/HelperComponents/InputError"
 import FetchError from "../../components/HelperComponents/FetchError"
 
@@ -55,7 +56,7 @@ const PasswordReset = () => {
     e.preventDefault()
 
     try {
-      if (!validatePasswordCriteria(password)) {
+      if (!validatePassword(password)) {
         throw new InputError(
           "Password must contain at least one uppercase, one number, one special character and be at least 8 characters long."
         )

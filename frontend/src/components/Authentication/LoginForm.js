@@ -14,7 +14,6 @@ import FetchError from "../HelperComponents/FetchError"
 import ErrorMessage from "../HelperComponents/ErrorMessage"
 import PasswordInput from "./PasswordInput"
 import UsernameInput from "./UsernameInput"
-import validatePasswordCriteria from "../HelperFunctions/validatePasswordCriteria"
 
 const LoginForm = () => {
   const [username, setUsername] = useState("")
