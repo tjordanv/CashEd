@@ -124,7 +124,7 @@ const RegisterForm = ({ setUserHandler }) => {
         if (!validateUsername(username)) {
           errorList.push(
             new InputError(
-              "Username must be between 4 and 15 characters and can only contain with no special characters or spaces other than dash(-) and underscore(_).",
+              "Username must be between 4 and 15 characters. The only valid special characters are (., _, -).",
               "username"
             )
           )
