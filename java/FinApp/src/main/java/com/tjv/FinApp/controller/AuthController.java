@@ -64,7 +64,7 @@ public class AuthController {
             return new ResponseEntity<>(new AuthResponseDTO(token, user), HttpStatus.OK);
 
         } catch (BadCredentialsException e) {
-            System.out.printf("Username: %s and the provided password Password not found%n", loginDTO.getUsername());
+            System.out.printf("Username: %s and the provided password not found%n", loginDTO.getUsername());
             return null;
             //throw new BadCredentialsException("Username and password do not match.");
         }
