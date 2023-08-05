@@ -1,5 +1,3 @@
-import { useState } from "react"
-
 import TextField from "@mui/material/TextField"
 
 import classes from "./Auth.module.css"

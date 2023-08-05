@@ -13,6 +13,7 @@ import CircularProgress from "@mui/material/CircularProgress"
 import classes from "./Auth.module.css"
 import InputError from "../HelperComponents/InputError"
 import fetcher from "../HelperFunctions/fetchAuthorize"
+import { Typography } from "@mui/material"
 
 const SecurityQandA = ({
   type,
@@ -170,6 +171,9 @@ const SecurityQandA = ({
       }
     >
       <Box className={classes.container}>
+        <Typography>
+          Select and answer a security question to receive a recovery email.
+        </Typography>
         <SecurityQuestions
           userId={user.id}
           setQuestionHandler={setQuestionHandler}
