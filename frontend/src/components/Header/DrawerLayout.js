@@ -12,7 +12,7 @@ import SettingsIcon from "@mui/icons-material/Settings"
 import LogoutIcon from "@mui/icons-material/Logout"
 import MenuIcon from "@mui/icons-material/Menu"
 import { Fragment, useState } from "react"
-import { IconButton } from "@mui/material"
+import { Badge, IconButton } from "@mui/material"
 import { useLocation, useNavigate } from "react-router-dom"
 import ConfirmationDialog from "../HelperComponents/ConfirmationDialog"
 
@@ -41,7 +41,9 @@ const DrawerLayout = () => {
   const Comp = ({ obj, func }) => (
     <ListItemButton onClick={func}>
       <ListItemIcon>
-        <obj.icon />
+        <Badge color="primary" badgeContent={obj.badgeContent}>
+          <obj.icon />
+        </Badge>
       </ListItemIcon>
       <ListItemText primary={obj.text} />
     </ListItemButton>
@@ -63,22 +65,26 @@ const DrawerLayout = () => {
     {
       text: "Profile",
       pathname: "/profile",
-      icon: AccountCircleIcon
+      icon: AccountCircleIcon,
+      badgeContent: 0
     },
     {
       text: "Notifications",
       pathname: "/notifications",
-      icon: MailIcon
+      icon: MailIcon,
+      badgeContent: 0
     },
     {
       text: "Settings",
       pathname: "/settings",
-      icon: SettingsIcon
+      icon: SettingsIcon,
+      badgeContent: 0
     },
     {
       text: "Logout",
       pathname: "/auth/login",
-      icon: LogoutIcon
+      icon: LogoutIcon,
+      badgeContent: 0
     }
   ]
 

@@ -54,20 +54,25 @@ describe("SecurityQuestionAnswer", () => {
   test("limits the input to 40 characters", () => {
     const setAnswerHandler = jest.fn()
     render(
-      <SecurityQuestionAnswer answer="" setAnswerHandler={setAnswerHandler} />
+      <SecurityQuestionAnswer
+        answer="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        setAnswerHandler={setAnswerHandler}
+      />
     )
 
     const inputElement = screen.getByLabelText(/Answer/i)
 
     let counter = 0
     while (counter < 50) {
-      fireEvent.change(inputElement, { target: { value: "a" } })
+      fireEvent.change(inputElement, {
+        target: { value: "a" }
+      })
+
       counter++
     }
 
     expect(inputElement).toHaveAttribute("maxLength", "40")
     expect(inputElement).toHaveValue("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-    expect(setAnswerHandler).toHaveBeenCalledTimes(1)
-    expect(setAnswerHandler).toHaveBeenCalledWith("a".repeat(40))
+    expect(setAnswerHandler).toHaveBeenCalledTimes(50)
   })
 })

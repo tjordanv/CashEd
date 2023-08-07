@@ -27,8 +27,7 @@ const UserRecovery = ({ isPasswordReset }) => {
         <SecurityQAndA
           user={user}
           setIsAuthenticatedHandler={setIsAuthenticatedHandler}
-          type={"validation"}
-          isPasswordReset={isPasswordReset}
+          type={isPasswordReset ? "password reset" : "username recovery"}
         />
       )}
       {isAuthenticated && <FinalResponse />}

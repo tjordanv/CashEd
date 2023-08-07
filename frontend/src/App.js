@@ -6,9 +6,11 @@ import Register from "./pages/auth/Register"
 import UserRecovery from "./pages/auth/UserRecovery"
 import TransactionImport from "./pages/TransactionImport"
 import Header from "./pages/Header"
+import Notifications from "./pages/Notifications"
 import AuthHeader from "./pages/auth/AuthHeader"
 import PasswordReset, { loader } from "./pages/auth/PasswordReset"
 import DashboardTest from "./components/DashboardTest"
+import { QandALoader } from "./components/Authentication/SecurityQandA"
 
 const theme = createTheme({
   palette: {
@@ -34,7 +36,8 @@ const router = createBrowserRouter([
         element: <DashboardTest />
         // loader: loader
       },
-      { path: "TransactionImport", element: <TransactionImport /> }
+      { path: "TransactionImport", element: <TransactionImport /> },
+      { path: "Notifications", element: <Notifications /> }
     ]
   },
   {
@@ -42,7 +45,7 @@ const router = createBrowserRouter([
     element: <AuthHeader />,
     children: [
       { index: true, path: "login", element: <Login /> },
-      { path: "register", element: <Register /> },
+      { path: "register", element: <Register />, loader: QandALoader },
       { path: "userRecovery/forgotUsername", element: <UserRecovery /> },
       {
         path: "userRecovery/resetPassword",
