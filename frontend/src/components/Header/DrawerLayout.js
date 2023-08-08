@@ -13,8 +13,9 @@ import LogoutIcon from "@mui/icons-material/Logout"
 import MenuIcon from "@mui/icons-material/Menu"
 import { Fragment, useState } from "react"
 import { Badge, IconButton } from "@mui/material"
-import { useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate, useLoaderData } from "react-router-dom"
 import ConfirmationDialog from "../HelperComponents/ConfirmationDialog"
+import { useSelector } from "react-redux"
 
 const DrawerLayout = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -61,24 +62,26 @@ const DrawerLayout = () => {
     }
   }
 
+  const notificationCounts = useSelector((state) => state.notifications.value)
+
   const drawerList = [
     {
       text: "Profile",
       pathname: "/profile",
       icon: AccountCircleIcon,
-      badgeContent: 0
+      badgeContent: notificationCounts["2"]
     },
     {
       text: "Notifications",
       pathname: "/notifications",
       icon: MailIcon,
-      badgeContent: 0
+      badgeContent: notificationCounts["1"]
     },
     {
       text: "Settings",
       pathname: "/settings",
       icon: SettingsIcon,
-      badgeContent: 0
+      badgeContent: notificationCounts["3"]
     },
     {
       text: "Logout",

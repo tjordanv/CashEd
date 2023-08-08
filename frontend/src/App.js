@@ -11,6 +11,7 @@ import AuthHeader from "./pages/auth/AuthHeader"
 import PasswordReset, { loader } from "./pages/auth/PasswordReset"
 import DashboardTest from "./components/DashboardTest"
 import { QandALoader } from "./components/Authentication/SecurityQandA"
+import { headerNotificationsLoader } from "./components/Header/HeaderLayout"
 
 const theme = createTheme({
   palette: {
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Header />,
+    loader: headerNotificationsLoader,
     children: [
       {
         index: true,

@@ -35,8 +35,7 @@ export { QandALoader }
 const SecurityQandA = ({ type, user, setIsAuthenticatedHandler }) => {
   const [answer, setAnswer] = useState("")
   const [question, setQuestion] = useState("")
-  const initialQuestionCount = useLoaderData()
-  const [questionCount, setQuestionCount] = useState(initialQuestionCount)
+  const [questionCount, setQuestionCount] = useState(useLoaderData())
   const [error, setError] = useState({ isError: false, message: "" })
   const [isLoading, setIsLoading] = useState(false)
 

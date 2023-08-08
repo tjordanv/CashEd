@@ -32,7 +32,7 @@ public class NotificationController {
             int userId = userDao.getUserIdByUsername(principal);
             return userId != 0 ? notificationsDao.getUnreadNotificationsByUser(userId) : null;
         } catch (Exception e) {
-            System.out.println("error fetching notifications");
+            System.out.println("getUnreadNotificationsByUser: error fetching notifications");
         }
         return null;
     }
@@ -42,9 +42,10 @@ public class NotificationController {
     public Map<Integer, Integer> getUnreadNotificationsByUserByCategory(Principal principal) {
         try {
             int userId = userDao.getUserIdByUsername(principal);
+            System.out.println(userId);
             return userId != 0 ? notificationsDao.getUnreadNotificationsByUserByCategory(userId) : null;
         } catch (Exception e) {
-            System.out.println("error fetching notifications");
+            System.out.println("getUnreadNotificationsByUserByCategory: error fetching notifications");
         }
         return null;
     }

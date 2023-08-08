@@ -38,7 +38,7 @@ public class JdbcNotificationDao implements NotificationDao {
     @Override
     public Map<Integer, Integer> getUnreadNotificationsByUserByCategory(int id) {
         Map<Integer, Integer> notifications = new HashMap<>();
-        String sql = "SELECT id, count(id) as total " +
+        String sql = "SELECT category_id, count(id) as count " +
                 "FROM notifications n " +
                 "JOIN user_notifications_xref nx on n.id = nx.notification_id " +
                 "WHERE nx.user_id = ? " +
