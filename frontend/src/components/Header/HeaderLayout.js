@@ -20,17 +20,21 @@ const HeaderContainer = styled(Box)(({ theme }) => ({
 }))
 
 const headerNotificationsLoader = async () => {
-  try {
-    const response = await fetcher(
-      "http://localhost:8080/getUnreadNotificationsByUserByCategory"
-    )
-    if (!response.ok) throw new FetchError.fromResponse(response)
-    else if (response.status === 200) {
-      return await response.json()
+  if (localStorage.jwt) {
+    try {
+      const response = await fetcher(
+        "http://localhost:8080/getUnreadNotificationsByUserByCategory"
+      )
+      if (!response.ok) throw new FetchError.fromResponse(response)
+      else if (response.status === 200) {
+        return await response.json()
+      }
+    } catch (error) {
+      console.log(error)
+      return null
     }
-  } catch (error) {
-    console.log(error)
   }
+  return null
 }
 
 export { headerNotificationsLoader }

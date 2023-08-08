@@ -69,19 +69,19 @@ const DrawerLayout = () => {
       text: "Profile",
       pathname: "/profile",
       icon: AccountCircleIcon,
-      badgeContent: notificationCounts["2"]
+      badgeContent: notificationCounts !== null ? notificationCounts["2"] : 0
     },
     {
       text: "Notifications",
       pathname: "/notifications",
       icon: MailIcon,
-      badgeContent: notificationCounts["1"]
+      badgeContent: notificationCounts !== null ? notificationCounts["1"] : 0
     },
     {
       text: "Settings",
       pathname: "/settings",
       icon: SettingsIcon,
-      badgeContent: notificationCounts["3"]
+      badgeContent: notificationCounts !== null ? notificationCounts["3"] : 0
     },
     {
       text: "Logout",
@@ -117,7 +117,16 @@ const DrawerLayout = () => {
     <div>
       <Fragment>
         <IconButton aria-label="Menu">
-          <MenuIcon onClick={toggleDrawer(true)} />
+          <Badge
+            color="primary"
+            variant="dot"
+            invisible={
+              notificationCounts === null ||
+              Object.keys(notificationCounts).length === 0
+            }
+          >
+            <MenuIcon onClick={toggleDrawer(true)} />
+          </Badge>
         </IconButton>
         {/* <Button onClick={toggleDrawer(true)}>drawer</Button> */}
         <Drawer anchor={"right"} open={isOpen} onClose={toggleDrawer(false)}>
