@@ -1,14 +1,11 @@
-import Badge from "@mui/material/Badge"
-import MailIcon from "@mui/icons-material/Mail"
+import Notifications from "../components/Notifications/Notifications"
 
-const Notifications = () => {
+const NotificationsPage = () => {
   return (
     <>
       <h1>Notifications</h1>
-      <Badge color="secondary" badgeContent={10}>
-        <MailIcon />
-      </Badge>
+      <Notifications />
     </>
   )
 }
-export default Notifications
+export default NotificationsPage

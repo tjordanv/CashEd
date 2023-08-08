@@ -21,7 +21,7 @@ public class JdbcNotificationDao implements NotificationDao {
     @Override
     public List<Notification> getUnreadNotificationsByUser(int id) {
         List<Notification> notifications = new ArrayList<>();
-        String sql = "SELECT id, category_id, urgency_level, message, is_read, is_protected " +
+        String sql = "SELECT id, category_id, urgency_level, subject, message, is_read, is_protected, created_date " +
                 "FROM notifications n " +
                 "JOIN user_notifications_xref nx on n.id = nx.notification_id " +
                 "WHERE nx.user_id = ? " +
@@ -54,14 +54,34 @@ public class JdbcNotificationDao implements NotificationDao {
         return notifications;
     }
 
+    @Override
+    public List<Notification> getNotificationsByUserByCategory(int id, int categoryId) {
+        List<Notification> notifications = new ArrayList<>();
+        String sql = "SELECT id, category_id, urgency_level, subject, message, is_read, is_protected, created_date " +
+                "FROM notifications n " +
+                "JOIN user_notifications_xref nx on n.id = nx.notification_id " +
+                "WHERE nx.user_id = ? " +
+                "AND category_id = ?";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id, categoryId);
+        while(results.next()) {
+            Notification notification = mapRowToNotification(results);
+            notifications.add(notification);
+        }
+        System.out.println(notifications);
+        return notifications;
+    }
+
     public Notification mapRowToNotification(SqlRowSet rs) {
         Notification notification = new Notification();
         notification.setId(rs.getInt("id"));
         notification.setCategoryId(rs.getInt("category_id"));
         notification.setUrgencyLevel(rs.getInt("urgency_level"));
+        notification.setSubject(rs.getString("subject"));
         notification.setMessage(rs.getString("message"));
         notification.setRead(rs.getBoolean("is_read"));
         notification.setProtected(rs.getBoolean("is_protected"));
+        notification.setCreatedDate(rs.getDate("created_date"));
 
         return notification;
     }

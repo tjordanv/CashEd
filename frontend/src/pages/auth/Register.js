@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-import RegisterForm from "../../components/Authentication/userRegistration/RegisterForm"
+import RegisterForm from "../../components/Authentication/RegisterForm"
 import SecurityQandA from "../../components/Authentication/SecurityQandA"
 
 const Register = () => {

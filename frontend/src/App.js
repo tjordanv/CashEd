@@ -12,6 +12,7 @@ import PasswordReset, { loader } from "./pages/auth/PasswordReset"
 import DashboardTest from "./components/DashboardTest"
 import { QandALoader } from "./components/Authentication/SecurityQandA"
 import { headerNotificationsLoader } from "./components/Header/HeaderLayout"
+import { notificationsLoader } from "./components/Notifications/Notifications"
 
 const theme = createTheme({
   palette: {
@@ -36,10 +37,13 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <DashboardTest />
-        // loader: loader
       },
       { path: "TransactionImport", element: <TransactionImport /> },
-      { path: "Notifications", element: <Notifications /> }
+      {
+        path: "notifications",
+        element: <Notifications />,
+        loader: notificationsLoader
+      }
     ]
   },
   {

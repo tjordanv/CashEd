@@ -174,14 +174,14 @@ const SecurityQandA = ({ type, user, setIsAuthenticatedHandler }) => {
 
   const test = (e) => {
     e.preventDefault()
-    console.log(user)
+    console.log("test function on submit")
   }
 
   return (
     <form
       className={classes.form}
       onSubmit={
-        type in ["password reset", "username recovery"]
+        ["password reset", "username recovery"].includes(type)
           ? validateAnswer
           : type === "register"
           ? saveAnswer

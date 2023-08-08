@@ -7,13 +7,13 @@ import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 
-import classes from "../Auth.module.css"
-import FetchError from "../../HelperComponents/FetchError"
-import ErrorMessage from "../../HelperComponents/ErrorMessage"
-import { validatePassword } from "../PasswordInput"
-import PasswordInput from "../PasswordInput"
-import InputError from "../../HelperComponents/InputError"
-import { validateUsername } from "../UsernameInput"
+import classes from "./Auth.module.css"
+import FetchError from "../HelperComponents/FetchError"
+import ErrorMessage from "../HelperComponents/ErrorMessage"
+import { validatePassword } from "./PasswordInput"
+import PasswordInput from "./PasswordInput"
+import InputError from "../HelperComponents/InputError"
+import { validateUsername } from "./UsernameInput"
 
 const RegisterForm = ({ setUserHandler }) => {
   const [username, setUsername] = useState("")

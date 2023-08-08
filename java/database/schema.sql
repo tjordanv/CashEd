@@ -138,6 +138,7 @@ CREATE TABLE notifications (
 	id serial NOT NULL,
 	category_id int NOT NULL,
 	urgency_level int NOT NULL,
+	subject varchar(100) NOT NULL,
 	message varchar(1000) NOT NULL,
 	created_date timestamptz DEFAULT Now(),
 	is_read boolean NOT NULL DEFAULT false,
@@ -153,12 +154,12 @@ if a user''s email address is not verified, they will receive a notification tel
 is verified. Once the necessary criteria is met, the system will mark it read and no longer protected';
 
 
-INSERT INTO notifications (category_id, urgency_level, message) VALUES 
-	(1, 1, 'this is a test notification'), 
-	(1, 2, 'this is a second test notification'),
-	(1, 3, 'this is a third test notification'),
-	(1, 4, 'this is a fourth test notification'),
-	(1, 5, 'this is the final test notification');
+INSERT INTO notifications (category_id, urgency_level, subject, message) VALUES 
+	(1, 1, 'subject', 'this is a test notification'), 
+	(1, 2, 'subject', 'this is a second test notification'),
+	(1, 3, 'subject', 'this is a third test notification'),
+	(1, 4, 'subject', 'this is a fourth test notification'),
+	(1, 5, 'subject', 'this is the final test notification');
 
 
 CREATE TABLE user_notifications_xref (

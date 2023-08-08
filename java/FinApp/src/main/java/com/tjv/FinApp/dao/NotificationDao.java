@@ -8,4 +8,5 @@ import java.util.Map;
 public interface NotificationDao {
     public List<Notification> getUnreadNotificationsByUser(int id);
     public Map<Integer, Integer> getUnreadNotificationsByUserByCategory(int id);
+    public List<Notification> getNotificationsByUserByCategory(int id, int categoryId);
 }

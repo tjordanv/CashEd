@@ -9,7 +9,7 @@ import { NavLink } from "react-router-dom"
 import classes from "./Auth.module.css"
 import FetchError from "../HelperComponents/FetchError"
 import ErrorMessage from "../HelperComponents/ErrorMessage"
-import EmailInput from "./userRecovery/EmailInput"
+import EmailInput from "./EmailInput"
 import UsernameInput from "./UsernameInput"
 
 const UserLookup = ({ setUserHandler, isPasswordReset }) => {
