@@ -1,9 +1,26 @@
-.container {
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
-.bioCard {
+.container {
+  height: 100vh;
+  width: 100%;
+  background-color: #fff7e7;
+}
+
+.container .bioCard {
   margin: auto;
-  width: 90%;
+  width: 1300px;
+  box-shadow: none;
+}
+
+.container .bioCard .cardContent {
+  background-color: #fff7e7;
+  position: relative;
+  padding: 0;
+  padding-bottom: 0;
 }
 
 .backgroundBar {
@@ -35,6 +52,15 @@
   margin-right: 30px;
 }
 
+.headshot {
+  width: 240px;
+  height: 96%;
+  border-radius: 200px;
+  position: absolute;
+  top: 2%;
+  left: 30px;
+}
+
 .rowContainer {
   position: relative;
 }
@@ -42,8 +68,8 @@
 .overlay {
   position: absolute;
   top: 10%;
-  left: 15%;
-  width: 70%;
+  left: 23%;
+  width: 67%;
   height: 80%;
   display: flex;
   flex-direction: column;
