@@ -21,13 +21,15 @@ const AboutUs = () => {
                 to="https://www.linkedin.com/in/tyler-vicari/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={classes.image}
+                className={classes.imageWrapper}
               >
-                <img src={linkedin} alt="linkedin" />
+                <img src={linkedin} alt="linkedin" className={classes.image} />
               </NavLink>
             </div>
             <div className={classes.overlay}>
-              <Typography variant="h4">Tyler Vicari</Typography>
+              <Typography variant="h3" className={classes.name}>
+                Tyler Vicari
+              </Typography>
               <Typography variant="h5">
                 Creator - Full Stack Software Engineer
               </Typography>
@@ -36,12 +38,12 @@ const AboutUs = () => {
           <div className={classes.rowContainer}>
             <div className={`${classes.backgroundBar} ${classes.middle}`}>
               <NavLink
-                className={classes.image}
+                className={classes.imageWrapper}
                 to="https://github.com/tjordanv"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <img src={github} alt="github" />
+                <img src={github} alt="github" className={classes.image} />
               </NavLink>
             </div>
             <div className={`${classes.backgroundBar} ${classes.bottom}`}>
@@ -49,18 +51,18 @@ const AboutUs = () => {
                 title="TylerVicari@gmail.com"
                 src={email}
                 alt="email"
-                className={classes.image}
+                className={classes.emailImage}
               />
             </div>
             <div className={classes.overlay}>
-              <Typography>
+              <Typography variant="body2" className={classes.overlayText}>
                 In early 2020, my fascination with software development was
                 ignited. Little did I know that this initial spark would lead me
                 down a captivating path of discovery. As I delved deeper into
                 the subject, I found myself immersed in a vast realm of
                 possibilities that had previously been hidden from view.
               </Typography>
-              <Typography>
+              <Typography variant="body2" className={classes.overlayText}>
                 This newfound passion for software development fundamentally
                 transformed my perspective on technology and its role in our
                 lives. The process of conceptualizing and meticulously crafting
