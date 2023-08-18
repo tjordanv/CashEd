@@ -10,6 +10,7 @@ import Notifications from "./pages/Notifications"
 import AuthHeader from "./pages/auth/AuthHeader"
 import PasswordReset, { loader } from "./pages/auth/PasswordReset"
 import DashboardTest from "./components/DashboardTest"
+import AboutUs from "./pages/AboutUs"
 import { QandALoader } from "./components/Authentication/SecurityQandA"
 import { headerNotificationsLoader } from "./components/Header/HeaderLayout"
 import { notificationsLoader } from "./components/Notifications/Notifications"
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
         path: "notifications",
         element: <Notifications />,
         loader: notificationsLoader
+      },
+      {
+        path: "aboutUs",
+        element: <AboutUs />
       }
     ]
   },

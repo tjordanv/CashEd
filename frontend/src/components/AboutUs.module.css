@@ -1,0 +1,54 @@
+.container {
+}
+
+.bioCard {
+  margin: auto;
+  width: 90%;
+}
+
+.backgroundBar {
+  height: 100px;
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  border-radius: 10px;
+}
+
+.top {
+  background-color: #17c3b2;
+}
+
+.middle {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  background-color: #fe6d73;
+}
+
+.bottom {
+  background-color: #ffcb77;
+}
+
+.container .bioCard .backgroundBar .image {
+  height: 75px;
+  width: 75px;
+  align-self: center;
+  margin-right: 30px;
+}
+
+.rowContainer {
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  top: 10%;
+  left: 15%;
+  width: 70%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff7e7; /* Semi-transparent overlay color */
+  border-radius: 20px;
+}
