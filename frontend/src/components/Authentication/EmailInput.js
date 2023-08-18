@@ -1,15 +1,5 @@
-import { useState } from "react"
-
-import Box from "@mui/material/Box"
 import TextField from "@mui/material/TextField"
-import Button from "@mui/material/Button"
-import Typography from "@mui/material/Typography"
-
-import { NavLink } from "react-router-dom"
-
-import classes from "../Auth.module.css"
-import FetchError from "../../HelperComponents/FetchError"
-import ErrorMessage from "../../HelperComponents/ErrorMessage"
+import classes from "./Auth.module.css"
 
 const EmailInput = ({ email, setEmailHandler, error }) => {
   return (

@@ -1,7 +1,5 @@
 import { useState } from "react"
-
 import TextField from "@mui/material/TextField"
-
 import classes from "./Auth.module.css"
 import { Visibility, VisibilityOff } from "@mui/icons-material"
 import { InputAdornment, IconButton } from "@mui/material"
@@ -45,3 +43,17 @@ PasswordInput.defaultProps = {
 }
 
 export default PasswordInput
+
+const validatePassword = (password) => {
+  // At least one uppercase, one number, one special character and minimum 8 characters
+  const regex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+
+  if (typeof password !== "string" || password.trim().length === 0) {
+    return false
+  }
+
+  return regex.test(password)
+}
+
+export { validatePassword }

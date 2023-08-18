@@ -12,9 +12,10 @@ import SettingsIcon from "@mui/icons-material/Settings"
 import LogoutIcon from "@mui/icons-material/Logout"
 import MenuIcon from "@mui/icons-material/Menu"
 import { Fragment, useState } from "react"
-import { IconButton } from "@mui/material"
-import { useLocation, useNavigate } from "react-router-dom"
+import { Badge, IconButton } from "@mui/material"
+import { useLocation, useNavigate, useLoaderData } from "react-router-dom"
 import ConfirmationDialog from "../HelperComponents/ConfirmationDialog"
+import { useSelector } from "react-redux"
 
 const DrawerLayout = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -41,7 +42,9 @@ const DrawerLayout = () => {
   const Comp = ({ obj, func }) => (
     <ListItemButton onClick={func}>
       <ListItemIcon>
-        <obj.icon />
+        <Badge color="primary" badgeContent={obj.badgeContent}>
+          <obj.icon />
+        </Badge>
       </ListItemIcon>
       <ListItemText primary={obj.text} />
     </ListItemButton>
@@ -59,26 +62,32 @@ const DrawerLayout = () => {
     }
   }
 
+  const notificationCounts = useSelector((state) => state.notifications.value)
+
   const drawerList = [
     {
       text: "Profile",
       pathname: "/profile",
-      icon: AccountCircleIcon
+      icon: AccountCircleIcon,
+      badgeContent: notificationCounts !== null ? notificationCounts["2"] : 0
     },
     {
       text: "Notifications",
       pathname: "/notifications",
-      icon: MailIcon
+      icon: MailIcon,
+      badgeContent: notificationCounts !== null ? notificationCounts["1"] : 0
     },
     {
       text: "Settings",
       pathname: "/settings",
-      icon: SettingsIcon
+      icon: SettingsIcon,
+      badgeContent: notificationCounts !== null ? notificationCounts["3"] : 0
     },
     {
       text: "Logout",
       pathname: "/auth/login",
-      icon: LogoutIcon
+      icon: LogoutIcon,
+      badgeContent: 0
     }
   ]
 
@@ -108,7 +117,16 @@ const DrawerLayout = () => {
     <div>
       <Fragment>
         <IconButton aria-label="Menu">
-          <MenuIcon onClick={toggleDrawer(true)} />
+          <Badge
+            color="primary"
+            variant="dot"
+            invisible={
+              notificationCounts === null ||
+              Object.keys(notificationCounts).length === 0
+            }
+          >
+            <MenuIcon onClick={toggleDrawer(true)} />
+          </Badge>
         </IconButton>
         {/* <Button onClick={toggleDrawer(true)}>drawer</Button> */}
         <Drawer anchor={"right"} open={isOpen} onClose={toggleDrawer(false)}>

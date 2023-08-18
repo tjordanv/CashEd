@@ -1,5 +1,3 @@
-import { useState } from "react"
-
 import TextField from "@mui/material/TextField"
 
 import classes from "./Auth.module.css"
@@ -26,10 +24,14 @@ UsernameInput.defaultProps = {
 
 export default UsernameInput
 
-const validateUsername = ({ username }) => {
-  const regex = /^(?!.*[\s@!#])[\w-]{4,15}$/
-  console.log(regex.test(username))
-  return regex.test(username)
+const validateUsername = (username) => {
+  const regex = /^[a-zA-Z0-9.,_-]{4,15}$/
+
+  if (typeof username !== "string" || username.trim().length === 0) {
+    return false
+  }
+
+  return regex.test(username.trim())
 }
 
 export { validateUsername }

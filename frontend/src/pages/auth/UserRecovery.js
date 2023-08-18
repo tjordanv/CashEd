@@ -1,7 +1,7 @@
 import { useState } from "react"
 import UserLookup from "../../components/Authentication/UserLookup"
 import SecurityQAndA from "../../components/Authentication/SecurityQandA"
-import FinalResponse from "../../components/Authentication/userRecovery/FinalResponse"
+import FinalResponse from "../../components/Authentication/FinalResponse"
 
 const UserRecovery = ({ isPasswordReset }) => {
   const [user, setUser] = useState("")
@@ -27,8 +27,7 @@ const UserRecovery = ({ isPasswordReset }) => {
         <SecurityQAndA
           user={user}
           setIsAuthenticatedHandler={setIsAuthenticatedHandler}
-          type={"validation"}
-          isPasswordReset={isPasswordReset}
+          type={isPasswordReset ? "password reset" : "username recovery"}
         />
       )}
       {isAuthenticated && <FinalResponse />}

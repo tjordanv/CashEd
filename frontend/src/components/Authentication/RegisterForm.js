@@ -7,13 +7,13 @@ import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 
-import classes from "../Auth.module.css"
-import FetchError from "../../HelperComponents/FetchError"
-import ErrorMessage from "../../HelperComponents/ErrorMessage"
-import validatePasswordCriteria from "../../HelperFunctions/validatePasswordCriteria"
-import PasswordInput from "../PasswordInput"
-import InputError from "../../HelperComponents/InputError"
-import { validateUsername } from "../UsernameInput"
+import classes from "./Auth.module.css"
+import FetchError from "../HelperComponents/FetchError"
+import ErrorMessage from "../HelperComponents/ErrorMessage"
+import { validatePassword } from "./PasswordInput"
+import PasswordInput from "./PasswordInput"
+import InputError from "../HelperComponents/InputError"
+import { validateUsername } from "./UsernameInput"
 
 const RegisterForm = ({ setUserHandler }) => {
   const [username, setUsername] = useState("")
@@ -49,7 +49,8 @@ const RegisterForm = ({ setUserHandler }) => {
 
     try {
       // Check that the password meets baseline criteria before attempting to register
-      if (!validatePasswordCriteria(password)) {
+      if (!validatePassword(password)) {
+        console.log(password)
         errorList.push(
           new InputError(
             "Password must contain at least one uppercase, one number, one special character (@$!%*?&) and be at least 8 characters long.",
@@ -124,7 +125,7 @@ const RegisterForm = ({ setUserHandler }) => {
         if (!validateUsername(username)) {
           errorList.push(
             new InputError(
-              "Username must be between 4 and 15 characters and can only contain with no special characters or spaces other than dash(-) and underscore(_).",
+              "Username must be between 4 and 15 characters. The only valid special characters are (., _, -).",
               "username"
             )
           )

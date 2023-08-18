@@ -10,8 +10,6 @@
     "@mui/material": "^5.10.13",
     "@mui/styled-engine-sc": "^5.10.6",
     "@reduxjs/toolkit": "^1.9.0",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
@@ -47,5 +45,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^14.0.0",
+    "jest": "^27.5.1"
   }
 }

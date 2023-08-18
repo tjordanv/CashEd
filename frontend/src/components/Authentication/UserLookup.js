@@ -9,7 +9,7 @@ import { NavLink } from "react-router-dom"
 import classes from "./Auth.module.css"
 import FetchError from "../HelperComponents/FetchError"
 import ErrorMessage from "../HelperComponents/ErrorMessage"
-import EmailInput from "./userRecovery/EmailInput"
+import EmailInput from "./EmailInput"
 import UsernameInput from "./UsernameInput"
 
 const UserLookup = ({ setUserHandler, isPasswordReset }) => {
@@ -30,7 +30,8 @@ const UserLookup = ({ setUserHandler, isPasswordReset }) => {
     if (isPasswordReset) params.username = username
 
     try {
-      const emailResponse = await fetch(
+      // This API call will return 0 if the user is not found
+      const response = await fetch(
         `http://localhost:8080/auth/getUserIdByEmailAndUsername?${new URLSearchParams(
           params
         )}`,
@@ -40,13 +41,23 @@ const UserLookup = ({ setUserHandler, isPasswordReset }) => {
         }
       )
 
-      if (!emailResponse.ok) throw await FetchError.fromResponse(emailResponse)
+      if (!response.ok) throw await FetchError.fromResponse(response)
 
-      const userId = await emailResponse.json()
+      const userId = await response.json()
       if (userId !== 0) {
         setUserHandler({ id: userId, username: username, email: emailAddress })
       } else {
-        throw new Error("Email Address not Found")
+        let errorObject = {
+          email: {
+            isError: true,
+            message: "Email not found."
+          }
+        }
+        if (isPasswordReset) {
+          errorObject.username = { isError: true, message: "User not found." }
+          errorObject.email.message = ""
+        }
+        setErrors(errorObject)
       }
     } catch (error) {
       setMessage(error.message)
