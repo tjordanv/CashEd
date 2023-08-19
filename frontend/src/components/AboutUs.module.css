@@ -12,7 +12,7 @@ body {
 
 .container .bioCard {
   margin: auto;
-  width: 1300px;
+  width: 1000px;
   box-shadow: none;
 }
 
@@ -24,7 +24,7 @@ body {
 }
 
 .backgroundBar {
-  height: 100px;
+  height: 110px;
   width: 100%;
   display: flex;
   justify-content: end;
@@ -47,28 +47,28 @@ body {
 
 .container .bioCard .backgroundBar .imageWrapper {
   align-self: center;
-  margin-right: 30px;
+  margin-right: 10px;
 }
 
 .container .bioCard .backgroundBar .imageWrapper .image {
-  height: 75px;
-  width: 75px;
+  height: 60px;
+  width: 60px;
 }
 
 .container .bioCard .backgroundBar .emailImage {
-  height: 75px;
-  width: 70px;
+  height: 60px;
+  width: 60px;
   align-self: center;
-  margin-right: 30px;
+  margin-right: 10px;
 }
 
 .headshot {
-  width: 240px;
-  height: 96%;
+  width: 190px;
+  height: 84%;
   border-radius: 200px;
   position: absolute;
-  top: 2%;
-  left: 30px;
+  top: 8%;
+  left: 10px;
 }
 
 .rowContainer {
@@ -78,8 +78,8 @@ body {
 .overlay {
   position: absolute;
   top: 10%;
-  left: 23%;
-  width: 67%;
+  left: 21%;
+  width: 71%;
   height: 80%;
   display: flex;
   flex-direction: column;
@@ -89,7 +89,7 @@ body {
   border-radius: 20px;
 }
 
-.overlayText {
+.overlay .overlayText {
   margin: 10px 12px 0 12px;
   text-align: center;
 }
