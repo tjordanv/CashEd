@@ -60,15 +60,16 @@ body {
   width: 60px;
   align-self: center;
   margin-right: 10px;
+  position: absolute;
 }
 
 .headshot {
-  width: 190px;
-  height: 84%;
+  width: 185px;
+  height: 72%;
   border-radius: 200px;
   position: absolute;
-  top: 8%;
-  left: 10px;
+  top: 14%;
+  left: 12px;
 }
 
 .rowContainer {
@@ -96,4 +97,14 @@ body {
 
 .name {
   font-weight: bold;
+}
+
+.backgroundBar .emailAlert {
+  height: 25px;
+  padding: 0 10px;
+  z-index: 99;
+  border-radius: 10px;
+  align-self: center;
+  align-items: center;
+  margin-right: 8px;
 }

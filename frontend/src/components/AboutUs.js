@@ -8,8 +8,33 @@ import Card from "@mui/material/Card"
 import CardContent from "@mui/material/CardContent"
 import Typography from "@mui/material/Typography"
 import { NavLink } from "react-router-dom"
+import Alert from "@mui/material/Alert"
+
+import copy from "clipboard-copy"
+import { useState } from "react"
+import { useEffect } from "react"
 
 const AboutUs = () => {
+  const [isAlert, setIsAlert] = useState(false)
+
+  const copyToClipboard = async (textToCopy) => {
+    try {
+      await copy(textToCopy) // Copy text to clipboard
+      setIsAlert(true)
+    } catch (error) {
+      console.error("Error copying text:", error)
+    }
+  }
+
+  useEffect(() => {
+    if (isAlert) {
+      setTimeout(() => {
+        // This code will execute after 3 seconds
+        setIsAlert(false)
+      }, 3000)
+    }
+  }, [isAlert])
+
   return (
     <div className={classes.container}>
       <h1>about us layout</h1>
@@ -52,7 +77,13 @@ const AboutUs = () => {
                 src={email}
                 alt="email"
                 className={classes.emailImage}
+                onClick={() => copyToClipboard("tylervicari@gmail.com")}
               />
+              {isAlert && (
+                <Alert severity="info" className={classes.emailAlert}>
+                  Email copied to clipboard.
+                </Alert>
+              )}
             </div>
             <div className={classes.overlay}>
               <Typography variant="body2" className={classes.overlayText}>
