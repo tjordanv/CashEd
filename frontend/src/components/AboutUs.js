@@ -81,11 +81,11 @@ const AboutUs = () => {
               />
               {isAlert && (
                 <Alert severity="info" className={classes.emailAlert}>
-                  Email copied to clipboard.
+                  Email address copied to clipboard.
                 </Alert>
               )}
             </div>
-            <div className={classes.overlay}>
+            <div className={`${classes.overlay} ${classes.largeOverlay}`}>
               <Typography variant="body2" className={classes.overlayText}>
                 In early 2020, my fascination with software development was
                 ignited. Little did I know that this initial spark would lead me
