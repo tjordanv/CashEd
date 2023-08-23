@@ -37,7 +37,6 @@ const AboutUs = () => {
 
   return (
     <div className={classes.container}>
-      <h1>about us layout</h1>
       <Card className={classes.bioCard}>
         <CardContent className={classes.cardContent}>
           <div className={classes.rowContainer}>

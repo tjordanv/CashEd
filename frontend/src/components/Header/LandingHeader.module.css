@@ -1,0 +1,24 @@
+.container {
+  background-color: #17c3b2;
+}
+
+.titleContainer {
+  display: flex;
+  align-items: center; /* Center vertically */
+}
+
+.title {
+  color: #fff7e7;
+  margin-right: 25px;
+}
+
+.subtitle {
+  color: #fff7e7;
+}
+
+.navLink {
+  color: #fff7e7;
+}
+
+.navLinkDivider {
+}

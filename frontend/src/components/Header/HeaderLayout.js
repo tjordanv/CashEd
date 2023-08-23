@@ -83,7 +83,7 @@ const Header = () => {
           Accounts
         </NavLink>
         <NavLink
-          to="AboutUs"
+          to="home/AboutUs"
           className={({ isActive }) => (isActive ? classes.active : undefined)}
         >
           About Us
