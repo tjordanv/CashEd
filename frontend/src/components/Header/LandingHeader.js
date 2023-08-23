@@ -10,21 +10,23 @@ import classes from "./LandingHeader.module.css"
 const LandingHeader = () => {
   return (
     <div className={classes.container}>
-      <div className={classes.titleContainer}>
-        <div>
+      <div className={classes.leftSideContainer}>
+        <div className={classes.titleContainer}>
           <Typography variant="h4" className={classes.title}>
             Finance App
           </Typography>
-          <Typography variant="h6" className={classes.subtitle}>
+          <Typography variant="h6" className={classes.title}>
             The Finance Tracker
           </Typography>
         </div>
-        <img src={walletIcon} alt="logo"></img>
+        <img src={walletIcon} alt="logo" className={classes.logo}></img>
       </div>
       <Stack
         direction="row"
-        spacing={4}
-        divider={<Divider orientation="vertical" flexItem />}
+        spacing={3}
+        divider={
+          <Divider className={classes.navLinkDivider} orientation="vertical" />
+        }
         justifyContent="center"
         alignItems="center"
       >
