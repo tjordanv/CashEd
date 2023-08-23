@@ -6,6 +6,9 @@ const LandingHeader = () => {
     <>
       <LandingHeaderLayout />
       <Outlet />
+      <div
+        style={{ height: "50px", width: "100%", backgroundColor: "#fe6d73" }}
+      ></div>
     </>
   )
 }
