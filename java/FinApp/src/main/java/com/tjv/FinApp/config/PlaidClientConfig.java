@@ -14,10 +14,7 @@ public class PlaidClientConfig {
     private String clientId;
     @Value("${PLAID_SECRET}")
     private String secret;
-    /**
-     * create been for Plaid client
-     * @return plaidClient
-     */
+
     @Bean
     public PlaidApi plaidClient() {
         PlaidApi plaidClient = null;
@@ -25,7 +22,7 @@ public class PlaidClientConfig {
         apiKeys.put("clientId", clientId);
         apiKeys.put("secret", secret);
         ApiClient apiClient = new ApiClient(apiKeys);
-        apiClient.setPlaidAdapter(ApiClient.Sandbox);
+        apiClient.setPlaidAdapter(ApiClient.Development); // or equivalent, depending on which environment you're calling into
         plaidClient = apiClient.createService(PlaidApi.class);
         return plaidClient;
     }
