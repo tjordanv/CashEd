@@ -1,16 +1,22 @@
 package com.tjv.FinApp.services;
 
 import com.google.gson.Gson;
+//import com.plaid.client.model;
 import com.plaid.client.model.*;
 import com.plaid.client.request.PlaidApi;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import retrofit2.Response;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Date;
+
 
 @Service
 public class PlaidService {
@@ -18,86 +24,55 @@ public class PlaidService {
 
     @Autowired
     private PlaidApi plaidClient;
+    String Acctkn = null;
+    public String pliadAccessToken(String ptkn) throws Exception {
+        String accessToken = "not got";
 
-    /**
-     * get Plaid access token
-     * @return accessToken
-     * @throws Exception
-     */
-//    public String plaidToken() throws Exception {
-//        String accessToken = "not found";
-//        SandboxPublicTokenCreateRequest requestt = new SandboxPublicTokenCreateRequest()
-//                .institutionId("ins_109508")
-//                .initialProducts(Arrays.asList(Products.AUTH));
-//
-//        Response<SandboxPublicTokenCreateResponse> createResponse = plaidClient
-//                .sandboxPublicTokenCreate(requestt)
-//                .execute();
-//
-//        log.info("public token " +createResponse);
-//
-//        ItemPublicTokenExchangeRequest request = new ItemPublicTokenExchangeRequest().publicToken(createResponse.body().getPublicToken());
-//        Response<ItemPublicTokenExchangeResponse> response = plaidClient.itemPublicTokenExchange(request).execute();
-//
-//        if (response.isSuccessful()) {
-//            accessToken = response.body().getAccessToken();
-//        }
-//
-//        try {
-//            Gson gson = new Gson();
-//            PlaidError error = gson.fromJson(response.errorBody().string(), PlaidError.class);
-//            log.info(error.toString());
-//        } catch (Exception e) {
-//            log.info("exception: "+e);
-//        }
-//        return accessToken;
-//    }
-    public String plaidToken() throws Exception {
-        String clientUserId = "user-id";
+        ItemPublicTokenExchangeRequest request = new ItemPublicTokenExchangeRequest().publicToken(ptkn);
+        Response<ItemPublicTokenExchangeResponse> response = plaidClient.itemPublicTokenExchange(request).execute();
+
+        if (response.isSuccessful()) {
+            this.Acctkn =  accessToken = response.body().getAccessToken();
+        }
+
+        try {
+            Gson gson = new Gson();
+            PlaidError error = gson.fromJson(response.errorBody().string(), PlaidError.class);
+            log.info(error.toString());
+        } catch (Exception e) {
+            log.info("exception: "+e);
+        }
+        return accessToken;
+    }
+
+    public String pliadToken() throws Exception {
+
+        String clientUserId = Long.toString((new Date()).getTime());
 
         LinkTokenCreateRequestUser user = new LinkTokenCreateRequestUser()
-                .clientUserId(clientUserId)
-                .legalName("legal name")
-                .phoneNumber("4155558888")
-                .emailAddress("email@address.com");
-
-        DepositoryFilter types = new DepositoryFilter()
-                .accountSubtypes(Arrays.asList(DepositoryAccountSubtype.CHECKING));
-
-        LinkTokenAccountFilters accountFilters = new LinkTokenAccountFilters()
-                .depository(types);
+                .clientUserId(clientUserId);
 
         LinkTokenCreateRequest request = new LinkTokenCreateRequest()
                 .user(user)
-                .clientName("FinApp")
+                .clientName("client name")
                 .products(Arrays.asList(Products.AUTH))
                 .countryCodes(Arrays.asList(CountryCode.US))
-                .language("en")
-                .redirectUri("https://domainname.com/oauth-page.html")
-//                .webhook("https://example.com/webhook")
-                .linkCustomizationName("default")
-                .accountFilters(accountFilters);
+                .language("en");
 
         Response<LinkTokenCreateResponse> response = plaidClient
                 .linkTokenCreate(request)
                 .execute();
 
-        log.info("public token " +response);
+        System.out.println("token response " +response.body().getLinkToken());
+        return response.body().getLinkToken();
 
-        String linkToken = response.body().getLinkToken();
-
-        return linkToken;
     }
 
-    /**
-     * Hit transactions/get api to get Transaction Information.
-     * @return
-     * @throws Exception
-     */
-    public TransactionsGetResponse transactions() throws Exception {
+    public TransactionsGetResponse transactions(String ptkn) throws Exception {
         LocalDate startDate = LocalDate.ofEpochDay(02-02-2023);
         LocalDate endDate = LocalDate.ofEpochDay(07-06-2023);
-        String accessToken = plaidToken();
+        String accessToken = pliadAccessToken(ptkn);
+
         AccountsGetRequest agRequest = new AccountsGetRequest()
                 .accessToken(accessToken);
 
@@ -132,13 +107,9 @@ public class PlaidService {
         return apiResponse.body();
     }
 
-    /**
-     * Hit accounts/balance/get api
-     * @return
-     * @throws Exception
-     */
-    public AccountBalance accountBalance() throws Exception {
-        String accessToken = plaidToken();
+    public AccountBalance accountBalance(String ptkn) throws Exception {
+        String accessToken = pliadAccessToken(ptkn);
+
         AccountsBalanceGetRequest request = new AccountsBalanceGetRequest()
                 .accessToken(accessToken);
         Response<AccountsGetResponse> response = plaidClient
@@ -154,3 +125,4 @@ public class PlaidService {
         return response.body().getAccounts().get(0).getBalances();
     }
 }
+
