@@ -9,11 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import retrofit2.Response;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+
 import java.util.Date;
 
 @Service
@@ -57,7 +57,6 @@ public class PlaidService {
                 .countryCodes(Arrays.asList(CountryCode.US))
                 .language("en");
 
-
         Response<LinkTokenCreateResponse> response = plaidClient
                 .linkTokenCreate(request)
                 .execute();
@@ -66,11 +65,11 @@ public class PlaidService {
 
     }
 
-
     public TransactionsGetResponse transactions(String ptkn) throws Exception {
         LocalDate startDate = LocalDate.ofEpochDay(02-02-2023);
         LocalDate endDate = LocalDate.ofEpochDay(07-06-2023);
         String accessToken = pliadAccessToken(ptkn);
+
         AccountsGetRequest agRequest = new AccountsGetRequest()
                 .accessToken(accessToken);
 
@@ -107,6 +106,7 @@ public class PlaidService {
 
     public AccountBalance accountBalance(String ptkn) throws Exception {
         String accessToken = pliadAccessToken(ptkn);
+
         AccountsBalanceGetRequest request = new AccountsBalanceGetRequest()
                 .accessToken(accessToken);
         Response<AccountsGetResponse> response = plaidClient
@@ -122,3 +122,4 @@ public class PlaidService {
         return response.body().getAccounts().get(0).getBalances();
     }
 }
+

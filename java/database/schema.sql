@@ -108,4 +108,73 @@ INSERT INTO user_security_question_answers_xref (user_id, question_id, answer_id
 	(2,6,3),
 	(2,5,4);
 
+CREATE TABLE password_reset_jwt (
+	id serial NOT NULL,
+	token varchar(4096) NOT NULL,
+	created_date timestamptz DEFAULT Now(),
+	expiration_date timestamptz DEFAULT (Now() + INTERVAL '20 minutes'),
+	is_active boolean NOT NULL DEFAULT true,
+
+	CONSTRAINT PK_password_reset_jwt PRIMARY KEY (id)
+);
+
+COMMENT ON COLUMN password_reset_jwt.token IS 'This token contains the user''s ID and email address as well as an expiration date that is set to be 20 minutes after creation';
+
+
+CREATE TABLE notification_categories (
+	id serial NOT NULL,
+	name varchar(25) NOT NULL,
+
+	CONSTRAINT PK_notification_categories PRIMARY KEY (id)
+);
+
+INSERT INTO notification_categories (name) VALUES 
+	('message'), 
+	('profile'), 
+	('settings'), 
+	('budget');
+
+CREATE TABLE notifications (
+	id serial NOT NULL,
+	category_id int NOT NULL,
+	urgency_level int NOT NULL,
+	subject varchar(100) NOT NULL,
+	message varchar(1000) NOT NULL,
+	created_date timestamptz DEFAULT Now(),
+	is_read boolean NOT NULL DEFAULT false,
+	is_protected boolean NOT NULL DEFAULT false,
+
+	CONSTRAINT PK_notifications PRIMARY KEY (id),
+	CONSTRAINT FK_category_id FOREIGN KEY (category_id) REFERENCES notification_categories (id)
+);
+
+COMMENT ON COLUMN notifications.urgency_level IS 'Urgency is rated on a 1-5 scale with 1 being the lowest and 5 being the highest';
+COMMENT ON COLUMN notifications.is_protected IS 'If a notification is protected, it must remain unread until the necessary action is taken. For example, 
+if a user''s email address is not verified, they will receive a notification telling them to verify and they cannot mark it as read or delete it until after their email 
+is verified. Once the necessary criteria is met, the system will mark it read and no longer protected';
+
+
+INSERT INTO notifications (category_id, urgency_level, subject, message) VALUES 
+	(1, 1, 'subject', 'this is a test notification'), 
+	(1, 2, 'subject', 'this is a second test notification'),
+	(1, 3, 'subject', 'this is a third test notification'),
+	(1, 4, 'subject', 'this is a fourth test notification'),
+	(1, 5, 'subject', 'this is the final test notification');
+
+
+CREATE TABLE user_notifications_xref (
+	notification_id int NOT NULL,
+	user_id int NOT NULL,
+
+	CONSTRAINT FK_notification_id FOREIGN KEY (notification_id) REFERENCES notifications (id),
+	CONSTRAINT FK_user_id FOREIGN KEY (user_id) REFERENCES users (id)
+);
+
+INSERT INTO user_notifications_xref (notification_id, user_id) VALUES 
+	(1, 1), 
+	(2, 1),
+	(3, 1),
+	(4, 1),
+	(5, 1);
+
 COMMIT TRANSACTION;

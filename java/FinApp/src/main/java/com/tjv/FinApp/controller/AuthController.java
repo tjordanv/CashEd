@@ -1,6 +1,7 @@
 package com.tjv.FinApp.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tjv.FinApp.dao.PasswordResetJWTGenerator;
 import com.tjv.FinApp.dao.UserDao;
 import com.tjv.FinApp.model.AuthResponseDTO;
 import com.tjv.FinApp.model.LoginDTO;
@@ -18,9 +19,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -29,11 +30,13 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserDao userDao;
     private final TokenGenerator tokenGenerator;
+    private final PasswordResetJWTGenerator resetTokenGenerator;
 
-    public AuthController(AuthenticationManager authenticationManager, UserDao userDao, TokenGenerator tokenGenerator) {
+    public AuthController(AuthenticationManager authenticationManager, UserDao userDao, TokenGenerator tokenGenerator, PasswordResetJWTGenerator resetTokenGenerator) {
         this.authenticationManager = authenticationManager;
         this.userDao = userDao;
         this.tokenGenerator = tokenGenerator;
+        this.resetTokenGenerator = resetTokenGenerator;
     }
 
     @GetMapping("/currentUser")
@@ -61,8 +64,30 @@ public class AuthController {
             return new ResponseEntity<>(new AuthResponseDTO(token, user), HttpStatus.OK);
 
         } catch (BadCredentialsException e) {
-            throw new BadCredentialsException("Username and password do not match.");
+            System.out.printf("Username: %s and the provided password not found%n", loginDTO.getUsername());
+            return null;
+            //throw new BadCredentialsException("Username and password do not match.");
         }
+    }
+
+    @GetMapping("/auth/verifyToken")
+    public User verifyResetPassword(@RequestParam String token) {
+        return resetTokenGenerator.verifyToken(token);
+    }
+
+    @PutMapping("/auth/updatePassword")
+    public boolean updatePassword(@Valid @RequestBody User user) {
+        try {
+            userDao.updatePassword(user);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+    @GetMapping("/auth/checkUsernameAndEmail")
+    public List<Boolean> checkUsernameAndEmail(@RequestParam String username, @RequestParam String email) {
+        return userDao.checkUsernameAndEmail(username, email);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -76,11 +101,14 @@ public class AuthController {
         }
     }
 
-    @GetMapping("/auth/getUserIdByEmail")
-    public int getUserByEmail(@RequestParam String emailAddress) {
+    @GetMapping("/auth/getUserIdByEmailAndUsername")
+    public int getUserByEmail(@RequestParam String emailAddress, @RequestParam(required = false) String username) {
         User user = userDao.getUserByEmailAddress(emailAddress);
 
         if (user != null) {
+            if (username != null) {
+                return username.equals(user.getUsername()) ? user.getId() : 0;
+            }
             return user.getId();
         } else {
             return 0;

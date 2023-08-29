@@ -3,12 +3,18 @@ import { createTheme, ThemeProvider } from "@mui/material/styles"
 
 import Login from "./pages/auth/Login"
 import Register from "./pages/auth/Register"
-import UsernameRecovery from "./pages/auth/UsernameRecovery"
-import PasswordReset from "./pages/auth/PasswordReset.js"
+import UserRecovery from "./pages/auth/UserRecovery"
 import TransactionImport from "./pages/TransactionImport"
 import Header from "./pages/Header"
+import Notifications from "./pages/Notifications"
 import AuthHeader from "./pages/auth/AuthHeader"
-import DashboardTest, { loader } from "./components/DashboardTest"
+import PasswordReset, { loader } from "./pages/auth/PasswordReset"
+import DashboardTest from "./components/DashboardTest"
+import AboutUs from "./pages/AboutUs"
+import LandingHeader from "./pages/LandingHeader"
+import { QandALoader } from "./components/Authentication/SecurityQandA"
+import { headerNotificationsLoader } from "./components/Header/HeaderLayout"
+import { notificationsLoader } from "./components/Notifications/Notifications"
 
 const theme = createTheme({
   palette: {
@@ -26,15 +32,30 @@ const theme = createTheme({
 
 const router = createBrowserRouter([
   {
+    path: "/home",
+    element: <LandingHeader />,
+    children: [
+      {
+        path: "AboutUs",
+        element: <AboutUs />
+      }
+    ]
+  },
+  {
     path: "/",
     element: <Header />,
+    loader: headerNotificationsLoader,
     children: [
       {
         index: true,
-        element: <DashboardTest />,
-        loader: loader
+        element: <DashboardTest />
       },
-      { path: "TransactionImport", element: <TransactionImport /> }
+      { path: "TransactionImport", element: <TransactionImport /> },
+      {
+        path: "notifications",
+        element: <Notifications />,
+        loader: notificationsLoader
+      }
     ]
   },
   {
@@ -42,9 +63,19 @@ const router = createBrowserRouter([
     element: <AuthHeader />,
     children: [
       { index: true, path: "login", element: <Login /> },
-      { path: "register", element: <Register /> },
-      { path: "userRecovery/forgotUsername", element: <UsernameRecovery /> },
-      { path: "userRecovery/resetPassword", element: <PasswordReset /> }
+      { path: "register", element: <Register />, loader: QandALoader },
+      { path: "userRecovery/forgotUsername", element: <UserRecovery /> },
+      {
+        path: "userRecovery/resetPassword",
+        element: <UserRecovery isPasswordReset={true} />
+      },
+      {
+        path: "resetPassword/:token",
+        element: <PasswordReset />,
+        loader: ({ params }) => {
+          return loader(params.token)
+        }
+      }
     ]
   },
   { path: "/logout", element: <p>logout</p> }

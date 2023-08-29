@@ -8,8 +8,10 @@ import java.util.List;
 public interface UserDao {
     List<User> findAll();
     User findByUsername(String username);
-    public User getUserById(int id);
+    User getUserById(int id);
     boolean create(String username, String email, String password, String role);
     User getUserByEmailAddress(String emailAddress);
-    public int getUserIdByUsername(Principal principal);
+    int getUserIdByUsername(Principal principal);
+    void updatePassword(User user);
+    List<Boolean> checkUsernameAndEmail(String username, String email);
 }

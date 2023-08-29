@@ -1,0 +1,35 @@
+.container {
+  background-color: #17c3b2;
+  display: flex;
+  justify-content: space-around;
+  height: 100px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  position: relative;
+  z-index: 99;
+}
+
+.leftSideContainer {
+  display: flex;
+  align-items: center; /* Center vertically */
+}
+
+.titleContainer {
+  min-width: 225px;
+}
+
+.container .title {
+  color: #fff7e7;
+}
+
+.logo {
+  height: 75px;
+}
+
+.navLink {
+  color: #fff7e7;
+}
+
+.container .navLinkDivider {
+  background-color: #454545;
+  height: 30%;
+}

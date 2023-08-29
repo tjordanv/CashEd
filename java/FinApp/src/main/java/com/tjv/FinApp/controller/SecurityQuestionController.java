@@ -69,6 +69,14 @@ public class SecurityQuestionController {
             return null;
         }
     }
+    @GetMapping("/getActiveSecurityQuestionsByUser")
+    public int getActiveSecurityQuestionsByUser(Principal principal) {
+        int userId = userDao.getUserIdByUsername(principal);
+
+        List<SecurityQuestionAnswer> securityQuestionAnswers = securityQuestionDao.getActiveSecurityQuestionAnswersByUserId(userId);
+
+        return securityQuestionAnswers.size();
+    }
 
     @GetMapping("/auth/validateAnswer")
     public boolean validateAnswer(@RequestParam String id, @RequestParam String answerProvided) throws InterruptedException {
