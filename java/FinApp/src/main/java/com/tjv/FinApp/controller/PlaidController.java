@@ -17,7 +17,7 @@ public class PlaidController {
     Logger log = LoggerFactory.getLogger(PlaidController.class);
 
     @CrossOrigin
-    @GetMapping("/transactions")
+    @GetMapping("/auth/transactions")
     public TransactionsGetResponse transactions(@RequestParam String ptkn) throws Exception {
         return plaidService.transactions(ptkn);
     }
@@ -27,7 +27,7 @@ public class PlaidController {
         return plaidService.accountBalance(ptkn);
     }
     @CrossOrigin
-    @GetMapping("/linktkn")
+    @GetMapping("/auth/linktkn")
     public LinkTkn linkTkn() throws Exception {
         LinkTkn tkn = new LinkTkn();
         tkn.setLinkTkn(plaidService.pliadToken());

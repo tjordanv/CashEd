@@ -10,7 +10,7 @@
     <button id="pass-link-button">Pass Plaid Link</button>
     <script>
       //update the port value
-      const linkTokenEndpoint = "http://localhost:8089/linktkn";
+      const linkTokenEndpoint = "http://localhost:8080/auth/linktkn";
 
       const button = document.getElementById("plaid-link-button");
       const button1 = document.getElementById("pass-link-button");
@@ -33,6 +33,7 @@
                 ptkn = publicToken;
                 console.log("Public token:", "p_token here");
                 console.log("Public token:", publicToken);
+                console.log(ptkn)
                 // Send the public token to your server for further processing
                 // ...
               },
@@ -51,7 +52,7 @@
             console.error("Error generating link token:", error);
           });
       });
-      const linkTokenEndpoint1 = `http://localhost:8089/transactions"?param=${ptkn}`;
+      const linkTokenEndpoint1 = `http://localhost:8080/auth/transactions?param=${ptkn}`;
       button1.addEventListener("click", () => {
         fetch(linkTokenEndpoint1, {
           method: "GET",

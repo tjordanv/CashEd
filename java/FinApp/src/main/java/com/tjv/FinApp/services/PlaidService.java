@@ -55,7 +55,7 @@ public class PlaidService {
         LinkTokenCreateRequest request = new LinkTokenCreateRequest()
                 .user(user)
                 .clientName("client name")
-                .products(Arrays.asList(Products.AUTH))
+                .products(Arrays.asList(Products.TRANSACTIONS))
                 .countryCodes(Arrays.asList(CountryCode.US))
                 .language("en");
 
