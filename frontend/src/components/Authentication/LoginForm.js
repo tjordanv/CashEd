@@ -12,16 +12,20 @@ import Typography from "@mui/material/Typography"
 import classes from "./Auth.module.css"
 import FetchError from "../HelperComponents/FetchError"
 import ErrorMessage from "../HelperComponents/ErrorMessage"
+import PasswordInput from "./PasswordInput"
+import UsernameInput from "./UsernameInput"
 
 const LoginForm = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [error, setError] = useState({ isError: false, message: "" })
   const [message, setMessage] = useState("")
 
   const navigate = useNavigate()
 
   const logInHandler = async (e) => {
     e.preventDefault()
+
     try {
       let response = await fetch("http://localhost:8080/auth/login", {
         method: "POST",
@@ -38,42 +42,48 @@ const LoginForm = () => {
         throw await FetchError.fromResponse(response)
       }
       if (response.status === 200) {
-        try {
-          const responseJson = await response.json()
+        // Check that there is a loginDTO response before attempting to parse JSON data
+        const responseText = await response.text()
+
+        if (responseText) {
+          const responseJson = JSON.parse(responseText)
+          // Store the returned access token if user is successfully authenticated
           localStorage.setItem("jwt", responseJson.accessToken)
           navigate("/")
-        } catch (error) {
-          setMessage("Error authenticating")
+        } else {
+          setError({
+            username: {
+              isError: true,
+              message: ""
+            },
+            password: {
+              isError: true,
+              message: "Username and Password do not match."
+            }
+          })
         }
       }
     } catch (error) {
-      if (error instanceof FetchError) setMessage(error.message)
+      if (error instanceof FetchError) {
+        setMessage(error.message)
+      } else {
+        console.log(error.message)
+      }
     }
   }
 
   return (
     <form onSubmit={logInHandler} className={classes.form}>
       <Box className={classes.container}>
-        <TextField
-          variant="outlined"
-          label="Username"
-          name="username"
-          required
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className={classes.inputField}
-          size="small"
+        <UsernameInput
+          username={username}
+          setUsernameHandler={setUsername}
+          error={error.username}
         />
-        <TextField
-          variant="outlined"
-          label="Password"
-          type="password"
-          name="password"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className={classes.inputField}
-          size="small"
+        <PasswordInput
+          password={password}
+          inputHandler={setPassword}
+          error={error.password}
         />
         <ErrorMessage message={message} />
         <Button type="submit" variant="contained" className={classes.button}>
@@ -96,7 +106,7 @@ const LoginForm = () => {
           </NavLink>
           |
           <NavLink
-            to="/auth/userRecovery/passwordReset"
+            to="/auth/userRecovery/resetPassword"
             className={classes.navLink}
           >
             Forgot Password

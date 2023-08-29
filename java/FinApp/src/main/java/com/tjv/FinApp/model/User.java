@@ -15,6 +15,7 @@ public class User {
     private String password;
     @JsonIgnore
     private boolean activated;
+    @JsonIgnore
     private Set<Authority> authorities = new HashSet<>();
 
     public User() { }
@@ -90,6 +91,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", activated=" + activated +
                 ", authorities=" + authorities +
+                ", email=" + email +
                 '}';
     }
 }

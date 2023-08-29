@@ -4,7 +4,7 @@
   align-items: center;
   height: 100vh;
   width: 100%;
-  background-image: url("C:\Users\Tyler\Downloads/Twitter-Cyber-Background-Img.jpg");
+  background-image: url("../../Twitter-Cyber-Background-Img.jpg");
   background-repeat: repeat; /* Use 'no-repeat' if you don't want the pattern to repeat */
   background-size: contain; /* Adjust this value if needed, e.g., 'cover', 'contain', or specific dimensions */
 }
@@ -13,11 +13,15 @@
   box-shadow: 1px 3px 4px 2px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   padding: 35px;
-  height: 450px;
+  height: 575px;
   width: 275px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: white;
+}
+
+.wrapper .logo {
+  margin-bottom: 15px;
 }

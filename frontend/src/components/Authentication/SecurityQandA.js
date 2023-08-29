@@ -1,6 +1,6 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
-import { NavLink } from "react-router-dom"
+import { NavLink, useLoaderData, useNavigate } from "react-router-dom"
 
 import SecurityQuestions from "./SecurityQuestions"
 import SecurityAnswer from "./SecurityAnswer"
@@ -13,17 +13,37 @@ import CircularProgress from "@mui/material/CircularProgress"
 import classes from "./Auth.module.css"
 import InputError from "../HelperComponents/InputError"
 import fetcher from "../HelperFunctions/fetchAuthorize"
+import { Typography } from "@mui/material"
+import SecurityQuestionsCounter from "./SecurityQuestionsCounter"
 
-const SecurityQandA = ({
-  type,
-  userId,
-  setIsAuthenticatedHandler,
-  setActiveSecurityQuestionsHandler
-}) => {
+const QandALoader = async () => {
+  const response = await fetcher(
+    "http://localhost:8080/getActiveSecurityQuestionsByUser"
+  )
+
+  if (!response.ok) {
+    console.log("error")
+  } else {
+    const num = await response.json()
+    return num
+  }
+  return 0
+}
+
+export { QandALoader }
+
+const SecurityQandA = ({ type, user, setIsAuthenticatedHandler }) => {
   const [answer, setAnswer] = useState("")
   const [question, setQuestion] = useState("")
+  const [questionCount, setQuestionCount] = useState(useLoaderData())
   const [error, setError] = useState({ isError: false, message: "" })
   const [isLoading, setIsLoading] = useState(false)
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (questionCount === 3) navigate("/")
+  })
 
   const setAnswerHandler = (answer) => {
     setAnswer(answer)
@@ -41,7 +61,7 @@ const SecurityQandA = ({
       const answerResponse = await fetch(
         `http://localhost:8080/auth/validateAnswer?${new URLSearchParams({
           answerProvided: answer,
-          id: question.answer_Id
+          id: question.answer_id
         })}`,
         {
           method: "GET",
@@ -56,19 +76,39 @@ const SecurityQandA = ({
         throw await FetchError.fromResponse(answerResponse)
       } else {
         const answerResponseJson = await answerResponse.json()
+        // send email if answer is correct
         if (answerResponseJson === true) {
-          const emailResponse = await fetch(
-            `http://localhost:8080/auth/usernameRecovery?${new URLSearchParams({
-              id: userId
-            })}`,
-            {
-              method: "GET",
-              mode: "cors",
-              headers: {
-                "Content-Type": "application/json"
+          let emailResponse
+          if (type === "password reset") {
+            emailResponse = await fetch(
+              `http://localhost:8080/auth/resetPassword?${new URLSearchParams({
+                username: user.username,
+                email: user.email
+              })}`,
+              {
+                method: "GET",
+                mode: "cors",
+                headers: {
+                  "Content-Type": "application/json"
+                }
               }
-            }
-          )
+            )
+          } else if (type === "username recovery") {
+            emailResponse = await fetch(
+              `http://localhost:8080/auth/usernameRecovery?${new URLSearchParams(
+                {
+                  id: user.id
+                }
+              )}`,
+              {
+                method: "GET",
+                mode: "cors",
+                headers: {
+                  "Content-Type": "application/json"
+                }
+              }
+            )
+          }
           // If answer was correct but email failed to send, throw fetch error
           if (!emailResponse.ok) {
             throw await FetchError.fromResponse(emailResponse)
@@ -96,6 +136,7 @@ const SecurityQandA = ({
         console.log("server error")
       } else {
         console.log("failed to validate")
+        console.log(error.message)
       }
       setIsLoading(false)
     }
@@ -122,7 +163,7 @@ const SecurityQandA = ({
       if (!response.ok) {
         throw await FetchError.fromResponse(response)
       } else if (response.status === 201) {
-        setActiveSecurityQuestionsHandler()
+        setQuestionCount((prevCount) => prevCount + 1)
         setAnswer("")
         setQuestion("")
       }
@@ -133,14 +174,14 @@ const SecurityQandA = ({
 
   const test = (e) => {
     e.preventDefault()
-    console.log(question)
+    console.log("test function on submit")
   }
 
   return (
     <form
       className={classes.form}
       onSubmit={
-        type === "validation"
+        ["password reset", "username recovery"].includes(type)
           ? validateAnswer
           : type === "register"
           ? saveAnswer
@@ -148,8 +189,15 @@ const SecurityQandA = ({
       }
     >
       <Box className={classes.container}>
+        {type === "register" ? (
+          <SecurityQuestionsCounter count={questionCount} />
+        ) : (
+          <Typography>
+            Select and answer a security question to receive a recovery email.
+          </Typography>
+        )}
         <SecurityQuestions
-          userId={userId}
+          userId={user.id}
           setQuestionHandler={setQuestionHandler}
           question={question}
         />
@@ -166,7 +214,7 @@ const SecurityQandA = ({
         >
           Submit
         </Button>
-        {type === "validate" && (
+        {type in ["password reset", "username recovery"] && (
           <NavLink to="/auth/login" className={classes.navLink}>
             Cancel
           </NavLink>
@@ -181,5 +229,4 @@ const SecurityQandA = ({
     </form>
   )
 }
-
 export default SecurityQandA
