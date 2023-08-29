@@ -6,7 +6,7 @@ target/
 /src/main/resources/gmailAPI.json
 /src/main/resources/gmailAPI(old).json
 /tokens
-application.properties
+src/main/resources/application.properties
 ### STS ###
 .apt_generated
 .classpath
