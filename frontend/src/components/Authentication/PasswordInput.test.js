@@ -48,8 +48,8 @@ describe("PasswordInput", () => {
   })
 
   test("validates password correctly according to character requirements", () => {
-    expect(validatePassword({ password: "Password1!" })).toBe(true)
-    expect(validatePassword({ password: "Password1" })).toBe(false)
-    expect(validatePassword({ password: "Pass1!" })).toBe(false)
+    expect(validatePassword("Password1!")).toBe(true)
+    expect(validatePassword("Password1")).toBe(false)
+    expect(validatePassword("Pass1!")).toBe(false)
   })
 })
