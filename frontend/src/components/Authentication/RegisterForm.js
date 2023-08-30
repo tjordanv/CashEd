@@ -50,7 +50,6 @@ const RegisterForm = ({ setUserHandler }) => {
     try {
       // Check that the password meets baseline criteria before attempting to register
       if (!validatePassword(password)) {
-        console.log(password)
         errorList.push(
           new InputError(
             "Password must contain at least one uppercase, one number, one special character (@$!%*?&) and be at least 8 characters long.",
@@ -151,7 +150,7 @@ const RegisterForm = ({ setUserHandler }) => {
         throw new InputError()
       }
 
-      let registerResponse = await fetch(
+      const registerResponse = await fetch(
         "http://localhost:8080/auth/register",
         {
           method: "POST",
