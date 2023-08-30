@@ -3,17 +3,16 @@ import { useState } from "react"
 import { NavLink } from "react-router-dom"
 
 import Box from "@mui/material/Box"
-import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 
 import classes from "./Auth.module.css"
 import FetchError from "../HelperComponents/FetchError"
 import ErrorMessage from "../HelperComponents/ErrorMessage"
-import { validatePassword } from "./PasswordInput"
-import PasswordInput from "./PasswordInput"
 import InputError from "../HelperComponents/InputError"
-import { validateUsername } from "./UsernameInput"
+import PasswordInput, { validatePassword } from "./PasswordInput"
+import UsernameInput, { validateUsername } from "./UsernameInput"
+import EmailInput from "./EmailInput"
 
 const RegisterForm = ({ setUserHandler }) => {
   const [username, setUsername] = useState("")
@@ -190,6 +189,7 @@ const RegisterForm = ({ setUserHandler }) => {
         if (loginResponse.status === 200) {
           const loginResponseJson = await loginResponse.json()
           localStorage.setItem("jwt", loginResponseJson.accessToken)
+          // Set the user information so the securityQandA component has the necessary information
           setUserHandler({
             id: loginResponseJson.id,
             username: loginResponseJson.username,
@@ -200,6 +200,7 @@ const RegisterForm = ({ setUserHandler }) => {
     } catch (error) {
       if (error instanceof InputError) {
         console.log("input error")
+        console.log(error.getMessage())
         // handle input error
       } else if (error instanceof FetchError) {
         setMessage(error.message)
@@ -210,30 +211,15 @@ const RegisterForm = ({ setUserHandler }) => {
   return (
     <form className={classes.form} onSubmit={registerHandler}>
       <Box className={classes.container}>
-        <TextField
-          variant="outlined"
-          label="Username"
-          name="username"
-          error={errors.username.isError}
-          helperText={errors.username.message}
-          required
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className={classes.inputField}
-          size="small"
+        <UsernameInput
+          username={username}
+          setUsernameHandler={setUsername}
+          error={errors.username}
         />
-        <TextField
-          variant="outlined"
-          label="Email Address"
-          name="emailAddress"
-          type="email"
-          required
-          value={emailAddress}
-          onChange={(e) => setEmailAddress(e.target.value)}
-          className={classes.inputField}
-          size="small"
-          error={errors.emailAddress.isError}
-          helperText={errors.emailAddress.message}
+        <EmailInput
+          email={emailAddress}
+          setEmailHandler={setEmailAddress}
+          error={errors.emailAddress}
         />
         <PasswordInput
           password={password}
