@@ -7,7 +7,10 @@ export const handlers = [
       const username = req.url.searchParams.get("username")
       const email = req.url.searchParams.get("email")
 
-      return res(ctx.status(200), ctx.json([false, false]))
+      const isUsernameTaken = username === "user" ? true : false
+      const isEmailTaken = email === "taken@email.com" ? true : false
+
+      return res(ctx.status(200), ctx.json([isUsernameTaken, isEmailTaken]))
     }
   ),
   rest.post("http://localhost:8080/auth/register", (req, res, ctx) => {
