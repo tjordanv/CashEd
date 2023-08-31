@@ -12,7 +12,7 @@ const AuthHeader = () => {
       <Box className={classes.container}>
         <img src={logo} alt="Logo" className={classes.logo} />
         <Typography sx={{ marginBottom: "auto" }} variant="h4">
-          Finance App
+          CashEd
         </Typography>
         <Outlet />
       </Box>
