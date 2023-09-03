@@ -3,20 +3,21 @@ import Box from "@mui/material/Box"
 
 import { Outlet } from "react-router-dom"
 
-import classes from "../Authentication/Header.module.css"
+import classes from "../Authentication/AuthFormHeader.module.css"
 import logo from "../../tempLogo.png"
 
-const AuthHeader = () => {
+const AuthFormHeader = () => {
   return (
     <div className={classes.wrapper}>
       <Box className={classes.container}>
         <img src={logo} alt="Logo" className={classes.logo} />
-        <Typography sx={{ marginBottom: "auto" }} variant="h4">
-          CashEd
+        <Typography variant="h4">CashEd</Typography>
+        <Typography sx={{ marginBottom: "auto" }} variant="body">
+          Know Your Money
         </Typography>
         <Outlet />
       </Box>
     </div>
   )
 }
-export default AuthHeader
+export default AuthFormHeader

@@ -32,9 +32,29 @@ const theme = createTheme({
 
 const router = createBrowserRouter([
   {
-    path: "/home",
+    path: "/",
     element: <LandingHeader />,
     children: [
+      {
+        path: "auth",
+        element: <AuthHeader />,
+        children: [
+          { index: true, path: "login", element: <Login /> },
+          { path: "register", element: <Register />, loader: QandALoader },
+          { path: "userRecovery/forgotUsername", element: <UserRecovery /> },
+          {
+            path: "userRecovery/resetPassword",
+            element: <UserRecovery isPasswordReset={true} />
+          },
+          {
+            path: "resetPassword/:token",
+            element: <PasswordReset />,
+            loader: ({ params }) => {
+              return loader(params.token)
+            }
+          }
+        ]
+      },
       {
         path: "AboutUs",
         element: <AboutUs />
@@ -55,26 +75,6 @@ const router = createBrowserRouter([
         path: "notifications",
         element: <Notifications />,
         loader: notificationsLoader
-      }
-    ]
-  },
-  {
-    path: "/auth",
-    element: <AuthHeader />,
-    children: [
-      { index: true, path: "login", element: <Login /> },
-      { path: "register", element: <Register />, loader: QandALoader },
-      { path: "userRecovery/forgotUsername", element: <UserRecovery /> },
-      {
-        path: "userRecovery/resetPassword",
-        element: <UserRecovery isPasswordReset={true} />
-      },
-      {
-        path: "resetPassword/:token",
-        element: <PasswordReset />,
-        loader: ({ params }) => {
-          return loader(params.token)
-        }
       }
     ]
   },
