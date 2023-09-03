@@ -19,17 +19,25 @@ const LandingHeader = () => {
     register: false
   })
 
-  const setLinkStatesHandler = (link) => {
-    setLinkStates((prevState) => ({
-      ...prevState,
-      [link]: true
-    }))
+  const setLinkStatesHandler = (currentPath) => {
+    let prevPath = null
+    for (const link in linkStates) {
+      if (linkStates[link] === true) {
+        prevPath = link
+      }
+
+      setLinkStates((prevState) => ({
+        ...prevState,
+        [prevPath]: false,
+        [currentPath]: true
+      }))
+    }
   }
   useEffect(() => {
     // use substring to remove the "/"
     const currentPath = location.pathname.substring(1)
     setLinkStatesHandler(currentPath)
-  }, [])
+  }, [location])
 
   return (
     <div className={classes.container}>
