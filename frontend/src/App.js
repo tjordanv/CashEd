@@ -35,25 +35,19 @@ const router = createBrowserRouter([
     path: "/",
     element: <LandingHeader />,
     children: [
+      { index: true, path: "login", element: <Login /> },
+      { path: "register", element: <Register />, loader: QandALoader },
+      { path: "userRecovery/forgotUsername", element: <UserRecovery /> },
       {
-        path: "auth",
-        element: <AuthHeader />,
-        children: [
-          { index: true, path: "login", element: <Login /> },
-          { path: "register", element: <Register />, loader: QandALoader },
-          { path: "userRecovery/forgotUsername", element: <UserRecovery /> },
-          {
-            path: "userRecovery/resetPassword",
-            element: <UserRecovery isPasswordReset={true} />
-          },
-          {
-            path: "resetPassword/:token",
-            element: <PasswordReset />,
-            loader: ({ params }) => {
-              return loader(params.token)
-            }
-          }
-        ]
+        path: "userRecovery/resetPassword",
+        element: <UserRecovery isPasswordReset={true} />
+      },
+      {
+        path: "resetPassword/:token",
+        element: <PasswordReset />,
+        loader: ({ params }) => {
+          return loader(params.token)
+        }
       },
       {
         path: "AboutUs",

@@ -1,0 +1,11 @@
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container .footer {
+  height: 50px;
+  width: 100%;
+  background-color: #fe6d73;
+}
