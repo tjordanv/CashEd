@@ -5,10 +5,10 @@ import logo from "../../tempLogo.png"
 
 const AuthFormHeader = () => {
   return (
-    <div>
-      <img src={logo} alt="Logo" className={classes.logo} />
+    <div className={classes.wrapper}>
+      <img src={logo} alt="Logo" />
       <Typography variant="h4">CashEd</Typography>
-      <Typography sx={{ marginBottom: "auto" }} variant="body">
+      <Typography className={classes.bottom} variant="body">
         Know Your Money
       </Typography>
     </div>

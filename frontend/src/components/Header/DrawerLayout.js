@@ -85,7 +85,7 @@ const DrawerLayout = () => {
     },
     {
       text: "Logout",
-      pathname: "/auth/login",
+      pathname: "/login",
       icon: LogoutIcon,
       badgeContent: 0
     }

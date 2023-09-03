@@ -1,13 +1,10 @@
 import { useState } from "react"
-
 import { NavLink, useNavigate } from "react-router-dom"
-
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import Switch from "@mui/material/Switch"
 import Typography from "@mui/material/Typography"
-
 import classes from "./Auth.module.css"
 import FetchError from "../HelperComponents/FetchError"
 import ErrorMessage from "../HelperComponents/ErrorMessage"
@@ -33,8 +30,8 @@ const LoginForm = () => {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          username: username,
-          password: password
+          username,
+          password
         })
       })
       if (!response.ok) {

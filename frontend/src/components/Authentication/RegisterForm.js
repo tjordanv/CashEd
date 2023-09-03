@@ -199,8 +199,6 @@ const RegisterForm = ({ setUserHandler }) => {
       }
     } catch (error) {
       if (error instanceof InputError) {
-        console.log("input error")
-        console.log(error.getMessage())
         // handle input error
       } else if (error instanceof FetchError) {
         setMessage(error.message)

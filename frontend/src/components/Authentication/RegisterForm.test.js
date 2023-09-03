@@ -8,17 +8,20 @@ beforeAll(() => server.listen())
 afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
+const setUserHandlerMock = jest.fn()
+const renderComponent = () => {
+  /*The RegisterForm must be wrapped in the BrowserRouter since it contains a NavLink. 
+    The NavLink uses useLocation hook which only works in the context of a router */
+  render(
+    <BrowserRouter>
+      <RegisterForm setUserHandler={setUserHandlerMock} />
+    </BrowserRouter>
+  )
+}
+
 describe("RegisterForm component", () => {
   test("renders form fields", () => {
-    const setUserHandlerMock = jest.fn()
-
-    /*The RegisterForm must be wrapped in the BrowserRouter since it contains a NavLink. 
-    The NavLink uses useLocation hook which only works in the context of a router */
-    render(
-      <BrowserRouter>
-        <RegisterForm setUserHandler={setUserHandlerMock} />
-      </BrowserRouter>
-    )
+    renderComponent()
 
     const usernameInput = screen.getByLabelText(/Username/i)
     const emailInput = screen.getByLabelText(/Email Address/i)
@@ -33,13 +36,7 @@ describe("RegisterForm component", () => {
     expect(submitButton).toBeInTheDocument()
   })
   test("Receives input.", () => {
-    const setUserHandlerMock = jest.fn()
-
-    render(
-      <BrowserRouter>
-        <RegisterForm setUserHandler={setUserHandlerMock} />
-      </BrowserRouter>
-    )
+    renderComponent()
 
     const usernameInput = screen.getByLabelText(/Username/i)
     const emailInput = screen.getByLabelText(/Email Address/i)
@@ -57,15 +54,10 @@ describe("RegisterForm component", () => {
     expect(confirmPasswordInput).toHaveValue("Test123$")
   })
   test("Shows username and email taken", async () => {
-    const setUserHandlerMock = jest.fn()
     let isUsernameTaken = null
     let isEmailTaken = null
 
-    render(
-      <BrowserRouter>
-        <RegisterForm setUserHandler={setUserHandlerMock} />
-      </BrowserRouter>
-    )
+    renderComponent()
 
     const usernameInput = screen.getByLabelText(/Username/i)
     const emailInput = screen.getByLabelText(/Email Address/i)
@@ -84,15 +76,10 @@ describe("RegisterForm component", () => {
     expect(isEmailTaken).toBeInTheDocument()
   })
   test("Shows username and email are available", async () => {
-    const setUserHandlerMock = jest.fn()
     let isUsernameTaken = null
     let isEmailTaken = null
 
-    render(
-      <BrowserRouter>
-        <RegisterForm setUserHandler={setUserHandlerMock} />
-      </BrowserRouter>
-    )
+    renderComponent()
 
     const usernameInput = screen.getByLabelText(/Username/i)
     const emailInput = screen.getByLabelText(/Email Address/i)
@@ -113,13 +100,7 @@ describe("RegisterForm component", () => {
   })
 
   test("Creates new user and logs them in", async () => {
-    const setUserHandlerMock = jest.fn()
-
-    render(
-      <BrowserRouter>
-        <RegisterForm setUserHandler={setUserHandlerMock} />
-      </BrowserRouter>
-    )
+    renderComponent()
 
     const usernameInput = screen.getByLabelText(/Username/i)
     const emailInput = screen.getByLabelText(/Email Address/i)
