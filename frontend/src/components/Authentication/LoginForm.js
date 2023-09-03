@@ -98,23 +98,20 @@ const LoginForm = () => {
         </Typography>
         <div className={classes.userRecoveryContainer}>
           <NavLink
-            to="/auth/userRecovery/forgotUsername"
+            to="/userRecovery/forgotUsername"
             className={classes.navLink}
           >
             Forgot Username
           </NavLink>
           |
-          <NavLink
-            to="/auth/userRecovery/resetPassword"
-            className={classes.navLink}
-          >
+          <NavLink to="/userRecovery/resetPassword" className={classes.navLink}>
             Forgot Password
           </NavLink>
         </div>
         <Typography className={classes.navLinkLabel}>
           Need an account?
         </Typography>
-        <NavLink to="/auth/register" className={classes.navLink}>
+        <NavLink to="/register" className={classes.navLink}>
           Create Account
         </NavLink>
       </Box>

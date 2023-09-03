@@ -29,6 +29,10 @@
   color: #fff7e7;
 }
 
+.hidden {
+  display: none;
+}
+
 .container .navLinkDivider {
   background-color: #454545;
   height: 30%;
