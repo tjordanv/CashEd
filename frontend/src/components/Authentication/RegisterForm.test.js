@@ -86,7 +86,7 @@ describe("RegisterForm component", () => {
     const submitButton = screen.getByText(/Create Account/i)
 
     fireEvent.change(usernameInput, { target: { value: "newUser" } })
-    fireEvent.change(emailInput, { target: { value: "notTaken@email.com" } })
+    fireEvent.change(emailInput, { target: { value: "test@email.com" } })
     fireEvent.click(submitButton)
 
     await waitFor(() => {

@@ -19,14 +19,18 @@ export const handlers = [
     return res(ctx.status(201))
   }),
   rest.post("http://localhost:8080/auth/login", (req, res, ctx) => {
-    const isCreated = sessionStorage.getItem("isCreated")
-    if (!isCreated) {
-      return res(ctx.status(403))
-    }
-
-    return res(
-      ctx.status(200),
-      ctx.json({ id: 1, username: "testuser", email: "test@email.com" })
-    )
+    const user = { username: "user", password: "password" }
+    return req.json().then((data) => {
+      if (data.username === user.username && data.password === user.password) {
+        console.log("true")
+        return res(
+          ctx.status(200),
+          ctx.json({ id: 1, username: "user", email: "test@email.com" })
+        )
+      } else {
+        console.log("false")
+        return res(ctx.status(200))
+      }
+    })
   })
 ]

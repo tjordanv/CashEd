@@ -54,4 +54,23 @@ describe("LoginForm component", () => {
     expect(usernameInput).toHaveValue("testuser")
     expect(passwordInput).toHaveValue("Test123$")
   })
+  test("shows username and password do not match", async () => {
+    let inputError = null
+    renderComponent()
+
+    let usernameInput = screen.getByLabelText(/username/i)
+    let passwordInput = screen.getAllByLabelText(/password/i)[0]
+    const loginButton = screen.getByText(/log in/i)
+
+    fireEvent.change(usernameInput, { target: { value: "testuser" } })
+    fireEvent.change(passwordInput, { target: { value: "Test123$" } })
+    fireEvent.click(loginButton)
+
+    await waitFor(() => {
+      inputError = screen.getByText(/Username and Password do not match./i)
+      passwordInput = screen.getAllByLabelText(/password/i)[0]
+    })
+
+    expect(inputError).toBeInTheDocument()
+  })
 })
