@@ -22,13 +22,12 @@ export const handlers = [
     const user = { username: "user", password: "password" }
     return req.json().then((data) => {
       if (data.username === user.username && data.password === user.password) {
-        console.log("true")
+        sessionStorage.setItem("isLoggedIn", true)
         return res(
           ctx.status(200),
           ctx.json({ id: 1, username: "user", email: "test@email.com" })
         )
       } else {
-        console.log("false")
         return res(ctx.status(200))
       }
     })

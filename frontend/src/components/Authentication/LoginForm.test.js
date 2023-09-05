@@ -73,4 +73,54 @@ describe("LoginForm component", () => {
 
     expect(inputError).toBeInTheDocument()
   })
+  test("user can successfully log in", async () => {
+    // Define the data to be sent in the request body (as a JavaScript object)
+    const postData = {
+      username: "user",
+      password: "password"
+    }
+
+    // Create the request options including the method, headers, and body
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(postData) // Convert the JavaScript object to a JSON string
+    }
+
+    // Make the POST request using the fetch API
+    const response = await fetch(
+      "http://localhost:8080/auth/login",
+      requestOptions
+    )
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok")
+    }
+    const responseJson = await response.json() // Parse the response as JSON
+
+    // Assert the response data in your test
+    expect(responseJson).toEqual({
+      id: 1,
+      username: "user",
+      email: "test@email.com"
+    })
+  })
+  test("form can be submitted", async () => {
+    renderComponent()
+
+    let usernameInput = screen.getByLabelText(/username/i)
+    let passwordInput = screen.getAllByLabelText(/password/i)[0]
+    const loginButton = screen.getByText(/log in/i)
+
+    fireEvent.change(usernameInput, { target: { value: "user" } })
+    fireEvent.change(passwordInput, { target: { value: "password" } })
+    fireEvent.click(loginButton)
+
+    await waitFor(() => {
+      const isLoggedIn = sessionStorage.getItem("isLoggedIn")
+      expect(isLoggedIn).toEqual(true)
+    })
+  })
 })
