@@ -120,7 +120,7 @@ describe("LoginForm component", () => {
 
     await waitFor(() => {
       const isLoggedIn = sessionStorage.getItem("isLoggedIn")
-      expect(isLoggedIn).toEqual(true)
+      expect(isLoggedIn).toEqual("true")
     })
   })
 })
