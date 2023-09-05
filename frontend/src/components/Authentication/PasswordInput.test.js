@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from "@testing-library/react"
 import PasswordInput, { validatePassword } from "./PasswordInput"
 
 const setPasswordHandler = jest.fn()
-const renderComponent = ({ password = "", inputHandler, error }) => {
+const renderComponent = ({ password = "", error }) => {
   render(
     <PasswordInput
       password={password}
