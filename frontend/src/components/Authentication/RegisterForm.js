@@ -283,12 +283,24 @@ const RegisterForm = ({ setUserHandler }) => {
           </>
         )}
         <ErrorMessage message={message} />
-        <Typography className={classes.navLinkLabel}>
-          Already have an account?
-        </Typography>
-        <NavLink to="/auth/login" className={classes.navLink}>
-          Log In
-        </NavLink>
+        {!isPartTwo && (
+          <>
+            <Typography className={classes.navLinkLabel}>
+              Already have an account?
+            </Typography>
+            <NavLink to="/login" className={classes.navLink}>
+              Log In
+            </NavLink>
+          </>
+        )}
+        {isPartTwo && (
+          <NavLink
+            onClick={() => setIsPartTwo(false)}
+            className={classes.navLink}
+          >
+            Back
+          </NavLink>
+        )}
       </Box>
     </form>
   )
