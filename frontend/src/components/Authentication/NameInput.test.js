@@ -39,23 +39,20 @@ describe("NameInput", () => {
     expect(setNameHandler).toHaveBeenCalledTimes(1)
     expect(setNameHandler).toHaveBeenCalledWith("John")
   })
+  test("displays error helper text when error is true", () => {
+    const error = { isError: true, message: "Invalid name" }
+    renderComponent({ error: error })
 
-  //   test("displays error helper text when error is true", () => {
-  //     const error = { isError: true, message: "Invalid username" }
-  //     render(
-  //       <UsernameInput username="" setUsernameHandler={() => {}} error={error} />
-  //     )
-
-  //     const helperText = screen.getByText(/Invalid username/i)
-  //     expect(helperText).toBeInTheDocument()
-  //   })
-
-  //   test("validates username correctly with validateUsername function", () => {
-  //     expect(validateUsername("userWNum123")).toBe(true)
-  //     expect(validateUsername("valid_Username")).toBe(true)
-  //     expect(validateUsername("inv@lid_username")).toBe(false)
-  //     expect(validateUsername("use")).toBe(false)
-  //     expect(validateUsername("usernameIsTooLongToPass")).toBe(false)
-  //     expect(validateUsername(undefined)).toBe(false)
-  //   })
+    const helperText = screen.getByText(/Invalid name/i)
+    expect(helperText).toBeInTheDocument()
+  })
+  test("validates name correctly with validateName function", () => {
+    expect(validateName("userWNum")).toBe(true)
+    expect(validateName("validname")).toBe(true)
+    expect(validateName("use")).toBe(true)
+    expect(validateName("inv@lid_name")).toBe(false)
+    expect(validateName("cantHaveNums123")).toBe(false)
+    expect(validateName("thisNameIsWayTooLongToPassTheTest")).toBe(false)
+    expect(validateName(undefined)).toBe(false)
+  })
 })

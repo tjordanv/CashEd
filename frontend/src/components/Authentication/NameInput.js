@@ -25,7 +25,7 @@ NameInput.defaultProps = {
 export default NameInput
 
 const validateName = (name) => {
-  const regex = /^[a-zA-Z]$/
+  const regex = /^[a-zA-Z]{1,30}$/
 
   if (typeof name !== "string" || name.trim().length === 0) {
     return false
