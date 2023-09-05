@@ -25,13 +25,12 @@ const LandingHeader = () => {
       if (linkStates[link] === true) {
         prevPath = link
       }
-
-      setLinkStates((prevState) => ({
-        ...prevState,
-        [prevPath]: false,
-        [currentPath]: true
-      }))
     }
+    setLinkStates((prevState) => ({
+      ...prevState,
+      [prevPath]: false,
+      [currentPath]: true
+    }))
   }
   useEffect(() => {
     // use substring to remove the "/"

@@ -54,10 +54,10 @@ public class JdbcUserDao implements UserDao{
     }
 
     @Override
-    public boolean create(String username, String email, String password, String role) {
+    public boolean create(String username, String firstName, String lastName, String email, String password, String role) {
         boolean userCreated = false;
 
-        String insertUser = "INSERT INTO users (username,password_hash,role) Values(?,?,?)";
+        String insertUser = "INSERT INTO users (username, password_hash, role, first_name, last_name) Values(?,?,?,?,?)";
         String password_hash = new BCryptPasswordEncoder().encode(password);
         String ssRole = "ROLE_" + role.toUpperCase();
 
@@ -68,6 +68,8 @@ public class JdbcUserDao implements UserDao{
             ps.setString(1, username);
             ps.setString(2, password_hash);
             ps.setString(3, ssRole);
+            ps.setString(4, firstName);
+            ps.setString(5, lastName);
             return ps;
         }
         , keyHolder) == 1;
@@ -97,35 +99,25 @@ public class JdbcUserDao implements UserDao{
     }
 
     @Override
-    public List<Boolean> checkUsernameAndEmail(String username, String email) {
-        String sql = "SELECT u.username, e.email_address " +
-                "FROM users u " +
-                "LEFT JOIN user_email_addresses_xref ex ON u.id = ex.user_id " +
-                "LEFT JOIN email_addresses e on ex.email_address_id = e.id " +
-                "WHERE u.username = ? " +
-//               Once this flag is added, this will need to be included "AND u.isActive" +
-                "OR e.email_address = ? " +
-                "AND e.is_active = true";
+    public Boolean checkEmailAvailability(String email) {
+        String sql = "SELECT email_address " +
+                "FROM email_addresses " +
+                "WHERE email_address = ? " +
+                "AND is_active = true"; //Once this flag is added, this will need to be included "AND u.isActive" +
 
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username, email);
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, email);
 
-        boolean isUsernameTaken = false;
-        boolean isEmailTaken = false;
+        return results.next();
+    }
+    @Override
+    public Boolean checkUsernameAvailability(String username) {
+        String sql = "SELECT username " +
+                "FROM users " +
+                "WHERE username = ? ";
 
-        while(results.next()) {
-            if (results.getString("username").equals(username)) {
-                isUsernameTaken = true;
-            }
-            if (results.getString("email_address").equals(email)) {
-                isEmailTaken = true;
-            }
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, username);
 
-            if(isUsernameTaken && isEmailTaken) {
-                return new ArrayList<>(List.of(true, true));
-            }
-        }
-
-        return new ArrayList<>(List.of(isUsernameTaken, isEmailTaken));
+        return results.next();
     }
 
     public int createEmailAddress(String emailAddress) {

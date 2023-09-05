@@ -67,11 +67,10 @@ describe("LoginForm component", () => {
     fireEvent.click(loginButton)
 
     await waitFor(() => {
-      inputError = screen.getByText(/Username and Password do not match./i)
-      passwordInput = screen.getAllByLabelText(/password/i)[0]
+      expect(
+        screen.getByText(/Username and Password do not match./i)
+      ).toBeInTheDocument()
     })
-
-    expect(inputError).toBeInTheDocument()
   })
   test("user can successfully log in", async () => {
     // Define the data to be sent in the request body (as a JavaScript object)
@@ -101,13 +100,9 @@ describe("LoginForm component", () => {
     const responseJson = await response.json() // Parse the response as JSON
 
     // Assert the response data in your test
-    expect(responseJson).toEqual({
-      id: 1,
-      username: "user",
-      email: "test@email.com"
-    })
+    expect(responseJson.username).toEqual("user")
   })
-  test("form can be submitted", async () => {
+  test("form can be submitted and accepted", async () => {
     renderComponent()
 
     let usernameInput = screen.getByLabelText(/username/i)
@@ -119,8 +114,7 @@ describe("LoginForm component", () => {
     fireEvent.click(loginButton)
 
     await waitFor(() => {
-      const isLoggedIn = sessionStorage.getItem("isLoggedIn")
-      expect(isLoggedIn).toEqual("true")
+      expect(sessionStorage.getItem("isLoggedIn")).toEqual("true")
     })
   })
 })

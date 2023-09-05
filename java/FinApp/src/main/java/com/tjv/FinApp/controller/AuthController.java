@@ -69,6 +69,22 @@ public class AuthController {
             //throw new BadCredentialsException("Username and password do not match.");
         }
     }
+    @PostMapping("/auth/register")
+    public ResponseEntity<AuthResponseDTO> register(@Valid @RequestBody RegisterDTO newUser) {
+        try {
+            User user = userDao.findByUsername(newUser.getUsername());
+            throw new UserAlreadyExistsException("Username taken.");
+        } catch (UsernameNotFoundException e) {
+            boolean created = userDao.create(newUser.getUsername(), newUser.getFirstName(), newUser.getLastName(), newUser.getEmail(),newUser.getPassword(), newUser.getRole());
+            if(created) {
+                LoginDTO newUserLogin = new LoginDTO();
+                newUserLogin.setUsername(newUser.getUsername());
+                newUserLogin.setPassword(newUser.getPassword());
+                return this.login(newUserLogin);
+            }
+        }
+        return null;
+    }
 
     @GetMapping("/auth/verifyToken")
     public User verifyResetPassword(@RequestParam String token) {
@@ -85,20 +101,14 @@ public class AuthController {
         }
         return false;
     }
-    @GetMapping("/auth/checkUsernameAndEmail")
-    public List<Boolean> checkUsernameAndEmail(@RequestParam String username, @RequestParam String email) {
-        return userDao.checkUsernameAndEmail(username, email);
+    @GetMapping("/auth/checkEmailAvailability")
+    public Boolean checkEmailAvailability(@RequestParam String email) {
+        return userDao.checkEmailAvailability(email);
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/auth/register")
-    public void register(@Valid @RequestBody RegisterDTO newUser) {
-        try {
-            User user = userDao.findByUsername(newUser.getUsername());
-            throw new UserAlreadyExistsException("Username taken.");
-        } catch (UsernameNotFoundException e) {
-            userDao.create(newUser.getUsername(),newUser.getEmail(),newUser.getPassword(), newUser.getRole());
-        }
+    @GetMapping("/auth/checkUsernameAvailability")
+    public Boolean checkUsernameAvailability(@RequestParam String username) {
+        return userDao.checkUsernameAvailability(username);
     }
 
     @GetMapping("/auth/getUserIdByEmailAndUsername")

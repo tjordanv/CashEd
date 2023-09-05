@@ -10,6 +10,7 @@ import FetchError from "../HelperComponents/FetchError"
 import ErrorMessage from "../HelperComponents/ErrorMessage"
 import PasswordInput from "./PasswordInput"
 import UsernameInput from "./UsernameInput"
+import InputError from "../HelperComponents/InputError"
 
 const LoginForm = () => {
   const [username, setUsername] = useState("")
@@ -47,23 +48,23 @@ const LoginForm = () => {
           localStorage.setItem("jwt", responseJson.accessToken)
           navigate("/")
         } else {
-          setError({
-            username: {
-              isError: true,
-              message: ""
-            },
-            password: {
-              isError: true,
-              message: "Username and Password do not match."
-            }
-          })
+          throw new InputError()
         }
       }
     } catch (error) {
       if (error instanceof FetchError) {
         setMessage(error.message)
       } else {
-        console.log(error.message)
+        setError({
+          username: {
+            isError: true,
+            message: ""
+          },
+          password: {
+            isError: true,
+            message: "Username and Password do not match."
+          }
+        })
       }
     }
   }

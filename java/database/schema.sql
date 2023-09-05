@@ -16,15 +16,17 @@ CREATE SEQUENCE seq_user_id
 CREATE TABLE Users (
 	ID bigint DEFAULT nextval('seq_user_id'::regclass) NOT NULL,
 	Username varchar(50) NOT NULL,
+	first_name varchar(400) NOT NULL,
+	last_name varchar(40) NOT NULL,
 	Password_Hash varchar(200) NOT NULL,
 	role varchar(50) NOT NULL,
 	
 	CONSTRAINT PK_user PRIMARY KEY (ID)
 );
 
-INSERT INTO Users (Username, Password_Hash, Role) VALUES 
-	('user', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER'),
-    ('admin', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_ADMIN');
+INSERT INTO Users (Username, first_name, last_name, Password_Hash, Role) VALUES 
+	('user', 'Tyler', 'Vicari', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER'),
+    ('admin', 'Tyler', 'Vicari', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_ADMIN');
 
 CREATE TABLE Email_Addresses (
 	ID serial NOT NULL,

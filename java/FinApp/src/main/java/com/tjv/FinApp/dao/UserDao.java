@@ -9,9 +9,10 @@ public interface UserDao {
     List<User> findAll();
     User findByUsername(String username);
     User getUserById(int id);
-    boolean create(String username, String email, String password, String role);
+    boolean create(String username, String firstName, String lastName, String email, String password, String role);
     User getUserByEmailAddress(String emailAddress);
     int getUserIdByUsername(Principal principal);
     void updatePassword(User user);
-    List<Boolean> checkUsernameAndEmail(String username, String email);
+    Boolean checkEmailAvailability(String email);
+    Boolean checkUsernameAvailability(String username);
 }
