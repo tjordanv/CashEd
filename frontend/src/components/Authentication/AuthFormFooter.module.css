@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.container .navLinkLabel {
+  margin-top: 25px;
+}
+
+.container .userRecoveryContainer {
+  width: 85%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.container .navLink {
+  color: #17c3b2;
+}

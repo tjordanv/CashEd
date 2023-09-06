@@ -15,8 +15,11 @@ import UsernameInput, { validateUsername } from "./UsernameInput"
 import EmailInput from "./EmailInput"
 import NameInput, { validateName } from "./NameInput"
 
-const RegisterForm = ({ setUserHandler }) => {
-  const [isPartTwo, setIsPartTwo] = useState(false)
+const RegisterForm = ({
+  setUserHandler,
+  registrationPart,
+  setRegistrationPart
+}) => {
   const [emailAddress, setEmailAddress] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
@@ -110,8 +113,8 @@ const RegisterForm = ({ setUserHandler }) => {
         })
         throw new InputError()
       } else {
-        // If no input errors, send user to register part 2
-        setIsPartTwo(true)
+        // If no input errors, send user to registration part 2
+        setRegistrationPart("two")
       }
     } catch (error) {
       if (error instanceof InputError) {
@@ -216,6 +219,7 @@ const RegisterForm = ({ setUserHandler }) => {
           username: registerResponseJson.username,
           email: registerResponseJson.email
         })
+        setRegistrationPart(null)
       }
     } catch (error) {
       if (error instanceof InputError) {
@@ -228,7 +232,7 @@ const RegisterForm = ({ setUserHandler }) => {
   return (
     <form className={classes.form} onSubmit={registerHandlerPartTwo}>
       <Box className={classes.container}>
-        {!isPartTwo && (
+        {registrationPart === "one" && (
           <>
             <EmailInput
               email={emailAddress}
@@ -255,7 +259,7 @@ const RegisterForm = ({ setUserHandler }) => {
             </Button>
           </>
         )}
-        {isPartTwo && (
+        {registrationPart === "two" && (
           <>
             <UsernameInput
               username={username}
@@ -283,24 +287,6 @@ const RegisterForm = ({ setUserHandler }) => {
           </>
         )}
         <ErrorMessage message={message} />
-        {!isPartTwo && (
-          <>
-            <Typography className={classes.navLinkLabel}>
-              Already have an account?
-            </Typography>
-            <NavLink to="/login" className={classes.navLink}>
-              Log In
-            </NavLink>
-          </>
-        )}
-        {isPartTwo && (
-          <NavLink
-            onClick={() => setIsPartTwo(false)}
-            className={classes.navLink}
-          >
-            Back
-          </NavLink>
-        )}
       </Box>
     </form>
   )
