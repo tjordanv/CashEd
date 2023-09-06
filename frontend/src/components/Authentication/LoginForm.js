@@ -82,7 +82,7 @@ const LoginForm = () => {
           inputHandler={setPassword}
           error={error.password}
         />
-        <ErrorMessage message={message} />
+        {message && <ErrorMessage message={message} />}
         <Button type="submit" variant="contained" className={classes.button}>
           Log in
         </Button>

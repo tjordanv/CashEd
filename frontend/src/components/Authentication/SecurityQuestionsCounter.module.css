@@ -1,0 +1,14 @@
+.container {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.container .header {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.container .count {
+  color: #fe6d73;
+}
