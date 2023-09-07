@@ -9,6 +9,25 @@ import java.util.Set;
 public class User {
     private int id;
     private String username;
+    private String firstName;
+    private String lastName;
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     private String email;
     private int activeSecurityQuestions;
     @JsonIgnore
@@ -20,9 +39,11 @@ public class User {
 
     public User() { }
 
-    public User(Integer id, String username, String password, String email, int activeSecurityQuestions, String authorities) {
+    public User(Integer id, String username, String firstName, String lastName, String password, String email, int activeSecurityQuestions, String authorities) {
         this.id = id;
         this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.password = password;
         this.email = email;
         this.activeSecurityQuestions = activeSecurityQuestions;

@@ -5,7 +5,7 @@ html {
 }
 
 .form {
-  margin: auto;
+  margin: 50px auto auto auto;
   width: 100%;
 }
 
@@ -25,6 +25,10 @@ html {
   margin-top: 10px;
   width: 100%;
 }
+.container .headerText {
+  text-align: center;
+  margin-bottom: 10px;
+}
 
 .container .messageContainer {
   margin-top: 8px;
@@ -43,10 +47,6 @@ html {
   margin-top: 8px;
   width: 100%;
   color: white;
-}
-
-.container .cancel {
-  color: #ff095f;
 }
 
 .container .switch {

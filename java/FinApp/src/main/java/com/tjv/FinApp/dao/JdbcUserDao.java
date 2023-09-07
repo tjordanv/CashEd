@@ -176,8 +176,10 @@ public class JdbcUserDao implements UserDao{
         User user = new User();
         user.setId(rs.getInt("id"));
         user.setUsername(rs.getString("username"));
+        user.setFirstName(rs.getString("first_name"));
+        user.setLastName(rs.getString("last_name"));
         user.setEmail(rs.getString("email_address"));
-        if (rs.getMetaData().getColumnCount() >= 6 && rs.findColumn("active_security_questions") > 0) {
+        if (rs.getMetaData().getColumnCount() >= 8 && rs.findColumn("active_security_questions") > 0) {
             user.setActiveSecurityQuestions(rs.getInt("active_security_questions"));
         }
         user.setPassword(rs.getString("password_hash"));

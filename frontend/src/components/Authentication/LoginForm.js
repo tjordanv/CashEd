@@ -11,7 +11,6 @@ import ErrorMessage from "../HelperComponents/ErrorMessage"
 import PasswordInput from "./PasswordInput"
 import UsernameInput from "./UsernameInput"
 import InputError from "../HelperComponents/InputError"
-import AuthFooter from "./AuthFooter"
 
 const LoginForm = () => {
   const [username, setUsername] = useState("")
@@ -71,32 +70,29 @@ const LoginForm = () => {
   }
 
   return (
-    <>
-      <form onSubmit={logInHandler} className={classes.form}>
-        <Box className={classes.container}>
-          <UsernameInput
-            username={username}
-            setUsernameHandler={setUsername}
-            error={error.username}
-          />
-          <PasswordInput
-            password={password}
-            inputHandler={setPassword}
-            error={error.password}
-          />
-          <Button type="submit" variant="contained" className={classes.button}>
-            Log in
-          </Button>
-          <FormControlLabel
-            control={<Switch />}
-            label="Remember Me"
-            className={classes.switch}
-          />
-        </Box>
-        <ErrorMessage message={message} />
-      </form>
-      {/* <AuthFooter /> */}
-    </>
+    <form onSubmit={logInHandler} className={classes.form}>
+      <Box className={classes.container}>
+        <UsernameInput
+          username={username}
+          setUsernameHandler={setUsername}
+          error={error.username}
+        />
+        <PasswordInput
+          password={password}
+          inputHandler={setPassword}
+          error={error.password}
+        />
+        <Button type="submit" variant="contained" className={classes.button}>
+          Log in
+        </Button>
+        <FormControlLabel
+          control={<Switch />}
+          label="Remember Me"
+          className={classes.switch}
+        />
+      </Box>
+      <ErrorMessage message={message} />
+    </form>
   )
 }
 

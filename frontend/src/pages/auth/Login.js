@@ -11,7 +11,7 @@ const Login = () => {
       <Box className={classes.container}>
         <AuthFormHeader />
         <LoginForm />
-        <AuthFormFooter />
+        <AuthFormFooter type="login" />
       </Box>
       <img alt="footer" src={footer} className={classes.footer} />
     </div>

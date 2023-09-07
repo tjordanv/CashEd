@@ -1,15 +1,12 @@
 import Typography from "@mui/material/Typography"
 import { NavLink } from "react-router-dom"
 import classes from "./AuthFormFooter.module.css"
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline"
 
-const AuthFormFooter = ({
-  isRegistration,
-  registrationPart,
-  setRegistrationPart
-}) => {
+const AuthFormFooter = ({ type, registrationPart, setRegistrationPart }) => {
   return (
     <div className={classes.container}>
-      {!isRegistration && (
+      {type === "login" && (
         <>
           <Typography className={classes.navLinkLabel}>
             Having trouble logging in?
@@ -37,18 +34,19 @@ const AuthFormFooter = ({
           </NavLink>
         </>
       )}
-      {registrationPart === "one" && (
+      {type === "registration" && registrationPart === "one" && (
         <>
           <Typography className={classes.navLinkLabel}>
             Already have an account?
           </Typography>
+
           <NavLink to="/login" className={classes.navLink}>
-            Log In
+            Login
           </NavLink>
         </>
       )}
       <>
-        {registrationPart === "two" && (
+        {type === "registration" && registrationPart === "two" && (
           <NavLink
             onClick={() => setRegistrationPart("one")}
             className={classes.navLink}
@@ -57,6 +55,14 @@ const AuthFormFooter = ({
           </NavLink>
         )}
       </>
+      {type === "username recovery" && (
+        <div className={classes.subContainer}>
+          <NavLink to="/login" className={classes.navLink}>
+            Cancel
+          </NavLink>
+          <HelpOutlineIcon className={classes.helpIcon} />
+        </div>
+      )}
     </div>
   )
 }

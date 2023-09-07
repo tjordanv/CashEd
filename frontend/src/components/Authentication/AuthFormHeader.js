@@ -1,7 +1,7 @@
 import Typography from "@mui/material/Typography"
 
 import classes from "../Authentication/AuthFormHeader.module.css"
-import logo from "../../tempLogo.png"
+import logo from "../../assets/tempLogo.png"
 
 const AuthFormHeader = () => {
   return (

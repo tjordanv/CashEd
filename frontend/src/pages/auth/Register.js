@@ -5,6 +5,7 @@ import classes from "./Auth.module.css"
 import Box from "@mui/material/Box"
 import AuthFormHeader from "../../components/Authentication/AuthFormHeader"
 import AuthFormFooter from "../../components/Authentication/AuthFormFooter"
+import footer from "../../assets/AuthFooter.png"
 
 const Register = () => {
   const [user, setUser] = useState("")
@@ -30,11 +31,12 @@ const Register = () => {
           </>
         )}
         <AuthFormFooter
-          isRegistration={true}
+          type="registration"
           registrationPart={registrationPart}
           setRegistrationPart={setRegistrationPart}
         />
       </Box>
+      <img alt="footer" src={footer} className={classes.footer} />
     </div>
   )
 }

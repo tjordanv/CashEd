@@ -1,11 +1,6 @@
 import { useState } from "react"
-
-import { NavLink } from "react-router-dom"
-
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
-import Typography from "@mui/material/Typography"
-
 import classes from "./Auth.module.css"
 import FetchError from "../HelperComponents/FetchError"
 import ErrorMessage from "../HelperComponents/ErrorMessage"
@@ -286,7 +281,7 @@ const RegisterForm = ({
             </Button>
           </>
         )}
-        <ErrorMessage message={message} />
+        {message && <ErrorMessage message={message} />}
       </Box>
     </form>
   )
