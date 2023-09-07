@@ -43,7 +43,7 @@ const LandingHeader = () => {
       <div className={classes.leftSideContainer}>
         <div className={classes.titleContainer}>
           <Typography variant="h4" className={classes.title}>
-            Finance App
+            CashEd
           </Typography>
           <Typography variant="h6" className={classes.title}>
             The Finance Tracker
