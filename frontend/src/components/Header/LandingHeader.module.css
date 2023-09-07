@@ -2,14 +2,18 @@
   background: linear-gradient(180deg, #17c3b2 37.67%, #fff7e7);
   display: flex;
   justify-content: space-around;
-  height: 200px;
+  height: 225px;
   position: relative;
   z-index: 99;
 }
 
 .leftSideContainer {
   display: flex;
-  align-items: center; /* Center vertically */
+  align-items: center;
+  margin-bottom: 50px;
+}
+.rightSideContainer {
+  margin-bottom: 50px;
 }
 
 .titleContainer {

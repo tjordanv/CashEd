@@ -59,6 +59,7 @@ const LandingHeader = () => {
         }
         justifyContent="center"
         alignItems="center"
+        className={classes.rightSideContainer}
       >
         {!linkStates.home && (
           <NavLink className={classes.navLink} to="/home">
