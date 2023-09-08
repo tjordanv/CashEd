@@ -4,6 +4,6 @@
   align-items: center;
 }
 
-.bottom {
-  margin-bottom: auto;
+.wrapper :last-child {
+  margin-top: 20px;
 }

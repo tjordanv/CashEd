@@ -37,7 +37,7 @@ const router = createBrowserRouter([
       { path: "register", element: <Register />, loader: QandALoader },
       { path: "userRecovery/forgotUsername", element: <UserRecovery /> },
       {
-        path: "userRecovery/resetPassword",
+        path: "userRecovery/forgotPassword",
         element: <UserRecovery isPasswordReset={true} />
       },
       {

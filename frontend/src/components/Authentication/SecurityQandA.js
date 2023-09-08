@@ -79,7 +79,7 @@ const SecurityQandA = ({ type, user, setIsAuthenticatedHandler }) => {
         // send email if answer is correct
         if (answerResponseJson === true) {
           let emailResponse
-          if (type === "password reset") {
+          if (type === "forgot password") {
             emailResponse = await fetch(
               `http://localhost:8080/auth/resetPassword?${new URLSearchParams({
                 username: user.username,
@@ -93,7 +93,7 @@ const SecurityQandA = ({ type, user, setIsAuthenticatedHandler }) => {
                 }
               }
             )
-          } else if (type === "username recovery") {
+          } else if (type === "forgot username") {
             emailResponse = await fetch(
               `http://localhost:8080/auth/usernameRecovery?${new URLSearchParams(
                 {
@@ -181,7 +181,7 @@ const SecurityQandA = ({ type, user, setIsAuthenticatedHandler }) => {
     <form
       className={classes.form}
       onSubmit={
-        ["password reset", "username recovery"].includes(type)
+        ["forgot password", "forgot username"].includes(type)
           ? validateAnswer
           : type === "register"
           ? saveAnswer
@@ -189,12 +189,8 @@ const SecurityQandA = ({ type, user, setIsAuthenticatedHandler }) => {
       }
     >
       <Box className={classes.container}>
-        {type === "register" ? (
+        {type === "register" && (
           <SecurityQuestionsCounter count={questionCount} />
-        ) : (
-          <Typography>
-            Select and answer a security question to receive a recovery email.
-          </Typography>
         )}
         <SecurityQuestions
           userId={user.id}
@@ -214,7 +210,7 @@ const SecurityQandA = ({ type, user, setIsAuthenticatedHandler }) => {
         >
           Submit
         </Button>
-        {type in ["password reset", "username recovery"] && (
+        {type in ["forgot password", "forgot username"] && (
           <NavLink to="/auth/login" className={classes.navLink}>
             Cancel
           </NavLink>

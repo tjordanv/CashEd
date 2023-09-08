@@ -9,7 +9,7 @@ const Login = () => {
   return (
     <div className={classes.wrapper}>
       <Box className={classes.container}>
-        <AuthFormHeader />
+        <AuthFormHeader pageTitle={"Log In"} />
         <LoginForm />
         <AuthFormFooter type="login" />
       </Box>

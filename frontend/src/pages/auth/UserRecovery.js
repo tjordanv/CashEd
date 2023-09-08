@@ -23,7 +23,9 @@ const UserRecovery = ({ isPasswordReset }) => {
   return (
     <div className={classes.wrapper}>
       <Box className={classes.container}>
-        <AuthFormHeader />
+        <AuthFormHeader
+          pageTitle={isPasswordReset ? "Forgot Password" : "Forgot Username"}
+        />
         {!user && (
           <UserLookup
             setUserHandler={setUserHandler}
@@ -34,12 +36,18 @@ const UserRecovery = ({ isPasswordReset }) => {
           <SecurityQAndA
             user={user}
             setIsAuthenticatedHandler={setIsAuthenticatedHandler}
-            type={isPasswordReset ? "password reset" : "username recovery"}
+            type={isPasswordReset ? "forgot password" : "forgot username"}
           />
         )}
         {isAuthenticated && <FinalResponse />}
         <AuthFormFooter
-          type={isPasswordReset ? "password reset" : "username recovery"}
+          type={
+            user
+              ? "security questions"
+              : isPasswordReset
+              ? "forgot password"
+              : "forgot username"
+          }
         />
       </Box>
       <img alt="footer" src={footer} className={classes.footer} />

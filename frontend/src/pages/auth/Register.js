@@ -17,7 +17,7 @@ const Register = () => {
   return (
     <div className={classes.wrapper}>
       <Box className={classes.container}>
-        <AuthFormHeader />
+        <AuthFormHeader pageTitle={"Registration"} />
         {!user && (
           <RegisterForm
             setUserHandler={setUser}
@@ -32,7 +32,7 @@ const Register = () => {
         )}
         <AuthFormFooter
           type="registration"
-          registrationPart={registrationPart}
+          formSection={registrationPart}
           setRegistrationPart={setRegistrationPart}
         />
       </Box>

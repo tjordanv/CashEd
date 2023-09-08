@@ -1,4 +1,5 @@
 import Typography from "@mui/material/Typography"
+import Tooltip from "@mui/material/Tooltip"
 import { NavLink } from "react-router-dom"
 import classes from "./AuthFormFooter.module.css"
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline"
@@ -20,7 +21,7 @@ const AuthFormFooter = ({ type, registrationPart, setRegistrationPart }) => {
             </NavLink>
             |
             <NavLink
-              to="/userRecovery/resetPassword"
+              to="/userRecovery/forgotPassword"
               className={classes.navLink}
             >
               Forgot Password
@@ -55,12 +56,46 @@ const AuthFormFooter = ({ type, registrationPart, setRegistrationPart }) => {
           </NavLink>
         )}
       </>
-      {type === "username recovery" && (
+      {(type === "forgot password" || type === "forgot username") && (
+        <div className={classes.subContainer}>
+          <div className={classes.userRecoverySubContainer}>
+            <NavLink
+              to={`/userRecovery/forgot${
+                type === "forgot password" ? "Username" : "Password"
+              }`}
+              className={classes.navLink}
+            >
+              {type === "forgot password"
+                ? "Forgot Username"
+                : "Forgot Password"}
+            </NavLink>
+            <NavLink to="/login" className={classes.navLink}>
+              Cancel
+            </NavLink>
+          </div>
+          <Tooltip
+            title={`Enter the ${
+              type === "forgot password" ? "username and " : ""
+            }email address associated to your account.`}
+            placement="top"
+          >
+            <HelpOutlineIcon className={classes.helpIcon} />
+          </Tooltip>
+        </div>
+      )}
+      {type === "security questions" && (
         <div className={classes.subContainer}>
           <NavLink to="/login" className={classes.navLink}>
             Cancel
           </NavLink>
-          <HelpOutlineIcon className={classes.helpIcon} />
+          <Tooltip
+            title={
+              "Select and answer a security question to receive a recovery email."
+            }
+            placement="top"
+          >
+            <HelpOutlineIcon className={classes.helpIcon} />
+          </Tooltip>
         </div>
       )}
     </div>
