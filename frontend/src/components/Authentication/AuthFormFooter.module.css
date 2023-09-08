@@ -35,6 +35,6 @@
   flex-direction: column;
   align-items: center;
 }
-.container .subContainer .userRecoverySubContainer :first-child {
-  margin-bottom: 15px;
+.container .subContainer .userRecoverySubContainer :nth-child(2) {
+  margin-top: 15px;
 }

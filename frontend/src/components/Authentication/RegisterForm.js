@@ -10,11 +10,7 @@ import UsernameInput, { validateUsername } from "./UsernameInput"
 import EmailInput from "./EmailInput"
 import NameInput, { validateName } from "./NameInput"
 
-const RegisterForm = ({
-  setUserHandler,
-  registrationPart,
-  setRegistrationPart
-}) => {
+const RegisterForm = ({ setUserHandler, formSection, setFormSection }) => {
   const [emailAddress, setEmailAddress] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
@@ -109,7 +105,7 @@ const RegisterForm = ({
         throw new InputError()
       } else {
         // If no input errors, send user to registration part 2
-        setRegistrationPart("two")
+        setFormSection("register two")
       }
     } catch (error) {
       if (error instanceof InputError) {
@@ -214,7 +210,7 @@ const RegisterForm = ({
           username: registerResponseJson.username,
           email: registerResponseJson.email
         })
-        setRegistrationPart(null)
+        setFormSection("registration security questions")
       }
     } catch (error) {
       if (error instanceof InputError) {
@@ -227,7 +223,7 @@ const RegisterForm = ({
   return (
     <form className={classes.form} onSubmit={registerHandlerPartTwo}>
       <Box className={classes.container}>
-        {registrationPart === "one" && (
+        {formSection === "register one" && (
           <>
             <EmailInput
               email={emailAddress}
@@ -254,7 +250,7 @@ const RegisterForm = ({
             </Button>
           </>
         )}
-        {registrationPart === "two" && (
+        {formSection === "register two" && (
           <>
             <UsernameInput
               username={username}

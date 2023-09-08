@@ -11,8 +11,8 @@ const Register = () => {
   const [user, setUser] = useState("")
   /* This controls which part, if any, of the form and footer will show when on the register page
   When setting the state, pass in whichever page/part you are navigating to. 
-  Example: using the BACK link to go back to part one -> setRegistrationPart("one") */
-  const [registrationPart, setRegistrationPart] = useState("one")
+  Example: using the BACK link to go back to part one -> setFormSection("one") */
+  const [formSection, setFormSection] = useState("register one")
 
   return (
     <div className={classes.wrapper}>
@@ -21,8 +21,8 @@ const Register = () => {
         {!user && (
           <RegisterForm
             setUserHandler={setUser}
-            registrationPart={registrationPart}
-            setRegistrationPart={setRegistrationPart}
+            formSection={formSection}
+            setFormSection={setFormSection}
           />
         )}
         {user && (
@@ -32,8 +32,8 @@ const Register = () => {
         )}
         <AuthFormFooter
           type="registration"
-          formSection={registrationPart}
-          setRegistrationPart={setRegistrationPart}
+          formSection={formSection}
+          setFormSection={setFormSection}
         />
       </Box>
       <img alt="footer" src={footer} className={classes.footer} />

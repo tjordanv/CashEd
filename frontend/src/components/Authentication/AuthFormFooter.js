@@ -4,7 +4,18 @@ import { NavLink } from "react-router-dom"
 import classes from "./AuthFormFooter.module.css"
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline"
 
-const AuthFormFooter = ({ type, registrationPart, setRegistrationPart }) => {
+const AuthFormFooter = ({ type, formSection, setFormSection }) => {
+  const tooltip =
+    formSection === "recovery security questions"
+      ? "Select and answer a security question to receive a recovery email."
+      : type === "forgot password"
+      ? "Enter the username and email address associated to your account."
+      : type === "forgot username"
+      ? "Enter the email address associated to your account."
+      : type === "registration"
+      ? "For additional security, please answer 3 security questions."
+      : ""
+
   return (
     <div className={classes.container}>
       {type === "login" && (
@@ -35,7 +46,7 @@ const AuthFormFooter = ({ type, registrationPart, setRegistrationPart }) => {
           </NavLink>
         </>
       )}
-      {type === "registration" && registrationPart === "one" && (
+      {type === "registration" && formSection === "register one" && (
         <>
           <Typography className={classes.navLinkLabel}>
             Already have an account?
@@ -47,43 +58,43 @@ const AuthFormFooter = ({ type, registrationPart, setRegistrationPart }) => {
         </>
       )}
       <>
-        {type === "registration" && registrationPart === "two" && (
+        {type === "registration" && formSection === "register two" && (
           <NavLink
-            onClick={() => setRegistrationPart("one")}
+            onClick={() => setFormSection("one")}
             className={classes.navLink}
           >
             Back
           </NavLink>
         )}
       </>
-      {(type === "forgot password" || type === "forgot username") && (
+      {(type === "forgot password" ||
+        type === "forgot username" ||
+        formSection === "registration security questions") && (
         <div className={classes.subContainer}>
           <div className={classes.userRecoverySubContainer}>
-            <NavLink
-              to={`/userRecovery/forgot${
-                type === "forgot password" ? "Username" : "Password"
-              }`}
-              className={classes.navLink}
-            >
-              {type === "forgot password"
-                ? "Forgot Username"
-                : "Forgot Password"}
-            </NavLink>
+            {formSection !== "recovery security questions" &&
+              formSection !== "registration security questions" && (
+                <NavLink
+                  to={`/userRecovery/forgot${
+                    type === "forgot password" ? "Username" : "Password"
+                  }`}
+                  className={classes.navLink}
+                >
+                  {type === "forgot password"
+                    ? "Forgot Username"
+                    : "Forgot Password"}
+                </NavLink>
+              )}
             <NavLink to="/login" className={classes.navLink}>
               Cancel
             </NavLink>
           </div>
-          <Tooltip
-            title={`Enter the ${
-              type === "forgot password" ? "username and " : ""
-            }email address associated to your account.`}
-            placement="top"
-          >
+          <Tooltip title={tooltip} placement="top">
             <HelpOutlineIcon className={classes.helpIcon} />
           </Tooltip>
         </div>
       )}
-      {type === "security questions" && (
+      {/* {formSection === "recovery security questions" && (
         <div className={classes.subContainer}>
           <NavLink to="/login" className={classes.navLink}>
             Cancel
@@ -97,7 +108,7 @@ const AuthFormFooter = ({ type, registrationPart, setRegistrationPart }) => {
             <HelpOutlineIcon className={classes.helpIcon} />
           </Tooltip>
         </div>
-      )}
+      )} */}
     </div>
   )
 }

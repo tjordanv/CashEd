@@ -54,6 +54,6 @@ html {
   margin-bottom: 10px;
 }
 
-#questions {
-  white-space: normal;
+.container .loader {
+  margin-top: 25px;
 }

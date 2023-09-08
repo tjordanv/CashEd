@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 
-import { NavLink, useLoaderData, useNavigate } from "react-router-dom"
+import { useLoaderData, useNavigate } from "react-router-dom"
 
 import SecurityQuestions from "./SecurityQuestions"
 import SecurityAnswer from "./SecurityAnswer"
@@ -13,7 +13,6 @@ import CircularProgress from "@mui/material/CircularProgress"
 import classes from "./Auth.module.css"
 import InputError from "../HelperComponents/InputError"
 import fetcher from "../HelperFunctions/fetchAuthorize"
-import { Typography } from "@mui/material"
 import SecurityQuestionsCounter from "./SecurityQuestionsCounter"
 
 const QandALoader = async () => {
@@ -210,17 +209,7 @@ const SecurityQandA = ({ type, user, setIsAuthenticatedHandler }) => {
         >
           Submit
         </Button>
-        {type in ["forgot password", "forgot username"] && (
-          <NavLink to="/auth/login" className={classes.navLink}>
-            Cancel
-          </NavLink>
-        )}
-        {/* {message && <ErrorMessage message={message} />} */}
-        {isLoading ? (
-          <CircularProgress />
-        ) : (
-          <div style={{ width: "40px", height: "40px" }}></div>
-        )}
+        {isLoading && <CircularProgress className={classes.loader} />}
       </Box>
     </form>
   )
