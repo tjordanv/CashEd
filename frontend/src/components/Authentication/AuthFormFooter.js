@@ -69,30 +69,36 @@ const AuthFormFooter = ({ type, formSection, setFormSection }) => {
       </>
       {(type === "forgot password" ||
         type === "forgot username" ||
-        formSection === "registration security questions") && (
-        <div className={classes.subContainer}>
-          <div className={classes.userRecoverySubContainer}>
-            {formSection !== "recovery security questions" &&
-              formSection !== "registration security questions" && (
-                <NavLink
-                  to={`/userRecovery/forgot${
-                    type === "forgot password" ? "Username" : "Password"
-                  }`}
-                  className={classes.navLink}
-                >
-                  {type === "forgot password"
-                    ? "Forgot Username"
-                    : "Forgot Password"}
-                </NavLink>
-              )}
-            <NavLink to="/login" className={classes.navLink}>
-              Cancel
-            </NavLink>
+        formSection === "registration security questions") &&
+        formSection !== "user recovery response" && (
+          <div className={classes.subContainer}>
+            <div className={classes.userRecoverySubContainer}>
+              {formSection !== "recovery security questions" &&
+                formSection !== "registration security questions" && (
+                  <NavLink
+                    to={`/userRecovery/forgot${
+                      type === "forgot password" ? "Username" : "Password"
+                    }`}
+                    className={classes.navLink}
+                  >
+                    {type === "forgot password"
+                      ? "Forgot Username"
+                      : "Forgot Password"}
+                  </NavLink>
+                )}
+              <NavLink to="/login" className={classes.navLink}>
+                Cancel
+              </NavLink>
+            </div>
+            <Tooltip title={tooltip} placement="top">
+              <HelpOutlineIcon className={classes.helpIcon} />
+            </Tooltip>
           </div>
-          <Tooltip title={tooltip} placement="top">
-            <HelpOutlineIcon className={classes.helpIcon} />
-          </Tooltip>
-        </div>
+        )}
+      {formSection === "user recovery response" && (
+        <NavLink to="/login" className={classes.navLink}>
+          Login
+        </NavLink>
       )}
       {/* {formSection === "recovery security questions" && (
         <div className={classes.subContainer}>

@@ -43,10 +43,10 @@ const UserRecovery = ({ isPasswordReset }) => {
         <AuthFormFooter
           type={isPasswordReset ? "forgot password" : "forgot username"}
           formSection={
-            user
-              ? "recovery security questions"
-              : isAuthenticated
+            isAuthenticated
               ? "user recovery response"
+              : user
+              ? "recovery security questions"
               : ""
           }
         />
