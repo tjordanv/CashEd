@@ -1,7 +1,7 @@
 import { useState } from "react"
 import UserLookup from "../../components/Authentication/UserLookup"
 import SecurityQAndA from "../../components/Authentication/SecurityQandA"
-import UserRecoveryResponse from "../../components/Authentication/UserRecoveryResponse"
+import RecoveryResponse from "../../components/Authentication/RecoveryResponse"
 import classes from "./Auth.module.css"
 import footer from "../../assets/AuthFooter.png"
 import AuthFormFooter from "../../components/Authentication/AuthFormFooter"
@@ -39,7 +39,7 @@ const UserRecovery = ({ isPasswordReset }) => {
             type={isPasswordReset ? "forgot password" : "forgot username"}
           />
         )}
-        {isAuthenticated && <UserRecoveryResponse />}
+        {isAuthenticated && <RecoveryResponse />}
         <AuthFormFooter
           type={isPasswordReset ? "forgot password" : "forgot username"}
           formSection={

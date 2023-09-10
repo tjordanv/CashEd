@@ -5,5 +5,6 @@
 }
 
 .wrapper :last-child {
+  font-weight: bold;
   margin-top: 20px;
 }

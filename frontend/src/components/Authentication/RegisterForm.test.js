@@ -8,13 +8,26 @@ beforeAll(() => server.listen())
 afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
+let mockParentStateFormSection = "register one"
 const setUserHandlerMock = jest.fn()
+/*if this does not work, when formSection should be changing, check that the mockHandler was called with the 
+correct value. If so, render form section 2 by setting form section to 2. This can be done by giving the render component function
+a form section prop to pass when called.
+*/
+const setFormSectionHandlerMock = ({ section }) => {
+  mockParentStateFormSection = section
+  return jest.fn()
+}
 const renderComponent = () => {
   /*The RegisterForm must be wrapped in the BrowserRouter since it contains a NavLink. 
     The NavLink uses useLocation hook which only works in the context of a router */
   render(
     <BrowserRouter>
-      <RegisterForm setUserHandler={setUserHandlerMock} />
+      <RegisterForm
+        setUserHandler={setUserHandlerMock}
+        formSection={mockParentStateFormSection}
+        setFormSection={setFormSectionHandlerMock}
+      />
     </BrowserRouter>
   )
 }

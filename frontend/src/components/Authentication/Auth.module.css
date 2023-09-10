@@ -57,3 +57,8 @@ html {
 .container .loader {
   margin-top: 25px;
 }
+
+.container .recoveryResponse {
+  text-align: center;
+  margin-top: 5px;
+}

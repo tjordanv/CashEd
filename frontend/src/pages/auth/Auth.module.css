@@ -28,3 +28,9 @@
   height: 45%;
   z-index: 0;
 }
+
+.wrapper .container .recoveryResponse {
+  margin: 0 auto auto auto;
+  width: 100%;
+  text-align: center;
+}
