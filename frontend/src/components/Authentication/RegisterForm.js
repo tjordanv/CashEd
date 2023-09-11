@@ -86,7 +86,6 @@ const RegisterForm = ({ setUserHandler, formSection, setFormSection }) => {
       } else if (emailAvailabilityResponse.status === 200) {
         const emailAvailabilityResponseJson =
           await emailAvailabilityResponse.json()
-
         if (emailAvailabilityResponseJson === true) {
           errorList.push(
             new InputError("Email address already taken.", "emailAddress")
@@ -108,7 +107,7 @@ const RegisterForm = ({ setUserHandler, formSection, setFormSection }) => {
         setFormSection("register two")
       }
     } catch (error) {
-      console.log(error)
+      //console.log(error)
       if (error instanceof InputError) {
         // handle input error
       } else if (error instanceof FetchError) {

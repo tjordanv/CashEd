@@ -13,9 +13,6 @@ let mockParentStateFormSection = "register one"
 // mock the parent state updating
 const setFormSectionHandlerMock = (section) => {
   mockParentStateFormSection = section
-  //console.log("parent State " + mockParentStateFormSection)
-  // re-render the component since the parents state isn't actually changing, thus not causing react to re-render automatically
-  //renderComponent()
 }
 
 const setUserHandlerMock = jest.fn()
@@ -43,71 +40,79 @@ const completePartOne = async () => {
   fireEvent.change(passwordInput, { target: { value: "Test123$" } })
   fireEvent.change(confirmPasswordInput, { target: { value: "Test123$" } })
   fireEvent.click(nextButton)
+
+  /* since the state is being set indirectly through the next button click, there is not promise returned in this function
+   so the test is not waiting for it (registerHandlerPartOne => components/RegisterForm) to finish before moving on. 
+   This timer provides enough time for the req/res cycle to finish*/
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      resolve()
+    }, 1000)
+  })
 }
 
 describe("RegisterForm component", () => {
-  // test("renders part 1 form fields", () => {
-  //   renderComponent()
+  test("renders part 1 form fields", () => {
+    renderComponent()
 
-  //   const emailInput = screen.getByLabelText(/Email Address/i)
-  //   const passwordInput = screen.getAllByLabelText(/password/i)[0]
-  //   const confirmPasswordInput = screen.getByLabelText(/Confirm Password/i)
-  //   const nextButton = screen.getByText(/Next/i)
+    const emailInput = screen.getByLabelText(/Email Address/i)
+    const passwordInput = screen.getAllByLabelText(/password/i)[0]
+    const confirmPasswordInput = screen.getByLabelText(/Confirm Password/i)
+    const nextButton = screen.getByText(/Next/i)
 
-  //   expect(emailInput).toBeInTheDocument()
-  //   expect(passwordInput).toBeInTheDocument()
-  //   expect(confirmPasswordInput).toBeInTheDocument()
-  //   expect(nextButton).toBeInTheDocument()
-  // })
-  // test("Receives part 1 input.", () => {
-  //   renderComponent()
+    expect(emailInput).toBeInTheDocument()
+    expect(passwordInput).toBeInTheDocument()
+    expect(confirmPasswordInput).toBeInTheDocument()
+    expect(nextButton).toBeInTheDocument()
+  })
+  test("Receives part 1 input.", () => {
+    renderComponent()
 
-  //   const emailInput = screen.getByLabelText(/Email Address/i)
-  //   const confirmPasswordInput = screen.getByLabelText(/Confirm Password/i)
-  //   const passwordInput = screen.getAllByLabelText(/password/i)[0]
+    const emailInput = screen.getByLabelText(/Email Address/i)
+    const confirmPasswordInput = screen.getByLabelText(/Confirm Password/i)
+    const passwordInput = screen.getAllByLabelText(/password/i)[0]
 
-  //   fireEvent.change(emailInput, { target: { value: "test@email.com" } })
-  //   fireEvent.change(passwordInput, { target: { value: "Test123$" } })
-  //   fireEvent.change(confirmPasswordInput, { target: { value: "Test123$" } })
+    fireEvent.change(emailInput, { target: { value: "test@email.com" } })
+    fireEvent.change(passwordInput, { target: { value: "Test123$" } })
+    fireEvent.change(confirmPasswordInput, { target: { value: "Test123$" } })
 
-  //   expect(emailInput).toHaveValue("test@email.com")
-  //   expect(passwordInput).toHaveValue("Test123$")
-  //   expect(confirmPasswordInput).toHaveValue("Test123$")
-  // })
-  // test("Shows email taken", async () => {
-  //   renderComponent()
+    expect(emailInput).toHaveValue("test@email.com")
+    expect(passwordInput).toHaveValue("Test123$")
+    expect(confirmPasswordInput).toHaveValue("Test123$")
+  })
+  test("Shows email taken", async () => {
+    renderComponent()
 
-  //   const emailInput = screen.getByLabelText(/Email Address/i)
-  //   const nextButton = screen.getByText(/Next/i)
+    const emailInput = screen.getByLabelText(/Email Address/i)
+    const nextButton = screen.getByText(/Next/i)
 
-  //   fireEvent.change(emailInput, { target: { value: "taken@email.com" } })
-  //   fireEvent.click(nextButton)
+    fireEvent.change(emailInput, { target: { value: "taken@email.com" } })
+    fireEvent.click(nextButton)
 
-  //   // Wait for async operations to complete
-  //   await waitFor(() => {
-  //     expect(
-  //       screen.getByText(/Email address already taken./i)
-  //     ).toBeInTheDocument()
-  //   })
-  // })
-  // test("Shows email is available", async () => {
-  //   renderComponent()
+    // Wait for async operations to complete
+    await waitFor(() => {
+      expect(
+        screen.getByText(/Email address already taken./i)
+      ).toBeInTheDocument()
+    })
+  })
+  test("Shows email is available", async () => {
+    renderComponent()
 
-  //   const emailInput = screen.getByLabelText(/Email Address/i)
-  //   const nextButton = screen.getByText(/next/i)
+    const emailInput = screen.getByLabelText(/Email Address/i)
+    const nextButton = screen.getByText(/next/i)
 
-  //   fireEvent.change(emailInput, { target: { value: "test@email.com" } })
-  //   fireEvent.click(nextButton)
+    fireEvent.change(emailInput, { target: { value: "test@email.com" } })
+    fireEvent.click(nextButton)
 
-  //   await waitFor(() => {
-  //     expect(screen.queryByText(/Email address already taken./i)).toBeNull()
-  //   })
-  // })
+    await waitFor(() => {
+      expect(screen.queryByText(/Email address already taken./i)).toBeNull()
+    })
+  })
   test("renders part 2 form fields", async () => {
     renderComponent()
-    await waitFor(() => completePartOne())
+    await completePartOne()
     renderComponent()
-    console.log("after")
     const usernameInput = screen.getByLabelText(/Username/i)
     const firstNameInput = screen.getByLabelText(/First Name/i)
     const lastNameInput = screen.getByLabelText(/Last Name/i)
