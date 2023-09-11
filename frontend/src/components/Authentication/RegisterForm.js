@@ -108,6 +108,7 @@ const RegisterForm = ({ setUserHandler, formSection, setFormSection }) => {
         setFormSection("register two")
       }
     } catch (error) {
+      console.log(error)
       if (error instanceof InputError) {
         // handle input error
       } else if (error instanceof FetchError) {

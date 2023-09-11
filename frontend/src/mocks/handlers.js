@@ -5,6 +5,7 @@ export const handlers = [
     "http://localhost:8080/auth/checkEmailAvailability",
     (req, res, ctx) => {
       const email = req.url.searchParams.get("email")
+      console.log(email)
       return res(ctx.status(200), ctx.json(email === "taken@email.com"))
     }
   ),
