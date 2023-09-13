@@ -123,76 +123,81 @@ describe("RegisterForm component", () => {
     expect(lastNameInput).toBeInTheDocument()
     expect(submitButton).toBeInTheDocument()
   })
-  // test("Receives part 2 input.", async () => {
-  //   /* since the previous test updated the "parent state", causing the section 2 state to be rendered,
-  //   we do not need to worry about completing section 1 again */
-  //   renderComponent()
+  test("Receives part 2 input.", async () => {
+    /* since the previous test updated the "parent state", causing the section 2 state to be rendered,
+    we do not need to worry about completing section 1 again */
+    renderComponent()
 
-  //   const usernameInput = screen.getByLabelText(/Username/i)
-  //   const firstNameInput = screen.getByLabelText(/First Name/i)
-  //   const lastNameInput = screen.getByLabelText(/Last Name/i)
+    const usernameInput = screen.getByLabelText(/Username/i)
+    const firstNameInput = screen.getByLabelText(/First Name/i)
+    const lastNameInput = screen.getByLabelText(/Last Name/i)
 
-  //   fireEvent.change(usernameInput, { target: { value: "user" } })
-  //   fireEvent.change(firstNameInput, { target: { value: "John" } })
-  //   fireEvent.change(lastNameInput, { target: { value: "Doe" } })
+    fireEvent.change(usernameInput, { target: { value: "user" } })
+    fireEvent.change(firstNameInput, { target: { value: "John" } })
+    fireEvent.change(lastNameInput, { target: { value: "Doe" } })
 
-  //   expect(usernameInput).toHaveValue("user")
-  //   expect(firstNameInput).toHaveValue("John")
-  //   expect(lastNameInput).toHaveValue("Doe")
-  // })
-  // test("Shows username taken", async () => {
-  //   renderComponent()
+    expect(usernameInput).toHaveValue("user")
+    expect(firstNameInput).toHaveValue("John")
+    expect(lastNameInput).toHaveValue("Doe")
+  })
+  test("Shows username taken", async () => {
+    renderComponent()
 
-  //   const usernameInput = screen.getByLabelText(/username/i)
-  //   const firstNameInput = screen.getByLabelText(/First Name/i)
-  //   const lastNameInput = screen.getByLabelText(/Last Name/i)
-  //   const submitButton = screen.getByText(/Create Account/i)
+    const usernameInput = screen.getByLabelText(/username/i)
+    const firstNameInput = screen.getByLabelText(/First Name/i)
+    const lastNameInput = screen.getByLabelText(/Last Name/i)
+    const submitButton = screen.getByText(/Create Account/i)
 
-  //   fireEvent.change(usernameInput, { target: { value: "user" } })
-  //   fireEvent.change(firstNameInput, { target: { value: "John" } })
-  //   fireEvent.change(lastNameInput, { target: { value: "Doe" } })
-  //   fireEvent.click(submitButton)
+    fireEvent.change(usernameInput, { target: { value: "user" } })
+    fireEvent.change(firstNameInput, { target: { value: "John" } })
+    fireEvent.change(lastNameInput, { target: { value: "Doe" } })
+    fireEvent.click(submitButton)
 
-  //   await waitFor(() => {
-  //     expect(screen.getByText(/Username already taken./i)).toBeInTheDocument()
-  //   })
-  // })
-  // test("Shows username is available", async () => {
-  //   renderComponent()
+    await waitFor(() => {
+      expect(screen.getByText(/Username already taken./i)).toBeInTheDocument()
+    })
+  })
+  test("Shows username is available", async () => {
+    renderComponent()
 
-  //   const usernameInput = screen.getByLabelText(/username/i)
-  //   const firstNameInput = screen.getByLabelText(/First Name/i)
-  //   const lastNameInput = screen.getByLabelText(/Last Name/i)
-  //   const submitButton = screen.getByText(/Create Account/i)
+    const usernameInput = screen.getByLabelText(/username/i)
+    const firstNameInput = screen.getByLabelText(/First Name/i)
+    const lastNameInput = screen.getByLabelText(/Last Name/i)
+    const submitButton = screen.getByText(/Create Account/i)
 
-  //   fireEvent.change(usernameInput, { target: { value: "newUser" } })
-  //   fireEvent.change(firstNameInput, { target: { value: "John" } })
-  //   fireEvent.change(lastNameInput, { target: { value: "Doe" } })
-  //   fireEvent.click(submitButton)
+    fireEvent.change(usernameInput, { target: { value: "newUser" } })
+    fireEvent.change(firstNameInput, { target: { value: "John" } })
+    fireEvent.change(lastNameInput, { target: { value: "Doe" } })
+    fireEvent.click(submitButton)
 
-  //   await waitFor(() => {
-  //     expect(screen.queryByText(/Username already taken./i)).toBeNull()
-  //   })
-  // })
-  // test("form can be submitted and accepted", async () => {
-  //   renderComponent()
+    await waitFor(() => {
+      expect(screen.queryByText(/Username already taken./i)).toBeNull()
+    })
+  })
+  test("form can be submitted and accepted", async () => {
+    renderComponent()
 
-  //   const usernameInput = screen.getByLabelText(/Username/i)
-  //   const firstNameInput = screen.getByLabelText(/First Name/i)
-  //   const lastNameInput = screen.getByLabelText(/Last Name/i)
-  //   const submitButton = screen.getByText(/Create Account/i)
+    const usernameInput = screen.getByLabelText(/Username/i)
+    const firstNameInput = screen.getByLabelText(/First Name/i)
+    const lastNameInput = screen.getByLabelText(/Last Name/i)
+    const submitButton = screen.getByText(/Create Account/i)
 
-  //   fireEvent.change(usernameInput, { target: { value: "newUser" } })
-  //   fireEvent.change(firstNameInput, { target: { value: "John" } })
-  //   fireEvent.change(lastNameInput, { target: { value: "Doe" } })
-  //   fireEvent.click(submitButton)
+    fireEvent.change(usernameInput, { target: { value: "newUser" } })
+    fireEvent.change(firstNameInput, { target: { value: "John" } })
+    fireEvent.change(lastNameInput, { target: { value: "Doe" } })
+    fireEvent.click(submitButton)
 
-  //   let isCreated = false
+    let isCreated = false
 
-  //   await waitFor(() => {
-  //     isCreated = sessionStorage.getItem("isCreated")
-  //   })
-  //   expect(isCreated).toEqual("true")
-  //   expect(setUserHandlerMock).toBeCalled()
-  // })
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        resolve()
+      }, 1000)
+    })
+    await waitFor(() => {
+      isCreated = sessionStorage.getItem("isCreated")
+    })
+    expect(isCreated).toEqual("true")
+    expect(setUserHandlerMock).toBeCalled()
+  })
 })
