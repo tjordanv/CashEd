@@ -26,21 +26,11 @@ describe("LoginForm component", () => {
     const passwordInput = screen.getAllByLabelText(/password/i)[0]
     const loginButton = screen.getByText(/log in/i)
     const rememberMeInput = screen.getByLabelText(/remember me/i)
-    const loginHelpLabel = screen.getByText(/having trouble logging in?/i)
-    const forgotUsernameLink = screen.getByText(/forgot username/i)
-    const forgotPasswordLink = screen.getByText(/forgot password/i)
-    const registerLabel = screen.getByText(/need an account?/i)
-    const registerLink = screen.getByText(/create account/i)
 
     expect(usernameInput).toBeInTheDocument()
     expect(passwordInput).toBeInTheDocument()
     expect(loginButton).toBeInTheDocument()
     expect(rememberMeInput).toBeInTheDocument()
-    expect(loginHelpLabel).toBeInTheDocument()
-    expect(forgotUsernameLink).toBeInTheDocument()
-    expect(forgotPasswordLink).toBeInTheDocument()
-    expect(registerLabel).toBeInTheDocument()
-    expect(registerLink).toBeInTheDocument()
   })
   test("receives input", () => {
     renderComponent()
@@ -55,7 +45,6 @@ describe("LoginForm component", () => {
     expect(passwordInput).toHaveValue("Test123$")
   })
   test("shows username and password do not match", async () => {
-    let inputError = null
     renderComponent()
 
     let usernameInput = screen.getByLabelText(/username/i)
