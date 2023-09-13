@@ -1,13 +1,11 @@
-import { createBrowserRouter, Link, RouterProvider } from "react-router-dom"
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
-
 import Login from "./pages/auth/Login"
 import Register from "./pages/auth/Register"
 import UserRecovery from "./pages/auth/UserRecovery"
 import TransactionImport from "./pages/TransactionImport"
 import Header from "./pages/Header"
 import Notifications from "./pages/Notifications"
-import AuthHeader from "./pages/auth/AuthHeader"
 import PasswordReset, { loader } from "./pages/auth/PasswordReset"
 import DashboardTest from "./components/DashboardTest"
 import AboutUs from "./pages/AboutUs"
@@ -39,7 +37,7 @@ const router = createBrowserRouter([
       { path: "register", element: <Register />, loader: QandALoader },
       { path: "userRecovery/forgotUsername", element: <UserRecovery /> },
       {
-        path: "userRecovery/resetPassword",
+        path: "userRecovery/forgotPassword",
         element: <UserRecovery isPasswordReset={true} />
       },
       {

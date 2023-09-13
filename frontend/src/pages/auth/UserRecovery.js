@@ -1,7 +1,12 @@
 import { useState } from "react"
 import UserLookup from "../../components/Authentication/UserLookup"
 import SecurityQAndA from "../../components/Authentication/SecurityQandA"
-import FinalResponse from "../../components/Authentication/FinalResponse"
+import RecoveryResponse from "../../components/Authentication/RecoveryResponse"
+import classes from "./Auth.module.css"
+import footer from "../../assets/AuthFooter.png"
+import AuthFormFooter from "../../components/Authentication/AuthFormFooter"
+import AuthFormHeader from "../../components/Authentication/AuthFormHeader"
+import Box from "@mui/material/Box"
 
 const UserRecovery = ({ isPasswordReset }) => {
   const [user, setUser] = useState("")
@@ -16,22 +21,38 @@ const UserRecovery = ({ isPasswordReset }) => {
   }
 
   return (
-    <>
-      {!user && (
-        <UserLookup
-          setUserHandler={setUserHandler}
-          isPasswordReset={isPasswordReset}
+    <div className={classes.wrapper}>
+      <Box className={classes.container}>
+        <AuthFormHeader
+          pageTitle={isPasswordReset ? "Forgot Password" : "Forgot Username"}
         />
-      )}
-      {user && !isAuthenticated && (
-        <SecurityQAndA
-          user={user}
-          setIsAuthenticatedHandler={setIsAuthenticatedHandler}
-          type={isPasswordReset ? "password reset" : "username recovery"}
+        {!user && (
+          <UserLookup
+            setUserHandler={setUserHandler}
+            isPasswordReset={isPasswordReset}
+          />
+        )}
+        {user && !isAuthenticated && (
+          <SecurityQAndA
+            user={user}
+            setIsAuthenticatedHandler={setIsAuthenticatedHandler}
+            type={isPasswordReset ? "forgot password" : "forgot username"}
+          />
+        )}
+        {isAuthenticated && <RecoveryResponse />}
+        <AuthFormFooter
+          type={isPasswordReset ? "forgot password" : "forgot username"}
+          formSection={
+            isAuthenticated
+              ? "user recovery response"
+              : user
+              ? "recovery security questions"
+              : ""
+          }
         />
-      )}
-      {isAuthenticated && <FinalResponse />}
-    </>
+      </Box>
+      <img alt="footer" src={footer} className={classes.footer} />
+    </div>
   )
 }
 

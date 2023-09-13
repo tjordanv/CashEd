@@ -38,7 +38,7 @@ public class MailController {
                             
             Hello world.
             
-            <a href="http://localhost:3000/auth/resetPassword/%s">reset password</a>
+            <a href="http://localhost:3000/resetPassword/%s">reset password</a>
                             
             Best regards,
             Big Bone

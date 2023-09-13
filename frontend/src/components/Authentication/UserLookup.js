@@ -1,11 +1,6 @@
 import { useState } from "react"
-
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
-import Typography from "@mui/material/Typography"
-
-import { NavLink } from "react-router-dom"
-
 import classes from "./Auth.module.css"
 import FetchError from "../HelperComponents/FetchError"
 import ErrorMessage from "../HelperComponents/ErrorMessage"
@@ -15,7 +10,7 @@ import UsernameInput from "./UsernameInput"
 const UserLookup = ({ setUserHandler, isPasswordReset }) => {
   const [emailAddress, setEmailAddress] = useState("")
   const [username, setUsername] = useState("")
-  const [message, setMessage] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
   const [errors, setErrors] = useState({
     email: { isError: false, message: "" },
     username: { isError: false, message: "" }
@@ -60,16 +55,13 @@ const UserLookup = ({ setUserHandler, isPasswordReset }) => {
         setErrors(errorObject)
       }
     } catch (error) {
-      setMessage(error.message)
+      setErrorMessage(error.message)
     }
   }
 
   return (
     <form onSubmit={getUserIdByEmail} className={classes.form}>
       <Box className={classes.container}>
-        <Typography variant="body1">
-          Please enter the email address associated with your account.
-        </Typography>
         <EmailInput
           email={emailAddress}
           setEmailHandler={setEmailAddress}
@@ -82,13 +74,10 @@ const UserLookup = ({ setUserHandler, isPasswordReset }) => {
             error={errors.username}
           />
         )}
-        <ErrorMessage message={message} />
         <Button type="submit" variant="contained" className={classes.button}>
           Next
         </Button>
-        <NavLink to="/auth/login" className={classes.navLink}>
-          Cancel
-        </NavLink>
+        {errorMessage && <ErrorMessage message={errorMessage} />}
       </Box>
     </form>
   )

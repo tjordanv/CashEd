@@ -81,7 +81,7 @@ const SecurityQuestions = ({ question, userId, setQuestionHandler }) => {
     <FormControl fullWidth>
       <InputLabel id="questionsLabel">Question</InputLabel>
       <Select
-        className={classes.questionSelect}
+        className={classes.inputField}
         labelId="questionsLabel"
         id={classes.questions}
         value={question}

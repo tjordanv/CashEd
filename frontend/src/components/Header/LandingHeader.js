@@ -25,13 +25,12 @@ const LandingHeader = () => {
       if (linkStates[link] === true) {
         prevPath = link
       }
-
-      setLinkStates((prevState) => ({
-        ...prevState,
-        [prevPath]: false,
-        [currentPath]: true
-      }))
     }
+    setLinkStates((prevState) => ({
+      ...prevState,
+      [prevPath]: false,
+      [currentPath]: true
+    }))
   }
   useEffect(() => {
     // use substring to remove the "/"
@@ -44,7 +43,7 @@ const LandingHeader = () => {
       <div className={classes.leftSideContainer}>
         <div className={classes.titleContainer}>
           <Typography variant="h4" className={classes.title}>
-            Finance App
+            CashEd
           </Typography>
           <Typography variant="h6" className={classes.title}>
             The Finance Tracker
@@ -60,6 +59,7 @@ const LandingHeader = () => {
         }
         justifyContent="center"
         alignItems="center"
+        className={classes.rightSideContainer}
       >
         {!linkStates.home && (
           <NavLink className={classes.navLink} to="/home">

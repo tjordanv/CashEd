@@ -52,7 +52,25 @@ describe("NameInput", () => {
     expect(validateName("use")).toBe(true)
     expect(validateName("inv@lid_name")).toBe(false)
     expect(validateName("cantHaveNums123")).toBe(false)
-    expect(validateName("thisNameIsWayTooLongToPassTheTest")).toBe(false)
+    expect(
+      validateName("thisNameIsWayWayTooLongToPassTheTestThatTestsItsLength")
+    ).toBe(false)
     expect(validateName(undefined)).toBe(false)
+  })
+  test("limits the input to 40 characters", () => {
+    renderComponent({ name: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" })
+
+    const inputElement = screen.getByLabelText(/Name/i)
+    let counter = 0
+    while (counter < 50) {
+      fireEvent.change(inputElement, {
+        target: { value: "a" }
+      })
+      counter++
+    }
+
+    expect(inputElement).toHaveAttribute("maxLength", "40")
+    expect(inputElement).toHaveValue("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+    expect(setNameHandler).toHaveBeenCalledTimes(50)
   })
 })

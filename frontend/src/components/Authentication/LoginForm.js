@@ -1,15 +1,16 @@
 import { useState } from "react"
-import { NavLink, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import Switch from "@mui/material/Switch"
-import Typography from "@mui/material/Typography"
+
 import classes from "./Auth.module.css"
 import FetchError from "../HelperComponents/FetchError"
 import ErrorMessage from "../HelperComponents/ErrorMessage"
 import PasswordInput from "./PasswordInput"
 import UsernameInput from "./UsernameInput"
+import InputError from "../HelperComponents/InputError"
 
 const LoginForm = () => {
   const [username, setUsername] = useState("")
@@ -47,23 +48,23 @@ const LoginForm = () => {
           localStorage.setItem("jwt", responseJson.accessToken)
           navigate("/")
         } else {
-          setError({
-            username: {
-              isError: true,
-              message: ""
-            },
-            password: {
-              isError: true,
-              message: "Username and Password do not match."
-            }
-          })
+          throw new InputError()
         }
       }
     } catch (error) {
       if (error instanceof FetchError) {
         setMessage(error.message)
       } else {
-        console.log(error.message)
+        setError({
+          username: {
+            isError: true,
+            message: ""
+          },
+          password: {
+            isError: true,
+            message: "Username and Password do not match."
+          }
+        })
       }
     }
   }
@@ -81,7 +82,6 @@ const LoginForm = () => {
           inputHandler={setPassword}
           error={error.password}
         />
-        <ErrorMessage message={message} />
         <Button type="submit" variant="contained" className={classes.button}>
           Log in
         </Button>
@@ -90,28 +90,8 @@ const LoginForm = () => {
           label="Remember Me"
           className={classes.switch}
         />
-        <Typography className={classes.navLinkLabel}>
-          Having trouble logging in?
-        </Typography>
-        <div className={classes.userRecoveryContainer}>
-          <NavLink
-            to="/userRecovery/forgotUsername"
-            className={classes.navLink}
-          >
-            Forgot Username
-          </NavLink>
-          |
-          <NavLink to="/userRecovery/resetPassword" className={classes.navLink}>
-            Forgot Password
-          </NavLink>
-        </div>
-        <Typography className={classes.navLinkLabel}>
-          Need an account?
-        </Typography>
-        <NavLink to="/register" className={classes.navLink}>
-          Create Account
-        </NavLink>
       </Box>
+      <ErrorMessage message={message} />
     </form>
   )
 }

@@ -5,7 +5,7 @@ html {
 }
 
 .form {
-  margin: auto;
+  margin: 0 auto auto auto;
   width: 100%;
 }
 
@@ -24,6 +24,10 @@ html {
 .container .inputField {
   margin-top: 10px;
   width: 100%;
+}
+.container .headerText {
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .container .messageContainer {
@@ -45,33 +49,16 @@ html {
   color: white;
 }
 
-.container .cancel {
-  color: #ff095f;
-}
-
 .container .switch {
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
-.container .navLinkLabel {
+.container .loader {
   margin-top: 25px;
 }
 
-.container .userRecoveryContainer {
-  width: 85%;
-  display: flex;
-  justify-content: space-between;
-}
-
-.container .navLink {
-  color: #17c3b2;
-}
-
-.formControl .questionSelect {
-  white-space: normal;
-}
-
-#questions {
-  white-space: normal;
+.container .recoveryResponse {
+  text-align: center;
+  margin-top: 5px;
 }

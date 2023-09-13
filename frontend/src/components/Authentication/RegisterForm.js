@@ -1,11 +1,6 @@
 import { useState } from "react"
-
-import { NavLink } from "react-router-dom"
-
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
-import Typography from "@mui/material/Typography"
-
 import classes from "./Auth.module.css"
 import FetchError from "../HelperComponents/FetchError"
 import ErrorMessage from "../HelperComponents/ErrorMessage"
@@ -13,19 +8,25 @@ import InputError from "../HelperComponents/InputError"
 import PasswordInput, { validatePassword } from "./PasswordInput"
 import UsernameInput, { validateUsername } from "./UsernameInput"
 import EmailInput from "./EmailInput"
+import NameInput, { validateName } from "./NameInput"
 
-const RegisterForm = ({ setUserHandler }) => {
-  const [username, setUsername] = useState("")
+const RegisterForm = ({ setUserHandler, formSection, setFormSection }) => {
   const [emailAddress, setEmailAddress] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
+  const [username, setUsername] = useState("")
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
   const [message, setMessage] = useState("")
   const [errors, setErrors] = useState({
-    username: { isError: false, message: "" },
     emailAddress: { isError: false, message: "" },
     password: { isError: false, message: "" },
-    confirmPassword: { isError: false, message: "" }
+    confirmPassword: { isError: false, message: "" },
+    username: { isError: false, message: "" },
+    firstName: { isError: false, message: "" },
+    lastName: { isError: false, message: "" }
   })
+  let errorList = []
 
   const setErrorHandler = (error) => {
     setErrors((prevState) => ({
@@ -33,21 +34,23 @@ const RegisterForm = ({ setUserHandler }) => {
       [error.inputField]: { isError: error.isError, message: error.message }
     }))
   }
-
-  const setPasswordHandler = (newPassword) => {
-    setPassword(newPassword)
+  const resetErrors = () => {
+    // reset any previous errors upon resubmission
+    const tempErrors = { ...errors }
+    for (const errorKey in tempErrors) {
+      tempErrors[errorKey] = {
+        isError: false,
+        message: ""
+      }
+    }
+    setErrors(tempErrors)
   }
-  const setConfirmPasswordHandler = (newPassword) => {
-    setConfirmPassword(newPassword)
-  }
 
-  const registerHandler = async (e) => {
-    e.preventDefault()
-
-    let errorList = []
+  const registerHandlerPartOne = async (e) => {
+    resetErrors()
 
     try {
-      // Check that the password meets baseline criteria before attempting to register
+      // Validate password criteria
       if (!validatePassword(password)) {
         errorList.push(
           new InputError(
@@ -56,54 +59,18 @@ const RegisterForm = ({ setUserHandler }) => {
           )
         )
       }
-
-      // Reset password error state if successfully validated
-      if (errors.password.isError) {
-        setErrorHandler({
-          inputField: "password",
-          isError: false,
-          message: ""
-        })
-      }
-
       // Check that password and confirm password match
       if (password !== confirmPassword) {
         errorList.push(
           new InputError("Passwords must match.", "confirmPassword")
         )
       }
-
-      // Reset confirm password error state if passwords match
-      if (errors.confirmPassword.isError) {
-        setErrorHandler({
-          inputField: "confirmPassword",
-          isError: false,
-          message: ""
-        })
-      }
-
-      // Reset username error state if successfully validated
-      if (errors.username.isError) {
-        setErrorHandler({
-          inputField: "username",
-          isError: false,
-          message: ""
-        })
-      }
-
-      // Reset email error state if successfully validated
-      if (errors.emailAddress.isError) {
-        setErrorHandler({
-          inputField: "emailAddress",
-          isError: false,
-          message: ""
-        })
-      }
-
-      // Check that the username and email address are valid and available.
-      let usernameAndEmailResponse = await fetch(
-        `http://localhost:8080/auth/checkUsernameAndEmail?${new URLSearchParams(
-          { username: username, email: emailAddress }
+      // Check that the provided email address is available.
+      let emailAvailabilityResponse = await fetch(
+        `http://localhost:8080/auth/checkEmailAvailability?${new URLSearchParams(
+          {
+            email: emailAddress
+          }
         )}`,
         {
           method: "GET",
@@ -114,30 +81,94 @@ const RegisterForm = ({ setUserHandler }) => {
         }
       )
 
-      if (!usernameAndEmailResponse.ok) {
-        throw await FetchError.fromResponse(usernameAndEmailResponse)
-      } else if (usernameAndEmailResponse.status === 200) {
-        const usernameAndEmailResponseJson =
-          await usernameAndEmailResponse.json()
-        // Validate username
-        if (!validateUsername(username)) {
-          errorList.push(
-            new InputError(
-              "Username must be between 4 and 15 characters. The only valid special characters are (., _, -).",
-              "username"
-            )
-          )
-        } else if (usernameAndEmailResponseJson[0] === true) {
-          errorList.push(new InputError("Username already taken.", "username"))
-        }
-        if (usernameAndEmailResponseJson[1] === true) {
+      if (!emailAvailabilityResponse.ok) {
+        throw await FetchError.fromResponse(emailAvailabilityResponse)
+      } else if (emailAvailabilityResponse.status === 200) {
+        const emailAvailabilityResponseJson =
+          await emailAvailabilityResponse.json()
+        if (emailAvailabilityResponseJson === true) {
           errorList.push(
             new InputError("Email address already taken.", "emailAddress")
           )
         }
       }
-
       // Handle any input errors
+      if (errorList.length > 0) {
+        errorList.forEach((error) => {
+          setErrorHandler({
+            inputField: error.getInputName(),
+            isError: true,
+            message: error.getMessage()
+          })
+        })
+        throw new InputError()
+      } else {
+        // If no input errors, send user to registration part 2
+        setFormSection("register two")
+      }
+    } catch (error) {
+      //console.log(error)
+      if (error instanceof InputError) {
+        // handle input error
+      } else if (error instanceof FetchError) {
+        setMessage(error.message)
+      }
+    }
+  }
+
+  const registerHandlerPartTwo = async (e) => {
+    e.preventDefault()
+    resetErrors()
+
+    try {
+      // validate first and last name
+      if (!validateName(firstName)) {
+        errorList.push(
+          new InputError("First name can only contain letters", "firstName")
+        )
+      }
+      if (!validateName(lastName)) {
+        errorList.push(
+          new InputError("Last name can only contain letters", "lastName")
+        )
+      }
+      // validate username
+      if (!validateUsername(username)) {
+        errorList.push(
+          new InputError(
+            "Username must be between 4 and 15 characters. The only valid special characters are (., _, -).",
+            "username"
+          )
+        )
+      } else {
+        // once username is validated, check that it is available
+        let usernameAvailabilityResponse = await fetch(
+          `http://localhost:8080/auth/checkUsernameAvailability?${new URLSearchParams(
+            { username: username }
+          )}`,
+          {
+            method: "GET",
+            mode: "cors",
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }
+        )
+        if (!usernameAvailabilityResponse.ok) {
+          throw await FetchError.fromResponse(usernameAvailabilityResponse)
+        } else if (usernameAvailabilityResponse.status === 200) {
+          const usernameAvailabilityResponseJson =
+            await usernameAvailabilityResponse.json()
+
+          if (usernameAvailabilityResponseJson === true) {
+            errorList.push(
+              new InputError("Username already taken.", "username")
+            )
+          }
+        }
+      }
+
+      // Handle any input errors before attempting to register user
       if (errorList.length > 0) {
         errorList.forEach((error) => {
           setErrorHandler({
@@ -159,6 +190,8 @@ const RegisterForm = ({ setUserHandler }) => {
           },
           body: JSON.stringify({
             username: username,
+            firstName: firstName,
+            lastName: lastName,
             email: emailAddress,
             password: password,
             confirmPassword: confirmPassword,
@@ -169,33 +202,15 @@ const RegisterForm = ({ setUserHandler }) => {
       if (!registerResponse.ok) {
         throw await FetchError.fromResponse(registerResponse)
       } else if (registerResponse.status === 200) {
-        console.log("user not created")
-        // handle this scenario; no input errors prevented register request but user not created
-      }
-
-      // If the user successfully registers, log them in.
-      else if (registerResponse.status === 201) {
-        let loginResponse = await fetch("http://localhost:8080/auth/login", {
-          method: "POST",
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            username: username,
-            password: password
-          })
+        const registerResponseJson = await registerResponse.json()
+        localStorage.setItem("jwt", registerResponseJson.accessToken)
+        // Set the user information so the securityQandA component has the necessary information
+        setUserHandler({
+          id: registerResponseJson.id,
+          username: registerResponseJson.username,
+          email: registerResponseJson.email
         })
-        if (loginResponse.status === 200) {
-          const loginResponseJson = await loginResponse.json()
-          localStorage.setItem("jwt", loginResponseJson.accessToken)
-          // Set the user information so the securityQandA component has the necessary information
-          setUserHandler({
-            id: loginResponseJson.id,
-            username: loginResponseJson.username,
-            email: loginResponseJson.email
-          })
-        }
+        setFormSection("registration security questions")
       }
     } catch (error) {
       if (error instanceof InputError) {
@@ -205,41 +220,64 @@ const RegisterForm = ({ setUserHandler }) => {
       }
     }
   }
-
   return (
-    <form className={classes.form} onSubmit={registerHandler}>
+    <form className={classes.form} onSubmit={registerHandlerPartTwo}>
       <Box className={classes.container}>
-        <UsernameInput
-          username={username}
-          setUsernameHandler={setUsername}
-          error={errors.username}
-        />
-        <EmailInput
-          email={emailAddress}
-          setEmailHandler={setEmailAddress}
-          error={errors.emailAddress}
-        />
-        <PasswordInput
-          password={password}
-          inputHandler={setPasswordHandler}
-          error={errors.password}
-        />
-        <PasswordInput
-          password={confirmPassword}
-          inputHandler={setConfirmPasswordHandler}
-          error={errors.confirmPassword}
-          isConfirmation={true}
-        />
-        <Button type="submit" variant="contained" className={classes.button}>
-          Create Account
-        </Button>
-        <ErrorMessage message={message} />
-        <Typography className={classes.navLinkLabel}>
-          Already have an account?
-        </Typography>
-        <NavLink to="/auth/login" className={classes.navLink}>
-          Log In
-        </NavLink>
+        {formSection === "register one" && (
+          <>
+            <EmailInput
+              email={emailAddress}
+              setEmailHandler={setEmailAddress}
+              error={errors.emailAddress}
+            />
+            <PasswordInput
+              password={password}
+              inputHandler={setPassword}
+              error={errors.password}
+            />
+            <PasswordInput
+              password={confirmPassword}
+              inputHandler={setConfirmPassword}
+              error={errors.confirmPassword}
+              isConfirmation={true}
+            />
+            <Button
+              onClick={registerHandlerPartOne}
+              variant="contained"
+              className={classes.button}
+            >
+              Next
+            </Button>
+          </>
+        )}
+        {formSection === "register two" && (
+          <>
+            <UsernameInput
+              username={username}
+              setUsernameHandler={setUsername}
+              error={errors.username}
+            />
+            <NameInput
+              name={firstName}
+              setNameHandler={setFirstName}
+              error={errors.firstName}
+            />
+            <NameInput
+              name={lastName}
+              setNameHandler={setLastName}
+              error={errors.lastName}
+              isLastName={true}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              className={classes.button}
+            >
+              Create Account
+            </Button>
+          </>
+        )}
+        {message && <ErrorMessage message={message} />}
       </Box>
     </form>
   )
