@@ -39,7 +39,7 @@ import static javax.mail.Message.RecipientType.TO;
 @Service
 public class GMailer {
 
-    private static final String TEST_EMAIL = "<tylervicari@gmail.com>";
+    private static final String TEST_EMAIL = "<cashedfinancial@gmail.com>";
     private final Gmail service;
 
     public GMailer() throws Exception {

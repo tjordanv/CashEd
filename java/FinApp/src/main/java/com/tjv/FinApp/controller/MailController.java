@@ -34,17 +34,18 @@ public class MailController {
             }
 
             String body = String.format("""
-            Dear reader,
-                            
-            Hello world.
-            
-            <a href="http://localhost:3000/resetPassword/%s">reset password</a>
-                            
-            Best regards,
-            Big Bone
-            """, token);
+                Hello %s,<br/><br/>
+                                
+                Use the link below to reset your password. Access to this link will expire after 20 minutes. If you did 
+                not request this password reset, please notify us and ignore this link. Let us know if you have any questions or concerns.<br/><br/>
+                
+                <a href="http://localhost:3000/resetPassword/%s">Reset Password</a><br/><br/>
+                 
+                Best regards,<br/>
+                Big Bone
+                """, user.getFirstName(), token);
 
-            new GMailer().sendMailWithHTML(email, "A new message", body);
+            new GMailer().sendMailWithHTML(email, "Password Reset", body);
 
             return true;
 
@@ -55,24 +56,25 @@ public class MailController {
     }
     @GetMapping("/auth/usernameRecovery")
     public boolean usernameRecovery(@RequestParam int id) throws Exception {
-
         try {
             User user = userDao.getUserById(id);
             if (user == null) {
 //                throw new Exception("user was not found");
                 return false;
             }
-            new GMailer().sendMail(user.getEmail(), "User Recovery", """
-            Hello reader,
-                            
-            Thank you for using my sick application.
-            Below you will find your username. Try not to forget this again, buddy.
-            
-            %s
-                            
-            Best regards,
-            Big Bone
-            """.formatted(user.getUsername()));
+
+            String body = String.format("""
+                    Hello %s,<br/><br/>
+                    Thank you for using my sick application.
+                    Below you will find your username. Try not to forget this again, buddy.<br/><br/>
+                 
+                    <strong><i>%s<i></strong><br/><br/>
+                             
+                    Best regards,
+                    Big Bone
+                    """, user.getFirstName(), user.getUsername());
+
+            new GMailer().sendMailWithHTML(user.getEmail(), "Username Recovery", body);
 
             return true;
         } catch (Exception e) {

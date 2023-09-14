@@ -35,7 +35,7 @@ const loader = async (token) => {
       return await response.json()
     } catch (error) {
       // Send the user back to the login page if they do not have a valid token
-      return redirect("/auth/login")
+      return redirect("/login")
       // If their token is valid but expired, let them know that and give them a link back to the reset password starter page
     }
     // console.log(responseJson)

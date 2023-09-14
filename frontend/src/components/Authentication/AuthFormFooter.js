@@ -75,20 +75,22 @@ const AuthFormFooter = ({ type, formSection, setFormSection }) => {
             <div className={classes.userRecoverySubContainer}>
               {formSection !== "recovery security questions" &&
                 formSection !== "registration security questions" && (
-                  <NavLink
-                    to={`/userRecovery/forgot${
-                      type === "forgot password" ? "Username" : "Password"
-                    }`}
-                    className={classes.navLink}
-                  >
-                    {type === "forgot password"
-                      ? "Forgot Username"
-                      : "Forgot Password"}
-                  </NavLink>
+                  <>
+                    <NavLink
+                      to={`/userRecovery/forgot${
+                        type === "forgot password" ? "Username" : "Password"
+                      }`}
+                      className={classes.navLink}
+                    >
+                      {type === "forgot password"
+                        ? "Forgot Username"
+                        : "Forgot Password"}
+                    </NavLink>
+                    <NavLink to="/login" className={classes.navLink}>
+                      Cancel
+                    </NavLink>
+                  </>
                 )}
-              <NavLink to="/login" className={classes.navLink}>
-                Cancel
-              </NavLink>
             </div>
             <Tooltip title={tooltip} placement="top">
               <HelpOutlineIcon className={classes.helpIcon} />
