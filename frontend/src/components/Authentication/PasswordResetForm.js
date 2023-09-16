@@ -37,7 +37,7 @@ const passwordResetLoader = async (token) => {
   return null
 }
 
-const PasswordResetForm = () => {
+const PasswordResetForm = ({ setIsResetHandler }) => {
   const userData = useLoaderData()
   const [password, setPassword] = useState("")
   const [error, setError] = useState({ isError: false, message: "" })
@@ -71,7 +71,8 @@ const PasswordResetForm = () => {
         } else if (response.status === 200) {
           const responseJson = await response.json()
           if (responseJson === true) {
-            navigate("/auth/login")
+            //navigate("/login")
+            setIsResetHandler(true)
           }
         }
       }
