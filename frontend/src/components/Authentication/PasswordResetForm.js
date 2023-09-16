@@ -1,4 +1,4 @@
-import { redirect, useLoaderData, useNavigate } from "react-router-dom"
+import { redirect, useLoaderData } from "react-router-dom"
 import { useState } from "react"
 
 import Button from "@mui/material/Button"
@@ -12,7 +12,6 @@ import FetchError from "../HelperComponents/FetchError"
 
 // validate the token from the URL before allowing users onto this page
 const passwordResetLoader = async (token) => {
-  let user
   const response = await fetch(
     `http://localhost:8080/auth/verifyToken?${new URLSearchParams({
       token: token
@@ -40,46 +39,83 @@ const passwordResetLoader = async (token) => {
 const PasswordResetForm = ({ setIsResetHandler }) => {
   const userData = useLoaderData()
   const [password, setPassword] = useState("")
-  const [error, setError] = useState({ isError: false, message: "" })
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [errors, setErrors] = useState({
+    password: { isError: false, message: "" },
+    confirmPassword: { isError: false, message: "" }
+  })
   const [message, setMessage] = useState("")
+  let errorList = []
 
-  const navigate = useNavigate()
+  const setErrorHandler = (error) => {
+    setErrors((prevState) => ({
+      ...prevState,
+      [error.inputField]: { isError: error.isError, message: error.message }
+    }))
+  }
+  const resetErrors = () => {
+    // reset any previous errors upon resubmission
+    const tempErrors = { ...errors }
+    for (const errorKey in tempErrors) {
+      tempErrors[errorKey] = {
+        isError: false,
+        message: ""
+      }
+    }
+    setErrors(tempErrors)
+  }
 
   const resetPassword = async (e) => {
     e.preventDefault()
-
+    resetErrors()
     try {
       if (!validatePassword(password)) {
-        throw new InputError(
-          "Password must contain at least one uppercase, one number, one special character and be at least 8 characters long."
+        errorList.push(
+          new InputError(
+            "Password must contain at least one uppercase, one number, one special character (@$!%*?&) and be at least 8 characters long.",
+            "password"
+          )
         )
-      } else {
-        console.log(userData)
-        let response = await fetch(
-          "http://localhost:8080/auth/updatePassword",
-          {
-            method: "PUT",
-            mode: "cors",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ id: userData.id, password: password })
-          }
+      }
+      if (password !== confirmPassword) {
+        errorList.push(
+          new InputError("Passwords must match.", "confirmPassword")
         )
-        if (!response.ok) {
-          throw new FetchError.fromResponse(response)
-        } else if (response.status === 200) {
-          const responseJson = await response.json()
-          if (responseJson === true) {
-            //navigate("/login")
-            setIsResetHandler(true)
-          }
+      }
+
+      if (errorList.length > 0) {
+        errorList.forEach((error) => {
+          setErrorHandler({
+            inputField: error.getInputName(),
+            isError: true,
+            message: error.getMessage()
+          })
+        })
+        throw new InputError()
+      }
+
+      let response = await fetch("http://localhost:8080/auth/updatePassword", {
+        method: "PUT",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ id: userData.id, password: password })
+      })
+      if (!response.ok) {
+        throw new FetchError.fromResponse(response)
+      } else if (response.status === 200) {
+        const responseJson = await response.json()
+        if (responseJson === true) {
+          //navigate("/login")
+          setIsResetHandler(true)
         }
       }
-      // Send request to update password if valid
     } catch (error) {
       if (error instanceof InputError) {
-        setError({ isError: true, message: error.getMessage() })
+        // handle input error
+      } else if (error instanceof FetchError) {
+        setMessage(error.message)
       }
     }
   }
@@ -90,9 +126,14 @@ const PasswordResetForm = ({ setIsResetHandler }) => {
         <PasswordInput
           password={password}
           inputHandler={setPassword}
-          error={error}
+          error={errors.password}
         />
-
+        <PasswordInput
+          password={confirmPassword}
+          inputHandler={setConfirmPassword}
+          error={errors.confirmPassword}
+          isConfirmation={true}
+        />
         <Button type="submit" variant="contained" className={classes.button}>
           Create Account
         </Button>
