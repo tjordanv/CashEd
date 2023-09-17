@@ -3,7 +3,7 @@ import { useState } from "react"
 
 import Button from "@mui/material/Button"
 import Box from "@mui/material/Box"
-
+import CircularProgress from "@mui/material/CircularProgress"
 import ErrorMessage from "../HelperComponents/ErrorMessage"
 import PasswordInput, { validatePassword } from ".//PasswordInput"
 import classes from "./Auth.module.css"
@@ -40,11 +40,12 @@ const PasswordResetForm = ({ setIsResetHandler }) => {
   const userData = useLoaderData()
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const [message, setMessage] = useState("")
   const [errors, setErrors] = useState({
     password: { isError: false, message: "" },
     confirmPassword: { isError: false, message: "" }
   })
-  const [message, setMessage] = useState("")
   let errorList = []
 
   const setErrorHandler = (error) => {
@@ -68,6 +69,8 @@ const PasswordResetForm = ({ setIsResetHandler }) => {
   const resetPassword = async (e) => {
     e.preventDefault()
     resetErrors()
+    setIsLoading(true)
+
     try {
       if (!validatePassword(password)) {
         errorList.push(
@@ -117,6 +120,7 @@ const PasswordResetForm = ({ setIsResetHandler }) => {
       } else if (error instanceof FetchError) {
         setMessage(error.message)
       }
+      setIsLoading(false)
     }
   }
 
@@ -137,6 +141,7 @@ const PasswordResetForm = ({ setIsResetHandler }) => {
         <Button type="submit" variant="contained" className={classes.button}>
           Create Account
         </Button>
+        {isLoading && <CircularProgress className={classes.loader} />}
         <ErrorMessage message={message} />
       </Box>
     </form>

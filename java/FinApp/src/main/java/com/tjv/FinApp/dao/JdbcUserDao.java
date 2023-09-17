@@ -92,9 +92,7 @@ public class JdbcUserDao implements UserDao{
                 "SET password_hash = ? " +
                 "WHERE id = ?";
 
-        System.out.println(user.getPassword());
         String passwordHash = new BCryptPasswordEncoder().encode(user.getPassword());
-        System.out.println(passwordHash);
         jdbcTemplate.update(sql, passwordHash, user.getId());
     }
 
