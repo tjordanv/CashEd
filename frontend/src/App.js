@@ -14,6 +14,7 @@ import { passwordResetLoader } from "./components/Authentication/PasswordResetFo
 import { QandALoader } from "./components/Authentication/SecurityQandA"
 import { headerNotificationsLoader } from "./components/Header/HeaderLayout"
 import { notificationsLoader } from "./components/Notifications/Notifications"
+import Home from "./pages/Home"
 
 const theme = createTheme({
   palette: {
@@ -34,7 +35,8 @@ const router = createBrowserRouter([
     path: "/",
     element: <LandingHeader />,
     children: [
-      { index: true, path: "login", element: <Login /> },
+      { index: true, path: "home", element: <Home /> },
+      { path: "login", element: <Login /> },
       { path: "register", element: <Register />, loader: QandALoader },
       { path: "userRecovery/forgotUsername", element: <UserRecovery /> },
       {
