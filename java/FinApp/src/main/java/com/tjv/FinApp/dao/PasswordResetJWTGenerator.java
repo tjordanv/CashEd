@@ -44,26 +44,35 @@ public class PasswordResetJWTGenerator {
     }
 
     public User verifyToken(String token) {
-        String sql = "SELECT token " +
+        String sql = "SELECT id " +
                 "from password_reset_jwt " +
                 "WHERE token = ? " +
-                "AND expiration_date > Now() " +
                 "AND is_active = true";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, token);
 
         if (results.next()) {
-            Claims claims = Jwts.parser().setSigningKey(SecurityConstants.JWT_SECRET).parseClaimsJws(token).getBody();
+            try {
+                Claims claims = Jwts.parser().setSigningKey(SecurityConstants.JWT_SECRET).parseClaimsJws(token).getBody();
 
-            Date currentTime = new Date();
-            Date expiration = claims.getExpiration();
+                Date currentTime = new Date();
+                Date expiration = claims.getExpiration();
 
-            if (currentTime.before(expiration)) {
-                User user = new User();
-                user.setId(claims.get("userId", Integer.class));
-                user.setEmail(claims.get("email", String.class));
+                if (currentTime.before(expiration)) {
+                    User user = new User();
+                    user.setId(claims.get("userId", Integer.class));
+                    user.setEmail(claims.get("email", String.class));
 
-                return user;
+                    return user;
+                }
+            } catch (Exception e) {
+                Integer tokenId = results.getInt("id");
+
+                sql = "UPDATE password_reset_jwt " +
+                        "SET is_active = false " +
+                        "WHERE id = ?";
+
+                jdbcTemplate.update(sql, tokenId);
             }
         }
         return null;

@@ -6,13 +6,15 @@ import UserRecovery from "./pages/auth/UserRecovery"
 import TransactionImport from "./pages/TransactionImport"
 import Header from "./pages/Header"
 import Notifications from "./pages/Notifications"
-import PasswordReset, { loader } from "./pages/auth/PasswordReset"
+import PasswordReset from "./pages/auth/PasswordReset"
 import DashboardTest from "./components/DashboardTest"
 import AboutUs from "./pages/AboutUs"
 import LandingHeader from "./pages/LandingHeader"
+import { passwordResetLoader } from "./components/Authentication/PasswordResetForm"
 import { QandALoader } from "./components/Authentication/SecurityQandA"
 import { headerNotificationsLoader } from "./components/Header/HeaderLayout"
 import { notificationsLoader } from "./components/Notifications/Notifications"
+import Home from "./pages/Home"
 
 const theme = createTheme({
   palette: {
@@ -33,7 +35,8 @@ const router = createBrowserRouter([
     path: "/",
     element: <LandingHeader />,
     children: [
-      { index: true, path: "login", element: <Login /> },
+      { index: true, path: "home", element: <Home /> },
+      { path: "login", element: <Login /> },
       { path: "register", element: <Register />, loader: QandALoader },
       { path: "userRecovery/forgotUsername", element: <UserRecovery /> },
       {
@@ -44,7 +47,7 @@ const router = createBrowserRouter([
         path: "resetPassword/:token",
         element: <PasswordReset />,
         loader: ({ params }) => {
-          return loader(params.token)
+          return passwordResetLoader(params.token)
         }
       },
       {

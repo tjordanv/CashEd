@@ -92,9 +92,7 @@ public class JdbcUserDao implements UserDao{
                 "SET password_hash = ? " +
                 "WHERE id = ?";
 
-        System.out.println(user.getPassword());
         String passwordHash = new BCryptPasswordEncoder().encode(user.getPassword());
-        System.out.println(passwordHash);
         jdbcTemplate.update(sql, passwordHash, user.getId());
     }
 
@@ -150,13 +148,14 @@ public class JdbcUserDao implements UserDao{
     @Override
     public User getUserById(int id) {
         User user = new User();
-        String sql = "Select username, email_address FROM users u " +
+        String sql = "Select first_name, username, email_address FROM users u " +
                 "join user_email_addresses_xref ex on u.id = ex.user_id " +
                 "join email_addresses e on ex.email_address_id = e.id WHERE u.id = ?";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
 
         if(results.next()) {
+            user.setFirstName(results.getString("first_name"));
             user.setUsername(results.getString("username"));
             user.setEmail(results.getString("email_address"));
         } else {

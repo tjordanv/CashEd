@@ -4,6 +4,12 @@ import { NavLink } from "react-router-dom"
 import classes from "./AuthFormFooter.module.css"
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline"
 
+/*
+type: This is the type of auth form. Ex: Login form, Registration form, Password Reset for
+formSection: This is the state of the form section for the forms that have multiple parts. 
+  Ex: Registration form part 1 and part 2
+setFormSection: This is a function the handles setting the formSection state 
+*/
 const AuthFormFooter = ({ type, formSection, setFormSection }) => {
   const tooltip =
     formSection === "recovery security questions"
@@ -14,7 +20,9 @@ const AuthFormFooter = ({ type, formSection, setFormSection }) => {
       ? "Enter the email address associated to your account."
       : type === "registration"
       ? "For additional security, please answer 3 security questions."
-      : ""
+      : type === "password reset"
+      ? "Enter your new password"
+      : null
 
   return (
     <div className={classes.container}>
@@ -67,14 +75,14 @@ const AuthFormFooter = ({ type, formSection, setFormSection }) => {
           </NavLink>
         )}
       </>
-      {(type === "forgot password" ||
-        type === "forgot username" ||
-        formSection === "registration security questions") &&
+      {(type.startsWith("forgot") ||
+        formSection === "registration security questions" ||
+        type === "password reset") &&
         formSection !== "user recovery response" && (
           <div className={classes.subContainer}>
             <div className={classes.userRecoverySubContainer}>
-              {formSection !== "recovery security questions" &&
-                formSection !== "registration security questions" && (
+              {!formSection.includes("security questions") &&
+                type !== "password reset" && (
                   <NavLink
                     to={`/userRecovery/forgot${
                       type === "forgot password" ? "Username" : "Password"
