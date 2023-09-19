@@ -18,7 +18,7 @@ const data = [
     info: "one final tidbit of information to display on the home page when the user hovers over the pie chart sections boi"
   }
 ]
-const COLORS = ["#17C3B2", "#227C9D", "#FE6D73", "#FFCB77"]
+const COLORS = ["#17C3B2", "#227C9D", "#FFCB77", "#FE6D73"]
 
 const HomePieChart = () => {
   const [info, setInfo] = useState("")
