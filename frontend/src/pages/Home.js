@@ -9,8 +9,51 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle"
 import CreditScoreIcon from "@mui/icons-material/CreditScore"
 import Typography from "@mui/material/Typography"
 import HomePieChart from "../components/HomePieChart"
+import { useState } from "react"
 
 const Home = () => {
+  const [activeIndex, setActiveIndex] = useState("")
+
+  /* The items are 1 index rather than zero index bc when the index is passed to the HomePieChart, 
+  it is easier to identify when action should be taken in the useEffect hook */
+  const stackItems = [
+    {
+      index: 1,
+      icon: CreditScoreIcon,
+      text: "Set and and and achieve budgets",
+      hoverColor: "#17C3B2"
+    },
+    {
+      index: 2,
+      icon: BarChartIcon,
+      text: "Set and achieve budgets",
+      hoverColor: "#227C9D"
+    },
+    {
+      index: 3,
+      icon: CheckCircleIcon,
+      text: "Set  achieve budgets",
+      hoverColor: "#FFCB77"
+    },
+    {
+      index: 4,
+      icon: CurrencyExchangeIcon,
+      text: "Set and  achieve budgets",
+      hoverColor: "#FE6D73"
+    }
+  ]
+
+  const StackItem = ({ item }) => (
+    <div
+      className={classes.stackItem}
+      onMouseEnter={() => setActiveIndex(item.index)}
+    >
+      <item.icon style={{ "--hoverColor": item.hoverColor }} />
+      <Typography variant="h5" style={{ "--hoverColor": item.hoverColor }}>
+        {item.text}
+      </Typography>
+    </div>
+  )
   return (
     <div className={authClasses.wrapper}>
       <div className={classes.cont}>
@@ -22,30 +65,13 @@ const Home = () => {
           </div>
           <Box className={classes.tempCont}>
             <Stack spacing={6}>
-              <div className={classes.stackItem}>
-                <CreditScoreIcon />
-                <Typography variant="h5">
-                  Set and and and achieve budgets
-                </Typography>
-              </div>
-              <div className={classes.stackItem}>
-                <BarChartIcon />
-                <Typography variant="h5">Set and achieve budgets</Typography>
-              </div>
-              <div className={classes.stackItem}>
-                <CheckCircleIcon />
-                <Typography variant="h5">Set achieve budgets</Typography>
-              </div>
-              <div className={classes.stackItem}>
-                <CurrencyExchangeIcon />
-                <Typography variant="h5">
-                  Set and and achieve budgets
-                </Typography>
-              </div>
+              {stackItems.map((item) => (
+                <StackItem item={item} key={item.index} />
+              ))}
             </Stack>
           </Box>
         </div>
-        <HomePieChart />
+        <HomePieChart index={activeIndex} />
       </div>
       <img alt="footer" src={footer} className={authClasses.footer} />
     </div>
