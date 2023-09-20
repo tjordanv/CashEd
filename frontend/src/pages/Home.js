@@ -20,26 +20,26 @@ const Home = () => {
     {
       index: 1,
       icon: CreditScoreIcon,
-      text: "Set and and and achieve budgets",
+      text: "Budgeting Made Easy",
       hoverColor: "#FFCB77"
     },
     {
       index: 2,
       icon: BarChartIcon,
-      text: "Set and achieve budgets",
-      hoverColor: "#227C9D"
+      text: "Engaging and Intuitive Tools",
+      hoverColor: "#FE6D73"
     },
     {
       index: 3,
       icon: CheckCircleIcon,
-      text: "Set  achieve budgets",
+      text: "Define and Achieve Your Success",
       hoverColor: "#17C3B2"
     },
     {
       index: 4,
       icon: CurrencyExchangeIcon,
       text: "Set and  achieve budgets",
-      hoverColor: "#FE6D73"
+      hoverColor: "#227C9D"
     }
   ]
 

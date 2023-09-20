@@ -4,18 +4,18 @@ import { useEffect, useState } from "react"
 import { Typography } from "@mui/material"
 
 const data = [
-  { value: 1, text: "some information to display about the application" },
+  { value: 1, text: "A great budget should be simple and actionable. " },
   {
     value: 1,
     text: "this is also just text that will be displayed when you hover on this section of the pie chart"
   },
   {
     value: 1,
-    text: "this will be some good good stuff about the application and how it helps its users"
+    text: "CashEd helps you set clear goals and objectives and then track your progress towards them."
   },
   {
     value: 1,
-    text: "one final tidbit of information to display on the home page when the user hovers over the pie chart sections boi"
+    text: "CashEd provides a suite of interactive tools and technologies that simplify your journey to financial freedom."
   }
 ]
 const COLORS = ["#FFCB77", "#227C9D", "#17C3B2", "#FE6D73"]
@@ -64,26 +64,21 @@ const HomePieChart = ({ index, setListIndex }) => {
 
   /* Recharts Pie chart is indexed counter clockwise. To make the hover animation go 
   clockwise, we have to adjust the index incoming from the list accordingly */
+  const listToPie = { 1: 0, 2: 3, 3: 2, 4: 1 }
+  const pieToList = { 0: 1, 2: 3, 3: 2, 1: 4 }
   useEffect(() => {
-    if (index === 1) {
-      setText(data[0].text)
-      setActiveIndex(0)
-    } else if (index === 2) {
-      setText(data[3].text)
-      setActiveIndex(3)
-    } else if (index === 3) {
-      setText(data[2].text)
-      setActiveIndex(2)
-    } else if (index === 4) {
-      setText(data[1].text)
-      setActiveIndex(1)
+    const adjustedIndex = listToPie[index]
+
+    if (adjustedIndex || adjustedIndex === 0) {
+      setText(data[adjustedIndex].text)
+      setActiveIndex(adjustedIndex)
     }
   }, [index])
 
-  const onPieEnter = (body, index) => {
-    setActiveIndex(index)
+  const onPieEnter = (body, pieIndex) => {
+    setActiveIndex(pieIndex)
     setText(body.text)
-    setListIndex(index + 1)
+    setListIndex(pieToList[pieIndex])
   }
 
   return (
