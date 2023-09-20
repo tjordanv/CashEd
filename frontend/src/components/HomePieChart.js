@@ -83,7 +83,7 @@ const HomePieChart = ({ index, setListIndex }) => {
   const onPieEnter = (body, index) => {
     setActiveIndex(index)
     setText(body.text)
-    setListIndex(index)
+    setListIndex(index + 1)
   }
 
   return (

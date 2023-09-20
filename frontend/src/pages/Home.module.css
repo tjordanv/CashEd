@@ -19,22 +19,26 @@
   height: 42px;
   display: flex;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.subCont .tempCont .stackItem .activeIcon {
+  font-size: 2.75rem;
+  color: var(--hoverColor, red);
+}
+
+.tempCont .stackItem .activeText {
+  font-weight: bold;
+  color: var(--hoverColor, red);
 }
 .tempCont .stackItem svg:first-child {
   color: #454545;
   margin: 0 25px 0 25px;
   font-size: 2.5rem;
 }
-.tempCont .stackItem:hover svg:first-child {
-  font-size: 2.75rem;
-  color: var(--hoverColor, red);
-}
 .tempCont .stackItem h5 {
   color: #454545;
-}
-.tempCont .stackItem:hover h5 {
-  font-weight: bold;
-  color: var(--hoverColor, red);
 }
 .titleCont {
   margin-bottom: 100px;

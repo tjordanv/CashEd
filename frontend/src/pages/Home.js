@@ -48,8 +48,15 @@ const Home = () => {
       className={classes.stackItem}
       onMouseEnter={() => setActiveIndex(item.index)}
     >
-      <item.icon style={{ "--hoverColor": item.hoverColor }} />
-      <Typography variant="h5" style={{ "--hoverColor": item.hoverColor }}>
+      <item.icon
+        className={activeIndex === item.index ? classes.activeIcon : ""}
+        style={{ "--hoverColor": item.hoverColor }}
+      />
+      <Typography
+        variant="h5"
+        className={activeIndex === item.index ? classes.activeText : ""}
+        style={{ "--hoverColor": item.hoverColor }}
+      >
         {item.text}
       </Typography>
     </div>
