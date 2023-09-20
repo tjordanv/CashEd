@@ -19,13 +19,8 @@ import Home from "./pages/Home"
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#17C3B2"
-    },
-    lightWhite: {
-      main: "rgba(255, 255, 255, 0.9)"
-    },
-    greyText: {
-      main: "#454545"
+      main: "#17C3B2",
+      text: "#454545"
     }
   }
 })

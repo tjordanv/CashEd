@@ -12,7 +12,7 @@
   width: 485px;
   height: 350px;
   border-radius: 85px;
-  background-color: rgba(255, 247, 231, 0.5); /* 50% opacity */
+  background-color: rgba(255, 247, 231, 0.6); /* 60% opacity */
 }
 
 .tempCont .stackItem {

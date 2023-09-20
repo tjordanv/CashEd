@@ -5,7 +5,7 @@ import footer from "../assets/AuthFooter.png"
 import Stack from "@mui/material/Stack"
 import BarChartIcon from "@mui/icons-material/BarChart"
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange"
-import CheckCircleIcon from "@mui/icons-material/CheckCircle"
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents"
 import CreditScoreIcon from "@mui/icons-material/CreditScore"
 import Typography from "@mui/material/Typography"
 import HomePieChart from "../components/HomePieChart"
@@ -31,14 +31,14 @@ const Home = () => {
     },
     {
       index: 3,
-      icon: CheckCircleIcon,
+      icon: EmojiEventsIcon,
       text: "Define and Achieve Your Success",
       hoverColor: "#17C3B2"
     },
     {
       index: 4,
       icon: CurrencyExchangeIcon,
-      text: "Set and set set setttesst",
+      text: "Reclaim Your Income",
       hoverColor: "#227C9D"
     }
   ]

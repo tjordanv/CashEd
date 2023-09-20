@@ -3,11 +3,15 @@ import classes from "./HomePieChart.module.css"
 import { useEffect, useState } from "react"
 import { Typography } from "@mui/material"
 
+// The pie chart data for each slice. Values are all set to 1 so each slice is equal size.
 const data = [
-  { value: 1, text: "A great budget should be simple and actionable. " },
   {
     value: 1,
-    text: "this is also just text that will be displayed when you hover on this section of the pie chart"
+    text: "Design a straightforward budget in minutes. Take control of your money."
+  },
+  {
+    value: 1,
+    text: "CashEd's analysis engine provides a deeper understanding of financial health and tendencies, enabling you to make more intentional decisions about your money."
   },
   {
     value: 1,
@@ -15,10 +19,14 @@ const data = [
   },
   {
     value: 1,
-    text: "CashEd provides a suite of interactive tools and technologies that simplify your journey to financial freedom."
+    text: "CashEd boasts a suite of interactive tools and technologies that simplify your journey to financial freedom."
   }
 ]
+
+// The colors for the pie chart slices.
 const COLORS = ["#FFCB77", "#227C9D", "#17C3B2", "#FE6D73"]
+
+// This is the outer line that displays over the active slice in the pie chart
 const renderActiveShape = (props) => {
   const {
     cx,
@@ -58,6 +66,13 @@ const renderActiveShape = (props) => {
   )
 }
 
+/*
+  index: represents the currently active index of the home page list and the pie chart.
+    It gets passed as a prop to update the pie chart when the active index is update in 
+    the home page list.
+  setListIndex: the handler that updates the home page list's active index when the pie 
+    chart's active index is updated.   
+*/
 const HomePieChart = ({ index, setListIndex }) => {
   const [text, setText] = useState("")
   const [activeIndex, setActiveIndex] = useState("")
@@ -75,6 +90,7 @@ const HomePieChart = ({ index, setListIndex }) => {
     }
   }, [index])
 
+  // Update the text displayed and the active index for both the pie chart and the home page list
   const onPieEnter = (body, pieIndex) => {
     setActiveIndex(pieIndex)
     setText(body.text)
@@ -106,7 +122,9 @@ const HomePieChart = ({ index, setListIndex }) => {
           text ? "" : classes.infoContainerPlaceholder
         }`}
       >
-        <Typography>{text}</Typography>
+        <Typography color="primary.text" variant="body1">
+          {text}
+        </Typography>
       </div>
     </div>
   )

@@ -7,15 +7,22 @@
 .container .pie {
   margin-bottom: auto;
 }
+.container .pie *:focus {
+  outline: none;
+}
 .container .pie :first-child {
   cursor: pointer;
+}
+
+.container .pie :first-child:focus {
+  cursor: default;
 }
 .container .infoContainer {
   height: 80px;
   width: 340px;
-  padding: 30px;
+  padding: 20px;
   border-radius: 40px;
-  background-color: rgba(255, 247, 231, 0.5); /* 50% opacity */
+  background-color: rgba(255, 247, 231, 0.6); /* 60% opacity */
   position: relative;
   display: flex;
   align-items: center;
