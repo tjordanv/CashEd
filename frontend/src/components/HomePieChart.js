@@ -18,7 +18,7 @@ const data = [
     text: "one final tidbit of information to display on the home page when the user hovers over the pie chart sections boi"
   }
 ]
-const COLORS = ["#17C3B2", "#227C9D", "#FFCB77", "#FE6D73"]
+const COLORS = ["#FFCB77", "#227C9D", "#17C3B2", "#FE6D73"]
 const renderActiveShape = (props) => {
   const {
     cx,
@@ -58,20 +58,32 @@ const renderActiveShape = (props) => {
   )
 }
 
-const HomePieChart = ({ index }) => {
+const HomePieChart = ({ index, setListIndex }) => {
   const [text, setText] = useState("")
   const [activeIndex, setActiveIndex] = useState("")
 
+  /* Recharts Pie chart is indexed counter clockwise. To make the hover animation go 
+  clockwise, we have to adjust the index incoming from the list accordingly */
   useEffect(() => {
-    if (index > 0) {
-      index--
-      setText(data[index].text)
-      setActiveIndex(index)
+    if (index === 1) {
+      setText(data[0].text)
+      setActiveIndex(0)
+    } else if (index === 2) {
+      setText(data[3].text)
+      setActiveIndex(3)
+    } else if (index === 3) {
+      setText(data[2].text)
+      setActiveIndex(2)
+    } else if (index === 4) {
+      setText(data[1].text)
+      setActiveIndex(1)
     }
   }, [index])
+
   const onPieEnter = (body, index) => {
     setActiveIndex(index)
     setText(body.text)
+    setListIndex(index)
   }
 
   return (

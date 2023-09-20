@@ -21,7 +21,7 @@ const Home = () => {
       index: 1,
       icon: CreditScoreIcon,
       text: "Set and and and achieve budgets",
-      hoverColor: "#17C3B2"
+      hoverColor: "#FFCB77"
     },
     {
       index: 2,
@@ -33,7 +33,7 @@ const Home = () => {
       index: 3,
       icon: CheckCircleIcon,
       text: "Set  achieve budgets",
-      hoverColor: "#FFCB77"
+      hoverColor: "#17C3B2"
     },
     {
       index: 4,
@@ -71,7 +71,7 @@ const Home = () => {
             </Stack>
           </Box>
         </div>
-        <HomePieChart index={activeIndex} />
+        <HomePieChart index={activeIndex} setListIndex={setActiveIndex} />
       </div>
       <img alt="footer" src={footer} className={authClasses.footer} />
     </div>

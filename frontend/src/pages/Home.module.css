@@ -16,10 +16,10 @@
 }
 
 .tempCont .stackItem {
+  height: 42px;
   display: flex;
   cursor: pointer;
 }
-
 .tempCont .stackItem svg:first-child {
   color: #454545;
   margin: 0 25px 0 25px;
