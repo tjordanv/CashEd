@@ -38,7 +38,7 @@ const Home = () => {
     {
       index: 4,
       icon: CurrencyExchangeIcon,
-      text: "Set and  achieve budgets",
+      text: "Set and set set setttesst",
       hoverColor: "#227C9D"
     }
   ]
