@@ -1,18 +1,15 @@
 import { styled } from "@mui/material/styles"
-import { NavLink, useLoaderData } from "react-router-dom"
-
+import { NavLink, useLoaderData, useNavigate } from "react-router-dom"
 import Box from "@mui/material/Box"
 import Stack from "@mui/material/Stack"
 import Divider from "@mui/material/Divider"
-
 import classes from "./HeaderLayout.module.css"
 import DrawerLayout from "./DrawerLayout"
-
 import fetcher from "../HelperFunctions/fetchAuthorize"
 import FetchError from "../HelperComponents/FetchError"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { fetchNotificationCounts } from "../../state/notificationsSlice"
-import { useSelector } from "react-redux"
+import { useEffect } from "react"
 
 const HeaderContainer = styled(Box)(({ theme }) => ({
   height: "6vh",
@@ -30,18 +27,26 @@ const headerNotificationsLoader = async () => {
         return await response.json()
       }
     } catch (error) {
-      console.log(error)
-      return null
+      return false
     }
   }
-  return null
+  return false
 }
 
 export { headerNotificationsLoader }
 
 const Header = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
+  const isAuthenticated = useLoaderData()
 
+  useEffect(() => {
+    if (isAuthenticated === false) {
+      navigate("/login")
+    }
+  })
+
+  // I may need to use redux to track this state to have accurate data when updates happen. unsure
   // set global state for notification counts that were fetched in the loader function prior to rendering the component
   dispatch(fetchNotificationCounts(useLoaderData()))
 

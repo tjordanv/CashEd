@@ -1,5 +1,6 @@
 package com.tjv.FinApp.dao;
 
+import com.tjv.FinApp.exceptions.UnauthenticatedException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -167,8 +168,10 @@ public class JdbcUserDao implements UserDao{
     @Override
     public int getUserIdByUsername(Principal principal) {
         User user = this.findByUsername(principal.getName());
-
-        return user.getId() != null ? user.getId() : 0;
+        if (user.getId() != null) {
+            return user.getId();
+        }
+        throw new UnauthenticatedException("The user is not authenticated and cannot access this page or functionality.");
     }
 
     private User mapRowToUser(SqlRowSet rs) {
