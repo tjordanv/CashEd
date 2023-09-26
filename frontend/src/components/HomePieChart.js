@@ -11,7 +11,7 @@ const data = [
   },
   {
     value: 1,
-    text: "CashEd's analysis engine provides a deeper understanding of financial health and tendencies, enabling you to make more intentional decisions about your money."
+    text: "CashEd's analysis engine provides a deeper understanding of your financial health, enabling you to be more intentional with your money."
   },
   {
     value: 1,

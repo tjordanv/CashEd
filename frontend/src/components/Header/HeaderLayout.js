@@ -27,6 +27,11 @@ const headerNotificationsLoader = async () => {
         return await response.json()
       }
     } catch (error) {
+      // Handle a server side error
+      if (error instanceof FetchError) {
+        console.log("fetch error")
+      }
+      // return false if the user is not authenticated
       return false
     }
   }
@@ -41,8 +46,9 @@ const Header = () => {
   const isAuthenticated = useLoaderData()
 
   useEffect(() => {
+    // If the user is not authenticated, send them to the landing (home) page
     if (isAuthenticated === false) {
-      navigate("/login")
+      navigate("/home")
     }
   })
 

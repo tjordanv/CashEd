@@ -40,16 +40,13 @@ public class NotificationController {
     @ResponseStatus(HttpStatus.OK)
     public Map<Integer, Integer> getUnreadNotificationsByUserByCategory(Principal principal) {
         try {
-            System.out.println(principal);
             int userId = userDao.getUserIdByUsername(principal);
-            System.out.println("here");
             return notificationsDao.getUnreadNotificationsByUserByCategory(userId);
         } catch (UnauthenticatedException e) {
             System.out.println("user not authenticated");
         } catch (Exception e) {
             System.out.println("another exception");
         }
-        System.out.println("there");
         return null;
     }
 

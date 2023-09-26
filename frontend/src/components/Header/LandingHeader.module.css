@@ -30,6 +30,8 @@
 
 .navLink {
   color: #fff7e7;
+  width: 65px;
+  text-align: center;
 }
 
 .hidden {
