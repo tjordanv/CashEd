@@ -133,7 +133,7 @@ const AboutUs = () => {
                 Tyler Vicari
               </Typography>
               <Typography variant="h5" color="primary.text">
-                Creator - Full Stack Software Engineer
+                Software Engineer
               </Typography>
               <br></br>
               <Typography variant="body2" color="primary.text">
@@ -153,7 +153,7 @@ const AboutUs = () => {
               </Typography>
             </div>
             <Box className={classes.linksContainer}>
-              <Stack spacing={3}>
+              <Stack spacing={4}>
                 <NavLink
                   to="https://www.linkedin.com/in/tyler-vicari/"
                   target="_blank"
