@@ -1,7 +1,52 @@
+.container {
+  z-index: 10;
+  width: 840px;
+}
+
+.container .bioCard {
+  /* box-shadow: none; */
+  background-color: rgba(255, 247, 231, 0.6); /* 60% opacity */
+}
+
+.cardContents {
+  display: flex;
+  flex-direction: row;
+}
+.bioCard .headshot {
+  width: 170px;
+  height: 250px;
+  border-radius: 200px;
+  margin: auto;
+}
+
+.container .bioCard .cardContents .body {
+  margin: auto 15px;
+  text-align: center;
+}
+.container .bioCard .cardContents .body .title {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.container .bioCard .cardContents .linksContainer {
+  width: 250px;
+  padding: 0 55px;
+  margin: auto;
+}
+
+.container .bioCard .cardContents .linksContainer .imageWrapper .image {
+  color: var(--color, red);
+}
+
+.container .bioCard .cardContents .linksContainer .emailImage {
+  cursor: pointer;
+  color: var(--color, red);
+}
+
+/*
 body {
   margin: 0;
   padding: 0;
-  /* overflow: hidden; */
 }
 
 .container {
@@ -88,7 +133,7 @@ body {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  background-color: #fff7e7; /* Semi-transparent overlay color */
+  background-color: #fff7e7; 
   border-radius: 20px;
 }
 
@@ -120,3 +165,4 @@ body {
 .aboutUsParagraphDesign {
   margin: 0 20px 50px 20px;
 }
+*/

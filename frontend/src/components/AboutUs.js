@@ -1,7 +1,7 @@
 import classes from "./AboutUs.module.css"
-import github from "../assets/github.svg"
-import linkedin from "../assets/linkedin.svg"
-import email from "../assets/email.svg"
+import github from "../assets/github.jpg"
+import linkedin from "../assets/linkedin.jpg"
+import email from "../assets/email.jpg"
 import tylerHeadshot from "../assets/TylerHeadshot.jpg"
 import aboutUsParagraphFrame from "../assets/aboutUsFrame.png"
 
@@ -10,6 +10,7 @@ import CardContent from "@mui/material/CardContent"
 import Typography from "@mui/material/Typography"
 import { NavLink } from "react-router-dom"
 import Alert from "@mui/material/Alert"
+import Stack from "@mui/material/Stack"
 
 import copy from "clipboard-copy"
 import { useState } from "react"
@@ -45,13 +46,94 @@ const AboutUs = () => {
   useEffect(() => {
     if (isAlert) {
       setTimeout(() => {
-        // This code will execute after 3 seconds
         setIsAlert(false)
       }, 3000)
     }
   }, [isAlert])
 
   return (
+    <div className={classes.container}>
+      <Card className={classes.bioCard}>
+        <CardContent className={classes.cardContents}>
+          <img
+            className={classes.headshot}
+            src={tylerHeadshot}
+            alt="headshot"
+          />
+          <div className={classes.body}>
+            <Typography variant="h3" className={classes.title}>
+              Tyler Vicari
+            </Typography>
+            <Typography variant="h5">
+              Creator - Full Stack Software Engineer
+            </Typography>
+            <br></br>
+            <Typography variant="body2">
+              In early 2020, my fascination with software development was
+              ignited. Little did I know that this initial spark would lead me
+              down a captivating path of discovery. As I delved deeper into the
+              subject, I found myself immersed in a vast realm of possibilities
+              that had previously been hidden from view.
+            </Typography>
+            <br></br>
+            <Typography variant="body2">
+              This newfound passion for software development fundamentally
+              transformed my perspective on technology and its role in our
+              lives. The process of conceptualizing and meticulously crafting
+              applications became a source of daily delight and engagement for
+              me.
+            </Typography>
+          </div>
+          <Stack spacing={3} className={classes.linksContainer}>
+            <NavLink
+              to="https://www.linkedin.com/in/tyler-vicari/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={classes.imageWrapper}
+            >
+              <img
+                src={linkedin}
+                alt="linkedin"
+                className={classes.image}
+                style={{ "--hoverColor": "#227C9D" }}
+              />
+            </NavLink>
+            <NavLink
+              className={classes.imageWrapper}
+              to="https://github.com/tjordanv"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src={github}
+                alt="github"
+                className={classes.image}
+                style={{ "--color": "#6e5494" }}
+              />
+            </NavLink>
+            <img
+              title="TylerVicari@gmail.com"
+              src={email}
+              alt="email"
+              className={classes.emailImage}
+              style={{ "--color": "#FBBC05" }}
+              onClick={() => copyToClipboard("tylervicari@gmail.com")}
+            />
+            {isAlert && (
+              <Alert severity="info" className={classes.emailAlert}>
+                Email address copied to clipboard.
+              </Alert>
+            )}
+          </Stack>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
+export default AboutUs
+
+/*
     <div className={classes.container}>
       <img
         src={aboutUsParagraphFrame}
@@ -140,6 +222,4 @@ const AboutUs = () => {
       </Card>
     </div>
   )
-}
-
-export default AboutUs
+*/
