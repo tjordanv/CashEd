@@ -1,7 +1,9 @@
 import { PieChart, Pie, Cell, Sector } from "recharts"
 import classes from "./HomePieChart.module.css"
 import { useEffect, useState } from "react"
-import { Typography } from "@mui/material"
+import Typography from "@mui/material/Typography"
+import Card from "@mui/material/Card"
+import CardContent from "@mui/material/CardContent"
 
 // The pie chart data for each slice. Values are all set to 1 so each slice is equal size.
 const data = [
@@ -117,15 +119,17 @@ const HomePieChart = ({ index, setListIndex }) => {
           ))}
         </Pie>
       </PieChart>
-      <div
+      <Card
         className={`${classes.infoContainer} ${
           text ? "" : classes.infoContainerPlaceholder
         }`}
       >
-        <Typography color="primary.text" variant="body1">
-          {text}
-        </Typography>
-      </div>
+        <CardContent>
+          <Typography color="primary.text" variant="body1">
+            {text}
+          </Typography>
+        </CardContent>
+      </Card>
     </div>
   )
 }

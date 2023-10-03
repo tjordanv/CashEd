@@ -10,6 +10,8 @@ import CreditScoreIcon from "@mui/icons-material/CreditScore"
 import Typography from "@mui/material/Typography"
 import HomePieChart from "../components/HomePieChart"
 import { useState } from "react"
+import Card from "@mui/material/Card"
+import CardContent from "@mui/material/CardContent"
 
 const Home = () => {
   const [activeIndex, setActiveIndex] = useState("")
@@ -70,13 +72,15 @@ const Home = () => {
             <div></div>
             <div></div>
           </div>
-          <Box className={classes.tempCont}>
-            <Stack spacing={6}>
-              {stackItems.map((item) => (
-                <StackItem item={item} key={item.index} />
-              ))}
-            </Stack>
-          </Box>
+          <Card className={classes.tempCont}>
+            <CardContent>
+              <Stack spacing={6}>
+                {stackItems.map((item) => (
+                  <StackItem item={item} key={item.index} />
+                ))}
+              </Stack>
+            </CardContent>
+          </Card>
         </div>
         <HomePieChart index={activeIndex} setListIndex={setActiveIndex} />
       </div>
