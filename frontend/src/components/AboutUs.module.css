@@ -16,7 +16,7 @@
 }
 .selector h6 {
   position: relative;
-  border: 3px #777777 solid;
+  border: 2px #777777 solid;
   border-radius: 20px;
   background-color: #fff7e7;
   padding: 5px;
@@ -47,11 +47,14 @@
 .container .bioCard {
   background-color: rgba(255, 247, 231, 0.6); /* 60% opacity */
   border-radius: 40px;
+  height: 375px;
 }
 
-.cardContents {
+.container .bioCard .cardContents {
   display: flex;
   flex-direction: row;
+  height: 100%;
+  padding: 0 15px;
 }
 .bioCard .headshot {
   width: 190px;
