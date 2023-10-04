@@ -1,4 +1,4 @@
-import classes from "./AboutUs.module.css"
+import classes from "./EmailIcon.module.css"
 import email from "../assets/email.svg"
 import Alert from "@mui/material/Alert"
 import copy from "clipboard-copy"
@@ -48,6 +48,6 @@ const EmailIcon = () => {
     }
   }, [isAlert])
 
-  return ReturnContent
+  return <ReturnContent />
 }
 export default EmailIcon

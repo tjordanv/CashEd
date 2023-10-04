@@ -1,22 +1,14 @@
-import classes from "./AboutUs.module.css"
+import classes from "./BioCard.module.css"
 import github from "../assets/github.svg"
 import linkedin from "../assets/linkedin.svg"
 import tylerHeadshot from "../assets/TylerHeadshot.jpg"
 import EmailIcon from "./EmailIcon"
-import aboutUsParagraphFrame from "../assets/aboutUsFrame.png"
-
 import Card from "@mui/material/Card"
 import CardContent from "@mui/material/CardContent"
 import Typography from "@mui/material/Typography"
 import { NavLink } from "react-router-dom"
-import Alert from "@mui/material/Alert"
 import Stack from "@mui/material/Stack"
-import Divider from "@mui/material/Divider"
 import Box from "@mui/material/Box"
-
-import copy from "clipboard-copy"
-import { useState } from "react"
-import { useEffect } from "react"
 
 const BioCard = () => {
   return (
@@ -66,10 +58,12 @@ const BioCard = () => {
             >
               <img src={github} alt="github" />
             </NavLink>
-            <EmailLinkContent />
+            <EmailIcon />
           </Stack>
         </Box>
       </CardContent>
     </Card>
   )
 }
+
+export default BioCard
