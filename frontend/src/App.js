@@ -7,9 +7,9 @@ import TransactionImport from "./pages/TransactionImport"
 import Header from "./pages/Header"
 import Notifications from "./pages/Notifications"
 import PasswordReset from "./pages/auth/PasswordReset"
+import LandingWrapper from "./pages/LandingWrapper"
 import DashboardTest from "./components/DashboardTest"
 import AboutUs from "./pages/AboutUs"
-import LandingHeader from "./pages/LandingHeader"
 import { passwordResetLoader } from "./components/Authentication/PasswordResetForm"
 import { QandALoader } from "./components/Authentication/SecurityQandA"
 import { headerNotificationsLoader } from "./components/Header/HeaderLayout"
@@ -28,9 +28,9 @@ const theme = createTheme({
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <LandingHeader />,
+    element: <LandingWrapper />,
     children: [
-      { index: true, path: "home", element: <Home /> },
+      { path: "home", element: <Home /> },
       { path: "login", element: <Login /> },
       { path: "register", element: <Register />, loader: QandALoader },
       { path: "userRecovery/forgotUsername", element: <UserRecovery /> },

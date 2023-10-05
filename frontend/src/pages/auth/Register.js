@@ -5,7 +5,6 @@ import classes from "./Auth.module.css"
 import Box from "@mui/material/Box"
 import AuthFormHeader from "../../components/Authentication/AuthFormHeader"
 import AuthFormFooter from "../../components/Authentication/AuthFormFooter"
-import footer from "../../assets/AuthFooter.png"
 
 const Register = () => {
   const [user, setUser] = useState("")
@@ -15,29 +14,26 @@ const Register = () => {
   const [formSection, setFormSection] = useState("register one")
 
   return (
-    <div className={classes.wrapper}>
-      <Box className={classes.container}>
-        <AuthFormHeader pageTitle={"Registration"} />
-        {!user && (
-          <RegisterForm
-            setUserHandler={setUser}
-            formSection={formSection}
-            setFormSection={setFormSection}
-          />
-        )}
-        {user && (
-          <>
-            <SecurityQandA type="register" user={user} />{" "}
-          </>
-        )}
-        <AuthFormFooter
-          type="registration"
+    <Box className={classes.container}>
+      <AuthFormHeader pageTitle={"Registration"} />
+      {!user && (
+        <RegisterForm
+          setUserHandler={setUser}
           formSection={formSection}
           setFormSection={setFormSection}
         />
-      </Box>
-      <img alt="footer" src={footer} className={classes.footer} />
-    </div>
+      )}
+      {user && (
+        <>
+          <SecurityQandA type="register" user={user} />{" "}
+        </>
+      )}
+      <AuthFormFooter
+        type="registration"
+        formSection={formSection}
+        setFormSection={setFormSection}
+      />
+    </Box>
   )
 }
 

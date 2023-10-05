@@ -1,7 +1,4 @@
-import Box from "@mui/material/Box"
-import authClasses from "./auth/Auth.module.css"
 import classes from "./Home.module.css"
-import footer from "../assets/AuthFooter.png"
 import Stack from "@mui/material/Stack"
 import BarChartIcon from "@mui/icons-material/BarChart"
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange"
@@ -64,27 +61,24 @@ const Home = () => {
     </div>
   )
   return (
-    <div className={authClasses.wrapper}>
-      <div className={classes.cont}>
-        <div className={classes.subCont}>
-          <div className={classes.titleCont}>
-            <Typography variant="h4">Get to know your money.</Typography>
-            <div></div>
-            <div></div>
-          </div>
-          <Card className={classes.tempCont}>
-            <CardContent>
-              <Stack spacing={6}>
-                {stackItems.map((item) => (
-                  <StackItem item={item} key={item.index} />
-                ))}
-              </Stack>
-            </CardContent>
-          </Card>
+    <div className={classes.container}>
+      <div className={classes.subContainer}>
+        <div className={classes.titleContainer}>
+          <Typography variant="h4">Get to know your money.</Typography>
+          <div></div>
+          <div></div>
         </div>
-        <HomePieChart index={activeIndex} setListIndex={setActiveIndex} />
+        <Card className={classes.listContainer}>
+          <CardContent>
+            <Stack spacing={6}>
+              {stackItems.map((item) => (
+                <StackItem item={item} key={item.index} />
+              ))}
+            </Stack>
+          </CardContent>
+        </Card>
       </div>
-      <img alt="footer" src={footer} className={authClasses.footer} />
+      <HomePieChart index={activeIndex} setListIndex={setActiveIndex} />
     </div>
   )
 }
