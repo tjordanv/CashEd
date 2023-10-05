@@ -1,6 +1,7 @@
 import { useState } from "react"
 import AboutUsSelector from "../components/AboutUsSelector"
 import BioCard from "../components/BioCard"
+import AboutUsBio from "../components/AboutUsBio"
 import classes from "./AboutUs.module.css"
 
 const AboutUs = () => {
@@ -10,7 +11,7 @@ const AboutUs = () => {
     if (isCreator) {
       return <BioCard />
     } else {
-      return <>other one</>
+      return <AboutUsBio />
     }
   }
   return (
