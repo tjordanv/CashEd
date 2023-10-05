@@ -1,37 +1,34 @@
-import classes from "./AboutUs.module.css"
+import classes from "./AboutUsSelector.module.css"
 import Typography from "@mui/material/Typography"
 import Stack from "@mui/material/Stack"
 import Divider from "@mui/material/Divider"
-import Box from "@mui/material/Box"
 
-import { useState } from "react"
-import { useEffect } from "react"
-
-const AboutUsSelector = () => {
+const AboutUsSelector = ({ isCreator, setIsCreator }) => {
   return (
     <Stack
       direction="row"
       spacing={10}
       divider={<Divider orientation="vertical" flexItem />}
       alignItems="center"
-      className={classes.stack}
+      className={classes.container}
     >
-      <div className={classes.selector} onClick={() => selectorHandler(false)}>
+      <div className={classes.selector} onClick={() => setIsCreator(false)}>
         <Typography variant="h6" color="primary.text">
           Get to know your money.
         </Typography>
-        {!isKnowCreator && (
+        {!isCreator && (
           <>
             <div></div>
+
             <div></div>
           </>
         )}
       </div>
-      <div className={classes.selector} onClick={() => selectorHandler(true)}>
+      <div className={classes.selector} onClick={() => setIsCreator(true)}>
         <Typography variant="h6" color="primary.text">
           Get to know the creator.
         </Typography>
-        {isKnowCreator && (
+        {isCreator && (
           <>
             <div></div>
             <div></div>
