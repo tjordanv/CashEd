@@ -7,7 +7,7 @@ import PasswordInput, { validatePassword } from "./PasswordInput"
 import UsernameInput, { validateUsername } from "./UsernameInput"
 import EmailInput from "./EmailInput"
 import NameInput, { validateName } from "./NameInput"
-import SubmitButton from "./SubmitButton"
+import FormButton from "./FormButton"
 
 const RegisterForm = ({ setUserHandler, formSection, setFormSection }) => {
   const [emailAddress, setEmailAddress] = useState("")
@@ -239,7 +239,7 @@ const RegisterForm = ({ setUserHandler, formSection, setFormSection }) => {
             error={errors.confirmPassword}
             isConfirmation={true}
           />
-          <SubmitButton label="Next" />
+          <FormButton label="Next" onClick={registerHandlerPartOne} />
         </>
       )}
       {formSection === "register two" && (
@@ -260,7 +260,7 @@ const RegisterForm = ({ setUserHandler, formSection, setFormSection }) => {
             error={errors.lastName}
             isLastName={true}
           />
-          <SubmitButton label="Create Account" />
+          <FormButton label="Create Account" type="submit" />
         </>
       )}
       {message && <ErrorMessage message={message} />}

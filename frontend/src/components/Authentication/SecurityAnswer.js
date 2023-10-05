@@ -1,5 +1,5 @@
 import TextField from "@mui/material/TextField"
-import classes from "./Auth.module.css"
+import classes from "./InputFields.module.css"
 import InputAdornment from "@mui/material/InputAdornment"
 
 const SecurityQuestionAnswer = ({ answer, setAnswerHandler, error }) => {

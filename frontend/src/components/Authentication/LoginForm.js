@@ -9,7 +9,7 @@ import ErrorMessage from "../HelperComponents/ErrorMessage"
 import PasswordInput from "./PasswordInput"
 import UsernameInput from "./UsernameInput"
 import InputError from "../HelperComponents/InputError"
-import SubmitButton from "./SubmitButton"
+import FormButton from "./FormButton"
 
 const LoginForm = () => {
   const [username, setUsername] = useState("")
@@ -80,7 +80,7 @@ const LoginForm = () => {
         inputHandler={setPassword}
         error={error.password}
       />
-      <SubmitButton label="Log In" />
+      <FormButton label="Log In" type="submit" />
       <FormControlLabel
         control={<Switch />}
         label="Remember Me"

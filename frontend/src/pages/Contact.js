@@ -5,7 +5,7 @@ import Box from "@mui/material/Box"
 import ErrorMessage from "../components/HelperComponents/ErrorMessage"
 import classes from "./Contact.module.css"
 import MessageInput from "../components/Authentication/MessageInput"
-import SubmitButton from "../components/Authentication/SubmitButton"
+import FormButton from "../components/Authentication/FormButton"
 
 const Contact = () => {
   const [firstName, setFirstName] = useState("")
@@ -30,7 +30,7 @@ const Contact = () => {
           />
           <EmailInput email={emailAddress} setEmailHandler={setEmailAddress} />
           <MessageInput message={message} setMessageHandler={setMessage} />
-          <SubmitButton />
+          <FormButton />
         </Box>
       </form>
       <ErrorMessage message={errorMessage} />

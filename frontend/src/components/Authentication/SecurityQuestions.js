@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 
 import FetchError from "../HelperComponents/FetchError"
-import classes from "./Auth.module.css"
+import classes from "./InputFields.module.css"
 
 import InputLabel from "@mui/material/InputLabel"
 import MenuItem from "@mui/material/MenuItem"
