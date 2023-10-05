@@ -1,0 +1,4 @@
+try breaking my components into smaller components to separate concerns to a more granular level. 
+	consider moving the transaction info icon into it's own component for example.
+
+Add functionality to transactions that are credits to only allow them to be dropped into Income subcategories

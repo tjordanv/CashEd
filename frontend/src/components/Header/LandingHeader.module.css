@@ -5,6 +5,8 @@
   height: 225px;
   position: relative;
   z-index: 99;
+  width: 100%;
+  margin-bottom: 75px;
 }
 
 .leftSideContainer {
@@ -30,6 +32,8 @@
 
 .navLink {
   color: #fff7e7;
+  width: 65px;
+  text-align: center;
 }
 
 .hidden {
@@ -39,4 +43,13 @@
 .container .navLinkDivider {
   background-color: #454545;
   height: 30%;
+}
+
+.wrapper .footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 45%;
+  z-index: -1;
 }

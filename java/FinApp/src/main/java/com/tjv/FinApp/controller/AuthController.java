@@ -3,6 +3,7 @@ package com.tjv.FinApp.controller;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tjv.FinApp.dao.PasswordResetJWTGenerator;
 import com.tjv.FinApp.dao.UserDao;
+import com.tjv.FinApp.exceptions.UnauthenticatedException;
 import com.tjv.FinApp.model.AuthResponseDTO;
 import com.tjv.FinApp.model.LoginDTO;
 import com.tjv.FinApp.model.RegisterDTO;
@@ -136,6 +137,7 @@ public class AuthController {
     public ResponseEntity<String> handleUserBadCredentialsException(BadCredentialsException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
+
 
     static class LoginResponse {
         private String token;

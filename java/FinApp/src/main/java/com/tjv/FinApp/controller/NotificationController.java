@@ -2,8 +2,10 @@ package com.tjv.FinApp.controller;
 
 import com.tjv.FinApp.dao.NotificationDao;
 import com.tjv.FinApp.dao.UserDao;
+import com.tjv.FinApp.exceptions.UnauthenticatedException;
 import com.tjv.FinApp.model.Notification;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -39,9 +41,11 @@ public class NotificationController {
     public Map<Integer, Integer> getUnreadNotificationsByUserByCategory(Principal principal) {
         try {
             int userId = userDao.getUserIdByUsername(principal);
-            return userId != 0 ? notificationsDao.getUnreadNotificationsByUserByCategory(userId) : null;
+            return notificationsDao.getUnreadNotificationsByUserByCategory(userId);
+        } catch (UnauthenticatedException e) {
+            System.out.println("user not authenticated");
         } catch (Exception e) {
-            System.out.println("getUnreadNotificationsByUserByCategory: error fetching notifications");
+            System.out.println("another exception");
         }
         return null;
     }

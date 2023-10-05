@@ -1,0 +1,19 @@
+.footerContainer {
+  position: absolute;
+  background-color: #fff7e7;
+  width: 100%;
+  z-index: 99;
+}
+
+.footerContainer .vector {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+}
+.footerContainer .middle {
+  top: 80px;
+}
+.footerContainer .bottom {
+  top: 150px;
+}

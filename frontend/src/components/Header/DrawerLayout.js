@@ -34,7 +34,7 @@ const DrawerLayout = () => {
   }
 
   const navigationHandler = (pathname) => {
-    if (pathname === "/auth/login") localStorage.removeItem("jwt")
+    if (pathname === "/login") localStorage.removeItem("jwt")
 
     if (pathname !== location) navigate(pathname)
   }
@@ -62,7 +62,9 @@ const DrawerLayout = () => {
     }
   }
 
-  const notificationCounts = useSelector((state) => state.notifications.value)
+  // I may need to use redux to track this state to have accurate data when updates happen. unsure
+  //const notificationCounts = useSelector((state) => state.notifications.value)
+  const notificationCounts = useLoaderData()
 
   const drawerList = [
     {
