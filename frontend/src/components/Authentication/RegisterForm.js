@@ -1,6 +1,4 @@
 import { useState } from "react"
-import Box from "@mui/material/Box"
-import Button from "@mui/material/Button"
 import classes from "./Auth.module.css"
 import FetchError from "../HelperComponents/FetchError"
 import ErrorMessage from "../HelperComponents/ErrorMessage"
@@ -9,6 +7,7 @@ import PasswordInput, { validatePassword } from "./PasswordInput"
 import UsernameInput, { validateUsername } from "./UsernameInput"
 import EmailInput from "./EmailInput"
 import NameInput, { validateName } from "./NameInput"
+import SubmitButton from "./SubmitButton"
 
 const RegisterForm = ({ setUserHandler, formSection, setFormSection }) => {
   const [emailAddress, setEmailAddress] = useState("")
@@ -240,13 +239,7 @@ const RegisterForm = ({ setUserHandler, formSection, setFormSection }) => {
             error={errors.confirmPassword}
             isConfirmation={true}
           />
-          <Button
-            onClick={registerHandlerPartOne}
-            variant="contained"
-            className={classes.button}
-          >
-            Next
-          </Button>
+          <SubmitButton label="Next" />
         </>
       )}
       {formSection === "register two" && (
@@ -267,9 +260,7 @@ const RegisterForm = ({ setUserHandler, formSection, setFormSection }) => {
             error={errors.lastName}
             isLastName={true}
           />
-          <Button type="submit" variant="contained" className={classes.button}>
-            Create Account
-          </Button>
+          <SubmitButton label="Create Account" />
         </>
       )}
       {message && <ErrorMessage message={message} />}

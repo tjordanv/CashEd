@@ -1,11 +1,11 @@
-import TextField from "@mui/material/TextField"
-import Button from "@mui/material/Button"
 import EmailInput from "../components/Authentication/EmailInput"
 import { useState } from "react"
 import NameInput from "../components/Authentication/NameInput"
 import Box from "@mui/material/Box"
 import ErrorMessage from "../components/HelperComponents/ErrorMessage"
 import classes from "./Contact.module.css"
+import MessageInput from "../components/Authentication/MessageInput"
+import SubmitButton from "../components/Authentication/SubmitButton"
 
 const Contact = () => {
   const [firstName, setFirstName] = useState("")
@@ -29,17 +29,8 @@ const Contact = () => {
             isLastName={true}
           />
           <EmailInput email={emailAddress} setEmailHandler={setEmailAddress} />
-          <TextField
-            multiline
-            rows={5}
-            required
-            label="Message"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-          <Button type="submit" variant="contained">
-            Submit
-          </Button>
+          <MessageInput message={message} setMessageHandler={setMessage} />
+          <SubmitButton />
         </Box>
       </form>
       <ErrorMessage message={errorMessage} />

@@ -1,7 +1,5 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import Box from "@mui/material/Box"
-import Button from "@mui/material/Button"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import Switch from "@mui/material/Switch"
 
@@ -11,6 +9,7 @@ import ErrorMessage from "../HelperComponents/ErrorMessage"
 import PasswordInput from "./PasswordInput"
 import UsernameInput from "./UsernameInput"
 import InputError from "../HelperComponents/InputError"
+import SubmitButton from "./SubmitButton"
 
 const LoginForm = () => {
   const [username, setUsername] = useState("")
@@ -81,9 +80,7 @@ const LoginForm = () => {
         inputHandler={setPassword}
         error={error.password}
       />
-      <Button type="submit" variant="contained" className={classes.button}>
-        Log in
-      </Button>
+      <SubmitButton label="Log In" />
       <FormControlLabel
         control={<Switch />}
         label="Remember Me"
