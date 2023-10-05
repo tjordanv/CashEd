@@ -70,27 +70,25 @@ const LoginForm = () => {
   }
 
   return (
-    <form onSubmit={logInHandler} className={classes.form}>
-      <Box className={classes.container}>
-        <UsernameInput
-          username={username}
-          setUsernameHandler={setUsername}
-          error={error.username}
-        />
-        <PasswordInput
-          password={password}
-          inputHandler={setPassword}
-          error={error.password}
-        />
-        <Button type="submit" variant="contained" className={classes.button}>
-          Log in
-        </Button>
-        <FormControlLabel
-          control={<Switch />}
-          label="Remember Me"
-          className={classes.switch}
-        />
-      </Box>
+    <form onSubmit={logInHandler} className={classes.container}>
+      <UsernameInput
+        username={username}
+        setUsernameHandler={setUsername}
+        error={error.username}
+      />
+      <PasswordInput
+        password={password}
+        inputHandler={setPassword}
+        error={error.password}
+      />
+      <Button type="submit" variant="contained" className={classes.button}>
+        Log in
+      </Button>
+      <FormControlLabel
+        control={<Switch />}
+        label="Remember Me"
+        className={classes.switch}
+      />
       <ErrorMessage message={message} />
     </form>
   )

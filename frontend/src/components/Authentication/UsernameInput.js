@@ -1,6 +1,5 @@
 import TextField from "@mui/material/TextField"
-
-import classes from "./Auth.module.css"
+import classes from "./InputFields.module.css"
 
 const UsernameInput = ({ username, setUsernameHandler, error }) => {
   return (

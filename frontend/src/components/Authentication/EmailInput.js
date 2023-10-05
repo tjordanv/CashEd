@@ -1,5 +1,5 @@
 import TextField from "@mui/material/TextField"
-import classes from "./Auth.module.css"
+import classes from "./InputFields.module.css"
 
 const EmailInput = ({ email, setEmailHandler, error }) => {
   return (
@@ -17,6 +17,10 @@ const EmailInput = ({ email, setEmailHandler, error }) => {
       helperText={error.message}
     />
   )
+}
+
+EmailInput.defaultProps = {
+  error: { isError: false, message: "" }
 }
 
 export default EmailInput

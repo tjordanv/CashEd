@@ -1,6 +1,6 @@
 import { useState } from "react"
 import TextField from "@mui/material/TextField"
-import classes from "./Auth.module.css"
+import classes from "./InputFields.module.css"
 import { Visibility, VisibilityOff } from "@mui/icons-material"
 import { InputAdornment, IconButton } from "@mui/material"
 

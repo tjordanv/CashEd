@@ -221,64 +221,58 @@ const RegisterForm = ({ setUserHandler, formSection, setFormSection }) => {
     }
   }
   return (
-    <form className={classes.form} onSubmit={registerHandlerPartTwo}>
-      <Box className={classes.container}>
-        {formSection === "register one" && (
-          <>
-            <EmailInput
-              email={emailAddress}
-              setEmailHandler={setEmailAddress}
-              error={errors.emailAddress}
-            />
-            <PasswordInput
-              password={password}
-              inputHandler={setPassword}
-              error={errors.password}
-            />
-            <PasswordInput
-              password={confirmPassword}
-              inputHandler={setConfirmPassword}
-              error={errors.confirmPassword}
-              isConfirmation={true}
-            />
-            <Button
-              onClick={registerHandlerPartOne}
-              variant="contained"
-              className={classes.button}
-            >
-              Next
-            </Button>
-          </>
-        )}
-        {formSection === "register two" && (
-          <>
-            <UsernameInput
-              username={username}
-              setUsernameHandler={setUsername}
-              error={errors.username}
-            />
-            <NameInput
-              name={firstName}
-              setNameHandler={setFirstName}
-              error={errors.firstName}
-            />
-            <NameInput
-              name={lastName}
-              setNameHandler={setLastName}
-              error={errors.lastName}
-              isLastName={true}
-            />
-            <Button
-              type="submit"
-              variant="contained"
-              className={classes.button}
-            >
-              Create Account
-            </Button>
-          </>
-        )}
-        {message && <ErrorMessage message={message} />}
-      </Box>
+    <form className={classes.container} onSubmit={registerHandlerPartTwo}>
+      {formSection === "register one" && (
+        <>
+          <EmailInput
+            email={emailAddress}
+            setEmailHandler={setEmailAddress}
+            error={errors.emailAddress}
+          />
+          <PasswordInput
+            password={password}
+            inputHandler={setPassword}
+            error={errors.password}
+          />
+          <PasswordInput
+            password={confirmPassword}
+            inputHandler={setConfirmPassword}
+            error={errors.confirmPassword}
+            isConfirmation={true}
+          />
+          <Button
+            onClick={registerHandlerPartOne}
+            variant="contained"
+            className={classes.button}
+          >
+            Next
+          </Button>
+        </>
+      )}
+      {formSection === "register two" && (
+        <>
+          <UsernameInput
+            username={username}
+            setUsernameHandler={setUsername}
+            error={errors.username}
+          />
+          <NameInput
+            name={firstName}
+            setNameHandler={setFirstName}
+            error={errors.firstName}
+          />
+          <NameInput
+            name={lastName}
+            setNameHandler={setLastName}
+            error={errors.lastName}
+            isLastName={true}
+          />
+          <Button type="submit" variant="contained" className={classes.button}>
+            Create Account
+          </Button>
+        </>
+      )}
+      {message && <ErrorMessage message={message} />}
     </form>
   )
 }
