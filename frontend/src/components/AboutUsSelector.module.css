@@ -19,8 +19,8 @@
 }
 .selector div {
   position: absolute;
-  top: -2px;
-  left: -2px;
+  top: -1.3px;
+  left: -1px;
   height: 46px;
   width: 100%;
   border-radius: 20px;
@@ -29,8 +29,8 @@
     0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
 }
 .selector div:last-child {
-  top: 2px;
-  left: 2px;
+  top: 1.3px;
+  left: 1.3px;
   background-color: #fe6d73;
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
     0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);

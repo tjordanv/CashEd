@@ -1,42 +1,28 @@
-div .bioCard {
-  background-color: rgba(255, 247, 231, 0.6); /* 60% opacity */
-  border-radius: 40px;
-  height: 375px;
-}
-
-.bioCard .cardContents {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-  padding: 0 15px;
-}
-.bioCard .headshot {
+.headshot {
   width: 190px;
   height: 250px;
   border-radius: 200px;
   margin: auto;
 }
-
-.bioCard .cardContents .body {
+.body {
   margin: auto 15px;
   text-align: center;
 }
-.bioCard .cardContents .body .title {
+.body .title {
   font-weight: bold;
   text-decoration: underline;
 }
-
-.bioCard .cardContents .linksContainer {
+.linksContainer {
   width: 60px;
   padding: 0 65px;
   margin: auto;
 }
 
-.bioCard .cardContents .linksContainer .emailImage {
+.linksContainer .emailImage {
   cursor: pointer;
 }
 
-.bioCard .cardContents .linksContainer .emailAlertContainer {
+.linksContainer .emailAlertContainer {
   height: 55px;
   width: 60px;
   z-index: 99;
@@ -44,7 +30,7 @@ div .bioCard {
   align-items: center;
 }
 
-.bioCard .cardContents .linksContainer .emailAlertContainer .emailAlert {
+.linksContainer .emailAlertContainer .emailAlert {
   height: 25px;
   border-radius: 10px;
   align-items: center;
