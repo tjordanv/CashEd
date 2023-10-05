@@ -44,7 +44,7 @@ const AboutUsBio = () => {
     }
   ]
   return (
-    <AboutUsWrapper size="500px">
+    <AboutUsWrapper size="510px">
       <Stack spacing={2} alignItems="center" className={classes.stack}>
         {information.map((info) => (
           <div>
