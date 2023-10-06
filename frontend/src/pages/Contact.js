@@ -9,7 +9,7 @@ const Contact = () => {
     <Box className={classes.container}>
       <AuthFormHeader pageTitle={"Contact Us"} />
       <ContactForm />
-      {/* <AuthFormFooter type="login" /> */}
+      <AuthFormFooter type="contact" />
     </Box>
   )
 }

@@ -22,6 +22,8 @@ const AuthFormFooter = ({ type, formSection, setFormSection }) => {
       ? "For additional security, please answer 3 security questions."
       : type === "password reset"
       ? "Enter your new password"
+      : type === "contact"
+      ? "Submit your contact information with a descriptive message and we will reach out via the provided email address."
       : null
 
   return (
@@ -77,12 +79,14 @@ const AuthFormFooter = ({ type, formSection, setFormSection }) => {
       </>
       {(type.startsWith("forgot") ||
         formSection === "registration security questions" ||
-        type === "password reset") &&
+        type === "password reset" ||
+        type === "contact") &&
         formSection !== "user recovery response" && (
           <div className={classes.subContainer}>
             <div className={classes.userRecoverySubContainer}>
               {!formSection.includes("security questions") &&
-                type !== "password reset" && (
+                type !== "password reset" &&
+                type !== "contact" && (
                   <NavLink
                     to={`/userRecovery/forgot${
                       type === "forgot password" ? "Username" : "Password"
@@ -112,4 +116,7 @@ const AuthFormFooter = ({ type, formSection, setFormSection }) => {
   )
 }
 
+AuthFormFooter.defaultProps = {
+  formSection: ""
+}
 export default AuthFormFooter
