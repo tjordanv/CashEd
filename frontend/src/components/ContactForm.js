@@ -48,9 +48,9 @@ const ContactForm = () => {
             setNameHandler={setLastName}
             isLastName={true}
           />
+          <EmailInput email={emailAddress} setEmailHandler={setEmailAddress} />
         </>
       )}
-      <EmailInput email={emailAddress} setEmailHandler={setEmailAddress} />
       <MessageInput message={message} setMessageHandler={setMessage} />
       <FormButton type="submit" />
       <ErrorMessage message={errorMessage} />
