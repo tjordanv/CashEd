@@ -6,6 +6,7 @@ import FetchError from "../HelperComponents/FetchError"
 import ErrorMessage from "../HelperComponents/ErrorMessage"
 import EmailInput from "./EmailInput"
 import UsernameInput from "./UsernameInput"
+import FormButton from "./FormButton"
 
 const UserLookup = ({ setUserHandler, isPasswordReset }) => {
   const [emailAddress, setEmailAddress] = useState("")
@@ -60,25 +61,21 @@ const UserLookup = ({ setUserHandler, isPasswordReset }) => {
   }
 
   return (
-    <form onSubmit={getUserIdByEmail} className={classes.form}>
-      <Box className={classes.container}>
-        <EmailInput
-          email={emailAddress}
-          setEmailHandler={setEmailAddress}
-          error={errors.email}
+    <form onSubmit={getUserIdByEmail} className={classes.container}>
+      <EmailInput
+        email={emailAddress}
+        setEmailHandler={setEmailAddress}
+        error={errors.email}
+      />
+      {isPasswordReset && (
+        <UsernameInput
+          username={username}
+          setUsernameHandler={setUsername}
+          error={errors.username}
         />
-        {isPasswordReset && (
-          <UsernameInput
-            username={username}
-            setUsernameHandler={setUsername}
-            error={errors.username}
-          />
-        )}
-        <Button type="submit" variant="contained" className={classes.button}>
-          Next
-        </Button>
-        {errorMessage && <ErrorMessage message={errorMessage} />}
-      </Box>
+      )}
+      <FormButton label="Next" />
+      {errorMessage && <ErrorMessage message={errorMessage} />}
     </form>
   )
 }

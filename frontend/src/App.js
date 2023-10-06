@@ -15,6 +15,7 @@ import { QandALoader } from "./components/Authentication/SecurityQandA"
 import { headerNotificationsLoader } from "./components/Header/HeaderLayout"
 import { notificationsLoader } from "./components/Notifications/Notifications"
 import Home from "./pages/Home"
+import Contact from "./pages/Contact"
 
 const theme = createTheme({
   palette: {
@@ -48,7 +49,8 @@ const router = createBrowserRouter([
       {
         path: "AboutUs",
         element: <AboutUs />
-      }
+      },
+      { path: "contact", element: <Contact /> }
     ]
   },
   {

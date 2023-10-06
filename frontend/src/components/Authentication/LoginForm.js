@@ -1,7 +1,5 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import Box from "@mui/material/Box"
-import Button from "@mui/material/Button"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import Switch from "@mui/material/Switch"
 
@@ -11,6 +9,7 @@ import ErrorMessage from "../HelperComponents/ErrorMessage"
 import PasswordInput from "./PasswordInput"
 import UsernameInput from "./UsernameInput"
 import InputError from "../HelperComponents/InputError"
+import FormButton from "./FormButton"
 
 const LoginForm = () => {
   const [username, setUsername] = useState("")
@@ -70,27 +69,23 @@ const LoginForm = () => {
   }
 
   return (
-    <form onSubmit={logInHandler} className={classes.form}>
-      <Box className={classes.container}>
-        <UsernameInput
-          username={username}
-          setUsernameHandler={setUsername}
-          error={error.username}
-        />
-        <PasswordInput
-          password={password}
-          inputHandler={setPassword}
-          error={error.password}
-        />
-        <Button type="submit" variant="contained" className={classes.button}>
-          Log in
-        </Button>
-        <FormControlLabel
-          control={<Switch />}
-          label="Remember Me"
-          className={classes.switch}
-        />
-      </Box>
+    <form onSubmit={logInHandler} className={classes.container}>
+      <UsernameInput
+        username={username}
+        setUsernameHandler={setUsername}
+        error={error.username}
+      />
+      <PasswordInput
+        password={password}
+        inputHandler={setPassword}
+        error={error.password}
+      />
+      <FormButton label="Log In" type="submit" />
+      <FormControlLabel
+        control={<Switch />}
+        label="Remember Me"
+        className={classes.switch}
+      />
       <ErrorMessage message={message} />
     </form>
   )

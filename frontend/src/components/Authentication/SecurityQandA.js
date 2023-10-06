@@ -6,14 +6,13 @@ import SecurityQuestions from "./SecurityQuestions"
 import SecurityAnswer from "./SecurityAnswer"
 import FetchError from "../HelperComponents/FetchError"
 
-import Box from "@mui/material/Box"
-import Button from "@mui/material/Button"
 import CircularProgress from "@mui/material/CircularProgress"
 
 import classes from "./Auth.module.css"
 import InputError from "../HelperComponents/InputError"
 import fetcher from "../HelperFunctions/fetchAuthorize"
 import SecurityQuestionsCounter from "./SecurityQuestionsCounter"
+import FormButton from "./FormButton"
 
 const QandALoader = async () => {
   const response = await fetcher(
@@ -178,7 +177,7 @@ const SecurityQandA = ({ type, user, setIsAuthenticatedHandler }) => {
 
   return (
     <form
-      className={classes.form}
+      className={classes.container}
       onSubmit={
         ["forgot password", "forgot username"].includes(type)
           ? validateAnswer
@@ -187,30 +186,21 @@ const SecurityQandA = ({ type, user, setIsAuthenticatedHandler }) => {
           : test
       }
     >
-      <Box className={classes.container}>
-        {type === "register" && (
-          <SecurityQuestionsCounter count={questionCount} />
-        )}
-        <SecurityQuestions
-          userId={user.id}
-          setQuestionHandler={setQuestionHandler}
-          question={question}
-        />
-        <SecurityAnswer
-          answer={answer}
-          setAnswerHandler={setAnswerHandler}
-          error={error}
-        />
-        <Button
-          type="submit"
-          variant="contained"
-          className={classes.button}
-          disabled={isLoading}
-        >
-          Submit
-        </Button>
-        {isLoading && <CircularProgress className={classes.loader} />}
-      </Box>
+      {type === "register" && (
+        <SecurityQuestionsCounter count={questionCount} />
+      )}
+      <SecurityQuestions
+        userId={user.id}
+        setQuestionHandler={setQuestionHandler}
+        question={question}
+      />
+      <SecurityAnswer
+        answer={answer}
+        setAnswerHandler={setAnswerHandler}
+        error={error}
+      />
+      <FormButton type="submit" disabled={isLoading} />
+      {isLoading && <CircularProgress className={classes.loader} />}
     </form>
   )
 }

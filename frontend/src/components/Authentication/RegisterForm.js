@@ -1,6 +1,4 @@
 import { useState } from "react"
-import Box from "@mui/material/Box"
-import Button from "@mui/material/Button"
 import classes from "./Auth.module.css"
 import FetchError from "../HelperComponents/FetchError"
 import ErrorMessage from "../HelperComponents/ErrorMessage"
@@ -9,6 +7,7 @@ import PasswordInput, { validatePassword } from "./PasswordInput"
 import UsernameInput, { validateUsername } from "./UsernameInput"
 import EmailInput from "./EmailInput"
 import NameInput, { validateName } from "./NameInput"
+import FormButton from "./FormButton"
 
 const RegisterForm = ({ setUserHandler, formSection, setFormSection }) => {
   const [emailAddress, setEmailAddress] = useState("")
@@ -221,64 +220,50 @@ const RegisterForm = ({ setUserHandler, formSection, setFormSection }) => {
     }
   }
   return (
-    <form className={classes.form} onSubmit={registerHandlerPartTwo}>
-      <Box className={classes.container}>
-        {formSection === "register one" && (
-          <>
-            <EmailInput
-              email={emailAddress}
-              setEmailHandler={setEmailAddress}
-              error={errors.emailAddress}
-            />
-            <PasswordInput
-              password={password}
-              inputHandler={setPassword}
-              error={errors.password}
-            />
-            <PasswordInput
-              password={confirmPassword}
-              inputHandler={setConfirmPassword}
-              error={errors.confirmPassword}
-              isConfirmation={true}
-            />
-            <Button
-              onClick={registerHandlerPartOne}
-              variant="contained"
-              className={classes.button}
-            >
-              Next
-            </Button>
-          </>
-        )}
-        {formSection === "register two" && (
-          <>
-            <UsernameInput
-              username={username}
-              setUsernameHandler={setUsername}
-              error={errors.username}
-            />
-            <NameInput
-              name={firstName}
-              setNameHandler={setFirstName}
-              error={errors.firstName}
-            />
-            <NameInput
-              name={lastName}
-              setNameHandler={setLastName}
-              error={errors.lastName}
-              isLastName={true}
-            />
-            <Button
-              type="submit"
-              variant="contained"
-              className={classes.button}
-            >
-              Create Account
-            </Button>
-          </>
-        )}
-        {message && <ErrorMessage message={message} />}
-      </Box>
+    <form className={classes.container} onSubmit={registerHandlerPartTwo}>
+      {formSection === "register one" && (
+        <>
+          <EmailInput
+            email={emailAddress}
+            setEmailHandler={setEmailAddress}
+            error={errors.emailAddress}
+          />
+          <PasswordInput
+            password={password}
+            inputHandler={setPassword}
+            error={errors.password}
+          />
+          <PasswordInput
+            password={confirmPassword}
+            inputHandler={setConfirmPassword}
+            error={errors.confirmPassword}
+            isConfirmation={true}
+          />
+          <FormButton label="Next" onClick={registerHandlerPartOne} />
+        </>
+      )}
+      {formSection === "register two" && (
+        <>
+          <UsernameInput
+            username={username}
+            setUsernameHandler={setUsername}
+            error={errors.username}
+          />
+          <NameInput
+            name={firstName}
+            setNameHandler={setFirstName}
+            error={errors.firstName}
+          />
+          <NameInput
+            name={lastName}
+            setNameHandler={setLastName}
+            error={errors.lastName}
+            isLastName={true}
+          />
+          <FormButton label="Create Account" type="submit" />
+        </>
+      )}
+      {message && <ErrorMessage message={message} />}
     </form>
   )
 }

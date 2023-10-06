@@ -64,7 +64,7 @@ const Home = () => {
     <div className={classes.container}>
       <div className={classes.subContainer}>
         <div className={classes.titleContainer}>
-          <Typography variant="h4">Get to know your money.</Typography>
+          <Typography variant="h4">Get to know your money</Typography>
           <div></div>
           <div></div>
         </div>

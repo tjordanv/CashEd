@@ -14,7 +14,7 @@ const AboutUsSelector = ({ isCreator, setIsCreator }) => {
     >
       <div className={classes.selector} onClick={() => setIsCreator(false)}>
         <Typography variant="h6" color="primary.text">
-          Get to know your money.
+          Get to know your money
         </Typography>
         {!isCreator && (
           <>
@@ -26,7 +26,7 @@ const AboutUsSelector = ({ isCreator, setIsCreator }) => {
       </div>
       <div className={classes.selector} onClick={() => setIsCreator(true)}>
         <Typography variant="h6" color="primary.text">
-          Get to know the creator.
+          Get to know the creator
         </Typography>
         {isCreator && (
           <>
