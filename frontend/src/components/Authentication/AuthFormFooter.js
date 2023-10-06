@@ -23,7 +23,7 @@ const AuthFormFooter = ({ type, formSection, setFormSection }) => {
       : type === "password reset"
       ? "Enter your new password"
       : type === "contact"
-      ? "Submit your contact information with a descriptive message and we will reach out to your email shortly."
+      ? "Submit your contact information with a short descriptive message and we will reach out to your email shortly."
       : null
 
   return (
