@@ -16,16 +16,20 @@ public class JdbcContactInfoDao implements ContactInfoDao {
     }
 
     @Override
-    public boolean saveContactInfo(ContactInfo contactInfo) {
+    public ContactInfo saveContactInfo(ContactInfo contactInfo) {
         boolean isActiveUser = contactInfo.isActiveUser();
-        
+
         // Create contact info xref in the DB for users
         if (isActiveUser) {
             User user = userDao.findByUsername(contactInfo.getUsername());
+            contactInfo.setFirstName(user.getFirstName());
+            contactInfo.setLastName(user.getLastName());
+            contactInfo.setEmailAddress(user.getEmail());
+
             String sql = "INSERT INTO contact_info (is_active_user, first_name, last_name, message) " +
                     "values (?, ?, ?, ?) returning id";
 
-            Integer contactInfoId = jdbcTemplate.queryForObject(sql, Integer.class, true, user.getFirstName(), user.getLastName(), contactInfo.getMessage());
+            Integer contactInfoId = jdbcTemplate.queryForObject(sql, Integer.class, true, contactInfo.getFirstName(), contactInfo.getLastName(), contactInfo.getMessage());
 
             sql = "INSERT INTO contact_info_user_xref (contact_info_id, user_id) " +
                     "values (?, ?)";
@@ -47,7 +51,7 @@ public class JdbcContactInfoDao implements ContactInfoDao {
             jdbcTemplate.update(sql,contactInfoId, emailAddressId);
         }
 
-        return true;
+        return contactInfo;
     }
 
 }

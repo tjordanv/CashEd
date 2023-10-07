@@ -88,8 +88,25 @@ public class MailController {
     }
 
     @PostMapping("/auth/contactUs")
-    public boolean contactUs(@RequestBody ContactInfo contactInfo) {
-        return contactInfoDao.saveContactInfo(contactInfo);
+    public boolean contactUs(@RequestBody ContactInfo contactInfo) throws Exception {
+        try {
+        ContactInfo updatedContactInfo = contactInfoDao.saveContactInfo(contactInfo);
+
+        String body = String.format("""
+                    Greetings from CashEd,<br/><br/>
+                    Thank you for contacting us, %s. We are reviewing you message and will be contacting you shortly with more information.<br/><br/>
+                             
+                    Best regards,<br/>
+                    Big Bone
+                    """, updatedContactInfo.getFirstName());
+
+        new GMailer().sendMailWithHTML(updatedContactInfo.getEmailAddress(), "Thank you for contacting us", body);
+
+        return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
     }
 }
 
