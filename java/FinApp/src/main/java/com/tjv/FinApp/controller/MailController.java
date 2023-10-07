@@ -90,17 +90,30 @@ public class MailController {
     @PostMapping("/auth/contactUs")
     public boolean contactUs(@RequestBody ContactInfo contactInfo) throws Exception {
         try {
-        ContactInfo updatedContactInfo = contactInfoDao.saveContactInfo(contactInfo);
+            ContactInfo updatedContactInfo = contactInfoDao.saveContactInfo(contactInfo);
 
-        String body = String.format("""
-                    Greetings from CashEd,<br/><br/>
-                    Thank you for contacting us, %s. We are reviewing you message and will be contacting you shortly with more information.<br/><br/>
-                             
-                    Best regards,<br/>
-                    Big Bone
-                    """, updatedContactInfo.getFirstName());
+            // Send email to the user letting them know that we received their message.
+            String body = String.format("""
+                        Greetings from CashEd,<br/><br/>
+                        Thank you for contacting us, %s. We are reviewing you message and will be contacting you shortly with more information.<br/><br/>
+                                 
+                        Best regards,<br/>
+                        Big Bone
+                        """, updatedContactInfo.getFirstName());
 
-        new GMailer().sendMailWithHTML(updatedContactInfo.getEmailAddress(), "Thank you for contacting us", body);
+            new GMailer().sendMailWithHTML(updatedContactInfo.getEmailAddress(), "Thank you for contacting us", body);
+
+            // Send email to self with the contact info to then start the thread with the user.
+            body = String.format("""
+                    Username: %s <br/>
+                    First Name: %s <br/>
+                    Last Name: %s <br/>
+                    Email Address: %s <br/>
+                    Message: %s <br/>
+                    """, updatedContactInfo.getUsername(), updatedContactInfo.getFirstName(), updatedContactInfo.getLastName(),
+                    updatedContactInfo.getEmailAddress(), updatedContactInfo.getMessage());
+
+            new GMailer().sendMailWithHTML("<cashedfinancial@gmail.com>", "Contact Us Information", body);
 
         return true;
         } catch (Exception e) {
