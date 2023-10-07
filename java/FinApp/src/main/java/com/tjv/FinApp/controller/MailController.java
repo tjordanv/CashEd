@@ -1,8 +1,10 @@
 package com.tjv.FinApp.controller;
 
+import com.tjv.FinApp.dao.ContactInfoDao;
 import com.tjv.FinApp.dao.PasswordResetJWTGenerator;
 import com.tjv.FinApp.dao.UserDao;
 import com.tjv.FinApp.email.GMailer;
+import com.tjv.FinApp.model.ContactInfo;
 import com.tjv.FinApp.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,11 +15,13 @@ public class MailController {
     private final GMailer gMailer;
     private final PasswordResetJWTGenerator tokenGenerator;
     private UserDao userDao;
+    private ContactInfoDao contactInfoDao;
 
-    @Autowired MailController(GMailer gMailer, PasswordResetJWTGenerator tokenGenerator, UserDao userDao) {
+    @Autowired MailController(GMailer gMailer, PasswordResetJWTGenerator tokenGenerator, UserDao userDao, ContactInfoDao contactInfoDao) {
         this.gMailer = gMailer;
         this.tokenGenerator = tokenGenerator;
         this.userDao = userDao;
+        this.contactInfoDao = contactInfoDao;
     }
 
     @GetMapping("/auth/resetPassword")
@@ -38,7 +42,7 @@ public class MailController {
                                 
                 Use the link below to reset your password. Access to this link will expire after 20 minutes. If you did 
                 not request this password reset, please notify us and ignore this link. Let us know if you have any questions or concerns.<br/><br/>
-                
+                 
                 <a href="http://localhost:3000/resetPassword/%s">Reset Password</a><br/><br/>
                  
                 Best regards,<br/>
@@ -81,6 +85,11 @@ public class MailController {
             System.out.println(e.getMessage());
         }
         return false;
+    }
+
+    @PostMapping("/auth/contactUs")
+    public boolean contactUs(@RequestBody ContactInfo contactInfo) {
+        return contactInfoDao.saveContactInfo(contactInfo);
     }
 }
 
