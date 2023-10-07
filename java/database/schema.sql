@@ -182,13 +182,13 @@ INSERT INTO user_notifications_xref (notification_id, user_id) VALUES
 CREATE TABLE contact_Info (
 	id serial NOT NULL,
 	is_active_user boolean NOT NULL,
-	first_name varchar(40) NOT NULL,
-	last_name varchar(40) NOT NULL,
+	first_name varchar(40),
+	last_name varchar(40),
 	message varchar(300) NOT NULL,
 	created_date timestamptz DEFAULT Now(),
 
-	CONSTRAINT PK_contact_info PRIMARY KEY (id),
-)	
+	CONSTRAINT PK_contact_info PRIMARY KEY (id)
+);	
 CREATE TABLE Contact_Info_Email_Address_xref (
 	contact_Info_ID int NOT NULL,
 	Email_Address_ID int NOT NULL,

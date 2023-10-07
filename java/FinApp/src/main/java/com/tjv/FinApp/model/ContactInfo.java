@@ -64,4 +64,17 @@ public class ContactInfo {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    @Override
+    public String toString() {
+        return "ContactInfo {" + "\n" +
+                "id=" + id + "\n" +
+         "isActiveUser=" + isActiveUser + "\n" +
+         "username=" + username + "\n" +
+         "firstName=" + firstName + "\n" +
+         "lastName=" + lastName + "\n" +
+        "emailAddress=" + emailAddress + "\n" +
+         "message=" + message + "\n" +
+                '}';
+    }
 }

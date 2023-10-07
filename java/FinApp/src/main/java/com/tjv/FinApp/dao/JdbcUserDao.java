@@ -78,7 +78,7 @@ public class JdbcUserDao implements UserDao{
         Long newUserIdLong = (Long) keyHolder.getKeys().get(id_column);
         int newUserId = newUserIdLong.intValue();
 
-        int newEmailAddressID = createEmailAddress(email);
+        int newEmailAddressID = createEmailAddress(email, true);
 
         String sql = "INSERT INTO user_email_addresses_xref (user_id, email_address_id) VALUES (?, ?)";
 
@@ -119,10 +119,11 @@ public class JdbcUserDao implements UserDao{
         return results.next();
     }
 
-    public int createEmailAddress(String emailAddress) {
-        String sql = "INSERT INTO email_addresses (email_address, is_active, is_verified) VALUES (?, true, false) RETURNING ID";
+@Override
+    public int createEmailAddress(String emailAddress, boolean isActive) {
+        String sql = "INSERT INTO email_addresses (email_address, is_active, is_verified) VALUES (?, ?, false) RETURNING ID";
 
-        Integer userId = jdbcTemplate.queryForObject(sql, Integer.class, emailAddress);
+        Integer userId = jdbcTemplate.queryForObject(sql, Integer.class, emailAddress, isActive);
 
         if (userId != null) {
             return userId;
@@ -173,6 +174,7 @@ public class JdbcUserDao implements UserDao{
         }
         throw new UnauthenticatedException("The user is not authenticated and cannot access this page or functionality.");
     }
+
 
     private User mapRowToUser(SqlRowSet rs) {
         User user = new User();
