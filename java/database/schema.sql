@@ -16,7 +16,7 @@ CREATE SEQUENCE seq_user_id
 CREATE TABLE Users (
 	ID bigint DEFAULT nextval('seq_user_id'::regclass) NOT NULL,
 	Username varchar(50) NOT NULL,
-	first_name varchar(400) NOT NULL,
+	first_name varchar(40) NOT NULL,
 	last_name varchar(40) NOT NULL,
 	Password_Hash varchar(200) NOT NULL,
 	role varchar(50) NOT NULL,
@@ -178,5 +178,31 @@ INSERT INTO user_notifications_xref (notification_id, user_id) VALUES
 	(3, 1),
 	(4, 1),
 	(5, 1);
+
+CREATE TABLE contact_Info (
+	id serial NOT NULL,
+	is_active_user boolean NOT NULL,
+	first_name varchar(40) NOT NULL,
+	last_name varchar(40) NOT NULL,
+	message varchar(300) NOT NULL,
+	created_date timestamptz DEFAULT Now(),
+
+	CONSTRAINT PK_contact_info PRIMARY KEY (id),
+)	
+CREATE TABLE Contact_Info_Email_Address_xref (
+	contact_Info_ID int NOT NULL,
+	Email_Address_ID int NOT NULL,
+	
+	CONSTRAINT FK_contact_info_ID FOREIGN KEY (contact_Info_ID) REFERENCES contact_info (ID),
+	CONSTRAINT FK_Email_Address_ID FOREIGN KEY (Email_Address_ID) REFERENCES Email_Addresses (ID)
+);
+
+CREATE TABLE Contact_Info_user_xref (
+	contact_Info_ID int NOT NULL,
+	user_id int NOT NULL,
+	
+	CONSTRAINT FK_contact_info_ID FOREIGN KEY (contact_Info_ID) REFERENCES contact_info (ID),
+	CONSTRAINT FK_user_id FOREIGN KEY (user_id) REFERENCES users (ID)
+);
 
 COMMIT TRANSACTION;
