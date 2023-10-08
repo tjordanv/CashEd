@@ -112,6 +112,11 @@ const AuthFormFooter = ({ type, formSection, setFormSection }) => {
           Login
         </NavLink>
       )}
+      {type === "contact submitted" && (
+        <NavLink to="/home" className={classes.navLink}>
+          Home
+        </NavLink>
+      )}
     </div>
   )
 }

@@ -11,7 +11,7 @@ import Checkbox from "@mui/material/Checkbox"
 import FetchError from "./HelperComponents/FetchError"
 import InputError from "./HelperComponents/InputError"
 
-const ContactForm = () => {
+const ContactForm = ({ setIsSubmitted }) => {
   const [isActiveUser, setIsActiveUser] = useState(false)
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
@@ -84,6 +84,7 @@ const ContactForm = () => {
         const responseJson = await response.json()
         if (responseJson) {
           console.log("success")
+          setIsSubmitted(true)
         } else {
           console.log("failed to save")
         }

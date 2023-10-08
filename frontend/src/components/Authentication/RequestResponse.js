@@ -12,6 +12,9 @@ const RequestResponse = ({ type }) => {
     case "password reset":
       text = "Your password has been successfully updated"
       break
+    case "contact us":
+      text = "Thank you for contacting us!\nWe will be in touch :)"
+      break
     default:
       text = ""
   }
