@@ -9,6 +9,7 @@ import FormButton from "../components/Authentication/FormButton"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import Checkbox from "@mui/material/Checkbox"
 import FetchError from "./HelperComponents/FetchError"
+import InputError from "./HelperComponents/InputError"
 
 const ContactForm = () => {
   const [isActiveUser, setIsActiveUser] = useState(false)
@@ -17,6 +18,7 @@ const ContactForm = () => {
   const [username, setUsername] = useState("")
   const [emailAddress, setEmailAddress] = useState("")
   const [message, setMessage] = useState("")
+  const [error, setError] = useState({ isError: false, message: "" })
   const [errorMessage, setErrorMessage] = useState("")
 
   const setIsActiveUserHandler = () => {
@@ -32,19 +34,42 @@ const ContactForm = () => {
     const body = { message: message, activeUser: isActiveUser }
     let stringifiedBody
 
-    // set the request body appropriately for a user or non-user
-    if (isActiveUser) {
-      body.username = username
-      stringifiedBody = JSON.stringify(body)
-    } else {
-      body.firstName = firstName
-      body.lastName = lastName
-      body.emailAddress = emailAddress
-
-      stringifiedBody = JSON.stringify(body)
-    }
-
     try {
+      // set the request body appropriately for a user or non-user
+      if (isActiveUser) {
+        // confirm that the user exists
+        const usernameResponse = await fetch(
+          `http://localhost:8080/auth/checkUsernameAvailability?${new URLSearchParams(
+            { username: username }
+          )}`,
+          {
+            method: "GET",
+            mode: "cors",
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }
+        )
+        if (!usernameResponse.ok) {
+          throw await FetchError.fromResponse(usernameResponse)
+        } else {
+          const usernameResponseJson = await usernameResponse.json()
+
+          if (usernameResponseJson === false) {
+            throw new InputError()
+          }
+        }
+
+        body.username = username
+        stringifiedBody = JSON.stringify(body)
+      } else {
+        body.firstName = firstName
+        body.lastName = lastName
+        body.emailAddress = emailAddress
+
+        stringifiedBody = JSON.stringify(body)
+      }
+
       let response = await fetch("http://localhost:8080/auth/contactUs", {
         method: "POST",
         mode: "cors",
@@ -66,6 +91,8 @@ const ContactForm = () => {
     } catch (error) {
       if (error instanceof FetchError) {
         setMessage(error.message)
+      } else if (error instanceof InputError) {
+        setError({ isError: true, message: "Username not found." })
       } else {
         console.log("caught an error")
       }
@@ -81,7 +108,11 @@ const ContactForm = () => {
         label="Active User?"
       />
       {(isActiveUser && (
-        <UsernameInput username={username} setUsernameHandler={setUsername} />
+        <UsernameInput
+          username={username}
+          setUsernameHandler={setUsername}
+          error={error}
+        />
       )) || (
         <>
           <NameInput name={firstName} setNameHandler={setFirstName} />
