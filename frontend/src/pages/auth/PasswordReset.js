@@ -3,7 +3,7 @@ import Box from "@mui/material/Box"
 import classes from "./Auth.module.css"
 import AuthFormHeader from "../../components/Authentication/AuthFormHeader"
 import AuthFormFooter from "../../components/Authentication/AuthFormFooter"
-import RecoveryResponse from "../../components/Authentication/RecoveryResponse"
+import RequestResponse from "../../components/Authentication/RequestResponse"
 import { useState } from "react"
 
 const PasswordReset = () => {
@@ -11,7 +11,7 @@ const PasswordReset = () => {
   return (
     <Box className={classes.container}>
       <AuthFormHeader pageTitle={"Password Reset"} />
-      {(isReset && <RecoveryResponse isPasswordReset={isReset} />) || (
+      {(isReset && <RequestResponse type="password reset" />) || (
         <PasswordResetForm setIsResetHandler={setIsReset} />
       )}
       <AuthFormFooter

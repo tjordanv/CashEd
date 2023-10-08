@@ -15,4 +15,5 @@ public interface UserDao {
     void updatePassword(User user);
     Boolean checkEmailAvailability(String email);
     Boolean checkUsernameAvailability(String username);
+     int createEmailAddress(String emailAddress, boolean isActive);
 }

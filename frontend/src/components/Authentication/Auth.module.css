@@ -45,7 +45,8 @@ html {
   margin-top: 25px;
 }
 
-.container .recoveryResponse {
+.container .requestResponse {
   text-align: center;
   margin-top: 5px;
+  white-space: pre-line;
 }
