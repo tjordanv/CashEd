@@ -10,6 +10,7 @@ import FormControlLabel from "@mui/material/FormControlLabel"
 import Checkbox from "@mui/material/Checkbox"
 import FetchError from "./HelperComponents/FetchError"
 import InputError from "./HelperComponents/InputError"
+import CircularProgress from "@mui/material/CircularProgress"
 
 const ContactForm = ({ setIsSubmitted }) => {
   const [isActiveUser, setIsActiveUser] = useState(false)
@@ -20,6 +21,7 @@ const ContactForm = ({ setIsSubmitted }) => {
   const [message, setMessage] = useState("")
   const [error, setError] = useState({ isError: false, message: "" })
   const [errorMessage, setErrorMessage] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
 
   const setIsActiveUserHandler = () => {
     setIsActiveUser(!isActiveUser)
@@ -30,6 +32,7 @@ const ContactForm = ({ setIsSubmitted }) => {
 
   const submitFormHandler = async (e) => {
     e.preventDefault()
+    setIsLoading(true)
 
     const body = { message: message, activeUser: isActiveUser }
     let stringifiedBody
@@ -83,10 +86,9 @@ const ContactForm = ({ setIsSubmitted }) => {
       } else {
         const responseJson = await response.json()
         if (responseJson) {
-          console.log("success")
           setIsSubmitted(true)
         } else {
-          console.log("failed to save")
+          setIsLoading(false)
         }
       }
     } catch (error) {
@@ -97,6 +99,7 @@ const ContactForm = ({ setIsSubmitted }) => {
       } else {
         console.log("caught an error")
       }
+      setIsLoading(false)
     }
   }
 
@@ -126,7 +129,9 @@ const ContactForm = ({ setIsSubmitted }) => {
         </>
       )}
       <MessageInput message={message} setMessageHandler={setMessage} />
-      <FormButton type="submit" />
+      {(isLoading && <CircularProgress className={classes.loader} />) || (
+        <FormButton type="submit" />
+      )}
       <ErrorMessage message={errorMessage} />
     </form>
   )
