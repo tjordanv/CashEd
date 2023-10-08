@@ -74,7 +74,7 @@ const UserLookup = ({ setUserHandler, isPasswordReset }) => {
           error={errors.username}
         />
       )}
-      <FormButton label="Next" />
+      <FormButton label="Next" type="submit" />
       {errorMessage && <ErrorMessage message={errorMessage} />}
     </form>
   )
