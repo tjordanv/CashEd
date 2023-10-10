@@ -174,6 +174,7 @@ public class PlaidService {
 
         if (response.isSuccessful()) {
             accessToken = response.body().getAccessToken();
+            System.out.println("item id: " + response.body().getItemId());
         }
 
         try {
@@ -186,15 +187,66 @@ public class PlaidService {
         return accessToken;
     }
 
+    public String createToken() throws Exception {
+        String accessToken = "not found";
+        LinkTokenCreateRequestUser user =  new LinkTokenCreateRequestUser()
+                .clientUserId("user-id");
+
+        LinkTokenCreateRequest request = new LinkTokenCreateRequest()
+                .user(user)
+                .clientName("CashEd Financial")
+                .products(Arrays.asList(Products.TRANSACTIONS))
+                .countryCodes(Arrays.asList(CountryCode.US))
+                .language("en");
+
+        Response<LinkTokenCreateResponse> response = plaidClient
+                .linkTokenCreate(request)
+                .execute();
+
+        String linkToken = response.body().getLinkToken();
+//        SandboxPublicTokenCreateRequest requestt = new SandboxPublicTokenCreateRequest()
+//                .institutionId("ins_109509")
+//                .initialProducts(Arrays.asList(Products.TRANSACTIONS));
+//
+//        Response<SandboxPublicTokenCreateResponse> createResponse = plaidClient
+//                .sandboxPublicTokenCreate(requestt)
+//                .execute();
+//
+//        log.info("public token " +createResponse);
+//
+//        accessToken = createResponse.body().getPublicToken();
+        return linkToken;
+    }
+
+    public String exchangeToken(String token) throws Exception {
+        ItemPublicTokenExchangeRequest request = new ItemPublicTokenExchangeRequest().publicToken(token);
+        Response<ItemPublicTokenExchangeResponse> response = plaidClient.itemPublicTokenExchange(request).execute();
+
+        String accessToken = "not found";
+
+        if (response.isSuccessful()) {
+            accessToken = response.body().getAccessToken();
+            System.out.println("item id: " + response.body().getItemId());
+        }
+
+        try {
+            Gson gson = new Gson();
+            PlaidError error = gson.fromJson(response.errorBody().string(), PlaidError.class);
+            log.info(error.toString());
+        } catch (Exception e) {
+            log.info("exception: " + e);
+        }
+        return accessToken;
+    }
     /**
      * Hit transactions/get api to get Transaction Information.
      * @return
      * @throws Exception
      */
-    public TransactionsGetResponse transactions() throws Exception {
+    public TransactionsGetResponse transactions(String accessToken) throws Exception {
         LocalDate startDate = LocalDate.of(2020, 10, 1);
         LocalDate endDate = LocalDate.of(2023, 10, 1);
-        String accessToken = pliadToken();
+        //String accessToken = pliadToken();
         AccountsGetRequest agRequest = new AccountsGetRequest()
                 .accessToken(accessToken);
 
@@ -229,13 +281,13 @@ public class PlaidService {
         return apiResponse.body();
     }
 
-    /**
+     /**
      * Hit accounts/balance/get api
      * @return
      * @throws Exception
      */
-    public AccountBalance accountBalance() throws Exception {
-        String accessToken = pliadToken();
+    public AccountBalance accountBalance(String accessToken) throws Exception {
+        //String accessToken = pliadToken();
         AccountsBalanceGetRequest request = new AccountsBalanceGetRequest()
                 .accessToken(accessToken);
         Response<AccountsGetResponse> response = plaidClient
