@@ -4,6 +4,7 @@ import Login from "./pages/auth/Login"
 import Register from "./pages/auth/Register"
 import UserRecovery from "./pages/auth/UserRecovery"
 import TransactionImport from "./pages/TransactionImport"
+import { TransactionImportLoader } from "./components/TransactionCategories"
 import Header from "./pages/Header"
 import Notifications from "./pages/Notifications"
 import PasswordReset from "./pages/auth/PasswordReset"
@@ -62,7 +63,11 @@ const router = createBrowserRouter([
         index: true,
         element: <DashboardTest />
       },
-      { path: "TransactionImport", element: <TransactionImport /> },
+      {
+        path: "TransactionImport",
+        element: <TransactionImport />,
+        loader: TransactionImportLoader
+      },
       {
         path: "notifications",
         element: <Notifications />,
