@@ -129,7 +129,7 @@
 //}
 //
 
-// Sanbox version
+// Sandbox version
 
 package com.tjv.FinApp.services;
 
@@ -153,24 +153,43 @@ public class PlaidService {
     private PlaidApi plaidClient;
 
     /**
-     * get Plaid access token
-     * @return accessToken
-     * @throws Exception
+     * Creates a link token for initializing the Plaid Link flow. This represents a unique session for a user.
+     *
+     * @return The generated link token.
+     * @throws Exception if an error occurs while creating the link token.
      */
-    public String pliadToken() throws Exception {
-        String accessToken = "not found";
-        SandboxPublicTokenCreateRequest requestt = new SandboxPublicTokenCreateRequest()
-                .institutionId("ins_109509")
-                .initialProducts(Arrays.asList(Products.TRANSACTIONS));
+    public String createLinkToken() throws Exception {
+        LinkTokenCreateRequestUser user =  new LinkTokenCreateRequestUser()
+                .clientUserId("user-id");
 
-        Response<SandboxPublicTokenCreateResponse> createResponse = plaidClient
-                .sandboxPublicTokenCreate(requestt)
+        LinkTokenCreateRequest request = new LinkTokenCreateRequest()
+                .user(user)
+                .clientName("CashEd Financial")
+                .products(Arrays.asList(Products.TRANSACTIONS))
+                .countryCodes(Arrays.asList(CountryCode.US))
+                .language("en");
+
+        Response<LinkTokenCreateResponse> response = plaidClient
+                .linkTokenCreate(request)
                 .execute();
 
-        log.info("public token " +createResponse);
+        return response.body().getLinkToken();
+    }
 
-        ItemPublicTokenExchangeRequest request = new ItemPublicTokenExchangeRequest().publicToken(createResponse.body().getPublicToken());
+    /**
+     * Exchanges a public token (a short-lived token whose purpose is to securely transmit the user's selected financial
+     * institution and their consent to access their financial data to our backend server.) for an access token (The access
+     * token is a long-lived token that provides authorized access to the user's financial data.)
+     *
+     * @param token The public token to exchange.
+     * @return The access token.
+     * @throws Exception if an error occurs while exchanging the public token.
+     */
+    public String exchangePublicToken(String token) throws Exception {
+        ItemPublicTokenExchangeRequest request = new ItemPublicTokenExchangeRequest().publicToken(token);
         Response<ItemPublicTokenExchangeResponse> response = plaidClient.itemPublicTokenExchange(request).execute();
+
+        String accessToken = "not found";
 
         if (response.isSuccessful()) {
             accessToken = response.body().getAccessToken();
@@ -180,21 +199,22 @@ public class PlaidService {
             Gson gson = new Gson();
             PlaidError error = gson.fromJson(response.errorBody().string(), PlaidError.class);
             log.info(error.toString());
-        } catch (Exception e) {
-            log.info("exception: "+e);
+        } catch (Exception ignored) {
         }
         return accessToken;
     }
 
     /**
-     * Hit transactions/get api to get Transaction Information.
-     * @return
-     * @throws Exception
+     * Retrieves transactions for a given access token.
+     *
+     * @param accessToken The access token associated with a particular bank.
+     * @return The transactions.
+     * @throws Exception if an error occurs while retrieving the transactions.
      */
-    public TransactionsGetResponse transactions() throws Exception {
+    public TransactionsGetResponse transactions(String accessToken) throws Exception {
         LocalDate startDate = LocalDate.of(2020, 10, 1);
         LocalDate endDate = LocalDate.of(2023, 10, 1);
-        String accessToken = pliadToken();
+
         AccountsGetRequest agRequest = new AccountsGetRequest()
                 .accessToken(accessToken);
 
@@ -228,14 +248,14 @@ public class PlaidService {
         }
         return apiResponse.body();
     }
-
     /**
-     * Hit accounts/balance/get api
-     * @return
-     * @throws Exception
+     * Retrieves the account balance for a given access token.
+     *
+     * @param accessToken The access token associated with a particular bank.
+     * @return The account balance.
+     * @throws Exception if an error occurs while retrieving the account balance.
      */
-    public AccountBalance accountBalance() throws Exception {
-        String accessToken = pliadToken();
+    public AccountBalance accountBalance(String accessToken) throws Exception {
         AccountsBalanceGetRequest request = new AccountsBalanceGetRequest()
                 .accessToken(accessToken);
         Response<AccountsGetResponse> response = plaidClient

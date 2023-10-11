@@ -40,25 +40,45 @@
 // Sandbox version
 package com.tjv.FinApp.controller;
 
+        import com.tjv.FinApp.model.PlaidToken;
         import com.tjv.FinApp.services.PlaidService;
         import com.plaid.client.model.AccountBalance;
         import com.plaid.client.model.TransactionsGetResponse;
         import org.springframework.beans.factory.annotation.Autowired;
-        import org.springframework.web.bind.annotation.GetMapping;
-        import org.springframework.web.bind.annotation.RestController;
+        import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class PlaidController {
     @Autowired
     private PlaidService plaidService;
-    @GetMapping("/transactions")
-    public TransactionsGetResponse transactions() throws Exception {
-        return plaidService.transactions();
-    }
-    @GetMapping("/accountBalance")
-    public AccountBalance accountBalance() throws Exception {
-        return plaidService.accountBalance();
-    }
 
+    @CrossOrigin
+    @GetMapping("/auth/createLinkToken")
+    public PlaidToken createLinkToken() throws Exception {
+        PlaidToken linkToken = new PlaidToken();
+        linkToken.setToken(plaidService.createLinkToken());
+        linkToken.setTokenType("Link Token");
+
+        return linkToken;
+    }
+    @CrossOrigin
+    @PostMapping("/auth/exchangePublicToken")
+    public PlaidToken exchangePublicToken(@RequestBody PlaidToken publicToken) throws Exception {
+        PlaidToken accessToken = new PlaidToken();
+        accessToken.setToken(plaidService.exchangePublicToken(publicToken.getToken()));
+        accessToken.setTokenType("Access Token");
+
+        return accessToken;
+    }
+    @CrossOrigin
+    @GetMapping("/transactions")
+    public TransactionsGetResponse transactions(@RequestParam String accessToken) throws Exception {
+        return plaidService.transactions(accessToken);
+    }
+    @CrossOrigin
+    @GetMapping("/accountBalance")
+    public AccountBalance accountBalance(@RequestParam String accessToken) throws Exception {
+        return plaidService.accountBalance(accessToken);
+    }
 }
 
