@@ -129,7 +129,7 @@
 //}
 //
 
-// Sanbox version
+// Sandbox version
 
 package com.tjv.FinApp.services;
 
@@ -204,17 +204,7 @@ public class PlaidService {
                 .execute();
 
         String linkToken = response.body().getLinkToken();
-//        SandboxPublicTokenCreateRequest requestt = new SandboxPublicTokenCreateRequest()
-//                .institutionId("ins_109509")
-//                .initialProducts(Arrays.asList(Products.TRANSACTIONS));
-//
-//        Response<SandboxPublicTokenCreateResponse> createResponse = plaidClient
-//                .sandboxPublicTokenCreate(requestt)
-//                .execute();
-//
-//        log.info("public token " +createResponse);
-//
-//        accessToken = createResponse.body().getPublicToken();
+
         return linkToken;
     }
 
@@ -246,7 +236,7 @@ public class PlaidService {
     public TransactionsGetResponse transactions(String accessToken) throws Exception {
         LocalDate startDate = LocalDate.of(2020, 10, 1);
         LocalDate endDate = LocalDate.of(2023, 10, 1);
-        //String accessToken = pliadToken();
+
         AccountsGetRequest agRequest = new AccountsGetRequest()
                 .accessToken(accessToken);
 
@@ -287,7 +277,6 @@ public class PlaidService {
      * @throws Exception
      */
     public AccountBalance accountBalance(String accessToken) throws Exception {
-        //String accessToken = pliadToken();
         AccountsBalanceGetRequest request = new AccountsBalanceGetRequest()
                 .accessToken(accessToken);
         Response<AccountsGetResponse> response = plaidClient

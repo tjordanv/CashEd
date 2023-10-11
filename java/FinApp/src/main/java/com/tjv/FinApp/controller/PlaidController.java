@@ -53,14 +53,6 @@ public class PlaidController {
     @Autowired
     private PlaidService plaidService;
 
-//    @CrossOrigin
-//    @GetMapping("/auth/linktkn")
-//    public LinkTkn linkTkn() throws Exception {
-//        LinkTkn tkn = new LinkTkn();
-//        tkn.setLinkTkn(plaidService.pliadToken());
-//        System.out.println(tkn.getLinkTkn());
-//        return tkn;
-//    }
     @CrossOrigin
     @GetMapping("/auth/createToken")
     public LinkTkn linkTkn() throws Exception {
