@@ -5,7 +5,12 @@ import { useSelector } from "react-redux"
 import List from "@mui/material/List"
 import ListItem from "@mui/material/ListItem"
 
-const TransactionsList = ({ transactions, droppableId, subcategoryId }) => {
+const TransactionsList = ({
+  transactions,
+  droppableId,
+  subcategoryId,
+  deleteTransactionHandler
+}) => {
   TransactionsList.defaultProps = {
     subcategoryId: null
   }
@@ -23,6 +28,7 @@ const TransactionsList = ({ transactions, droppableId, subcategoryId }) => {
               <ListItem key={Math.floor(Math.random() * 99999)}>
                 <Transaction
                   transaction={transaction}
+                  deleteTransactionHandler={deleteTransactionHandler}
                   index={index}
                   key={Math.floor(Math.random() * 99999)}
                 />

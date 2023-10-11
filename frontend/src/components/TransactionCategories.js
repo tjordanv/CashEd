@@ -78,7 +78,8 @@ const categories = [
 const TransactionCategories = ({
   activeSubcategoryId,
   setActiveSubcategoryId,
-  transactions
+  transactions,
+  deleteTransactionHandler
 }) => {
   const [subcategories, setSubcategories] = useState(useLoaderData())
 

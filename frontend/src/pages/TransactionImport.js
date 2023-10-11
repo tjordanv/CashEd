@@ -3,8 +3,7 @@ import TransactionCategories from "../components/TransactionCategories"
 import Button from "@mui/material/Button"
 
 import data from "../app/data"
-import Transaction from "../components/Transaction"
-import { DragDropContext, Droppable } from "react-beautiful-dnd"
+import { DragDropContext } from "react-beautiful-dnd"
 import TransactionsList from "../components/TransactionsList"
 
 const TransactionImport = () => {
@@ -13,6 +12,13 @@ const TransactionImport = () => {
 
   const importTransactions = () => {
     setTransactions(data.transactions)
+  }
+
+  const deleteTransactionHandler = (transactionId) => {
+    const updatedTransactions = transactions.filter(
+      (transaction) => transaction.id !== transactionId
+    )
+    setTransactions(updatedTransactions)
   }
 
   const addSubcategory = (transactionId, subcategoryId, categoryId) => {
@@ -30,11 +36,6 @@ const TransactionImport = () => {
 
   const onDragEnd = (e) => {
     const { destination, source } = e
-
-    console.log("destination dropId: " + destination.droppableId)
-    console.log("source dropId: " + source.droppableId)
-    console.log("destination index: " + destination.index)
-    console.log("source index: " + source.index)
 
     // do nothing if dropped in same spot or into a non-droppable area
     if (
@@ -79,7 +80,11 @@ const TransactionImport = () => {
         <Button onClick={importTransactions}>import</Button>
         <Button onClick={() => console.log(transactions)}>log</Button>
         {transactions && (
-          <TransactionsList transactions={transactions} droppableId="list" />
+          <TransactionsList
+            transactions={transactions}
+            droppableId="list"
+            deleteTransactionHandler={deleteTransactionHandler}
+          />
         )}
         <TransactionCategories
           activeSubcategoryId={activeSubcategoryId}
@@ -89,6 +94,7 @@ const TransactionImport = () => {
         {transactions && activeSubcategoryId && (
           <TransactionsList
             transactions={transactions}
+            deleteTransactionHandler={deleteTransactionHandler}
             droppableId={activeSubcategoryId.toString()}
           />
         )}
