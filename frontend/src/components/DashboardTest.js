@@ -1,38 +1,35 @@
-import { redirect, useLoaderData, useNavigate } from "react-router-dom"
-
 import React, { useCallback, useEffect, useState } from "react"
 import { usePlaidLink } from "react-plaid-link"
-import Plaid from "react-plaid-link"
-import FetchError from "./HelperComponents/FetchError"
-
-import Button from "@mui/material/Button"
 import fetcher from "./HelperFunctions/fetchAuthorize"
 
 const DashboardTest = () => {
   const [token, setToken] = useState(null)
+  const [accessToken, setAccessToken] = useState(null)
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [accessToken, setAccessToken] = useState(null)
 
   const onSuccess = useCallback(async (publicToken, metadata) => {
+    //console.log("publicToken: " + publicToken)
     setLoading(true)
     const accessTokenResponse = await fetch(
-      "http://localhost:8080/auth/exchangeToken",
+      "http://localhost:8080/auth/exchangePublicToken",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ publicToken: publicToken })
+        body: JSON.stringify({
+          token: publicToken
+        })
       }
     )
     const accessTokenResponseJson = await accessTokenResponse.json()
-    setAccessToken(accessTokenResponseJson.linkTkn)
+    setAccessToken(accessTokenResponseJson.token)
   }, [])
 
   // Creates a Link token
   const createLinkToken = useCallback(async () => {
-    const response = await fetch("http://localhost:8080/auth/createToken", {
+    const response = await fetch("http://localhost:8080/auth/createLinkToken", {
       method: "GET",
       mode: "cors",
       headers: {
@@ -40,8 +37,7 @@ const DashboardTest = () => {
       }
     })
     const data = await response.json()
-    setToken(data.linkTkn)
-    localStorage.setItem("link_token", data.linkTkn)
+    setToken(data.token)
   }, [setToken])
 
   // Fetch balance data

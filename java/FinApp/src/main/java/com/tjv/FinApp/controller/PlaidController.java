@@ -40,8 +40,7 @@
 // Sandbox version
 package com.tjv.FinApp.controller;
 
-        import com.tjv.FinApp.model.LinkTkn;
-        import com.tjv.FinApp.model.PublicToken;
+        import com.tjv.FinApp.model.PlaidToken;
         import com.tjv.FinApp.services.PlaidService;
         import com.plaid.client.model.AccountBalance;
         import com.plaid.client.model.TransactionsGetResponse;
@@ -54,20 +53,22 @@ public class PlaidController {
     private PlaidService plaidService;
 
     @CrossOrigin
-    @GetMapping("/auth/createToken")
-    public LinkTkn linkTkn() throws Exception {
-        LinkTkn tkn = new LinkTkn();
-        tkn.setLinkTkn(plaidService.createToken());
-        return tkn;
+    @GetMapping("/auth/createLinkToken")
+    public PlaidToken createLinkToken() throws Exception {
+        PlaidToken linkToken = new PlaidToken();
+        linkToken.setToken(plaidService.createLinkToken());
+        linkToken.setTokenType("Link Token");
+
+        return linkToken;
     }
     @CrossOrigin
-    @PostMapping("/auth/exchangeToken")
-    public LinkTkn accessToken(@RequestBody PublicToken publicToken) throws Exception {
-        System.out.println("exchange");
-        LinkTkn tkn = new LinkTkn();
-        tkn.setLinkTkn(plaidService.exchangeToken(publicToken.getPublicToken()));
-        System.out.println(tkn.getLinkTkn());
-        return tkn;
+    @PostMapping("/auth/exchangePublicToken")
+    public PlaidToken exchangePublicToken(@RequestBody PlaidToken publicToken) throws Exception {
+        PlaidToken accessToken = new PlaidToken();
+        accessToken.setToken(plaidService.exchangePublicToken(publicToken.getToken()));
+        accessToken.setTokenType("Access Token");
+
+        return accessToken;
     }
     @CrossOrigin
     @GetMapping("/transactions")
