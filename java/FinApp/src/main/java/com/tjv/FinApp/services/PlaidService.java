@@ -152,6 +152,12 @@ public class PlaidService {
     @Autowired
     private PlaidApi plaidClient;
 
+    /**
+     * Creates a link token for initializing the Plaid Link flow. This represents a unique session for a user.
+     *
+     * @return The generated link token.
+     * @throws Exception if an error occurs while creating the link token.
+     */
     public String createLinkToken() throws Exception {
         LinkTokenCreateRequestUser user =  new LinkTokenCreateRequestUser()
                 .clientUserId("user-id");
@@ -170,6 +176,15 @@ public class PlaidService {
         return response.body().getLinkToken();
     }
 
+    /**
+     * Exchanges a public token (a short-lived token whose purpose is to securely transmit the user's selected financial
+     * institution and their consent to access their financial data to our backend server.) for an access token (The access
+     * token is a long-lived token that provides authorized access to the user's financial data.)
+     *
+     * @param token The public token to exchange.
+     * @return The access token.
+     * @throws Exception if an error occurs while exchanging the public token.
+     */
     public String exchangePublicToken(String token) throws Exception {
         ItemPublicTokenExchangeRequest request = new ItemPublicTokenExchangeRequest().publicToken(token);
         Response<ItemPublicTokenExchangeResponse> response = plaidClient.itemPublicTokenExchange(request).execute();
@@ -189,6 +204,13 @@ public class PlaidService {
         return accessToken;
     }
 
+    /**
+     * Retrieves transactions for a given access token.
+     *
+     * @param accessToken The access token associated with a particular bank.
+     * @return The transactions.
+     * @throws Exception if an error occurs while retrieving the transactions.
+     */
     public TransactionsGetResponse transactions(String accessToken) throws Exception {
         LocalDate startDate = LocalDate.of(2020, 10, 1);
         LocalDate endDate = LocalDate.of(2023, 10, 1);
@@ -226,7 +248,13 @@ public class PlaidService {
         }
         return apiResponse.body();
     }
-
+    /**
+     * Retrieves the account balance for a given access token.
+     *
+     * @param accessToken The access token associated with a particular bank.
+     * @return The account balance.
+     * @throws Exception if an error occurs while retrieving the account balance.
+     */
     public AccountBalance accountBalance(String accessToken) throws Exception {
         AccountsBalanceGetRequest request = new AccountsBalanceGetRequest()
                 .accessToken(accessToken);
