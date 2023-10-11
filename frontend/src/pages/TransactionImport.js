@@ -5,6 +5,7 @@ import Button from "@mui/material/Button"
 import data from "../app/data"
 import Transaction from "../components/Transaction"
 import { DragDropContext, Droppable } from "react-beautiful-dnd"
+import TransactionsList from "../components/TransactionsList"
 
 const TransactionImport = () => {
   const [activeSubcategoryId, setActiveSubcategoryId] = useState(null)
@@ -19,13 +20,10 @@ const TransactionImport = () => {
     const transactionToUpdate = updatedTransactions.find(
       (transaction) => transaction.id === transactionId
     )
-    console.log("transaction to update: " + transactionToUpdate.description)
     if (transactionToUpdate) {
       transactionToUpdate.subcategoryId = subcategoryId
-      //transactionToUpdate.categoryID = categoryId
+      transactionToUpdate.categoryId = categoryId
     }
-    console.log(transactionToUpdate.subcategoryId)
-    console.log(updatedTransactions)
 
     setTransactions(updatedTransactions)
   }
@@ -60,14 +58,19 @@ const TransactionImport = () => {
       setTransactions(tempTransactions)
     } else {
       // add transaction to a subcategory
-      const destinationSubcategoryId = parseInt(destination.droppableId)
-      const sourceSubcategoryID = transactions[source.index].subcategoryID
+      const [destinationSubcategoryId, destinationCategoryId] =
+        destination.droppableId.split(",").map(Number)
 
-      addSubcategory(source.index, destinationSubcategoryId)
+      addSubcategory(
+        source.index,
+        destinationSubcategoryId,
+        destinationCategoryId
+      )
     }
   }
   const test = () => {
-    console.log("drag end")
+    const [x, y] = "x,y".split(",")
+    console.log(x + " it was split: " + y)
   }
 
   return (
@@ -76,26 +79,19 @@ const TransactionImport = () => {
         <Button onClick={importTransactions}>import</Button>
         <Button onClick={() => console.log(transactions)}>log</Button>
         {transactions && (
-          <Droppable droppableId="list">
-            {(provided, snapshot) => (
-              <div ref={provided.innerRef} {...provided.droppableProps}>
-                {transactions.map((transaction, index) => (
-                  <Transaction
-                    transaction={transaction}
-                    index={index}
-                    key={Math.floor(Math.random() * 99999)}
-                  />
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
+          <TransactionsList transactions={transactions} droppableId="list" />
         )}
         <TransactionCategories
           activeSubcategoryId={activeSubcategoryId}
           setActiveSubcategoryId={setActiveSubcategoryId}
           transactions={transactions}
         />
+        {transactions && activeSubcategoryId && (
+          <TransactionsList
+            transactions={transactions}
+            droppableId={activeSubcategoryId.toString()}
+          />
+        )}
       </div>
     </DragDropContext>
   )

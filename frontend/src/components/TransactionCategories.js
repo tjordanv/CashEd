@@ -28,29 +28,41 @@ const TransactionCategory = ({
   setActiveSubcategoryId,
   transactions
 }) => {
-  const filterTransactions = (id) => {
+  const sumOfTransactions = (id) => {
     try {
-      return transactions.filter(
-        (transaction) => transaction.subcategoryId === id
-      )
+      return transactions.reduce((sum, currentTransaction) => {
+        return currentTransaction.subcategoryId === id
+          ? sum + currentTransaction.amount
+          : sum
+      }, 0)
     } catch {
       return null
     }
   }
 
+  const total =
+    transactions !== null
+      ? transactions.reduce((sum, currentTransaction) => {
+          return sum + currentTransaction.amount
+        }, 0)
+      : 0.0
+
   return (
     <Card>
-      <CardHeader title={category.name} />
+      <CardHeader title={category.name} subheader={total} />
       <CardContent>
-        {subcategories.map((subcategory) => (
-          <TransactionSubcategory
-            subcategory={subcategory}
-            isActive={subcategory.id === activeSubcategoryId}
-            setActiveSubcategoryId={setActiveSubcategoryId}
-            transactions={filterTransactions(subcategory.id)}
-            key={Math.floor(Math.random() * 99999)}
-          />
-        ))}
+        {subcategories.map((subcategory) => {
+          const total = sumOfTransactions(subcategory.id)
+          return (
+            <TransactionSubcategory
+              subcategory={subcategory}
+              isActive={subcategory.id === activeSubcategoryId}
+              setActiveSubcategoryId={setActiveSubcategoryId}
+              total={total}
+              key={Math.floor(Math.random() * 99999)}
+            />
+          )
+        })}
       </CardContent>
     </Card>
   )
@@ -80,16 +92,19 @@ const TransactionCategories = ({
 
   return (
     <div>
-      {categories.map((category) => (
-        <TransactionCategory
-          category={category}
-          subcategories={subcategories[category.id - 1]}
-          activeSubcategoryId={activeSubcategoryId}
-          setActiveSubcategoryId={setActiveSubcategoryId}
-          transactions={filterTransactions(category.id)}
-          key={Math.floor(Math.random() * 99999)}
-        />
-      ))}
+      {categories.map((category) => {
+        const filteredTransactions = filterTransactions(category.id)
+        return (
+          <TransactionCategory
+            category={category}
+            subcategories={subcategories[category.id - 1]}
+            activeSubcategoryId={activeSubcategoryId}
+            setActiveSubcategoryId={setActiveSubcategoryId}
+            transactions={filteredTransactions}
+            key={Math.floor(Math.random() * 99999)}
+          />
+        )
+      })}
     </div>
   )
 }

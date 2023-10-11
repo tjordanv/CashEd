@@ -5,10 +5,14 @@ const TransactionSubcategory = ({
   subcategory,
   isActive,
   setActiveSubcategoryId,
-  transactions
+  total
 }) => {
   return (
-    <Droppable droppableId={subcategory.id.toString()}>
+    <Droppable
+      droppableId={
+        subcategory.id.toString() + "," + subcategory.categoryId.toString()
+      }
+    >
       {(provided, snapshot) => (
         <Card
           onClick={() => setActiveSubcategoryId(subcategory.id)}
@@ -17,7 +21,7 @@ const TransactionSubcategory = ({
         >
           <CardContent>
             <p>{subcategory.name}</p>
-            {isActive && <p>ACTIVE</p>}
+            {isActive && <p>{total}</p>}
             {provided.placeholder}
           </CardContent>
         </Card>

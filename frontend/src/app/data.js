@@ -11,81 +11,81 @@ const data = {
       {
         name: "Work Payroll",
         id: 9,
-        categoryID: 1,
-        Total: 0,
+        categoryId: 1,
+        total: 0,
         isSelected: false
       },
       {
         name: "Passive Income",
         id: 10,
-        categoryID: 1,
-        Total: 0,
+        categoryId: 1,
+        total: 0,
         isSelected: false
       }
     ],
     [
-      { name: "Savings", id: 11, categoryID: 2, Total: 0, isSelected: false },
-      { name: "401k", id: 12, categoryID: 2, Total: 0, isSelected: false }
+      { name: "Savings", id: 11, categoryId: 2, total: 0, isSelected: false },
+      { name: "401k", id: 12, categoryId: 2, total: 0, isSelected: false }
     ],
     [
-      { name: "Groceries", id: 1, categoryID: 3, Total: 0, isSelected: false },
-      { name: "Alcohol", id: 2, categoryID: 3, Total: 0, isSelected: false },
-      { name: "Eating Out", id: 3, categoryID: 3, Total: 0, isSelected: false },
+      { name: "Groceries", id: 1, categoryId: 3, total: 0, isSelected: false },
+      { name: "Alcohol", id: 2, categoryId: 3, total: 0, isSelected: false },
+      { name: "Eating Out", id: 3, categoryId: 3, total: 0, isSelected: false },
       {
         name: "Entertainment",
         id: 4,
-        categoryID: 3,
-        Total: 0,
+        categoryId: 3,
+        total: 0,
         isSelected: false
       },
-      { name: "Shopping", id: 13, categoryID: 3, Total: 0, isSelected: false },
+      { name: "Shopping", id: 13, categoryId: 3, total: 0, isSelected: false },
       {
         name: "Home & Vehicle Maintenance",
         id: 14,
-        categoryID: 3,
-        Total: 0,
+        categoryId: 3,
+        total: 0,
         isSelected: false
       },
       {
         name: "Some Filler Category",
         id: 15,
-        categoryID: 3,
-        Total: 0,
+        categoryId: 3,
+        total: 0,
         isSelected: false
       },
       {
         name: "Another Filler",
         id: 16,
-        categoryID: 3,
-        Total: 0,
+        categoryId: 3,
+        total: 0,
         isSelected: false
       },
       {
         name: "Yup, another filler",
         id: 17,
-        categoryID: 3,
-        Total: 0,
+        categoryId: 3,
+        total: 0,
         isSelected: false
       },
       {
         name: "Miscellaneous",
         id: 18,
-        categoryID: 3,
-        Total: 0,
+        categoryId: 3,
+        total: 0,
         isSelected: false
       },
-      { name: "Travel", id: 5, categoryID: 3, Total: 0, isSelected: false }
+      { name: "Travel", id: 5, categoryId: 3, total: 0, isSelected: false }
     ],
     [
-      { name: "Rent", id: 6, categoryID: 4, Total: 0, isSelected: false },
+      { name: "Rent", id: 6, categoryId: 4, total: 0, isSelected: false },
       {
         name: "Car Payment",
         id: 7,
-        categoryID: 4,
-        Total: 0,
+        categoryId: 4,
+        total: 0,
         isSelected: false
       },
-      { name: "Phone Bill", id: 8, categoryID: 4, Total: 0, isSelected: false }
+      { name: "Phone Bill", id: 8, categoryId: 4, total: 0, isSelected: false }
     ]
   ],
 
@@ -93,7 +93,7 @@ const data = {
     {
       id: 40,
       description: "Tusker's Indian Fusion",
-      Amount: 46.2,
+      amount: 46.2,
       subcategoryId: null,
       categoryId: null,
       isCredit: false,
@@ -103,7 +103,7 @@ const data = {
     {
       id: 1,
       description: "Giant Grocery",
-      Amount: 6.67,
+      amount: 6.67,
       subcategoryId: null,
       categoryId: null,
       isCredit: false,
@@ -113,7 +113,7 @@ const data = {
     {
       id: 2,
       description: "Bob's Beer Barn",
-      Amount: 19.99,
+      amount: 19.99,
       subcategoryId: null,
       categoryId: null,
       isCredit: false,
@@ -123,7 +123,7 @@ const data = {
     {
       id: 3,
       description: "Wendy's 1821",
-      Amount: 14.03,
+      amount: 14.03,
       subcategoryId: null,
       categoryId: null,
       isCredit: false,
@@ -133,7 +133,7 @@ const data = {
     {
       id: 4,
       description: "Jimbo's Downtown Comedy",
-      Amount: 29.99,
+      amount: 29.99,
       subcategoryId: null,
       categoryId: null,
       isCredit: false,
@@ -143,7 +143,7 @@ const data = {
     {
       id: 5,
       description: "Walmart",
-      Amount: 89.14,
+      amount: 89.14,
       subcategoryId: null,
       categoryId: null,
       isCredit: false,
@@ -154,7 +154,7 @@ const data = {
     {
       id: 6,
       description: "Teleosoft Payroll",
-      Amount: 200.0,
+      amount: 200.0,
       subcategoryId: null,
       categoryId: null,
       isCredit: true,
@@ -164,7 +164,7 @@ const data = {
     {
       id: 7,
       description: "Tusker's Indi",
-      Amount: 46.2,
+      amount: 46.2,
       subcategoryId: null,
       categoryId: null,
       isCredit: false,
@@ -174,7 +174,7 @@ const data = {
     {
       id: 8,
       description: "Giant ery",
-      Amount: 6.67,
+      amount: 6.67,
       subcategoryId: null,
       categoryId: null,
       isCredit: false,
@@ -184,7 +184,7 @@ const data = {
     {
       id: 9,
       description: "Bob's Barn",
-      Amount: 19.99,
+      amount: 19.99,
       subcategoryId: null,
       categoryId: null,
       isCredit: false,
@@ -194,7 +194,7 @@ const data = {
     {
       id: 10,
       description: "Wen 1821",
-      Amount: 14.03,
+      amount: 14.03,
       subcategoryId: null,
       categoryId: null,
       isCredit: false,
@@ -204,7 +204,7 @@ const data = {
     {
       id: 11,
       description: "Jimbo's Downomedy but really long w overflow",
-      Amount: 29.99,
+      amount: 29.99,
       subcategoryId: null,
       categoryId: null,
       isCredit: false,
@@ -214,7 +214,7 @@ const data = {
     {
       id: 12,
       description: "mart",
-      Amount: 89.14,
+      amount: 89.14,
       subcategoryId: null,
       categoryId: null,
       isCredit: false,
@@ -225,7 +225,7 @@ const data = {
     {
       id: 13,
       description: "Teleosyroll",
-      Amount: 200.0,
+      amount: 200.0,
       subcategoryId: null,
       categoryId: null,
       isCredit: true,
@@ -235,7 +235,7 @@ const data = {
     {
       id: 14,
       description: "Wen 1821 is super crappy",
-      Amount: 14.03,
+      amount: 14.03,
       subcategoryId: null,
       categoryId: null,
       isCredit: false,
@@ -246,7 +246,7 @@ const data = {
       id: 15,
       description:
         "Jimbo's Downomedy but really long w overflow plus even more so it is super super long for no good reason really. idk",
-      Amount: 2329.99,
+      amount: 2329.99,
       subcategoryId: null,
       categoryId: null,
       isCredit: false,
@@ -256,7 +256,7 @@ const data = {
     {
       id: 16,
       description: "mart super boiii",
-      Amount: 11289.14,
+      amount: 11289.14,
       subcategoryId: null,
       categoryId: null,
       isCredit: false,
@@ -267,7 +267,7 @@ const data = {
     {
       id: 17,
       description: "Teleosyroll but also longer",
-      Amount: 200.0,
+      amount: 200.0,
       subcategoryId: null,
       categoryId: null,
       isCredit: true,
