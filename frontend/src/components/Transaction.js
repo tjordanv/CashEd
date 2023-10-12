@@ -10,8 +10,11 @@ import classes from "./Transaction.module.css"
 import Box from "@mui/material/Box"
 import Divider from "@mui/material/Divider"
 import Typography from "@mui/material/Typography"
+import { useState } from "react"
 
 const Transaction = ({ transaction, index, deleteTransactionHandler }) => {
+  const [isHovered, setIsHovered] = useState(false)
+
   const confirmationDialogDetails = {
     title: "Are you sure you want to delete this transaction?",
     description:
@@ -20,8 +23,8 @@ const Transaction = ({ transaction, index, deleteTransactionHandler }) => {
   }
   const component = ({ func }) => (
     <Tooltip title="Delete" arrow TransitionComponent={Zoom}>
-      <IconButton sx={{ padding: "auto" }} onClick={func}>
-        <DeleteIcon fontSize="small" color="error" />
+      <IconButton sx={{ padding: "auto", width: "35px" }} onClick={func}>
+        <DeleteIcon fontSize="small" color="#777777" />
       </IconButton>
     </Tooltip>
   )
@@ -52,16 +55,21 @@ const Transaction = ({ transaction, index, deleteTransactionHandler }) => {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
           <CardContent
             className={classes.transactionCardContent}
             style={{ "--backgroundColor": backgroundColor() }}
           >
-            <TransactionInfoTooltip
-              date={transaction.date}
-              name={transaction.name}
-              amount={transaction.amount}
-            />
+            {(isHovered && (
+              <TransactionInfoTooltip
+                date={transaction.date}
+                name={transaction.name}
+                amount={transaction.amount}
+              />
+            )) || <div className={classes.spacer}></div>}
+
             <Box sx={{ margin: "auto 0 auto 5px", width: "85%" }}>
               <Typography
                 variant="body2"
@@ -83,11 +91,13 @@ const Transaction = ({ transaction, index, deleteTransactionHandler }) => {
                 {"$" + transaction.amount}
               </Typography>
             </Box>
-            <ConfirmationDialog
-              dialogDetails={confirmationDialogDetails}
-              onConfirm={() => deleteTransactionHandler(transaction.id)}
-              Component={component}
-            />
+            {(isHovered && (
+              <ConfirmationDialog
+                dialogDetails={confirmationDialogDetails}
+                onConfirm={() => deleteTransactionHandler(transaction.id)}
+                Component={component}
+              />
+            )) || <div className={classes.spacer}></div>}
           </CardContent>
         </Card>
       )}

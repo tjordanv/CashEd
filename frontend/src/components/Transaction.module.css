@@ -9,3 +9,7 @@ li div .transactionCardContent {
 li div .transactionCardContent:last-child {
   padding-bottom: 5px; /* Override the padding */
 }
+
+.transactionCardContent .spacer {
+  min-width: 35px;
+}

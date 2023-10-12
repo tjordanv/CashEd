@@ -49,7 +49,7 @@ const TransactionInfoTooltip = ({ date, name, amount }) => {
     >
       <InfoIcon
         fontSize="small"
-        sx={{ margin: "auto 0 auto 0", color: "#777777" }}
+        sx={{ margin: "auto 0 auto 0", color: "#777777", width: "35px" }}
       />
     </Tooltip>
   )

@@ -3,6 +3,9 @@ import data from "../app/data"
 import { useState } from "react"
 import { useLoaderData } from "react-router-dom"
 import TransactionSubcategory from "./TransactionSubcategory"
+import classes from "./TransactionCategory.module.css"
+import IconButton from "@mui/material/IconButton"
+import AddBoxIcon from "@mui/icons-material/AddBox"
 
 // This will ultimately be an async function to fetch the data from the DB
 const TransactionSubcategoriesImportLoader = () => {
@@ -47,22 +50,57 @@ const TransactionCategory = ({
         }, 0)
       : 0.0
 
+  const backgroundColor = () => {
+    switch (category.id) {
+      case 1:
+        return "rgba(23, 195, 178, 0.45)"
+      case 2:
+        return "rgba(34, 124, 157, 0.65)"
+      case 3:
+        return "rgba(255, 203, 119, 0.55)"
+      case 4:
+        return "rgba(254, 109, 115, 0.6)"
+      default:
+        return "rgba(119, 119, 119, 0.15)"
+    }
+  }
   return (
-    <Card>
+    <Card
+      className={classes.transactionCategory}
+      style={{
+        "--backgroundColor": backgroundColor(),
+        "--height": category.id < 3 ? "48%" : "100%"
+      }}
+    >
       <CardHeader title={category.name} subheader={total} />
-      <CardContent>
-        {subcategories.map((subcategory) => {
-          const total = sumOfTransactions(subcategory.id)
-          return (
-            <TransactionSubcategory
-              subcategory={subcategory}
-              isActive={subcategory.id === activeSubcategoryId}
-              setActiveSubcategoryId={setActiveSubcategoryId}
-              total={total}
-              key={Math.floor(Math.random() * 99999)}
-            />
-          )
-        })}
+      <CardContent className={classes.transactionCategoryContent}>
+        <div className={classes.subcategoriesContainer}>
+          {subcategories.map((subcategory) => {
+            const total = sumOfTransactions(subcategory.id)
+            return (
+              <TransactionSubcategory
+                subcategory={subcategory}
+                isActive={subcategory.id === activeSubcategoryId}
+                setActiveSubcategoryId={setActiveSubcategoryId}
+                total={total}
+                key={Math.floor(Math.random() * 99999)}
+              />
+            )
+          })}
+        </div>
+        <IconButton
+          aria-label="Import"
+          // onClick={logs}
+          sx={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            margin: "0 auto"
+          }}
+        >
+          <AddBoxIcon color="lightWhite" fontSize="large" />
+        </IconButton>
       </CardContent>
     </Card>
   )
@@ -99,8 +137,8 @@ const TransactionCategories = ({
     })
 
   return (
-    <div>
-      <div>
+    <div className={classes.container}>
+      <div className={classes.subContainer}>
         <TransactionCategory
           category={categories[0]}
           subcategories={subcategories[0]}
