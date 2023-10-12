@@ -3,7 +3,7 @@ li div .transactionCardContent {
   width: 230px;
   padding: 5px;
   align-items: center;
-  background-color: rgba(119, 119, 119, 0.15);
+  background-color: var(--backgroundColor, red);
 }
 
 li div .transactionCardContent:last-child {

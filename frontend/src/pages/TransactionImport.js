@@ -1,7 +1,7 @@
 import { useState } from "react"
 import TransactionCategories from "../components/TransactionCategories"
 import Button from "@mui/material/Button"
-
+import classes from "./TransactionImport.module.css"
 import data from "../app/data"
 import { DragDropContext } from "react-beautiful-dnd"
 import TransactionsList from "../components/TransactionsList"
@@ -21,11 +21,9 @@ const TransactionImport = () => {
     setTransactions(updatedTransactions)
   }
 
-  const addSubcategory = (transactionId, subcategoryId, categoryId) => {
+  const addSubcategory = (transactionIndex, subcategoryId, categoryId) => {
     const updatedTransactions = [...transactions]
-    const transactionToUpdate = updatedTransactions.find(
-      (transaction) => transaction.id === transactionId
-    )
+    const transactionToUpdate = updatedTransactions[transactionIndex]
     if (transactionToUpdate) {
       transactionToUpdate.subcategoryId = subcategoryId
       transactionToUpdate.categoryId = categoryId
@@ -62,6 +60,7 @@ const TransactionImport = () => {
       const [destinationSubcategoryId, destinationCategoryId] =
         destination.droppableId.split(",").map(Number)
 
+      console.log(source)
       addSubcategory(
         source.index,
         destinationSubcategoryId,
@@ -76,7 +75,7 @@ const TransactionImport = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div>
+      <div className={classes.container}>
         <Button onClick={importTransactions}>import</Button>
         <Button onClick={() => console.log(transactions)}>log</Button>
         {transactions && (

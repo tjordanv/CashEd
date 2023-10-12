@@ -26,6 +26,25 @@ const Transaction = ({ transaction, index, deleteTransactionHandler }) => {
     </Tooltip>
   )
 
+  const backgroundColor = () => {
+    if (transaction.isCredit) {
+      return "rgba(23, 195, 178, 0.3)"
+    } else {
+      switch (transaction.categoryId) {
+        case 1:
+          return "rgba(23, 195, 178, 0.3)"
+        case 2:
+          return "rgba(34, 124, 157, 0.4)"
+        case 3:
+          return "rgba(255, 203, 119, 0.4)"
+        case 4:
+          return "rgba(254, 109, 115, 0.4)"
+        default:
+          return "rgba(119, 119, 119, 0.15)"
+      }
+    }
+  }
+
   return (
     <Draggable draggableId={transaction.name + transaction.date} index={index}>
       {(provided, snapshot) => (
@@ -34,7 +53,10 @@ const Transaction = ({ transaction, index, deleteTransactionHandler }) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <CardContent className={classes.transactionCardContent}>
+          <CardContent
+            className={classes.transactionCardContent}
+            style={{ "--backgroundColor": backgroundColor() }}
+          >
             <TransactionInfoTooltip
               date={transaction.date}
               name={transaction.name}
