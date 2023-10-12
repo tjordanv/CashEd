@@ -7,7 +7,7 @@ import { Divider, Typography } from "@mui/material"
 import { styled } from "@mui/material/styles"
 import { Container, Stack } from "@mui/system"
 
-import TransactionsList from "../components/TransactionsList"
+import TransactionsList from "../components/TransactionsList.old"
 import TransactionCategories from "../components/TransactionCategory/TransactionCategories"
 import AddTransactionContainer from "../components/AddTransactionForm/AddTransactionContainer"
 
@@ -22,7 +22,7 @@ const TransactionImportsContainer = styled(Container)(({ theme }) => ({
   padding: 0
 }))
 
-const TransactionImport = () => {
+const TransactionImportOLD = () => {
   const dispatch = useDispatch()
 
   const subcategories = useSelector((state) => state.subcategories.value)
@@ -181,4 +181,4 @@ const TransactionImport = () => {
   )
 }
 
-export default TransactionImport
+export default TransactionImportOLD

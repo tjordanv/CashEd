@@ -92,7 +92,7 @@ const data = {
   transactions: [
     {
       id: 40,
-      description: "Tusker's Indian Fusion",
+      name: "Tusker's Indian Fusion",
       amount: 46.2,
       subcategoryId: null,
       categoryId: null,
@@ -102,7 +102,7 @@ const data = {
     },
     {
       id: 1,
-      description: "Giant Grocery",
+      name: "Giant Grocery",
       amount: 6.67,
       subcategoryId: null,
       categoryId: null,
@@ -112,7 +112,7 @@ const data = {
     },
     {
       id: 2,
-      description: "Bob's Beer Barn",
+      name: "Bob's Beer Barn",
       amount: 19.99,
       subcategoryId: null,
       categoryId: null,
@@ -122,7 +122,7 @@ const data = {
     },
     {
       id: 3,
-      description: "Wendy's 1821",
+      name: "Wendy's 1821",
       amount: 14.03,
       subcategoryId: null,
       categoryId: null,
@@ -132,7 +132,7 @@ const data = {
     },
     {
       id: 4,
-      description: "Jimbo's Downtown Comedy",
+      name: "Jimbo's Downtown Comedy",
       amount: 29.99,
       subcategoryId: null,
       categoryId: null,
@@ -142,7 +142,7 @@ const data = {
     },
     {
       id: 5,
-      description: "Walmart",
+      name: "Walmart",
       amount: 89.14,
       subcategoryId: null,
       categoryId: null,
@@ -153,7 +153,7 @@ const data = {
 
     {
       id: 6,
-      description: "Teleosoft Payroll",
+      name: "Teleosoft Payroll",
       amount: 200.0,
       subcategoryId: null,
       categoryId: null,
@@ -163,7 +163,7 @@ const data = {
     },
     {
       id: 7,
-      description: "Tusker's Indi",
+      name: "Tusker's Indi",
       amount: 46.2,
       subcategoryId: null,
       categoryId: null,
@@ -173,7 +173,7 @@ const data = {
     },
     {
       id: 8,
-      description: "Giant ery",
+      name: "Giant ery",
       amount: 6.67,
       subcategoryId: null,
       categoryId: null,
@@ -183,7 +183,7 @@ const data = {
     },
     {
       id: 9,
-      description: "Bob's Barn",
+      name: "Bob's Barn",
       amount: 19.99,
       subcategoryId: null,
       categoryId: null,
@@ -193,7 +193,7 @@ const data = {
     },
     {
       id: 10,
-      description: "Wen 1821",
+      name: "Wen 1821",
       amount: 14.03,
       subcategoryId: null,
       categoryId: null,
@@ -203,7 +203,7 @@ const data = {
     },
     {
       id: 11,
-      description: "Jimbo's Downomedy but really long w overflow",
+      name: "Jimbo's Downomedy but really long w overflow",
       amount: 29.99,
       subcategoryId: null,
       categoryId: null,
@@ -213,7 +213,7 @@ const data = {
     },
     {
       id: 12,
-      description: "mart",
+      name: "mart",
       amount: 89.14,
       subcategoryId: null,
       categoryId: null,
@@ -224,7 +224,7 @@ const data = {
 
     {
       id: 13,
-      description: "Teleosyroll",
+      name: "Teleosyroll",
       amount: 200.0,
       subcategoryId: null,
       categoryId: null,
@@ -234,7 +234,7 @@ const data = {
     },
     {
       id: 14,
-      description: "Wen 1821 is super crappy",
+      name: "Wen 1821 is super crappy",
       amount: 14.03,
       subcategoryId: null,
       categoryId: null,
@@ -244,8 +244,7 @@ const data = {
     },
     {
       id: 15,
-      description:
-        "Jimbo's Downomedy but really long w overflow plus even more so it is super super long for no good reason really. idk",
+      name: "Jimbo's Downomedy but really long w overflow plus even more so it is super super long for no good reason really. idk",
       amount: 2329.99,
       subcategoryId: null,
       categoryId: null,
@@ -255,7 +254,7 @@ const data = {
     },
     {
       id: 16,
-      description: "mart super boiii",
+      name: "mart super boiii",
       amount: 11289.14,
       subcategoryId: null,
       categoryId: null,
@@ -266,7 +265,7 @@ const data = {
 
     {
       id: 17,
-      description: "Teleosyroll but also longer",
+      name: "Teleosyroll but also longer",
       amount: 200.0,
       subcategoryId: null,
       categoryId: null,

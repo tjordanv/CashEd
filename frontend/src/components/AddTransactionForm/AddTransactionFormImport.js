@@ -13,7 +13,7 @@ import DialogContentText from "@mui/material/DialogContentText"
 import DialogActions from "@mui/material/DialogActions"
 
 import { importTransactions } from "../../state/transactionsSlice"
-import data from "../../app/data"
+import data from "../../app/data copy"
 
 const AddTransactionsForm_Import = ({ closeDialog }) => {
   const [accountID, setAccountID] = useState("")
