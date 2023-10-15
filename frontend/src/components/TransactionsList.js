@@ -1,6 +1,5 @@
 import { Droppable } from "react-beautiful-dnd"
 import Transaction from "./Transaction"
-import { useSelector } from "react-redux"
 
 import List from "@mui/material/List"
 import ListItem from "@mui/material/ListItem"
@@ -8,13 +7,8 @@ import ListItem from "@mui/material/ListItem"
 const TransactionsList = ({
   transactions,
   droppableId,
-  subcategoryId,
   deleteTransactionHandler
 }) => {
-  TransactionsList.defaultProps = {
-    subcategoryId: null
-  }
-
   const print = () => {
     console.log(transactions)
   }

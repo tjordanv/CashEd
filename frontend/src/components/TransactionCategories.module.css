@@ -1,0 +1,12 @@
+.container {
+  height: 85vh;
+  display: flex;
+  padding: 25px 20px;
+  border-left: 2px solid rgba(119, 119, 119, 0.2);
+  border-right: 2px solid rgba(119, 119, 119, 0.2);
+}
+.container .subContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

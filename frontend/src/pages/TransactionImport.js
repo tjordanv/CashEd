@@ -85,6 +85,7 @@ const TransactionImport = () => {
             deleteTransactionHandler={deleteTransactionHandler}
           />
         )}
+
         <TransactionCategories
           activeSubcategoryId={activeSubcategoryId}
           setActiveSubcategoryId={setActiveSubcategoryId}
