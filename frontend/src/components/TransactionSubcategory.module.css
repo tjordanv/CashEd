@@ -1,5 +1,13 @@
-.container {
+div .container {
   cursor: pointer;
-  height: 65px;
+  min-height: 65px;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color, rgba(255, 255, 255, 0.9));
+}
+
+.container .cardContent:last-child {
+  padding: 5px;
 }

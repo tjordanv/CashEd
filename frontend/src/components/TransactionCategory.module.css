@@ -3,6 +3,7 @@ div .transactionCategory {
   background-color: var(--backgroundColor, red);
   height: var(--height, 100%);
   position: relative;
+  text-align: center;
 }
 div .transactionCategory .transactionCategoryContent {
   height: calc(100% - 180px);

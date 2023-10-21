@@ -9,6 +9,7 @@ import TransactionSubcategory from "./TransactionSubcategory"
 import classes from "./TransactionCategory.module.css"
 import IconButton from "@mui/material/IconButton"
 import AddBoxIcon from "@mui/icons-material/AddBox"
+import { usdFormatter } from "./HelperFunctions/usdFormatter"
 
 // This will ultimately be an async function to fetch the data from the DB
 const TransactionSubcategoriesImportLoader = () => {
@@ -78,7 +79,7 @@ const TransactionCategory = ({
         "--height": category.id < 3 ? "48%" : "100%"
       }}
     >
-      <CardHeader title={category.name} subheader={total} />
+      <CardHeader title={category.name} subheader={usdFormatter(total)} />
       <CardContent className={classes.transactionCategoryContent}>
         <Stack spacing={2} className={classes.subcategoriesContainer}>
           {subcategories.map((subcategory) => {
