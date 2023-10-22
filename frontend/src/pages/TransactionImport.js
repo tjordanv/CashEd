@@ -32,6 +32,14 @@ const TransactionImport = () => {
     setTransactions(updatedTransactions)
   }
 
+  const setActiveSubcategoryIdHandler = (id) => {
+    if (id === activeSubcategoryId) {
+      setActiveSubcategoryId(null)
+    } else {
+      setActiveSubcategoryId(id)
+    }
+  }
+
   const onDragEnd = (e) => {
     const { destination, source } = e
 
@@ -88,7 +96,7 @@ const TransactionImport = () => {
 
         <TransactionCategories
           activeSubcategoryId={activeSubcategoryId}
-          setActiveSubcategoryId={setActiveSubcategoryId}
+          setActiveSubcategoryId={setActiveSubcategoryIdHandler}
           transactions={transactions}
         />
         {transactions && activeSubcategoryId && (

@@ -1,6 +1,4 @@
-import { useState } from "react"
-
-import { useDispatch, useSelector } from "react-redux"
+import { useState, useEffect } from "react"
 
 import Box from "@mui/material/Box"
 import TextField from "@mui/material/TextField"
@@ -8,29 +6,12 @@ import InputAdornment from "@mui/material/InputAdornment"
 import MenuItem from "@mui/material/MenuItem"
 import Stack from "@mui/material/Stack"
 import Button from "@mui/material/Button"
-
+import Select from "@mui/material/Select"
 import DialogContent from "@mui/material/DialogContent"
 import DialogContentText from "@mui/material/DialogContentText"
 import DialogActions from "@mui/material/DialogActions"
-
-import { styled } from "@mui/material/styles"
-
-import { createSingleTransaction } from "../../state/transactionsSlice"
-import { updateSubcategoryTotal } from "../../state/subcategoriesSlice"
-
-const Item = styled(TextField)(({ theme }) => ({
-  "&::-webkit-scrollbar": {
-    width: "7px"
-  },
-  "&::-webkit-scrollbar-track": {
-    backgroundColor: "rgba(119,119,119,0.15)",
-    borderRadius: "8px"
-  },
-  "&::-webkit-scrollbar-thumb": {
-    backgroundColor: "rgba(119,119,119,.7)",
-    borderRadius: "8px"
-  }
-}))
+import { Autocomplete } from "@mui/material"
+import { useLoaderData } from "react-router-dom"
 
 const AddTransactionForm_Single = ({ closeDialog }) => {
   const [accountID, setAccountID] = useState("")
@@ -39,8 +20,25 @@ const AddTransactionForm_Single = ({ closeDialog }) => {
   const [amount, setAmount] = useState("")
   const [subcategoryID, setSubcategoryID] = useState("")
   const [categoryID, setCategoryID] = useState("")
+  const [subcategories, setSubcategories] = useState(useLoaderData())
 
-  const subcategories = useSelector((state) => state.subcategories.value)
+  useEffect(() => {
+    console.log(subcategories)
+    const mergedSubcategories = [
+      ...subcategories[0],
+      ...subcategories[1],
+      ...subcategories[2],
+      ...subcategories[3]
+    ]
+    let formattedSubcategories = []
+    mergedSubcategories.foreach((subcategory) =>
+      formattedSubcategories.append({
+        id: subcategory.id,
+        label: subcategory.name
+      })
+    )
+    setSubcategories(formattedSubcategories)
+  }, [])
 
   const accounts = [
     { ID: 1, name: "PNC Checking 1234" },
@@ -48,40 +46,10 @@ const AddTransactionForm_Single = ({ closeDialog }) => {
     { ID: 3, name: "Petal Checking 5426" }
   ]
 
-  const dispatch = useDispatch()
-
   const createTransaction = (e) => {
     e.preventDefault()
-    dispatch(
-      createSingleTransaction({
-        ID: 100,
-        accountID: accountID,
-        Description: description,
-        Date: date,
-        Amount: amount,
-        isCredit: false,
-        subcategoryID: subcategoryID || null,
-        categoryID: categoryID || null
-      })
-    )
-
-    dispatch(
-      updateSubcategoryTotal({ subcategoryID: subcategoryID, amount: amount })
-    )
 
     closeDialog()
-  }
-
-  const updateCategories = (e) => {
-    setSubcategoryID(e.target.value)
-
-    let categoryID
-    subcategories.forEach((subcategory) => {
-      if (subcategory.ID === e.target.value) {
-        categoryID = subcategory.categoryID
-      }
-    })
-    setCategoryID(categoryID)
   }
 
   return (
@@ -135,19 +103,25 @@ const AddTransactionForm_Single = ({ closeDialog }) => {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
-            <Item
+            <Autocomplete
+              options={subcategories}
+              renderInput={(params) => (
+                <TextField {...params} label="Subcategory" />
+              )}
+            />
+            {/* <Select
               variant="outlined"
               label="Subcategory"
               select
               value={subcategoryID}
-              onChange={(e) => updateCategories(e)}
+              // onChange={(e) => updateCategories(e)}
             >
               {subcategories.map((subcategory) => (
                 <MenuItem key={subcategory.ID} value={subcategory.ID}>
                   {subcategory.Name}
                 </MenuItem>
               ))}
-            </Item>
+            </Select> */}
           </Stack>
         </Box>
       </DialogContent>
