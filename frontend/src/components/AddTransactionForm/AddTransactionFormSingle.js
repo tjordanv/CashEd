@@ -13,7 +13,7 @@ import DialogActions from "@mui/material/DialogActions"
 import { Autocomplete } from "@mui/material"
 import { useLoaderData } from "react-router-dom"
 
-const AddTransactionForm_Single = ({ closeDialog }) => {
+const AddTransactionForm_Single = ({ setIsOpen }) => {
   const [accountID, setAccountID] = useState("")
   const [description, setDescription] = useState("")
   const [date, setDate] = useState("")
@@ -23,7 +23,6 @@ const AddTransactionForm_Single = ({ closeDialog }) => {
   const [subcategories, setSubcategories] = useState(useLoaderData())
 
   useEffect(() => {
-    console.log(subcategories)
     const mergedSubcategories = [
       ...subcategories[0],
       ...subcategories[1],
@@ -31,8 +30,8 @@ const AddTransactionForm_Single = ({ closeDialog }) => {
       ...subcategories[3]
     ]
     let formattedSubcategories = []
-    mergedSubcategories.foreach((subcategory) =>
-      formattedSubcategories.append({
+    mergedSubcategories.forEach((subcategory) =>
+      formattedSubcategories.push({
         id: subcategory.id,
         label: subcategory.name
       })
@@ -49,7 +48,7 @@ const AddTransactionForm_Single = ({ closeDialog }) => {
   const createTransaction = (e) => {
     e.preventDefault()
 
-    closeDialog()
+    setIsOpen(false)
   }
 
   return (
@@ -109,24 +108,11 @@ const AddTransactionForm_Single = ({ closeDialog }) => {
                 <TextField {...params} label="Subcategory" />
               )}
             />
-            {/* <Select
-              variant="outlined"
-              label="Subcategory"
-              select
-              value={subcategoryID}
-              // onChange={(e) => updateCategories(e)}
-            >
-              {subcategories.map((subcategory) => (
-                <MenuItem key={subcategory.ID} value={subcategory.ID}>
-                  {subcategory.Name}
-                </MenuItem>
-              ))}
-            </Select> */}
           </Stack>
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={closeDialog}>Cancel</Button>
+        <Button onClick={() => setIsOpen(false)}>Cancel</Button>
         <Button type="submit">Create</Button>
       </DialogActions>
     </form>

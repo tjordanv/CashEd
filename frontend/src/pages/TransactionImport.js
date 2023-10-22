@@ -5,6 +5,8 @@ import classes from "./TransactionImport.module.css"
 import data from "../app/data"
 import { DragDropContext } from "react-beautiful-dnd"
 import TransactionsList from "../components/TransactionsList"
+import AddTransactionContainer from "../components/AddTransactionForm/AddTransactionContainer"
+import AddTransactionForm from "../components/AddTransactionForm/AddTransactionForm"
 
 const TransactionImport = () => {
   const [activeSubcategoryId, setActiveSubcategoryId] = useState(null)
@@ -84,8 +86,10 @@ const TransactionImport = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className={classes.container}>
-        <Button onClick={importTransactions}>import</Button>
-        <Button onClick={() => console.log(transactions)}>log</Button>
+        <AddTransactionForm />
+        {/* <AddTransactionContainer /> */}
+        {/* <Button onClick={importTransactions}>import</Button>
+        <Button onClick={() => console.log(transactions)}>log</Button> */}
         {transactions && (
           <TransactionsList
             transactions={transactions}

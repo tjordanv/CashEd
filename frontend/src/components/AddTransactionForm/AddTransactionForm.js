@@ -1,5 +1,4 @@
-import { useDispatch, useSelector } from "react-redux"
-import { forwardRef } from "react"
+import { forwardRef, useState } from "react"
 
 import Box from "@mui/material/Box"
 
@@ -9,25 +8,22 @@ import Slide from "@mui/material/Slide"
 
 import AddTransactionFormSingle from "./AddTransactionFormSingle"
 import AddTransactionsFormImport from "./AddTransactionFormImport"
-import { isDialogOpen } from "../../state/addTransactionDialogSlice"
+import AddTransactionMenuButtons from "./AddTransactionMenuButtons"
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
 
 const AddTransactionForm = () => {
-  const { isOpen, isSingleTransaction } = useSelector(
-    (state) => state.addTransactionDialog.value
-  )
-
-  const dispatch = useDispatch()
-
-  const closeDialogHandler = () => {
-    dispatch(isDialogOpen(false))
-  }
+  const [isOpen, setIsOpen] = useState(false)
+  const [isSingleTransaction, setIsSingleTransaction] = useState(false)
 
   return (
     <Box>
+      <AddTransactionMenuButtons
+        setIsOpen={setIsOpen}
+        setIsSingleTransaction={setIsSingleTransaction}
+      />
       <Dialog
         open={isOpen}
         TransitionComponent={Transition}
@@ -39,9 +35,9 @@ const AddTransactionForm = () => {
           {isSingleTransaction === true ? "Single Transaction Entry" : "Import"}
         </DialogTitle>
         {isSingleTransaction === true ? (
-          <AddTransactionFormSingle closeDialog={closeDialogHandler} />
+          <AddTransactionFormSingle setIsOpen={setIsOpen} />
         ) : (
-          <AddTransactionsFormImport closeDialog={closeDialogHandler} />
+          <p>hellomm</p> // <AddTransactionsFormImport closeDialog={closeDialogHandler} />
         )}
       </Dialog>
     </Box>
