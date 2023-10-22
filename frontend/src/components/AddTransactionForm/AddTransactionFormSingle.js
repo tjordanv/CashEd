@@ -6,20 +6,19 @@ import InputAdornment from "@mui/material/InputAdornment"
 import MenuItem from "@mui/material/MenuItem"
 import Stack from "@mui/material/Stack"
 import Button from "@mui/material/Button"
-import Select from "@mui/material/Select"
 import DialogContent from "@mui/material/DialogContent"
 import DialogContentText from "@mui/material/DialogContentText"
 import DialogActions from "@mui/material/DialogActions"
 import { Autocomplete } from "@mui/material"
 import { useLoaderData } from "react-router-dom"
 
-const AddTransactionForm_Single = ({ setIsOpen }) => {
-  const [accountID, setAccountID] = useState("")
-  const [description, setDescription] = useState("")
+const AddTransactionFormSingle = ({ setIsOpen, addTransactions }) => {
+  const [accountId, setAccountId] = useState("")
+  const [name, setName] = useState("")
   const [date, setDate] = useState("")
   const [amount, setAmount] = useState("")
-  const [subcategoryID, setSubcategoryID] = useState("")
-  const [categoryID, setCategoryID] = useState("")
+  const [subcategoryId, setSubcategoryId] = useState(null)
+  const [categoryId, setCategoryId] = useState(null)
   const [subcategories, setSubcategories] = useState(useLoaderData())
 
   useEffect(() => {
@@ -48,11 +47,23 @@ const AddTransactionForm_Single = ({ setIsOpen }) => {
   const createTransaction = (e) => {
     e.preventDefault()
 
+    addTransactions((prevState) => [
+      ...prevState,
+      {
+        id: Math.floor(Math.random() * 999),
+        name: name,
+        date: date,
+        amount: amount,
+        subcategoryId: subcategoryId,
+        categoryId: categoryId
+      }
+    ])
+
     setIsOpen(false)
   }
 
   return (
-    <form onSubmit={(e) => createTransaction(e)} style={{ minWidth: "400px" }}>
+    <form onSubmit={createTransaction} style={{ minWidth: "400px" }}>
       <DialogContent>
         <DialogContentText id="alert-dialog-slide-description"></DialogContentText>
         <Box sx={{ padding: "15px" }}>
@@ -63,8 +74,8 @@ const AddTransactionForm_Single = ({ setIsOpen }) => {
               required
               variant="outlined"
               label="Account"
-              value={accountID}
-              onChange={(e) => setAccountID(e.target.value)}
+              value={accountId}
+              onChange={(e) => setAccountId(e.target.value)}
             >
               {accounts.map((account) => (
                 <MenuItem key={account.ID} value={account.ID}>
@@ -74,12 +85,12 @@ const AddTransactionForm_Single = ({ setIsOpen }) => {
             </TextField>
             <TextField
               variant="outlined"
-              label="Description"
+              label="Name"
               required
               multiline
               maxRows={5}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
             <TextField
               variant="outlined"
@@ -119,4 +130,4 @@ const AddTransactionForm_Single = ({ setIsOpen }) => {
   )
 }
 
-export default AddTransactionForm_Single
+export default AddTransactionFormSingle

@@ -7,30 +7,25 @@ import TextField from "@mui/material/TextField"
 import MenuItem from "@mui/material/MenuItem"
 import Stack from "@mui/material/Stack"
 import Button from "@mui/material/Button"
-
+import data from "../../app/data"
 import DialogContent from "@mui/material/DialogContent"
 import DialogContentText from "@mui/material/DialogContentText"
 import DialogActions from "@mui/material/DialogActions"
 
-import { importTransactions } from "../../state/transactionsSlice"
-import data from "../../app/data copy"
-
-const AddTransactionsForm_Import = ({ closeDialog }) => {
-  const [accountID, setAccountID] = useState("")
-  const [date, setDate] = useState("")
+const AddTransactionsFormImport = ({ setIsOpen, addTransactions }) => {
+  const [accountIds, setAccountIds] = useState("")
 
   const accounts = [
-    { ID: 1, name: "PNC Checking 1234" },
-    { ID: 2, name: "PNC Credit 4567" },
-    { ID: 3, name: "Petal Checking 5426" }
+    { Id: 1, name: "PNC Checking 1234" },
+    { Id: 2, name: "PNC Credit 4567" },
+    { Id: 3, name: "Petal Checking 5426" }
   ]
 
-  const dispatch = useDispatch()
+  const imports = (e) => {
+    e.preventDefault()
 
-  const imports = (event) => {
-    event.preventDefault()
-    dispatch(importTransactions(data.transactions))
-    closeDialog()
+    addTransactions((prevState) => [...prevState, ...data.transactions])
+    setIsOpen(false)
   }
 
   return (
@@ -43,35 +38,27 @@ const AddTransactionsForm_Import = ({ closeDialog }) => {
               id="accountSelect"
               select
               required
+              multiple
               variant="outlined"
               label="Account"
-              value={accountID}
-              onChange={(e) => setAccountID(e.target.value)}
+              value={accountIds}
+              onChange={(e) => setAccountIds(e.target.value)}
             >
               {accounts.map((account) => (
-                <MenuItem key={account.ID} value={account.ID}>
+                <MenuItem key={account.Id} value={account.Id}>
                   {account.name}
                 </MenuItem>
               ))}
             </TextField>
-            <TextField
-              variant="outlined"
-              type="date"
-              required
-              label="Starting date"
-              InputLabelProps={{ shrink: true }}
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-            />
           </Stack>
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={closeDialog}>Cancel</Button>
+        <Button onClick={setIsOpen}>Cancel</Button>
         <Button type="submit">Import</Button>
       </DialogActions>
     </form>
   )
 }
 
-export default AddTransactionsForm_Import
+export default AddTransactionsFormImport

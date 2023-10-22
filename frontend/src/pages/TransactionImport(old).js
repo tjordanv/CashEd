@@ -9,7 +9,7 @@ import { Container, Stack } from "@mui/system"
 
 import TransactionsList from "../components/TransactionsList.old"
 import TransactionCategories from "../components/TransactionCategory/TransactionCategories"
-import AddTransactionContainer from "../components/AddTransactionForm/AddTransactionContainer"
+// import AddTransactionContainer from "../components/AddTransactionForm/AddTransactionContainer"
 
 import { reorderTransactions, addSubcategory } from "../state/transactionsSlice"
 import { updateSubcategoryTotal } from "../state/subcategoriesSlice"
@@ -143,7 +143,7 @@ const TransactionImportOLD = () => {
           <Divider />
           <TransactionsList droppableID={"importedTransactionsList"} />
           <Divider />
-          <AddTransactionContainer />
+          {/* <AddTransactionContainer /> */}
         </TransactionImportsContainer>
         <Container
           sx={{

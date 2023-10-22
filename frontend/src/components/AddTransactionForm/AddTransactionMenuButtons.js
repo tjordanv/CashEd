@@ -23,13 +23,13 @@ const AddTransactionMenuButtons = ({ setIsOpen, setIsSingleTransaction }) => {
       // direction={isTransactions ? "right" : "down"}
       direction="down"
     >
-      {/* <SpeedDialAction
+      <SpeedDialAction
         key="import"
         icon={<DownloadForOfflineRounded fontSize="small" />}
         tooltipTitle="Automatic Import"
         onClick={() => openDialogHandler(false)}
         sx={{ height: 35, width: 35 }}
-      /> */}
+      />
       <SpeedDialAction
         key="AddSingleTransaction"
         icon={<EditRounded fontSize="small" />}

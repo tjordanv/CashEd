@@ -14,7 +14,7 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
 
-const AddTransactionForm = () => {
+const AddTransactions = ({ addTransactions }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isSingleTransaction, setIsSingleTransaction] = useState(false)
 
@@ -35,12 +35,18 @@ const AddTransactionForm = () => {
           {isSingleTransaction === true ? "Single Transaction Entry" : "Import"}
         </DialogTitle>
         {isSingleTransaction === true ? (
-          <AddTransactionFormSingle setIsOpen={setIsOpen} />
+          <AddTransactionFormSingle
+            setIsOpen={setIsOpen}
+            addTransactions={addTransactions}
+          />
         ) : (
-          <p>hellomm</p> // <AddTransactionsFormImport closeDialog={closeDialogHandler} />
+          <AddTransactionsFormImport
+            setIsOpen={setIsOpen}
+            addTransactions={addTransactions}
+          />
         )}
       </Dialog>
     </Box>
   )
 }
-export default AddTransactionForm
+export default AddTransactions
