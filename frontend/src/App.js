@@ -19,6 +19,7 @@ import Home from "./pages/Home"
 import Contact from "./pages/Contact"
 
 import TransactionImportOLD from "./pages/TransactionImport(old)"
+import Accounts from "./pages/Accounts"
 
 const theme = createTheme({
   palette: {
@@ -78,6 +79,10 @@ const router = createBrowserRouter([
         path: "notifications",
         element: <Notifications />,
         loader: notificationsLoader
+      },
+      {
+        path: "accounts",
+        element: <Accounts />
       }
     ]
   },

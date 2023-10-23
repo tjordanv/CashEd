@@ -88,7 +88,7 @@ const Header = () => {
           Budget
         </NavLink>
         <NavLink
-          to="filler"
+          to="accounts"
           className={({ isActive }) => (isActive ? classes.active : undefined)}
         >
           Accounts
