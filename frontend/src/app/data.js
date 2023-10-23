@@ -273,6 +273,602 @@ const data = {
       date: "12/02/2022",
       accountID: 1
     }
+  ],
+  transactionsNew: [
+    {
+      transactionType: "SPECIAL",
+      pendingTransactionId: null,
+      categoryId: "22001000",
+      category: ["Travel", "Airlines and Aviation Services"],
+      location: {
+        address: null,
+        city: null,
+        region: null,
+        postalCode: null,
+        country: null,
+        lat: null,
+        lon: null,
+        storeNumber: null
+      },
+      paymentMeta: {
+        referenceNumber: null,
+        ppdId: null,
+        payee: null,
+        byOrderOf: null,
+        payer: null,
+        paymentMethod: null,
+        paymentProcessor: null,
+        reason: null
+      },
+      accountOwner: null,
+      name: "United Airlines",
+      originalDescription: null,
+      accountId: "LJjdjNBpdjcyglaNDJxRtX3NEMxEbKclNrNXj",
+      amount: -500,
+      isoCurrencyCode: "USD",
+      unofficialCurrencyCode: null,
+      date: "2023-09-25",
+      pending: false,
+      transactionId: "Xx1L1VZbL1ijQN6JkzaKtDMPeNPE5Lf1EqXq9",
+      merchantName: "United Airlines",
+      logoUrl:
+        "https://plaid-merchant-logos.plaid.com/united_airlines_1065.png",
+      website: "united.com",
+      checkNumber: null,
+      paymentChannel: "IN_STORE",
+      authorizedDate: "2023-09-25",
+      authorizedDatetime: null,
+      datetime: null,
+      transactionCode: null,
+      personalFinanceCategory: {
+        primary: "TRAVEL",
+        detailed: "TRAVEL_FLIGHTS"
+      },
+      personalFinanceCategoryIconUrl:
+        "https://plaid-category-icons.plaid.com/PFC_TRAVEL.png",
+      counterparties: [
+        {
+          name: "United Airlines",
+          type: "MERCHANT",
+          website: "united.com",
+          logoUrl:
+            "https://plaid-merchant-logos.plaid.com/united_airlines_1065.png"
+        }
+      ]
+    },
+    {
+      transactionType: "PLACE",
+      pendingTransactionId: null,
+      categoryId: "13005032",
+      category: ["Food and Drink", "Restaurants", "Fast Food"],
+      location: {
+        address: null,
+        city: null,
+        region: null,
+        postalCode: null,
+        country: null,
+        lat: null,
+        lon: null,
+        storeNumber: "3322"
+      },
+      paymentMeta: {
+        referenceNumber: null,
+        ppdId: null,
+        payee: null,
+        byOrderOf: null,
+        payer: null,
+        paymentMethod: null,
+        paymentProcessor: null,
+        reason: null
+      },
+      accountOwner: null,
+      name: "McDonald's",
+      originalDescription: null,
+      accountId: "LJjdjNBpdjcyglaNDJxRtX3NEMxEbKclNrNXj",
+      amount: 12,
+      isoCurrencyCode: "USD",
+      unofficialCurrencyCode: null,
+      date: "2023-09-24",
+      pending: false,
+      transactionId: "DJRlRzmnlRcDdZpvn9oaI4zWbBWR8Xf4QxoxZ",
+      merchantName: "McDonald's",
+      logoUrl: "https://plaid-merchant-logos.plaid.com/mcdonalds_619.png",
+      website: "mcdonalds.com",
+      checkNumber: null,
+      paymentChannel: "IN_STORE",
+      authorizedDate: "2023-09-24",
+      authorizedDatetime: null,
+      datetime: null,
+      transactionCode: null,
+      personalFinanceCategory: {
+        primary: "FOOD_AND_DRINK",
+        detailed: "FOOD_AND_DRINK_FAST_FOOD"
+      },
+      personalFinanceCategoryIconUrl:
+        "https://plaid-category-icons.plaid.com/PFC_FOOD_AND_DRINK.png",
+      counterparties: [
+        {
+          name: "McDonald's",
+          type: "MERCHANT",
+          website: "mcdonalds.com",
+          logoUrl: "https://plaid-merchant-logos.plaid.com/mcdonalds_619.png"
+        }
+      ]
+    },
+    {
+      transactionType: "PLACE",
+      pendingTransactionId: null,
+      categoryId: "13005043",
+      category: ["Food and Drink", "Restaurants", "Coffee Shop"],
+      location: {
+        address: null,
+        city: null,
+        region: null,
+        postalCode: null,
+        country: null,
+        lat: null,
+        lon: null,
+        storeNumber: null
+      },
+      paymentMeta: {
+        referenceNumber: null,
+        ppdId: null,
+        payee: null,
+        byOrderOf: null,
+        payer: null,
+        paymentMethod: null,
+        paymentProcessor: null,
+        reason: null
+      },
+      accountOwner: null,
+      name: "Starbucks",
+      originalDescription: null,
+      accountId: "LJjdjNBpdjcyglaNDJxRtX3NEMxEbKclNrNXj",
+      amount: 4.33,
+      isoCurrencyCode: "USD",
+      unofficialCurrencyCode: null,
+      date: "2023-09-24",
+      pending: false,
+      transactionId: "VB1M1yeZM1CLaG4pv13NipoGEbGvRWFqdeVel",
+      merchantName: "Starbucks",
+      logoUrl: "https://plaid-merchant-logos.plaid.com/starbucks_956.png",
+      website: "starbucks.com",
+      checkNumber: null,
+      paymentChannel: "IN_STORE",
+      authorizedDate: "2023-09-24",
+      authorizedDatetime: null,
+      datetime: null,
+      transactionCode: null,
+      personalFinanceCategory: {
+        primary: "FOOD_AND_DRINK",
+        detailed: "FOOD_AND_DRINK_COFFEE"
+      },
+      personalFinanceCategoryIconUrl:
+        "https://plaid-category-icons.plaid.com/PFC_FOOD_AND_DRINK.png",
+      counterparties: [
+        {
+          name: "Starbucks",
+          type: "MERCHANT",
+          website: "starbucks.com",
+          logoUrl: "https://plaid-merchant-logos.plaid.com/starbucks_956.png"
+        }
+      ]
+    },
+    {
+      transactionType: "PLACE",
+      pendingTransactionId: null,
+      categoryId: "13005000",
+      category: ["Food and Drink", "Restaurants"],
+      location: {
+        address: null,
+        city: null,
+        region: null,
+        postalCode: null,
+        country: null,
+        lat: null,
+        lon: null,
+        storeNumber: null
+      },
+      paymentMeta: {
+        referenceNumber: null,
+        ppdId: null,
+        payee: null,
+        byOrderOf: null,
+        payer: null,
+        paymentMethod: null,
+        paymentProcessor: null,
+        reason: null
+      },
+      accountOwner: null,
+      name: "SparkFun",
+      originalDescription: null,
+      accountId: "LJjdjNBpdjcyglaNDJxRtX3NEMxEbKclNrNXj",
+      amount: 89.4,
+      isoCurrencyCode: "USD",
+      unofficialCurrencyCode: null,
+      date: "2023-09-23",
+      pending: false,
+      transactionId: "wvA4AX7R4AipRLdMB9n6uk7D96DALvcEVjpjK",
+      merchantName: "FUN",
+      logoUrl: null,
+      website: null,
+      checkNumber: null,
+      paymentChannel: "IN_STORE",
+      authorizedDate: "2023-09-22",
+      authorizedDatetime: null,
+      datetime: null,
+      transactionCode: null,
+      personalFinanceCategory: {
+        primary: "FOOD_AND_DRINK",
+        detailed: "FOOD_AND_DRINK_RESTAURANT"
+      },
+      personalFinanceCategoryIconUrl:
+        "https://plaid-category-icons.plaid.com/PFC_FOOD_AND_DRINK.png",
+      counterparties: [
+        {
+          name: "FUN",
+          type: "MERCHANT",
+          website: null,
+          logoUrl: null
+        }
+      ]
+    },
+    {
+      transactionType: "SPECIAL",
+      pendingTransactionId: null,
+      categoryId: "22016000",
+      category: ["Travel", "Taxi"],
+      location: {
+        address: null,
+        city: null,
+        region: null,
+        postalCode: null,
+        country: null,
+        lat: null,
+        lon: null,
+        storeNumber: null
+      },
+      paymentMeta: {
+        referenceNumber: null,
+        ppdId: null,
+        payee: null,
+        byOrderOf: null,
+        payer: null,
+        paymentMethod: null,
+        paymentProcessor: null,
+        reason: null
+      },
+      accountOwner: null,
+      name: "Uber 072515 SF**POOL**",
+      originalDescription: null,
+      accountId: "LJjdjNBpdjcyglaNDJxRtX3NEMxEbKclNrNXj",
+      amount: 6.33,
+      isoCurrencyCode: "USD",
+      unofficialCurrencyCode: null,
+      date: "2023-09-10",
+      pending: false,
+      transactionId: "l6WwWQrmwWi4qJwby6M5Ug6JzRn8NrhpqbGnx",
+      merchantName: "Uber",
+      logoUrl: "https://plaid-merchant-logos.plaid.com/uber_1060.png",
+      website: "uber.com",
+      checkNumber: null,
+      paymentChannel: "ONLINE",
+      authorizedDate: "2023-09-09",
+      authorizedDatetime: null,
+      datetime: null,
+      transactionCode: null,
+      personalFinanceCategory: {
+        primary: "TRANSPORTATION",
+        detailed: "TRANSPORTATION_TAXIS_AND_RIDE_SHARES"
+      },
+      personalFinanceCategoryIconUrl:
+        "https://plaid-category-icons.plaid.com/PFC_TRANSPORTATION.png",
+      counterparties: [
+        {
+          name: "Uber",
+          type: "MERCHANT",
+          website: "uber.com",
+          logoUrl: "https://plaid-merchant-logos.plaid.com/uber_1060.png"
+        }
+      ]
+    },
+    {
+      transactionType: "SPECIAL",
+      pendingTransactionId: null,
+      categoryId: "22016000",
+      category: ["Travel", "Taxi"],
+      location: {
+        address: null,
+        city: null,
+        region: null,
+        postalCode: null,
+        country: null,
+        lat: null,
+        lon: null,
+        storeNumber: null
+      },
+      paymentMeta: {
+        referenceNumber: null,
+        ppdId: null,
+        payee: null,
+        byOrderOf: null,
+        payer: null,
+        paymentMethod: null,
+        paymentProcessor: null,
+        reason: null
+      },
+      accountOwner: null,
+      name: "Uber 063015 SF**POOL**",
+      originalDescription: null,
+      accountId: "LJjdjNBpdjcyglaNDJxRtX3NEMxEbKclNrNXj",
+      amount: 5.4,
+      isoCurrencyCode: "USD",
+      unofficialCurrencyCode: null,
+      date: "2023-08-28",
+      pending: false,
+      transactionId: "qvXzX1dJzXiebKDPyBgqCPd7vrxn5qcgjwAL5",
+      merchantName: "Uber",
+      logoUrl: "https://plaid-merchant-logos.plaid.com/uber_1060.png",
+      website: "uber.com",
+      checkNumber: null,
+      paymentChannel: "ONLINE",
+      authorizedDate: "2023-08-27",
+      authorizedDatetime: null,
+      datetime: null,
+      transactionCode: null,
+      personalFinanceCategory: {
+        primary: "TRANSPORTATION",
+        detailed: "TRANSPORTATION_TAXIS_AND_RIDE_SHARES"
+      },
+      personalFinanceCategoryIconUrl:
+        "https://plaid-category-icons.plaid.com/PFC_TRANSPORTATION.png",
+      counterparties: [
+        {
+          name: "Uber",
+          type: "MERCHANT",
+          website: "uber.com",
+          logoUrl: "https://plaid-merchant-logos.plaid.com/uber_1060.png"
+        }
+      ]
+    },
+    {
+      transactionType: "SPECIAL",
+      pendingTransactionId: null,
+      categoryId: "22001000",
+      category: ["Travel", "Airlines and Aviation Services"],
+      location: {
+        address: null,
+        city: null,
+        region: null,
+        postalCode: null,
+        country: null,
+        lat: null,
+        lon: null,
+        storeNumber: null
+      },
+      paymentMeta: {
+        referenceNumber: null,
+        ppdId: null,
+        payee: null,
+        byOrderOf: null,
+        payer: null,
+        paymentMethod: null,
+        paymentProcessor: null,
+        reason: null
+      },
+      accountOwner: null,
+      name: "United Airlines",
+      originalDescription: null,
+      accountId: "LJjdjNBpdjcyglaNDJxRtX3NEMxEbKclNrNXj",
+      amount: -500,
+      isoCurrencyCode: "USD",
+      unofficialCurrencyCode: null,
+      date: "2023-08-26",
+      pending: false,
+      transactionId: "KJaxaNzAxacak3bNmXrnipbnljBQEWfR9zWK7",
+      merchantName: "United Airlines",
+      logoUrl:
+        "https://plaid-merchant-logos.plaid.com/united_airlines_1065.png",
+      website: "united.com",
+      checkNumber: null,
+      paymentChannel: "IN_STORE",
+      authorizedDate: "2023-08-26",
+      authorizedDatetime: null,
+      datetime: null,
+      transactionCode: null,
+      personalFinanceCategory: {
+        primary: "TRAVEL",
+        detailed: "TRAVEL_FLIGHTS"
+      },
+      personalFinanceCategoryIconUrl:
+        "https://plaid-category-icons.plaid.com/PFC_TRAVEL.png",
+      counterparties: [
+        {
+          name: "United Airlines",
+          type: "MERCHANT",
+          website: "united.com",
+          logoUrl:
+            "https://plaid-merchant-logos.plaid.com/united_airlines_1065.png"
+        }
+      ]
+    },
+    {
+      transactionType: "PLACE",
+      pendingTransactionId: null,
+      categoryId: "13005032",
+      category: ["Food and Drink", "Restaurants", "Fast Food"],
+      location: {
+        address: null,
+        city: null,
+        region: null,
+        postalCode: null,
+        country: null,
+        lat: null,
+        lon: null,
+        storeNumber: "3322"
+      },
+      paymentMeta: {
+        referenceNumber: null,
+        ppdId: null,
+        payee: null,
+        byOrderOf: null,
+        payer: null,
+        paymentMethod: null,
+        paymentProcessor: null,
+        reason: null
+      },
+      accountOwner: null,
+      name: "McDonald's",
+      originalDescription: null,
+      accountId: "LJjdjNBpdjcyglaNDJxRtX3NEMxEbKclNrNXj",
+      amount: 12,
+      isoCurrencyCode: "USD",
+      unofficialCurrencyCode: null,
+      date: "2023-08-25",
+      pending: false,
+      transactionId: "rvRBRWa7BRiQ9rbP1k8qcr8DWVoZXqF7AZqpL",
+      merchantName: "McDonald's",
+      logoUrl: "https://plaid-merchant-logos.plaid.com/mcdonalds_619.png",
+      website: "mcdonalds.com",
+      checkNumber: null,
+      paymentChannel: "IN_STORE",
+      authorizedDate: "2023-08-25",
+      authorizedDatetime: null,
+      datetime: null,
+      transactionCode: null,
+      personalFinanceCategory: {
+        primary: "FOOD_AND_DRINK",
+        detailed: "FOOD_AND_DRINK_FAST_FOOD"
+      },
+      personalFinanceCategoryIconUrl:
+        "https://plaid-category-icons.plaid.com/PFC_FOOD_AND_DRINK.png",
+      counterparties: [
+        {
+          name: "McDonald's",
+          type: "MERCHANT",
+          website: "mcdonalds.com",
+          logoUrl: "https://plaid-merchant-logos.plaid.com/mcdonalds_619.png"
+        }
+      ]
+    },
+    {
+      transactionType: "PLACE",
+      pendingTransactionId: null,
+      categoryId: "13005043",
+      category: ["Food and Drink", "Restaurants", "Coffee Shop"],
+      location: {
+        address: null,
+        city: null,
+        region: null,
+        postalCode: null,
+        country: null,
+        lat: null,
+        lon: null,
+        storeNumber: null
+      },
+      paymentMeta: {
+        referenceNumber: null,
+        ppdId: null,
+        payee: null,
+        byOrderOf: null,
+        payer: null,
+        paymentMethod: null,
+        paymentProcessor: null,
+        reason: null
+      },
+      accountOwner: null,
+      name: "Starbucks",
+      originalDescription: null,
+      accountId: "LJjdjNBpdjcyglaNDJxRtX3NEMxEbKclNrNXj",
+      amount: 4.33,
+      isoCurrencyCode: "USD",
+      unofficialCurrencyCode: null,
+      date: "2023-08-25",
+      pending: false,
+      transactionId: "zvMjMwZljMi8DNjJnaBoiQEyZXb7KoTlyxJME",
+      merchantName: "Starbucks",
+      logoUrl: "https://plaid-merchant-logos.plaid.com/starbucks_956.png",
+      website: "starbucks.com",
+      checkNumber: null,
+      paymentChannel: "IN_STORE",
+      authorizedDate: "2023-08-25",
+      authorizedDatetime: null,
+      datetime: null,
+      transactionCode: null,
+      personalFinanceCategory: {
+        primary: "FOOD_AND_DRINK",
+        detailed: "FOOD_AND_DRINK_COFFEE"
+      },
+      personalFinanceCategoryIconUrl:
+        "https://plaid-category-icons.plaid.com/PFC_FOOD_AND_DRINK.png",
+      counterparties: [
+        {
+          name: "Starbucks",
+          type: "MERCHANT",
+          website: "starbucks.com",
+          logoUrl: "https://plaid-merchant-logos.plaid.com/starbucks_956.png"
+        }
+      ]
+    },
+    {
+      transactionType: "PLACE",
+      pendingTransactionId: null,
+      categoryId: "13005000",
+      category: ["Food and Drink", "Restaurants"],
+      location: {
+        address: null,
+        city: null,
+        region: null,
+        postalCode: null,
+        country: null,
+        lat: null,
+        lon: null,
+        storeNumber: null
+      },
+      paymentMeta: {
+        referenceNumber: null,
+        ppdId: null,
+        payee: null,
+        byOrderOf: null,
+        payer: null,
+        paymentMethod: null,
+        paymentProcessor: null,
+        reason: null
+      },
+      accountOwner: null,
+      name: "SparkFun",
+      originalDescription: null,
+      accountId: "LJjdjNBpdjcyglaNDJxRtX3NEMxEbKclNrNXj",
+      amount: 89.4,
+      isoCurrencyCode: "USD",
+      unofficialCurrencyCode: null,
+      date: "2023-08-24",
+      pending: false,
+      transactionId: "BJlVlKnLVlcWZpv6Ko9Qfy6Wa1elgws4p36Xw",
+      merchantName: "FUN",
+      logoUrl: null,
+      website: null,
+      checkNumber: null,
+      paymentChannel: "IN_STORE",
+      authorizedDate: "2023-08-23",
+      authorizedDatetime: null,
+      datetime: null,
+      transactionCode: null,
+      personalFinanceCategory: {
+        primary: "FOOD_AND_DRINK",
+        detailed: "FOOD_AND_DRINK_RESTAURANT"
+      },
+      personalFinanceCategoryIconUrl:
+        "https://plaid-category-icons.plaid.com/PFC_FOOD_AND_DRINK.png",
+      counterparties: [
+        {
+          name: "FUN",
+          type: "MERCHANT",
+          website: null,
+          logoUrl: null
+        }
+      ]
+    }
   ]
 }
 

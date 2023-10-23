@@ -6,8 +6,7 @@ import Dialog from "@mui/material/Dialog"
 import DialogTitle from "@mui/material/DialogTitle"
 import Slide from "@mui/material/Slide"
 
-import AddTransactionFormSingle from "./AddTransactionFormSingle"
-import AddTransactionsFormImport from "./AddTransactionFormImport"
+import AddTransactionForm from "./AddTransactionForm"
 import AddTransactionMenuButtons from "./AddTransactionMenuButtons"
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -34,17 +33,11 @@ const AddTransactions = ({ addTransactions }) => {
         <DialogTitle sx={{ textAlign: "center" }}>
           {isSingleTransaction === true ? "Single Transaction Entry" : "Import"}
         </DialogTitle>
-        {isSingleTransaction === true ? (
-          <AddTransactionFormSingle
-            setIsOpen={setIsOpen}
-            addTransactions={addTransactions}
-          />
-        ) : (
-          <AddTransactionsFormImport
-            setIsOpen={setIsOpen}
-            addTransactions={addTransactions}
-          />
-        )}
+        <AddTransactionForm
+          setIsOpen={setIsOpen}
+          addTransactions={addTransactions}
+          isSingleTransaction={isSingleTransaction}
+        />
       </Dialog>
     </Box>
   )
