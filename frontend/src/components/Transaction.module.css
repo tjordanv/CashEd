@@ -1,0 +1,15 @@
+li div .transactionCardContent {
+  display: flex;
+  width: 230px;
+  padding: 5px;
+  align-items: center;
+  background-color: var(--backgroundColor, red);
+}
+
+li div .transactionCardContent:last-child {
+  padding-bottom: 5px; /* Override the padding */
+}
+
+.transactionCardContent .spacer {
+  min-width: 35px;
+}

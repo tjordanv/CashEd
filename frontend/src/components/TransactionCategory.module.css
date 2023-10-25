@@ -1,0 +1,23 @@
+div .transactionCategory {
+  margin: 0 10px;
+  background-color: var(--backgroundColor, red);
+  height: var(--height, 100%);
+  position: relative;
+  text-align: center;
+}
+div .transactionCategory .transactionCategoryContent {
+  height: calc(100% - 180px);
+  overflow: auto;
+}
+
+div .transactionCategory .transactionCategoryContent .subcategoriesContainer {
+  /* height: 100%; */
+}
+
+div .transactionCategory .button {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /* margin: 0 auto; */
+}

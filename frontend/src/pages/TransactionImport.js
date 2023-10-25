@@ -1,54 +1,54 @@
 import { useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-
+import TransactionCategories from "../components/TransactionCategories"
+import Button from "@mui/material/Button"
+import classes from "./TransactionImport.module.css"
+import data from "../app/data"
 import { DragDropContext } from "react-beautiful-dnd"
-
-import { Divider, Typography } from "@mui/material"
-import { styled } from "@mui/material/styles"
-import { Container, Stack } from "@mui/system"
-
 import TransactionsList from "../components/TransactionsList"
-import TransactionCategories from "../components/TransactionCategory/TransactionCategories"
-import AddTransactionContainer from "../components/AddTransactionForm/AddTransactionContainer"
-
-import { reorderTransactions, addSubcategory } from "../state/transactionsSlice"
-import { updateSubcategoryTotal } from "../state/subcategoriesSlice"
-
-const TransactionImportsContainer = styled(Container)(({ theme }) => ({
-  minHeight: "93.5vh",
-  width: "300px",
-  minWidth: "150px",
-  margin: 0,
-  padding: 0
-}))
+import AddTransactions from "../components/AddTransactionForm/AddTransactions"
 
 const TransactionImport = () => {
-  const dispatch = useDispatch()
+  const [activeSubcategoryId, setActiveSubcategoryId] = useState(null)
+  const [transactions, setTransactions] = useState([])
 
-  const subcategories = useSelector((state) => state.subcategories.value)
-  const transactions = useSelector((state) => state.transactions.value)
-  const selectedSubcategory = useSelector((state) => {
-    //this is wrapped in a try bc there are no subcategories when the page is first loaded in. I am
-    // sure there is a way (a hook) to simply run this once the initial render is finished
-    try {
-      return state.subcategories.value.filter(
-        (subcategory) => subcategory.isSelected
-      )
-    } catch (e) {
-      return false
+  const importTransactions = () => {
+    setTransactions((prevState) => [...prevState, ...data.transactions])
+  }
+
+  const deleteTransactionHandler = (transactionId) => {
+    const updatedTransactions = transactions.filter(
+      (transaction) => transaction.id !== transactionId
+    )
+    setTransactions(updatedTransactions)
+  }
+
+  const addSubcategory = (transactionIndex, subcategoryId, categoryId) => {
+    const updatedTransactions = [...transactions]
+    const transactionToUpdate = updatedTransactions[transactionIndex]
+    if (transactionToUpdate) {
+      transactionToUpdate.subcategoryId = subcategoryId
+      transactionToUpdate.categoryId = categoryId
     }
-  })
+
+    setTransactions(updatedTransactions)
+  }
+
+  const setActiveSubcategoryIdHandler = (id) => {
+    if (id === activeSubcategoryId) {
+      setActiveSubcategoryId(null)
+    } else {
+      setActiveSubcategoryId(id)
+    }
+  }
 
   const onDragEnd = (e) => {
     const { destination, source } = e
-    if (!destination) {
-      return
-    }
 
-    // do nothing if dropped in same spot
-    else if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
+    // do nothing if dropped in same spot or into a non-droppable area
+    if (
+      (destination.droppableId === source.droppableId &&
+        destination.index === source.index) ||
+      !destination
     ) {
       return
     }
@@ -58,125 +58,56 @@ const TransactionImport = () => {
       destination.droppableId === source.droppableId &&
       destination.index !== source.index
     ) {
-      dispatch(
-        reorderTransactions({
-          sourceIndex: source.index,
-          destinationIndex: destination.index
-        })
+      const transaction = transactions[source.index]
+      let tempTransactions = transactions
+      tempTransactions.splice(source.index, 1)
+      tempTransactions.splice(destination.index, 0, transaction)
+
+      setTransactions(tempTransactions)
+    } else {
+      // add transaction to a subcategory
+      const [destinationSubcategoryId, destinationCategoryId] =
+        destination.droppableId.split(",").map(Number)
+
+      console.log(source)
+      addSubcategory(
+        source.index,
+        destinationSubcategoryId,
+        destinationCategoryId
       )
     }
-
-    // move transaction to another list or subcategory
-    else {
-      // when these actions are created, basically the entire page must rerender since
-      // transaction and subcategory states are both being impacted
-      const destinationSubcategory = subcategories.filter(
-        (subcategory) => subcategory.Name === destination.droppableId
-      )
-      const sourceSubcategoryID = transactions[source.index].subcategoryID
-
-      // logic for moving transaction from category out to import list
-      if (destinationSubcategory.length === 0) {
-        transactions.forEach((transaction, index) => {
-          if (transaction.Description === e.draggableId) {
-            dispatch(
-              addSubcategory({
-                transactionIndex: index,
-                subcategoryID: null,
-                categoryID: null
-              })
-            )
-            dispatch(
-              reorderTransactions({
-                sourceIndex: index,
-                destinationIndex: destination.index
-              })
-            )
-          }
-        })
-      } else {
-        // add transaction to a subcategory
-        dispatch(
-          addSubcategory({
-            transactionIndex: source.index,
-            subcategoryID: destinationSubcategory[0].ID,
-            categoryID: destinationSubcategory[0].categoryID
-          })
-        )
-        dispatch(
-          updateSubcategoryTotal({
-            subcategoryID: destinationSubcategory[0].ID,
-            amount: transactions[source.index].Amount
-          })
-        )
-      }
-      // reduce source subcategory total when moving transaction to another location
-      if (source.droppableId === "subcategoryTransactionsList") {
-        subcategories.forEach((subcategory) => {
-          if (subcategory.ID === sourceSubcategoryID) {
-            dispatch(
-              updateSubcategoryTotal({
-                subcategoryID: sourceSubcategoryID,
-                amount: -transactions[source.index].Amount
-              })
-            )
-          }
-        })
-      }
-    }
+  }
+  const test = () => {
+    const [x, y] = "x,y".split(",")
+    console.log(x + " it was split: " + y)
   }
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Stack direction="row" spacing={0}>
-        <TransactionImportsContainer>
-          <Typography
-            sx={{
-              textAlign: "center",
-              color: "#454545",
-              fontStyle: "italic",
-              marginTop: "20px"
-            }}
-          >
-            Imported Transactions
-          </Typography>
-          <Divider />
-          <TransactionsList droppableID={"importedTransactionsList"} />
-          <Divider />
-          <AddTransactionContainer />
-        </TransactionImportsContainer>
-        <Container
-          sx={{
-            margin: 0,
-            width: "60vw",
-            borderLeft: "2px solid rgba(119, 119, 119, 0.2)",
-            borderRight: "2px solid rgba(119, 119, 119, 0.2)"
-          }}
-        >
-          <TransactionCategories />
-        </Container>
-
-        {selectedSubcategory.length > 0 && (
-          <TransactionImportsContainer>
-            <Typography
-              sx={{
-                textAlign: "center",
-                color: "#451115",
-                fontStyle: "italic",
-                marginTop: "20px"
-              }}
-            >
-              {selectedSubcategory[0].Name}
-            </Typography>
-            <Typography>{selectedSubcategory[0].Total}</Typography>
-            <TransactionsList
-              droppableID={"subcategoryTransactionsList"}
-              subcategoryID={selectedSubcategory[0].ID}
-            />
-          </TransactionImportsContainer>
+      <div className={classes.container}>
+        <AddTransactions addTransactions={setTransactions} />
+        {/* <Button onClick={() => console.log(transactions)}>log</Button> */}
+        {transactions && (
+          <TransactionsList
+            transactions={transactions}
+            droppableId="list"
+            deleteTransactionHandler={deleteTransactionHandler}
+          />
         )}
-      </Stack>
-      {/* <Button onClick={grabData}>press</Button> */}
+
+        <TransactionCategories
+          activeSubcategoryId={activeSubcategoryId}
+          setActiveSubcategoryId={setActiveSubcategoryIdHandler}
+          transactions={transactions}
+        />
+        {transactions && activeSubcategoryId && (
+          <TransactionsList
+            transactions={transactions}
+            deleteTransactionHandler={deleteTransactionHandler}
+            droppableId={activeSubcategoryId.toString()}
+          />
+        )}
+      </div>
     </DragDropContext>
   )
 }

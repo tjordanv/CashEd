@@ -1,222 +1,873 @@
 const data = {
   categories: [
-    { Name: "Income", ID: 1 },
-    { Name: "Savings & Investments", ID: 2 },
-    { Name: "Variable Expenditures", ID: 3 },
-    { Name: "Fixed Expenditures", ID: 4 }
+    { name: "Income", ID: 1 },
+    { name: "Savings & Investments", ID: 2 },
+    { name: "Variable Expenditures", ID: 3 },
+    { name: "Fixed Expenditures", ID: 4 }
   ],
 
   subcategories: [
-    { Name: "Groceries", ID: 1, categoryID: 3, Total: 0, isSelected: false },
-    { Name: "Alcohol", ID: 2, categoryID: 3, Total: 0, isSelected: false },
-    { Name: "Eating Out", ID: 3, categoryID: 3, Total: 0, isSelected: false },
-    { Name: "Entertainment", ID: 4, categoryID: 3, Total: 0, isSelected: false },
-    { Name: "Travel", ID: 5, categoryID: 3, Total: 0, isSelected: false },
-    { Name: "Rent", ID: 6, categoryID: 4, Total: 0, isSelected: false },
-    { Name: "Car Payment", ID: 7, categoryID: 4, Total: 0, isSelected: false },
-    { Name: "Phone Bill", ID: 8, categoryID: 4, Total: 0, isSelected: false },
-    { Name: "Work Payroll", ID: 9, categoryID: 1, Total: 0, isSelected: false },
-    { Name: "Passive Income", ID: 10, categoryID: 1, Total: 0, isSelected: false },
-    { Name: "Savings", ID: 11, categoryID: 2, Total: 0, isSelected: false },
-    { Name: "401k", ID: 12, categoryID: 2, Total: 0, isSelected: false },
-    { Name: "Shopping", ID: 13, categoryID: 3, Total: 0, isSelected: false },
-    {
-      Name: "Home & Vehicle Maintenance",
-      ID: 14,
-      categoryID: 3,
-      Total: 0,
-      isSelected: false
-    },
-    { Name: "Some Filler Category", ID: 15, categoryID: 3, Total: 0, isSelected: false },
-    { Name: "Another Filler", ID: 16, categoryID: 3, Total: 0, isSelected: false },
-    { Name: "Yup, another filler", ID: 17, categoryID: 3, Total: 0, isSelected: false },
-    { Name: "Miscellaneous", ID: 18, categoryID: 3, Total: 0, isSelected: false }
+    [
+      {
+        name: "Work Payroll",
+        id: 9,
+        categoryId: 1,
+        total: 0,
+        isSelected: false
+      },
+      {
+        name: "Passive Income",
+        id: 10,
+        categoryId: 1,
+        total: 0,
+        isSelected: false
+      }
+    ],
+    [
+      { name: "Savings", id: 11, categoryId: 2, total: 0, isSelected: false },
+      { name: "401k", id: 12, categoryId: 2, total: 0, isSelected: false }
+    ],
+    [
+      { name: "Groceries", id: 1, categoryId: 3, total: 0, isSelected: false },
+      { name: "Alcohol", id: 2, categoryId: 3, total: 0, isSelected: false },
+      { name: "Eating Out", id: 3, categoryId: 3, total: 0, isSelected: false },
+      {
+        name: "Entertainment",
+        id: 4,
+        categoryId: 3,
+        total: 0,
+        isSelected: false
+      },
+      { name: "Shopping", id: 13, categoryId: 3, total: 0, isSelected: false },
+      {
+        name: "Home & Vehicle Maintenance",
+        id: 14,
+        categoryId: 3,
+        total: 0,
+        isSelected: false
+      },
+      {
+        name: "Some Filler Category",
+        id: 15,
+        categoryId: 3,
+        total: 0,
+        isSelected: false
+      },
+      {
+        name: "Another Filler",
+        id: 16,
+        categoryId: 3,
+        total: 0,
+        isSelected: false
+      },
+      {
+        name: "Yup, another filler",
+        id: 17,
+        categoryId: 3,
+        total: 0,
+        isSelected: false
+      },
+      {
+        name: "Miscellaneous",
+        id: 18,
+        categoryId: 3,
+        total: 0,
+        isSelected: false
+      },
+      { name: "Travel", id: 5, categoryId: 3, total: 0, isSelected: false }
+    ],
+    [
+      { name: "Rent", id: 6, categoryId: 4, total: 0, isSelected: false },
+      {
+        name: "Car Payment",
+        id: 7,
+        categoryId: 4,
+        total: 0,
+        isSelected: false
+      },
+      { name: "Phone Bill", id: 8, categoryId: 4, total: 0, isSelected: false }
+    ]
   ],
 
   transactions: [
     {
-      ID: 0,
-      Description: "Tusker's Indian Fusion",
-      Amount: 46.2,
-      subcategoryID: null,
-      categoryID: null,
+      id: 40,
+      name: "Tusker's Indian Fusion",
+      amount: 46.2,
+      subcategoryId: null,
+      categoryId: null,
       isCredit: false,
       date: "12/02/2022",
       accountID: 1
     },
     {
-      ID: 1,
-      Description: "Giant Grocery",
-      Amount: 6.67,
-      subcategoryID: null,
-      categoryID: null,
+      id: 1,
+      name: "Giant Grocery",
+      amount: 6.67,
+      subcategoryId: null,
+      categoryId: null,
       isCredit: false,
       date: "12/02/2022",
       accountID: 1
     },
     {
-      ID: 2,
-      Description: "Bob's Beer Barn",
-      Amount: 19.99,
-      subcategoryID: null,
-      categoryID: null,
+      id: 2,
+      name: "Bob's Beer Barn",
+      amount: 19.99,
+      subcategoryId: null,
+      categoryId: null,
       isCredit: false,
       date: "12/02/2022",
       accountID: 1
     },
     {
-      ID: 3,
-      Description: "Wendy's 1821",
-      Amount: 14.03,
-      subcategoryID: null,
-      categoryID: null,
+      id: 3,
+      name: "Wendy's 1821",
+      amount: 14.03,
+      subcategoryId: null,
+      categoryId: null,
       isCredit: false,
       date: "12/02/2022",
       accountID: 1
     },
     {
-      ID: 4,
-      Description: "Jimbo's Downtown Comedy",
-      Amount: 29.99,
-      subcategoryID: null,
-      categoryID: null,
+      id: 4,
+      name: "Jimbo's Downtown Comedy",
+      amount: 29.99,
+      subcategoryId: null,
+      categoryId: null,
       isCredit: false,
       date: "12/02/2022",
       accountID: 1
     },
     {
-      ID: 5,
-      Description: "Walmart",
-      Amount: 89.14,
-      subcategoryID: null,
-      categoryID: null,
-      isCredit: false,
-      date: "12/02/2022",
-      accountID: 1
-    },
-
-    {
-      ID: 6,
-      Description: "Teleosoft Payroll",
-      Amount: 200.0,
-      subcategoryID: null,
-      categoryID: null,
-      isCredit: true,
-      date: "12/02/2022",
-      accountID: 1
-    },
-    {
-      ID: 7,
-      Description: "Tusker's Indi",
-      Amount: 46.2,
-      subcategoryID: null,
-      categoryID: null,
-      isCredit: false,
-      date: "12/02/2022",
-      accountID: 1
-    },
-    {
-      ID: 8,
-      Description: "Giant ery",
-      Amount: 6.67,
-      subcategoryID: null,
-      categoryID: null,
-      isCredit: false,
-      date: "12/02/2022",
-      accountID: 1
-    },
-    {
-      ID: 9,
-      Description: "Bob's Barn",
-      Amount: 19.99,
-      subcategoryID: null,
-      categoryID: null,
-      isCredit: false,
-      date: "12/02/2022",
-      accountID: 1
-    },
-    {
-      ID: 10,
-      Description: "Wen 1821",
-      Amount: 14.03,
-      subcategoryID: null,
-      categoryID: null,
-      isCredit: false,
-      date: "12/02/2022",
-      accountID: 1
-    },
-    {
-      ID: 11,
-      Description: "Jimbo's Downomedy but really long w overflow",
-      Amount: 29.99,
-      subcategoryID: null,
-      categoryID: null,
-      isCredit: false,
-      date: "12/02/2022",
-      accountID: 1
-    },
-    {
-      ID: 12,
-      Description: "mart",
-      Amount: 89.14,
-      subcategoryID: null,
-      categoryID: null,
+      id: 5,
+      name: "Walmart",
+      amount: 89.14,
+      subcategoryId: null,
+      categoryId: null,
       isCredit: false,
       date: "12/02/2022",
       accountID: 1
     },
 
     {
-      ID: 13,
-      Description: "Teleosyroll",
-      Amount: 200.0,
-      subcategoryID: null,
-      categoryID: null,
+      id: 6,
+      name: "Teleosoft Payroll",
+      amount: 200.0,
+      subcategoryId: null,
+      categoryId: null,
       isCredit: true,
       date: "12/02/2022",
       accountID: 1
     },
     {
-      ID: 14,
-      Description: "Wen 1821 is super crappy",
-      Amount: 14.03,
-      subcategoryID: null,
-      categoryID: null,
+      id: 7,
+      name: "Tusker's Indi",
+      amount: 46.2,
+      subcategoryId: null,
+      categoryId: null,
       isCredit: false,
       date: "12/02/2022",
       accountID: 1
     },
     {
-      ID: 15,
-      Description:
-        "Jimbo's Downomedy but really long w overflow plus even more so it is super super long for no good reason really. idk",
-      Amount: 2329.99,
-      subcategoryID: null,
-      categoryID: null,
+      id: 8,
+      name: "Giant ery",
+      amount: 6.67,
+      subcategoryId: null,
+      categoryId: null,
       isCredit: false,
       date: "12/02/2022",
       accountID: 1
     },
     {
-      ID: 16,
-      Description: "mart super boiii",
-      Amount: 11289.14,
-      subcategoryID: null,
-      categoryID: null,
+      id: 9,
+      name: "Bob's Barn",
+      amount: 19.99,
+      subcategoryId: null,
+      categoryId: null,
+      isCredit: false,
+      date: "12/02/2022",
+      accountID: 1
+    },
+    {
+      id: 10,
+      name: "Wen 1821",
+      amount: 14.03,
+      subcategoryId: null,
+      categoryId: null,
+      isCredit: false,
+      date: "12/02/2022",
+      accountID: 1
+    },
+    {
+      id: 11,
+      name: "Jimbo's Downomedy but really long w overflow",
+      amount: 29.99,
+      subcategoryId: null,
+      categoryId: null,
+      isCredit: false,
+      date: "12/02/2022",
+      accountID: 1
+    },
+    {
+      id: 12,
+      name: "mart",
+      amount: 89.14,
+      subcategoryId: null,
+      categoryId: null,
       isCredit: false,
       date: "12/02/2022",
       accountID: 1
     },
 
     {
-      ID: 17,
-      Description: "Teleosyroll but also longer",
-      Amount: 200.0,
-      subcategoryID: null,
-      categoryID: null,
+      id: 13,
+      name: "Teleosyroll",
+      amount: 200.0,
+      subcategoryId: null,
+      categoryId: null,
       isCredit: true,
       date: "12/02/2022",
       accountID: 1
+    },
+    {
+      id: 14,
+      name: "Wen 1821 is super crappy",
+      amount: 14.03,
+      subcategoryId: null,
+      categoryId: null,
+      isCredit: false,
+      date: "12/02/2022",
+      accountID: 1
+    },
+    {
+      id: 15,
+      name: "Jimbo's Downomedy but really long w overflow plus even more so it is super super long for no good reason really. idk",
+      amount: 2329.99,
+      subcategoryId: null,
+      categoryId: null,
+      isCredit: false,
+      date: "12/02/2022",
+      accountID: 1
+    },
+    {
+      id: 16,
+      name: "mart super boiii",
+      amount: 11289.14,
+      subcategoryId: null,
+      categoryId: null,
+      isCredit: false,
+      date: "12/02/2022",
+      accountID: 1
+    },
+
+    {
+      id: 17,
+      name: "Teleosyroll but also longer",
+      amount: 200.0,
+      subcategoryId: null,
+      categoryId: null,
+      isCredit: true,
+      date: "12/02/2022",
+      accountID: 1
+    }
+  ],
+  transactionsNew: [
+    {
+      transactionType: "SPECIAL",
+      pendingTransactionId: null,
+      categoryId: "22001000",
+      category: ["Travel", "Airlines and Aviation Services"],
+      location: {
+        address: null,
+        city: null,
+        region: null,
+        postalCode: null,
+        country: null,
+        lat: null,
+        lon: null,
+        storeNumber: null
+      },
+      paymentMeta: {
+        referenceNumber: null,
+        ppdId: null,
+        payee: null,
+        byOrderOf: null,
+        payer: null,
+        paymentMethod: null,
+        paymentProcessor: null,
+        reason: null
+      },
+      accountOwner: null,
+      name: "United Airlines",
+      originalDescription: null,
+      accountId: "LJjdjNBpdjcyglaNDJxRtX3NEMxEbKclNrNXj",
+      amount: -500,
+      isoCurrencyCode: "USD",
+      unofficialCurrencyCode: null,
+      date: "2023-09-25",
+      pending: false,
+      transactionId: "Xx1L1VZbL1ijQN6JkzaKtDMPeNPE5Lf1EqXq9",
+      merchantName: "United Airlines",
+      logoUrl:
+        "https://plaid-merchant-logos.plaid.com/united_airlines_1065.png",
+      website: "united.com",
+      checkNumber: null,
+      paymentChannel: "IN_STORE",
+      authorizedDate: "2023-09-25",
+      authorizedDatetime: null,
+      datetime: null,
+      transactionCode: null,
+      personalFinanceCategory: {
+        primary: "TRAVEL",
+        detailed: "TRAVEL_FLIGHTS"
+      },
+      personalFinanceCategoryIconUrl:
+        "https://plaid-category-icons.plaid.com/PFC_TRAVEL.png",
+      counterparties: [
+        {
+          name: "United Airlines",
+          type: "MERCHANT",
+          website: "united.com",
+          logoUrl:
+            "https://plaid-merchant-logos.plaid.com/united_airlines_1065.png"
+        }
+      ]
+    },
+    {
+      transactionType: "PLACE",
+      pendingTransactionId: null,
+      categoryId: "13005032",
+      category: ["Food and Drink", "Restaurants", "Fast Food"],
+      location: {
+        address: null,
+        city: null,
+        region: null,
+        postalCode: null,
+        country: null,
+        lat: null,
+        lon: null,
+        storeNumber: "3322"
+      },
+      paymentMeta: {
+        referenceNumber: null,
+        ppdId: null,
+        payee: null,
+        byOrderOf: null,
+        payer: null,
+        paymentMethod: null,
+        paymentProcessor: null,
+        reason: null
+      },
+      accountOwner: null,
+      name: "McDonald's",
+      originalDescription: null,
+      accountId: "LJjdjNBpdjcyglaNDJxRtX3NEMxEbKclNrNXj",
+      amount: 12,
+      isoCurrencyCode: "USD",
+      unofficialCurrencyCode: null,
+      date: "2023-09-24",
+      pending: false,
+      transactionId: "DJRlRzmnlRcDdZpvn9oaI4zWbBWR8Xf4QxoxZ",
+      merchantName: "McDonald's",
+      logoUrl: "https://plaid-merchant-logos.plaid.com/mcdonalds_619.png",
+      website: "mcdonalds.com",
+      checkNumber: null,
+      paymentChannel: "IN_STORE",
+      authorizedDate: "2023-09-24",
+      authorizedDatetime: null,
+      datetime: null,
+      transactionCode: null,
+      personalFinanceCategory: {
+        primary: "FOOD_AND_DRINK",
+        detailed: "FOOD_AND_DRINK_FAST_FOOD"
+      },
+      personalFinanceCategoryIconUrl:
+        "https://plaid-category-icons.plaid.com/PFC_FOOD_AND_DRINK.png",
+      counterparties: [
+        {
+          name: "McDonald's",
+          type: "MERCHANT",
+          website: "mcdonalds.com",
+          logoUrl: "https://plaid-merchant-logos.plaid.com/mcdonalds_619.png"
+        }
+      ]
+    },
+    {
+      transactionType: "PLACE",
+      pendingTransactionId: null,
+      categoryId: "13005043",
+      category: ["Food and Drink", "Restaurants", "Coffee Shop"],
+      location: {
+        address: null,
+        city: null,
+        region: null,
+        postalCode: null,
+        country: null,
+        lat: null,
+        lon: null,
+        storeNumber: null
+      },
+      paymentMeta: {
+        referenceNumber: null,
+        ppdId: null,
+        payee: null,
+        byOrderOf: null,
+        payer: null,
+        paymentMethod: null,
+        paymentProcessor: null,
+        reason: null
+      },
+      accountOwner: null,
+      name: "Starbucks",
+      originalDescription: null,
+      accountId: "LJjdjNBpdjcyglaNDJxRtX3NEMxEbKclNrNXj",
+      amount: 4.33,
+      isoCurrencyCode: "USD",
+      unofficialCurrencyCode: null,
+      date: "2023-09-24",
+      pending: false,
+      transactionId: "VB1M1yeZM1CLaG4pv13NipoGEbGvRWFqdeVel",
+      merchantName: "Starbucks",
+      logoUrl: "https://plaid-merchant-logos.plaid.com/starbucks_956.png",
+      website: "starbucks.com",
+      checkNumber: null,
+      paymentChannel: "IN_STORE",
+      authorizedDate: "2023-09-24",
+      authorizedDatetime: null,
+      datetime: null,
+      transactionCode: null,
+      personalFinanceCategory: {
+        primary: "FOOD_AND_DRINK",
+        detailed: "FOOD_AND_DRINK_COFFEE"
+      },
+      personalFinanceCategoryIconUrl:
+        "https://plaid-category-icons.plaid.com/PFC_FOOD_AND_DRINK.png",
+      counterparties: [
+        {
+          name: "Starbucks",
+          type: "MERCHANT",
+          website: "starbucks.com",
+          logoUrl: "https://plaid-merchant-logos.plaid.com/starbucks_956.png"
+        }
+      ]
+    },
+    {
+      transactionType: "PLACE",
+      pendingTransactionId: null,
+      categoryId: "13005000",
+      category: ["Food and Drink", "Restaurants"],
+      location: {
+        address: null,
+        city: null,
+        region: null,
+        postalCode: null,
+        country: null,
+        lat: null,
+        lon: null,
+        storeNumber: null
+      },
+      paymentMeta: {
+        referenceNumber: null,
+        ppdId: null,
+        payee: null,
+        byOrderOf: null,
+        payer: null,
+        paymentMethod: null,
+        paymentProcessor: null,
+        reason: null
+      },
+      accountOwner: null,
+      name: "SparkFun",
+      originalDescription: null,
+      accountId: "LJjdjNBpdjcyglaNDJxRtX3NEMxEbKclNrNXj",
+      amount: 89.4,
+      isoCurrencyCode: "USD",
+      unofficialCurrencyCode: null,
+      date: "2023-09-23",
+      pending: false,
+      transactionId: "wvA4AX7R4AipRLdMB9n6uk7D96DALvcEVjpjK",
+      merchantName: "FUN",
+      logoUrl: null,
+      website: null,
+      checkNumber: null,
+      paymentChannel: "IN_STORE",
+      authorizedDate: "2023-09-22",
+      authorizedDatetime: null,
+      datetime: null,
+      transactionCode: null,
+      personalFinanceCategory: {
+        primary: "FOOD_AND_DRINK",
+        detailed: "FOOD_AND_DRINK_RESTAURANT"
+      },
+      personalFinanceCategoryIconUrl:
+        "https://plaid-category-icons.plaid.com/PFC_FOOD_AND_DRINK.png",
+      counterparties: [
+        {
+          name: "FUN",
+          type: "MERCHANT",
+          website: null,
+          logoUrl: null
+        }
+      ]
+    },
+    {
+      transactionType: "SPECIAL",
+      pendingTransactionId: null,
+      categoryId: "22016000",
+      category: ["Travel", "Taxi"],
+      location: {
+        address: null,
+        city: null,
+        region: null,
+        postalCode: null,
+        country: null,
+        lat: null,
+        lon: null,
+        storeNumber: null
+      },
+      paymentMeta: {
+        referenceNumber: null,
+        ppdId: null,
+        payee: null,
+        byOrderOf: null,
+        payer: null,
+        paymentMethod: null,
+        paymentProcessor: null,
+        reason: null
+      },
+      accountOwner: null,
+      name: "Uber 072515 SF**POOL**",
+      originalDescription: null,
+      accountId: "LJjdjNBpdjcyglaNDJxRtX3NEMxEbKclNrNXj",
+      amount: 6.33,
+      isoCurrencyCode: "USD",
+      unofficialCurrencyCode: null,
+      date: "2023-09-10",
+      pending: false,
+      transactionId: "l6WwWQrmwWi4qJwby6M5Ug6JzRn8NrhpqbGnx",
+      merchantName: "Uber",
+      logoUrl: "https://plaid-merchant-logos.plaid.com/uber_1060.png",
+      website: "uber.com",
+      checkNumber: null,
+      paymentChannel: "ONLINE",
+      authorizedDate: "2023-09-09",
+      authorizedDatetime: null,
+      datetime: null,
+      transactionCode: null,
+      personalFinanceCategory: {
+        primary: "TRANSPORTATION",
+        detailed: "TRANSPORTATION_TAXIS_AND_RIDE_SHARES"
+      },
+      personalFinanceCategoryIconUrl:
+        "https://plaid-category-icons.plaid.com/PFC_TRANSPORTATION.png",
+      counterparties: [
+        {
+          name: "Uber",
+          type: "MERCHANT",
+          website: "uber.com",
+          logoUrl: "https://plaid-merchant-logos.plaid.com/uber_1060.png"
+        }
+      ]
+    },
+    {
+      transactionType: "SPECIAL",
+      pendingTransactionId: null,
+      categoryId: "22016000",
+      category: ["Travel", "Taxi"],
+      location: {
+        address: null,
+        city: null,
+        region: null,
+        postalCode: null,
+        country: null,
+        lat: null,
+        lon: null,
+        storeNumber: null
+      },
+      paymentMeta: {
+        referenceNumber: null,
+        ppdId: null,
+        payee: null,
+        byOrderOf: null,
+        payer: null,
+        paymentMethod: null,
+        paymentProcessor: null,
+        reason: null
+      },
+      accountOwner: null,
+      name: "Uber 063015 SF**POOL**",
+      originalDescription: null,
+      accountId: "LJjdjNBpdjcyglaNDJxRtX3NEMxEbKclNrNXj",
+      amount: 5.4,
+      isoCurrencyCode: "USD",
+      unofficialCurrencyCode: null,
+      date: "2023-08-28",
+      pending: false,
+      transactionId: "qvXzX1dJzXiebKDPyBgqCPd7vrxn5qcgjwAL5",
+      merchantName: "Uber",
+      logoUrl: "https://plaid-merchant-logos.plaid.com/uber_1060.png",
+      website: "uber.com",
+      checkNumber: null,
+      paymentChannel: "ONLINE",
+      authorizedDate: "2023-08-27",
+      authorizedDatetime: null,
+      datetime: null,
+      transactionCode: null,
+      personalFinanceCategory: {
+        primary: "TRANSPORTATION",
+        detailed: "TRANSPORTATION_TAXIS_AND_RIDE_SHARES"
+      },
+      personalFinanceCategoryIconUrl:
+        "https://plaid-category-icons.plaid.com/PFC_TRANSPORTATION.png",
+      counterparties: [
+        {
+          name: "Uber",
+          type: "MERCHANT",
+          website: "uber.com",
+          logoUrl: "https://plaid-merchant-logos.plaid.com/uber_1060.png"
+        }
+      ]
+    },
+    {
+      transactionType: "SPECIAL",
+      pendingTransactionId: null,
+      categoryId: "22001000",
+      category: ["Travel", "Airlines and Aviation Services"],
+      location: {
+        address: null,
+        city: null,
+        region: null,
+        postalCode: null,
+        country: null,
+        lat: null,
+        lon: null,
+        storeNumber: null
+      },
+      paymentMeta: {
+        referenceNumber: null,
+        ppdId: null,
+        payee: null,
+        byOrderOf: null,
+        payer: null,
+        paymentMethod: null,
+        paymentProcessor: null,
+        reason: null
+      },
+      accountOwner: null,
+      name: "United Airlines",
+      originalDescription: null,
+      accountId: "LJjdjNBpdjcyglaNDJxRtX3NEMxEbKclNrNXj",
+      amount: -500,
+      isoCurrencyCode: "USD",
+      unofficialCurrencyCode: null,
+      date: "2023-08-26",
+      pending: false,
+      transactionId: "KJaxaNzAxacak3bNmXrnipbnljBQEWfR9zWK7",
+      merchantName: "United Airlines",
+      logoUrl:
+        "https://plaid-merchant-logos.plaid.com/united_airlines_1065.png",
+      website: "united.com",
+      checkNumber: null,
+      paymentChannel: "IN_STORE",
+      authorizedDate: "2023-08-26",
+      authorizedDatetime: null,
+      datetime: null,
+      transactionCode: null,
+      personalFinanceCategory: {
+        primary: "TRAVEL",
+        detailed: "TRAVEL_FLIGHTS"
+      },
+      personalFinanceCategoryIconUrl:
+        "https://plaid-category-icons.plaid.com/PFC_TRAVEL.png",
+      counterparties: [
+        {
+          name: "United Airlines",
+          type: "MERCHANT",
+          website: "united.com",
+          logoUrl:
+            "https://plaid-merchant-logos.plaid.com/united_airlines_1065.png"
+        }
+      ]
+    },
+    {
+      transactionType: "PLACE",
+      pendingTransactionId: null,
+      categoryId: "13005032",
+      category: ["Food and Drink", "Restaurants", "Fast Food"],
+      location: {
+        address: null,
+        city: null,
+        region: null,
+        postalCode: null,
+        country: null,
+        lat: null,
+        lon: null,
+        storeNumber: "3322"
+      },
+      paymentMeta: {
+        referenceNumber: null,
+        ppdId: null,
+        payee: null,
+        byOrderOf: null,
+        payer: null,
+        paymentMethod: null,
+        paymentProcessor: null,
+        reason: null
+      },
+      accountOwner: null,
+      name: "McDonald's",
+      originalDescription: null,
+      accountId: "LJjdjNBpdjcyglaNDJxRtX3NEMxEbKclNrNXj",
+      amount: 12,
+      isoCurrencyCode: "USD",
+      unofficialCurrencyCode: null,
+      date: "2023-08-25",
+      pending: false,
+      transactionId: "rvRBRWa7BRiQ9rbP1k8qcr8DWVoZXqF7AZqpL",
+      merchantName: "McDonald's",
+      logoUrl: "https://plaid-merchant-logos.plaid.com/mcdonalds_619.png",
+      website: "mcdonalds.com",
+      checkNumber: null,
+      paymentChannel: "IN_STORE",
+      authorizedDate: "2023-08-25",
+      authorizedDatetime: null,
+      datetime: null,
+      transactionCode: null,
+      personalFinanceCategory: {
+        primary: "FOOD_AND_DRINK",
+        detailed: "FOOD_AND_DRINK_FAST_FOOD"
+      },
+      personalFinanceCategoryIconUrl:
+        "https://plaid-category-icons.plaid.com/PFC_FOOD_AND_DRINK.png",
+      counterparties: [
+        {
+          name: "McDonald's",
+          type: "MERCHANT",
+          website: "mcdonalds.com",
+          logoUrl: "https://plaid-merchant-logos.plaid.com/mcdonalds_619.png"
+        }
+      ]
+    },
+    {
+      transactionType: "PLACE",
+      pendingTransactionId: null,
+      categoryId: "13005043",
+      category: ["Food and Drink", "Restaurants", "Coffee Shop"],
+      location: {
+        address: null,
+        city: null,
+        region: null,
+        postalCode: null,
+        country: null,
+        lat: null,
+        lon: null,
+        storeNumber: null
+      },
+      paymentMeta: {
+        referenceNumber: null,
+        ppdId: null,
+        payee: null,
+        byOrderOf: null,
+        payer: null,
+        paymentMethod: null,
+        paymentProcessor: null,
+        reason: null
+      },
+      accountOwner: null,
+      name: "Starbucks",
+      originalDescription: null,
+      accountId: "LJjdjNBpdjcyglaNDJxRtX3NEMxEbKclNrNXj",
+      amount: 4.33,
+      isoCurrencyCode: "USD",
+      unofficialCurrencyCode: null,
+      date: "2023-08-25",
+      pending: false,
+      transactionId: "zvMjMwZljMi8DNjJnaBoiQEyZXb7KoTlyxJME",
+      merchantName: "Starbucks",
+      logoUrl: "https://plaid-merchant-logos.plaid.com/starbucks_956.png",
+      website: "starbucks.com",
+      checkNumber: null,
+      paymentChannel: "IN_STORE",
+      authorizedDate: "2023-08-25",
+      authorizedDatetime: null,
+      datetime: null,
+      transactionCode: null,
+      personalFinanceCategory: {
+        primary: "FOOD_AND_DRINK",
+        detailed: "FOOD_AND_DRINK_COFFEE"
+      },
+      personalFinanceCategoryIconUrl:
+        "https://plaid-category-icons.plaid.com/PFC_FOOD_AND_DRINK.png",
+      counterparties: [
+        {
+          name: "Starbucks",
+          type: "MERCHANT",
+          website: "starbucks.com",
+          logoUrl: "https://plaid-merchant-logos.plaid.com/starbucks_956.png"
+        }
+      ]
+    },
+    {
+      transactionType: "PLACE",
+      pendingTransactionId: null,
+      categoryId: "13005000",
+      category: ["Food and Drink", "Restaurants"],
+      location: {
+        address: null,
+        city: null,
+        region: null,
+        postalCode: null,
+        country: null,
+        lat: null,
+        lon: null,
+        storeNumber: null
+      },
+      paymentMeta: {
+        referenceNumber: null,
+        ppdId: null,
+        payee: null,
+        byOrderOf: null,
+        payer: null,
+        paymentMethod: null,
+        paymentProcessor: null,
+        reason: null
+      },
+      accountOwner: null,
+      name: "SparkFun",
+      originalDescription: null,
+      accountId: "LJjdjNBpdjcyglaNDJxRtX3NEMxEbKclNrNXj",
+      amount: 89.4,
+      isoCurrencyCode: "USD",
+      unofficialCurrencyCode: null,
+      date: "2023-08-24",
+      pending: false,
+      transactionId: "BJlVlKnLVlcWZpv6Ko9Qfy6Wa1elgws4p36Xw",
+      merchantName: "FUN",
+      logoUrl: null,
+      website: null,
+      checkNumber: null,
+      paymentChannel: "IN_STORE",
+      authorizedDate: "2023-08-23",
+      authorizedDatetime: null,
+      datetime: null,
+      transactionCode: null,
+      personalFinanceCategory: {
+        primary: "FOOD_AND_DRINK",
+        detailed: "FOOD_AND_DRINK_RESTAURANT"
+      },
+      personalFinanceCategoryIconUrl:
+        "https://plaid-category-icons.plaid.com/PFC_FOOD_AND_DRINK.png",
+      counterparties: [
+        {
+          name: "FUN",
+          type: "MERCHANT",
+          website: null,
+          logoUrl: null
+        }
+      ]
     }
   ]
 }

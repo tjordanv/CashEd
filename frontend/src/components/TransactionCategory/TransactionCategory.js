@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import Subcategory from "../Subcategory"
 import { useDispatch, useSelector } from "react-redux"
-import data from "../../app/data"
+import data from "../../app/data copy"
 
 import Paper from "@mui/material/Paper"
 import { styled } from "@mui/material/styles"

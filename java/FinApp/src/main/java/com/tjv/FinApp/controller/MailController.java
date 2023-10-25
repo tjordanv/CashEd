@@ -40,7 +40,7 @@ public class MailController {
             String body = String.format("""
                 Hello %s,<br/><br/>
                                 
-                Use the link below to reset your password. Access to this link will expire after 20 minutes. If you did 
+                Use the link below to reset your password. Access to this link will expire after 20 minutes. If you did
                 not request this password reset, please notify us and ignore this link. Let us know if you have any questions or concerns.<br/><br/>
                  
                 <a href="http://localhost:3000/resetPassword/%s">Reset Password</a><br/><br/>

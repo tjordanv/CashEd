@@ -4,6 +4,7 @@ import Login from "./pages/auth/Login"
 import Register from "./pages/auth/Register"
 import UserRecovery from "./pages/auth/UserRecovery"
 import TransactionImport from "./pages/TransactionImport"
+import { TransactionSubcategoriesImportLoader } from "./components/TransactionCategory"
 import Header from "./pages/Header"
 import Notifications from "./pages/Notifications"
 import PasswordReset from "./pages/auth/PasswordReset"
@@ -16,6 +17,9 @@ import { headerNotificationsLoader } from "./components/Header/HeaderLayout"
 import { notificationsLoader } from "./components/Notifications/Notifications"
 import Home from "./pages/Home"
 import Contact from "./pages/Contact"
+
+import TransactionImportOLD from "./pages/TransactionImport(old)"
+import Accounts from "./pages/Accounts"
 
 const theme = createTheme({
   palette: {
@@ -62,11 +66,23 @@ const router = createBrowserRouter([
         index: true,
         element: <DashboardTest />
       },
-      { path: "TransactionImport", element: <TransactionImport /> },
+      {
+        path: "TransactionImport",
+        element: <TransactionImport />,
+        loader: TransactionSubcategoriesImportLoader
+      },
+      {
+        path: "TransactionImport/old",
+        element: <TransactionImportOLD />
+      },
       {
         path: "notifications",
         element: <Notifications />,
         loader: notificationsLoader
+      },
+      {
+        path: "accounts",
+        element: <Accounts />
       }
     ]
   },
