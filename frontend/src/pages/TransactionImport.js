@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import TransactionCategories from "../components/TransactionCategories"
 import Button from "@mui/material/Button"
 import classes from "./TransactionImport.module.css"
@@ -6,10 +6,12 @@ import data from "../app/data"
 import { DragDropContext } from "react-beautiful-dnd"
 import TransactionsList from "../components/TransactionsList"
 import AddTransactions from "../components/AddTransactionForm/AddTransactions"
+import { Box, Typography } from "@mui/material"
 
 const TransactionImport = () => {
   const [activeSubcategoryId, setActiveSubcategoryId] = useState(null)
   const [transactions, setTransactions] = useState([])
+  const [selectedTransactions, setSelectedTransactions] = useState([])
 
   const importTransactions = () => {
     setTransactions((prevState) => [...prevState, ...data.transactions])
@@ -82,18 +84,39 @@ const TransactionImport = () => {
     console.log(x + " it was split: " + y)
   }
 
+  /* 
+  use transactions state to track ALL transactions
+  use unassingedTransactions state to track trans that are not assigned to any subcat
+  use unassigned to control position of import buttons
+  filter transactions into selectedTransactions  
+  */
+  useEffect(() => {
+    if (transactions) {
+      setSelectedTransactions(
+        transactions.filter(
+          (transaction) => transaction.subcategoryId === activeSubcategoryId
+        )
+      )
+    }
+  }, [activeSubcategoryId])
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className={classes.container}>
-        <AddTransactions addTransactions={setTransactions} />
-        {/* <Button onClick={() => console.log(transactions)}>log</Button> */}
-        {transactions && (
-          <TransactionsList
-            transactions={transactions}
-            droppableId="list"
-            deleteTransactionHandler={deleteTransactionHandler}
-          />
-        )}
+        <Box className={classes.newTransactionsContainer}>
+          {/* <Button onClick={() => console.log(transactions)}>log</Button> */}
+          <Typography variant="h6">New Transactions</Typography>
+
+          {transactions && (
+            <TransactionsList
+              transactions={transactions}
+              droppableId="list"
+              deleteTransactionHandler={deleteTransactionHandler}
+            />
+          )}
+
+          <AddTransactions addTransactions={setTransactions} />
+        </Box>
 
         <TransactionCategories
           activeSubcategoryId={activeSubcategoryId}

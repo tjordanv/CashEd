@@ -5,11 +5,18 @@ import SpeedDialIcon from "@mui/material/SpeedDialIcon"
 import DownloadForOfflineRounded from "@mui/icons-material/DownloadForOfflineRounded"
 import EditRounded from "@mui/icons-material/EditRounded"
 
-const AddTransactionMenuButtons = ({ setIsOpen, setIsSingleTransaction }) => {
+const AddTransactionMenuButtons = ({
+  setIsOpen,
+  setIsSingleTransaction,
+  isTransactions
+}) => {
   const openDialogHandler = (isSingleTransaction) => {
     setIsOpen(true)
     setIsSingleTransaction(isSingleTransaction)
   }
+  const style = isTransactions
+    ? { marginLeft: "116px" }
+    : { marginLeft: "-35px", position: "absolute", top: "50%" }
   return (
     <SpeedDial
       ariaLabel="SpeedDial basic example"
@@ -21,7 +28,8 @@ const AddTransactionMenuButtons = ({ setIsOpen, setIsSingleTransaction }) => {
       // }}
       icon={<SpeedDialIcon />}
       // direction={isTransactions ? "right" : "down"}
-      direction="down"
+      direction="right"
+      // style={style}
     >
       <SpeedDialAction
         key="import"
