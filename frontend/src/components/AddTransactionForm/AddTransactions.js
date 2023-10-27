@@ -13,7 +13,11 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
 
-const AddTransactions = ({ addTransactions, isTransactions }) => {
+const AddTransactions = ({
+  addTransaction,
+  addUnassignedTransactions,
+  isTransactions
+}) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isSingleTransaction, setIsSingleTransaction] = useState(false)
 
@@ -36,7 +40,8 @@ const AddTransactions = ({ addTransactions, isTransactions }) => {
         </DialogTitle>
         <AddTransactionForm
           setIsOpen={setIsOpen}
-          addTransactions={addTransactions}
+          addTransaction={addTransaction}
+          addUnassignedTransactions={addUnassignedTransactions}
           isSingleTransaction={isSingleTransaction}
         />
       </Dialog>

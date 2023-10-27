@@ -14,16 +14,18 @@ import { useLoaderData } from "react-router-dom"
 
 const AddTransactionsForm = ({
   setIsOpen,
-  addTransactions,
+  addTransaction,
+  addUnassignedTransactions,
   isSingleTransaction
 }) => {
   const [transaction, setTransaction] = useState({
+    id: Math.floor(Math.random() * 99999),
     accountId: "",
     name: "",
     date: "",
     amount: "",
-    subcategoryId: "",
-    categoryId: ""
+    subcategoryId: null,
+    categoryId: null
   })
   const [subcategories, setSubcategories] = useState(useLoaderData())
   const [accounts, setAccounts] = useState([
@@ -43,6 +45,7 @@ const AddTransactionsForm = ({
     mergedSubcategories.forEach((subcategory) =>
       formattedSubcategories.push({
         id: subcategory.id,
+        categoryId: subcategory.categoryId,
         label: subcategory.name
       })
     )
@@ -50,19 +53,43 @@ const AddTransactionsForm = ({
   }, [])
 
   const updateTransactionHandler = (updatedField) => {
+    const value =
+      updatedField.name === "amount"
+        ? parseFloat(updatedField.value)
+        : updatedField.value
     setTransaction((prevState) => ({
       ...prevState,
-      [updatedField.name]: updatedField.value
+      [updatedField.name]: value
     }))
+  }
+  const updateSubcategoryId = (event, value) => {
+    if (value === null) {
+      setTransaction((prevState) => ({
+        ...prevState,
+        subcategoryId: null,
+        categoryId: null
+      }))
+    } else {
+      setTransaction((prevState) => ({
+        ...prevState,
+        subcategoryId: value.id,
+        categoryId: value.categoryId
+      }))
+    }
   }
 
   const imports = (e) => {
     e.preventDefault()
 
     if (isSingleTransaction) {
-      addTransactions((prevState) => [...prevState, transaction])
+      transaction.subcategoryId === null
+        ? addUnassignedTransactions((prevState) => [transaction, ...prevState])
+        : addTransaction((prevState) => [transaction, ...prevState])
     } else {
-      addTransactions((prevState) => [...prevState, ...data.transactions])
+      addUnassignedTransactions((prevState) => [
+        ...data.transactions,
+        ...prevState
+      ])
     }
     setIsOpen(false)
   }
@@ -141,6 +168,7 @@ const AddTransactionsForm = ({
                   }
                 />
                 <Autocomplete
+                  onChange={updateSubcategoryId}
                   options={subcategories}
                   renderInput={(params) => (
                     <TextField {...params} label="Subcategory" />

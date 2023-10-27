@@ -1,6 +1,6 @@
 li div .transactionCardContent {
   display: flex;
-  width: 230px;
+  width: 200px;
   padding: 5px;
   align-items: center;
   background-color: var(--backgroundColor, red);

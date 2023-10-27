@@ -17,9 +17,10 @@ import { headerNotificationsLoader } from "./components/Header/HeaderLayout"
 import { notificationsLoader } from "./components/Notifications/Notifications"
 import Home from "./pages/Home"
 import Contact from "./pages/Contact"
-
 import TransactionImportOLD from "./pages/TransactionImport(old)"
 import Accounts from "./pages/Accounts"
+
+import "./App.css"
 
 const theme = createTheme({
   palette: {

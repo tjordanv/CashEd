@@ -11,6 +11,7 @@ import Box from "@mui/material/Box"
 import Divider from "@mui/material/Divider"
 import Typography from "@mui/material/Typography"
 import { useState } from "react"
+import { usdFormatter } from "./HelperFunctions/usdFormatter"
 
 const Transaction = ({ transaction, index, deleteTransactionHandler }) => {
   const [isHovered, setIsHovered] = useState(false)
@@ -43,7 +44,7 @@ const Transaction = ({ transaction, index, deleteTransactionHandler }) => {
         case 4:
           return "rgba(254, 109, 115, 0.4)"
         default:
-          return "rgba(119, 119, 119, 0.15)"
+          return "rgba(255, 255, 255, 0.9)"
       }
     }
   }
@@ -88,13 +89,13 @@ const Transaction = ({ transaction, index, deleteTransactionHandler }) => {
                   paddingBottom: "2px"
                 }}
               >
-                {"$" + transaction.amount}
+                {usdFormatter(transaction.amount)}
               </Typography>
             </Box>
             {(isHovered && (
               <ConfirmationDialog
                 dialogDetails={confirmationDialogDetails}
-                onConfirm={() => deleteTransactionHandler(transaction.id)}
+                onConfirm={() => deleteTransactionHandler(transaction)}
                 Component={component}
               />
             )) || <div className={classes.spacer}></div>}

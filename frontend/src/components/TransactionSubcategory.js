@@ -8,7 +8,7 @@ import { usdFormatter } from "./HelperFunctions/usdFormatter"
 const TransactionSubcategory = ({
   subcategory,
   isActive,
-  setActiveSubcategoryId,
+  setActiveSubcategory,
   total
 }) => {
   const color = isActive
@@ -23,7 +23,7 @@ const TransactionSubcategory = ({
     >
       {(provided, snapshot) => (
         <Card
-          onClick={() => setActiveSubcategoryId(subcategory.id)}
+          onClick={() => setActiveSubcategory(subcategory)}
           ref={provided.innerRef}
           {...provided.droppableProps}
           className={classes.container}

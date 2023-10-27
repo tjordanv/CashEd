@@ -1,23 +1,36 @@
-div .transactionCategory {
-  margin: 0 10px;
+div .container {
+  margin: 0 5px;
   background-color: var(--backgroundColor, red);
   height: var(--height, 100%);
   position: relative;
   text-align: center;
 }
-div .transactionCategory .transactionCategoryContent {
-  height: calc(100% - 180px);
+div .container .cardContent {
+  height: calc(100% - 200px);
   overflow: auto;
+  padding: 0 5px;
 }
 
-div .transactionCategory .transactionCategoryContent .subcategoriesContainer {
+div .container .cardContent .subcategoriesContainer {
   /* height: 100%; */
 }
 
-div .transactionCategory .button {
+div .container .button {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   /* margin: 0 auto; */
+}
+
+.cardContent::-webkit-scrollbar {
+  width: 7px;
+}
+.cardContent::-webkit-scrollbar-track {
+  background-color: rgba(119, 119, 119, 0.25);
+  border-radius: 8px;
+}
+.cardContent::-webkit-scrollbar-thumb {
+  background-color: rgba(119, 119, 119, 0.7);
+  border-radius: 8px;
 }

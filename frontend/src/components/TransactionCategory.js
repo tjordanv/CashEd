@@ -31,7 +31,7 @@ export { TransactionSubcategoriesImportLoader }
 const TransactionCategory = ({
   category,
   activeSubcategoryId,
-  setActiveSubcategoryId,
+  setActiveSubcategory,
   transactions
 }) => {
   const [subcategories, setSubcategories] = useState(
@@ -73,14 +73,14 @@ const TransactionCategory = ({
   }
   return (
     <Card
-      className={classes.transactionCategory}
+      className={classes.container}
       style={{
         "--backgroundColor": backgroundColor(),
         "--height": category.id < 3 ? "48%" : "100%"
       }}
     >
       <CardHeader title={category.name} subheader={usdFormatter(total)} />
-      <CardContent className={classes.transactionCategoryContent}>
+      <CardContent className={classes.cardContent}>
         <Stack spacing={2} className={classes.subcategoriesContainer}>
           {subcategories.map((subcategory) => {
             const total = sumOfTransactions(subcategory.id)
@@ -88,7 +88,7 @@ const TransactionCategory = ({
               <TransactionSubcategory
                 subcategory={subcategory}
                 isActive={subcategory.id === activeSubcategoryId}
-                setActiveSubcategoryId={setActiveSubcategoryId}
+                setActiveSubcategory={setActiveSubcategory}
                 total={total}
                 key={Math.floor(Math.random() * 99999)}
               />
