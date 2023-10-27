@@ -13,7 +13,7 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
 
-const AddTransactions = ({ addTransactions }) => {
+const AddTransactions = ({ addTransactions, isTransactions }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isSingleTransaction, setIsSingleTransaction] = useState(false)
 
@@ -22,6 +22,7 @@ const AddTransactions = ({ addTransactions }) => {
       <AddTransactionMenuButtons
         setIsOpen={setIsOpen}
         setIsSingleTransaction={setIsSingleTransaction}
+        isTransactions={isTransactions}
       />
       <Dialog
         open={isOpen}
