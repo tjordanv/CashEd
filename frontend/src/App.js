@@ -28,6 +28,15 @@ const theme = createTheme({
       main: "#17C3B2",
       text: "#454545"
     }
+  },
+  components: {
+    CardHeader: {
+      styleOverrides: {
+        title: {
+          fontSize: "large"
+        }
+      }
+    }
   }
 })
 

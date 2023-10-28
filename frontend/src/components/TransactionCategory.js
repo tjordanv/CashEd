@@ -76,10 +76,17 @@ const TransactionCategory = ({
       className={classes.container}
       style={{
         "--backgroundColor": backgroundColor(),
-        "--height": category.id < 3 ? "48%" : "100%"
+        "--height": category.id < 3 ? "49%" : "100%"
       }}
     >
-      <CardHeader title={category.name} subheader={usdFormatter(total)} />
+      <CardHeader
+        className={classes.myCardHeader}
+        titleTypographyProps={{
+          fontSize: 18
+        }}
+        title={category.name}
+        subheader={usdFormatter(total)}
+      />
       <CardContent className={classes.cardContent}>
         <Stack spacing={2} className={classes.subcategoriesContainer}>
           {subcategories.map((subcategory) => {

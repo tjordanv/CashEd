@@ -4,6 +4,7 @@ div .container {
   height: var(--height, 100%);
   position: relative;
   text-align: center;
+  min-width: 215px;
 }
 div .container .cardContent {
   height: calc(100% - 200px);
@@ -20,9 +21,7 @@ div .container .button {
   bottom: 0;
   left: 0;
   right: 0;
-  /* margin: 0 auto; */
 }
-
 .cardContent::-webkit-scrollbar {
   width: 7px;
 }
