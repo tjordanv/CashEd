@@ -136,6 +136,7 @@ package com.tjv.FinApp.services;
 import com.google.gson.Gson;
 import com.plaid.client.model.*;
 import com.plaid.client.request.PlaidApi;
+import com.tjv.FinApp.model.Account;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,6 +145,7 @@ import retrofit2.Response;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class PlaidService {
@@ -195,6 +197,14 @@ public class PlaidService {
             accessToken = response.body().getAccessToken();
         }
 
+        AccountsGetRequest accReq = new AccountsGetRequest().accessToken(accessToken);
+        Response<AccountsGetResponse> accResp = plaidClient.accountsGet(accReq).execute();
+
+        List<AccountBase> accounts = accResp.body().getAccounts();
+
+        for (AccountBase account : accounts) {
+            System.out.println(account.toString());
+        }
         try {
             Gson gson = new Gson();
             PlaidError error = gson.fromJson(response.errorBody().string(), PlaidError.class);
