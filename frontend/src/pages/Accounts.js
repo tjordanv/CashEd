@@ -7,12 +7,13 @@ const Accounts = () => {
   const [accessToken, setAccessToken] = useState(null)
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [accounts, setAccounts] = useState(null)
 
   const onSuccess = useCallback(async (publicToken, metadata) => {
     //console.log("publicToken: " + publicToken)
     setLoading(true)
-    const accessTokenResponse = await fetch(
-      "http://localhost:8080/auth/exchangePublicToken",
+    const accessTokenResponse = await fetcher(
+      "http://localhost:8080/exchangePublicToken",
       {
         method: "POST",
         headers: {
@@ -29,7 +30,7 @@ const Accounts = () => {
 
   // Creates a Link token
   const createLinkToken = useCallback(async () => {
-    const response = await fetch("http://localhost:8080/auth/createLinkToken", {
+    const response = await fetcher("http://localhost:8080/createLinkToken", {
       method: "GET",
       mode: "cors",
       headers: {
@@ -39,6 +40,9 @@ const Accounts = () => {
     const data = await response.json()
     setToken(data.token)
   }, [setToken])
+
+  // Select and save accounts
+  const saveAccounts = () => {}
 
   // Fetch balance data
   const getBalance = useCallback(
@@ -63,6 +67,7 @@ const Accounts = () => {
     [setData, setLoading]
   )
 
+  // Fetch Transactions
   const getTransactions = useCallback(
     async (accessToken) => {
       setLoading(true)

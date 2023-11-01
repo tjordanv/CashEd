@@ -216,6 +216,14 @@ CREATE TABLE access_tokens (
 	
 	CONSTRAINT PK_access_tokens PRIMARY KEY (id)
 );
+CREATE TABLE temp_access_tokens (
+	id serial NOT NULL,
+	token varchar(200) NOT NULL,
+	user_id int NOT NULL, 
+	expiration_date timestamptz NOT NULL DEFAULT (Now() + INTERVAL '20 minutes'),
+
+	CONSTRAINT PK_access_tokens PRIMARY KEY (id)
+);
 CREATE TABLE account_types (
 	id serial NOT NULL,
 	name varchar(40),

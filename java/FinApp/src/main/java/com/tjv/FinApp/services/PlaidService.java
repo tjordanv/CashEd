@@ -136,13 +136,15 @@ package com.tjv.FinApp.services;
 import com.google.gson.Gson;
 import com.plaid.client.model.*;
 import com.plaid.client.request.PlaidApi;
-import com.tjv.FinApp.model.Account;
+import com.tjv.FinApp.dao.UserDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import retrofit2.Response;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -150,9 +152,17 @@ import java.util.List;
 @Service
 public class PlaidService {
     Logger log = LoggerFactory.getLogger(PlaidService.class);
+    private final UserDao userDao;
+    private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
+//    @Autowired
     private PlaidApi plaidClient;
+
+    public PlaidService(UserDao userDao, JdbcTemplate jdbcTemplate, PlaidApi plaidClient) {
+        this.userDao = userDao;
+        this.jdbcTemplate = jdbcTemplate;
+        this.plaidClient = plaidClient;
+    }
 
     /**
      * Creates a link token for initializing the Plaid Link flow. This represents a unique session for a user.
@@ -160,9 +170,10 @@ public class PlaidService {
      * @return The generated link token.
      * @throws Exception if an error occurs while creating the link token.
      */
-    public String createLinkToken() throws Exception {
+    public String createLinkToken(Principal principal) throws Exception {
+        int userId = userDao.getUserIdByUsername(principal);
         LinkTokenCreateRequestUser user =  new LinkTokenCreateRequestUser()
-                .clientUserId("user-id");
+                .clientUserId(String.valueOf(userId));
 
         LinkTokenCreateRequest request = new LinkTokenCreateRequest()
                 .user(user)
@@ -187,15 +198,21 @@ public class PlaidService {
      * @return The access token.
      * @throws Exception if an error occurs while exchanging the public token.
      */
-    public String exchangePublicToken(String token) throws Exception {
+    public String exchangePublicToken(Principal principal, String token) throws Exception {
         ItemPublicTokenExchangeRequest request = new ItemPublicTokenExchangeRequest().publicToken(token);
         Response<ItemPublicTokenExchangeResponse> response = plaidClient.itemPublicTokenExchange(request).execute();
-
+        System.out.println(token);
         String accessToken = "not found";
 
         if (response.isSuccessful()) {
             accessToken = response.body().getAccessToken();
         }
+        int userId = userDao.getUserIdByUsername(principal);
+        System.out.println("token: " + accessToken + "\nuser id: " +  userId);
+
+        String sql = "INSERT INTO temp_access_tokens (token, user_id) VALUES (?, ?)";
+
+        jdbcTemplate.update(sql, accessToken, userId);
 
         AccountsGetRequest accReq = new AccountsGetRequest().accessToken(accessToken);
         Response<AccountsGetResponse> accResp = plaidClient.accountsGet(accReq).execute();

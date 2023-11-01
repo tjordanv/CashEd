@@ -47,35 +47,33 @@ package com.tjv.FinApp.controller;
         import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.web.bind.annotation.*;
 
+        import java.security.Principal;
 @RestController
+@CrossOrigin
 public class PlaidController {
     @Autowired
     private PlaidService plaidService;
 
-    @CrossOrigin
-    @GetMapping("/auth/createLinkToken")
-    public PlaidToken createLinkToken() throws Exception {
+    @GetMapping("/createLinkToken")
+    public PlaidToken createLinkToken(Principal principal) throws Exception {
         PlaidToken linkToken = new PlaidToken();
-        linkToken.setToken(plaidService.createLinkToken());
+        linkToken.setToken(plaidService.createLinkToken(principal));
         linkToken.setTokenType("Link Token");
 
         return linkToken;
     }
-    @CrossOrigin
-    @PostMapping("/auth/exchangePublicToken")
-    public PlaidToken exchangePublicToken(@RequestBody PlaidToken publicToken) throws Exception {
+    @PostMapping("/exchangePublicToken")
+    public PlaidToken exchangePublicToken(Principal principal, @RequestBody PlaidToken publicToken) throws Exception {
         PlaidToken accessToken = new PlaidToken();
-        accessToken.setToken(plaidService.exchangePublicToken(publicToken.getToken()));
-        accessToken.setTokenType("Access Token");
+        accessToken.setToken(plaidService.exchangePublicToken(principal, publicToken.getToken()));
+        //accessToken.setTokenType("Access Token");
 
         return accessToken;
     }
-    @CrossOrigin
     @GetMapping("/transactions")
     public TransactionsGetResponse transactions(@RequestParam String accessToken) throws Exception {
         return plaidService.transactions(accessToken);
     }
-    @CrossOrigin
     @GetMapping("/accountBalance")
     public AccountBalance accountBalance(@RequestParam String accessToken) throws Exception {
         return plaidService.accountBalance(accessToken);
