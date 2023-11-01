@@ -222,7 +222,7 @@ CREATE TABLE account_types (
 
 	CONSTRAINT PK_account_types PRIMARY KEY (id)
 );
-INSERT INTO account_type (name) VALUES 
+INSERT INTO account_types (name) VALUES 
 	('depository'),
 	('credit'),
 	('loan'), 
@@ -236,7 +236,7 @@ CREATE TABLE account_subtypes (
 	CONSTRAINT PK_account_subtypes PRIMARY KEY (id),
 	CONSTRAINT FK_type_id FOREIGN KEY (type_id) REFERENCES account_types (id)
 );
-INSERT INTO account_subtype (name, description, type_id) VALUES 
+INSERT INTO account_subtypes (name, description, type_id) VALUES 
 	('checking', 'Checking account', 1),
 	('savings', 'Savings account', 1),
 	('hsa', 'Health Savings Account (US only)', 1),
@@ -326,36 +326,7 @@ CREATE TABLE accounts (
 
 	CONSTRAINT PK_accounts PRIMARY KEY (id),
 	CONSTRAINT FK_access_token_id FOREIGN KEY (access_token_id) REFERENCES access_tokens (id),
-	CONSTRAINT FK_user_id FOREIGN KEY (user_id) REFERENCES users (id),
- );
-CREATE TABLE transactions (
-	id serial NOT NULL,
-	transaction_id int NOT NULL,
-	account_id int NOT NULL,
-	user_id int NOT NULL, 
-	subcategory_id int NOT NULL,
-	name varchar(50) NOT NULL,
-	description varchar(200),
-	merchant_logo_url varchar(200),
-	merchant_website varchar(100),
-	date date, 
-	amount numeric(10,2) NOT NULL,
-	payment_channel_id int,
-	check_number varchar(40),
-	address varchar(150),
-	city varchar(75),
-	region varchar(75),
-	postal_code varchar(20),
-	country varchar(75),
-	created_date timestamptz DEFAULT Now(),
-	is_deleted boolean NOT NULL DEFAULT false,
-	deleted_date timestamptz,
-
-	CONSTRAINT PK_transactions PRIMARY KEY (id),
-	CONSTRAINT FK_account_id FOREIGN KEY (account_id) REFERENCES accounts (id),
-	CONSTRAINT FK_user_id FOREIGN KEY (user_id) REFERENCES users (id),
-	CONSTRAINT FK_subcategory_id FOREIGN KEY (subcategory_id) REFERENCES transaction_subcategories (id), 
-	CONSTRAINT FK_payment_channel_id FOREIGN KEY (payment_channel_id) REFERENCES payment_channels (id)
+	CONSTRAINT FK_user_id FOREIGN KEY (user_id) REFERENCES users (id)
  );
 CREATE TABLE transaction_categories (
 	id serial NOT NULL,
@@ -501,4 +472,33 @@ CREATE TABLE payment_channels (
 	('online'),
 	('in store'),
 	('other');
+CREATE TABLE transactions (
+	id serial NOT NULL,
+	transaction_id int NOT NULL,
+	account_id int NOT NULL,
+	user_id int NOT NULL, 
+	subcategory_id int NOT NULL,
+	name varchar(50) NOT NULL,
+	description varchar(200),
+	merchant_logo_url varchar(200),
+	merchant_website varchar(100),
+	date date, 
+	amount numeric(10,2) NOT NULL,
+	payment_channel_id int,
+	check_number varchar(40),
+	address varchar(150),
+	city varchar(75),
+	region varchar(75),
+	postal_code varchar(20),
+	country varchar(75),
+	created_date timestamptz DEFAULT Now(),
+	is_deleted boolean NOT NULL DEFAULT false,
+	deleted_date timestamptz,
+
+	CONSTRAINT PK_transactions PRIMARY KEY (id),
+	CONSTRAINT FK_account_id FOREIGN KEY (account_id) REFERENCES accounts (id),
+	CONSTRAINT FK_user_id FOREIGN KEY (user_id) REFERENCES users (id),
+	CONSTRAINT FK_subcategory_id FOREIGN KEY (subcategory_id) REFERENCES transaction_subcategories (id), 
+	CONSTRAINT FK_payment_channel_id FOREIGN KEY (payment_channel_id) REFERENCES payment_channels (id)
+ );
 COMMIT TRANSACTION;
