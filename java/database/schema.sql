@@ -208,8 +208,6 @@ CREATE TABLE access_tokens (
 	id serial NOT NULL,
 	token varchar(200) NOT NULL,
 	user_id int NOT NULL, 
-	is_expired boolean NOT NULL DEFAULT false,
-	expiration_date date NOT NULL,
 	is_deleted boolean NOT NULL DEFAULT false,
 	deleted_date date,
 	created_date timestamptz DEFAULT Now(),

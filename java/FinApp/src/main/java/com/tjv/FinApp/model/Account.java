@@ -6,11 +6,21 @@ public class Account {
     private String mask;
     private String name;
     private String officialName;
+    private String logo;
     private String persistentAccountId;
     private String subtype;
     private String type;
 
+    public Account() {};
     // Getters and setters for each field
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
 
     public String getAccountId() {
         return accountId;

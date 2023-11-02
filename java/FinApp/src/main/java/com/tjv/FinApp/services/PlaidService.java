@@ -137,6 +137,8 @@ import com.google.gson.Gson;
 import com.plaid.client.model.*;
 import com.plaid.client.request.PlaidApi;
 import com.tjv.FinApp.dao.UserDao;
+import com.tjv.FinApp.model.Account;
+import com.tjv.FinApp.model.TestModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,8 +146,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import retrofit2.Response;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -198,7 +202,7 @@ public class PlaidService {
      * @return The access token.
      * @throws Exception if an error occurs while exchanging the public token.
      */
-    public String exchangePublicToken(Principal principal, String token) throws Exception {
+    public List<Account> exchangePublicToken(Principal principal, String token) throws Exception {
         ItemPublicTokenExchangeRequest request = new ItemPublicTokenExchangeRequest().publicToken(token);
         Response<ItemPublicTokenExchangeResponse> response = plaidClient.itemPublicTokenExchange(request).execute();
         System.out.println(token);
@@ -218,9 +222,19 @@ public class PlaidService {
         Response<AccountsGetResponse> accResp = plaidClient.accountsGet(accReq).execute();
 
         List<AccountBase> accounts = accResp.body().getAccounts();
-
+        List<Account> accts = new ArrayList<>();
+        Item item = test(accessToken);
+        Institution inst = test2(item.getInstitutionId());
         for (AccountBase account : accounts) {
-            System.out.println(account.toString());
+            Account acc = new Account();
+            acc.setAccountId(account.getAccountId());
+            acc.setMask(account.getMask());
+            acc.setName(account.getName());
+            acc.setOfficialName(account.getOfficialName());
+            acc.setType(account.getType().getValue());
+            acc.setSubtype(account.getSubtype().getValue());
+            acc.setLogo(inst.getLogo());
+            accts.add(acc);
         }
         try {
             Gson gson = new Gson();
@@ -228,7 +242,7 @@ public class PlaidService {
             log.info(error.toString());
         } catch (Exception ignored) {
         }
-        return accessToken;
+        return accts;
     }
 
     /**
@@ -296,5 +310,26 @@ public class PlaidService {
         response = plaidClient.accountsBalanceGet(request).execute();
 
         return response.body().getAccounts().get(0).getBalances();
+    }
+
+    public Item test(String accessToken) throws IOException {
+        ItemGetRequest request = new ItemGetRequest()
+                .accessToken(accessToken);
+        Response<ItemGetResponse> response = plaidClient.itemGet(request).execute();
+        return response.body().getItem();
+    }
+
+    public Institution test2(String institutionId) throws IOException {
+        CountryCode countryCode = CountryCode.US;
+        InstitutionsGetByIdRequestOptions options = new InstitutionsGetByIdRequestOptions()
+                .includeOptionalMetadata(true);
+    InstitutionsGetByIdRequest request = new InstitutionsGetByIdRequest()
+            .institutionId(institutionId)
+            .options(options)
+            .addCountryCodesItem(countryCode);
+    Response<InstitutionsGetByIdResponse> response = plaidClient
+            .institutionsGetById(request)
+            .execute();
+    return  response.body().getInstitution();
     }
 }

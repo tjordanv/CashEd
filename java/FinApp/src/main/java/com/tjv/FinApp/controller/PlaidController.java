@@ -40,14 +40,17 @@
 // Sandbox version
 package com.tjv.FinApp.controller;
 
+        import com.plaid.client.model.*;
+        import com.tjv.FinApp.model.Account;
         import com.tjv.FinApp.model.PlaidToken;
         import com.tjv.FinApp.services.PlaidService;
-        import com.plaid.client.model.AccountBalance;
-        import com.plaid.client.model.TransactionsGetResponse;
         import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.web.bind.annotation.*;
 
+        import java.io.IOException;
         import java.security.Principal;
+        import java.util.List;
+
 @RestController
 @CrossOrigin
 public class PlaidController {
@@ -63,12 +66,18 @@ public class PlaidController {
         return linkToken;
     }
     @PostMapping("/exchangePublicToken")
-    public PlaidToken exchangePublicToken(Principal principal, @RequestBody PlaidToken publicToken) throws Exception {
-        PlaidToken accessToken = new PlaidToken();
-        accessToken.setToken(plaidService.exchangePublicToken(principal, publicToken.getToken()));
-        //accessToken.setTokenType("Access Token");
+    public List<Account> exchangePublicToken(Principal principal, @RequestBody PlaidToken publicToken) throws Exception {
+        return plaidService.exchangePublicToken(principal, publicToken.getToken());
 
-        return accessToken;
+//        return accessToken;
+    }
+    @GetMapping("/test")
+    public Item test(@RequestBody PlaidToken accessToken) throws IOException {
+        return plaidService.test(accessToken.getToken());
+    }
+    @GetMapping("/test2")
+    public Institution test2(@RequestParam String institutionId) throws IOException {
+        return plaidService.test2(institutionId);
     }
     @GetMapping("/transactions")
     public TransactionsGetResponse transactions(@RequestParam String accessToken) throws Exception {

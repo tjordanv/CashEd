@@ -27,17 +27,23 @@ const theme = createTheme({
     primary: {
       main: "#17C3B2",
       text: "#454545"
-    }
-  },
-  components: {
-    CardHeader: {
-      styleOverrides: {
-        title: {
-          fontSize: "large"
-        }
-      }
+    },
+    danger: {
+      main: "#FF095F"
+    },
+    secondary: {
+      main: "#227C9D"
     }
   }
+  // components: {
+  //   CardHeader: {
+  //     styleOverrides: {
+  //       title: {
+  //         fontSize: "large"
+  //       }
+  //     }
+  //   }
+  // }
 })
 
 const router = createBrowserRouter([
