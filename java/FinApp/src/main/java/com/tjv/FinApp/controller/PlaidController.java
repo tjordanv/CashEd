@@ -74,6 +74,15 @@ public class PlaidController {
         List<Account> accounts = plaidService.getAccounts(principal);
         return accounts.size() > 0 ? accounts : null;
     }
+    @PutMapping("/deleteAccount")
+    public boolean deleteAccount(@RequestParam int id) throws Exception {
+        return plaidService.deleteAccount(id);
+    }
+    @PutMapping("/updateAccount")
+    public boolean updateAccount(@RequestParam int id, @RequestParam String nickname) throws Exception {
+        return plaidService.updateAccount(id, nickname);
+    }
+
     @GetMapping("/test")
     public Item test(@RequestBody PlaidToken accessToken) throws IOException {
         return plaidService.test(accessToken.getToken());

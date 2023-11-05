@@ -12,7 +12,7 @@ import { fetchNotificationCounts } from "../../state/notificationsSlice"
 import { useEffect } from "react"
 
 const HeaderContainer = styled(Box)(({ theme }) => ({
-  height: "70px",
+  maxHeight: "50px",
   borderBottom: "2px solid rgba(119, 119, 119, 0.5)"
 }))
 

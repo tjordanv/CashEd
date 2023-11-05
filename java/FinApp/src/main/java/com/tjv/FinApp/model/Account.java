@@ -1,6 +1,7 @@
 package com.tjv.FinApp.model;
 
 public class Account {
+    private int id;
     private String accountId;
     private Balances balances;
     private String mask;
@@ -10,6 +11,15 @@ public class Account {
     private String persistentAccountId;
     private String subtype;
     private String type;
+    private String nickname;
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
     public Account() {};
     // Getters and setters for each field
@@ -84,6 +94,14 @@ public class Account {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     // Inner class for Balances

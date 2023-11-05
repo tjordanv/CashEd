@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { usePlaidLink } from "react-plaid-link"
 import fetcher from "../components/HelperFunctions/fetchAuthorize"
-import { Box, Stack } from "@mui/material"
-import FormControlLabel from "@mui/material/FormControlLabel"
-import Checkbox from "@mui/material/Checkbox"
-import NewAccountCard from "../components/NewAccountCard"
+import { Box, Chip, Divider, IconButton, List, Typography } from "@mui/material"
 import { useLoaderData } from "react-router-dom"
 import FetchError from "../components/HelperComponents/FetchError"
+import AccountCardsList from "../components/AccountCardsList"
+import classes from "./Accounts.module.css"
+import AddCircleIcon from "@mui/icons-material/AddCircle"
 
 const accountsLoader = async () => {
   try {
@@ -23,25 +23,87 @@ const accountsLoader = async () => {
 export { accountsLoader }
 const Accounts = () => {
   const [token, setToken] = useState(null)
-  const [accessToken, setAccessToken] = useState(null)
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [accounts, setAccounts] = useState(useLoaderData())
+  const [newAccounts, setNewAccounts] = useState([])
 
-  const setAccountsHandler = ({ index, value }) => {
-    const newAccounts = [...accounts]
+  const updateNicknameHandler = (id, value) => {
+    let tempAccounts = newAccounts
 
-    newAccounts[index] = {
-      ...newAccounts[index],
-      isSelected: value
+    for (let i = 0; i < tempAccounts.length; i++) {
+      if (tempAccounts[i].id === id) {
+        tempAccounts[i].nickname = value
+
+        setNewAccounts(tempAccounts)
+        return
+      }
     }
-    setAccounts(newAccounts)
+    tempAccounts = accounts
+    for (let i = 0; i < tempAccounts.length; i++) {
+      if (tempAccounts[i].id === id) {
+        tempAccounts[i].nickname = value
+
+        setAccounts(tempAccounts)
+        return
+      }
+    }
   }
-  const removeAccountHandler = ({ accountId }) => {
-    const newAccounts = accounts.filter(
-      (account) => account.accountId !== accountId
-    )
-    setAccounts(newAccounts)
+  // const updateAccountHandler = (id) => {
+  //   const tempAccounts = newAccounts
+  //   tempAccounts.forEach((account) => {
+  //     if (account.id === id) {
+  //       account.nickname =
+  //     }
+  //   }
+
+  //   if (tempAccounts.length === newAccounts.length) {
+  //     const tempAccounts = accounts.filter((account) => account.id !== id)
+
+  //     setAccounts(tempAccounts)
+  //   } else {
+  //     setNewAccounts(tempAccounts)
+  //   }
+  //   newAccounts[index] = {
+  //     ...newAccounts[index],
+  //     isSelected: value
+  //   }
+  //   setAccounts(newAccounts)
+  // }
+
+  const removeAccountHandler = async (id) => {
+    try {
+      const response = await fetcher(
+        `http://localhost:8080/deleteAccount?${new URLSearchParams({
+          id: id
+        })}`,
+        {
+          method: "PUT",
+          mode: "cors",
+          headers: { "Content-Type": "application/json" }
+        }
+      )
+      if (!response.ok) {
+        throw new FetchError.fromResponse(response)
+      } else if (response.status === 200) {
+        if (!response.json()) {
+          throw new Error("Account not deleted")
+        } else {
+          const tempAccounts = newAccounts.filter(
+            (account) => account.id !== id
+          )
+          if (tempAccounts.length === newAccounts.length) {
+            const tempAccounts = accounts.filter((account) => account.id !== id)
+
+            setAccounts(tempAccounts)
+          } else {
+            setNewAccounts(tempAccounts)
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const onSuccess = useCallback(async (publicToken, metadata) => {
@@ -61,7 +123,7 @@ const Accounts = () => {
     )
     const accessTokenResponseJson = await accessTokenResponse.json()
     accessTokenResponseJson.forEach((account) => (account.isSelected = true))
-    setAccounts(accessTokenResponseJson)
+    setNewAccounts(accessTokenResponseJson)
   }, [])
 
   // Creates a Link token
@@ -146,38 +208,65 @@ const Accounts = () => {
   }, [token, ready, open])
 
   return (
-    <div>
-      <button onClick={() => open()} disabled={!ready}>
-        <strong>Link account</strong>
-      </button>
-
-      <button onClick={() => getBalance(accessToken)}>get balance</button>
-      <button onClick={() => getTransactions(accessToken)}>
-        get transactions
-      </button>
-      <button onClick={() => console.log("accounts: " + accounts[0])}>
-        log
-      </button>
-      {!loading &&
-        data != null &&
-        Object.entries(data).map((entry, i) => (
-          <pre key={i}>
-            <code>{JSON.stringify(entry[1], null, 2)}</code>
-          </pre>
-        ))}
-      {accounts && (
-        <Stack spacing={3}>
-          {accounts.map((account) => (
-            <NewAccountCard
-              key={account.accountId}
-              account={account}
-              removeAccountHandler={removeAccountHandler}
-            />
-          ))}
-        </Stack>
-      )}
-    </div>
+    <Box className={classes.container}>
+      <IconButton
+        className={classes.addButton}
+        onClick={() => open()}
+        disabled={!ready}
+        aria-label="Add Accounts"
+        color="primary"
+      >
+        <AddCircleIcon sx={{ fontSize: "50px" }} />
+      </IconButton>
+      <Divider orientation="vertical" flexItem sx={{ margin: "65px 30px" }} />
+      <Box className={classes.accounts}>
+        <Typography variant="h6">Connected Accounts</Typography>
+        <List className={classes.accountsList}>
+          {newAccounts.length > 0 && (
+            <Box>
+              <Divider sx={{ width: "500px", margin: "5px" }}>
+                <Chip label="NEW" />
+              </Divider>
+            </Box>
+          )}
+          <AccountCardsList
+            accounts={newAccounts}
+            removeAccountHandler={removeAccountHandler}
+            updateNicknameHandler={updateNicknameHandler}
+          />
+          {newAccounts.length > 0 && (
+            <Divider sx={{ width: "500px", margin: "20px" }} />
+          )}
+          <AccountCardsList
+            accounts={accounts}
+            removeAccountHandler={removeAccountHandler}
+            updateNicknameHandler={updateNicknameHandler}
+          />
+        </List>
+      </Box>
+      <Divider orientation="vertical" flexItem sx={{ margin: "65px 30px" }} />
+    </Box>
   )
 }
 export default Accounts
-// accounts.map((account, index) => <NewAccountCard account={account} />)}
+
+{
+  /* <button onClick={() => open()} disabled={!ready}>
+<strong>Link account</strong>
+</button>
+
+<button onClick={() => getBalance(accessToken)}>get balance</button>
+<button onClick={() => getTransactions(accessToken)}>
+get transactions
+</button>
+<button onClick={() => console.log("accounts: " + accounts[0])}>
+log
+</button>
+{!loading &&
+data != null &&
+Object.entries(data).map((entry, i) => (
+  <pre key={i}>
+    <code>{JSON.stringify(entry[1], null, 2)}</code>
+  </pre>
+))} */
+}
