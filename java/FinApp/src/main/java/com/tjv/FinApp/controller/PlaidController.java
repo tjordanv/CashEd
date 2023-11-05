@@ -68,8 +68,11 @@ public class PlaidController {
     @PostMapping("/exchangePublicToken")
     public List<Account> exchangePublicToken(Principal principal, @RequestBody PlaidToken publicToken) throws Exception {
         return plaidService.exchangePublicToken(principal, publicToken.getToken());
-
-//        return accessToken;
+    }
+    @GetMapping("/getAccounts")
+    public List<Account> getAccounts(Principal principal) {
+        List<Account> accounts = plaidService.getAccounts(principal);
+        return accounts.size() > 0 ? accounts : null;
     }
     @GetMapping("/test")
     public Item test(@RequestBody PlaidToken accessToken) throws IOException {

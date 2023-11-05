@@ -19,6 +19,7 @@ import Home from "./pages/Home"
 import Contact from "./pages/Contact"
 import TransactionImportOLD from "./pages/TransactionImport(old)"
 import Accounts from "./pages/Accounts"
+import { accountsLoader } from "./pages/Accounts"
 
 import "./App.css"
 
@@ -29,7 +30,8 @@ const theme = createTheme({
       text: "#454545"
     },
     danger: {
-      main: "#FF095F"
+      main: "#fa4343",
+      dark: "#b53131"
     },
     secondary: {
       main: "#227C9D"
@@ -98,7 +100,8 @@ const router = createBrowserRouter([
       },
       {
         path: "accounts",
-        element: <Accounts />
+        element: <Accounts />,
+        loader: accountsLoader
       }
     ]
   },

@@ -17,7 +17,7 @@ const Transaction = ({ transaction, index, deleteTransactionHandler }) => {
   const [isHovered, setIsHovered] = useState(false)
 
   const confirmationDialogDetails = {
-    title: "Are you sure you want to delete this transaction?",
+    title: "Delete transaction?",
     description:
       "This cannot be undone and this transaction will not appear in future imports.",
     confirmationLabel: "Delete"

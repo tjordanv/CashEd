@@ -214,14 +214,14 @@ CREATE TABLE access_tokens (
 	
 	CONSTRAINT PK_access_tokens PRIMARY KEY (id)
 );
-CREATE TABLE temp_access_tokens (
-	id serial NOT NULL,
-	token varchar(200) NOT NULL,
-	user_id int NOT NULL, 
-	expiration_date timestamptz NOT NULL DEFAULT (Now() + INTERVAL '20 minutes'),
+-- CREATE TABLE temp_access_tokens (
+-- 	id serial NOT NULL,
+-- 	token varchar(200) NOT NULL,
+-- 	user_id int NOT NULL, 
+-- 	expiration_date timestamptz NOT NULL DEFAULT (Now() + INTERVAL '20 minutes'),
 
-	CONSTRAINT PK_access_tokens PRIMARY KEY (id)
-);
+-- 	CONSTRAINT PK_access_tokens PRIMARY KEY (id)
+-- );
 CREATE TABLE account_types (
 	id serial NOT NULL,
 	name varchar(40),
@@ -326,6 +326,7 @@ CREATE TABLE accounts (
 	official_name varchar(150),
 	mask varchar(4) NOT NULL,
 	subtype_id int,
+	logo_id int,
 	created_date timestamptz DEFAULT Now(),
 	is_deleted boolean NOT NULL DEFAULT false,
 	deleted_date date,
@@ -334,6 +335,12 @@ CREATE TABLE accounts (
 	CONSTRAINT FK_access_token_id FOREIGN KEY (access_token_id) REFERENCES access_tokens (id),
 	CONSTRAINT FK_user_id FOREIGN KEY (user_id) REFERENCES users (id)
  );
+CREATE TABLE logos (
+	id serial NOT NULL,
+	logo varchar(10000),
+
+	CONSTRAINT PK_logos PRIMARY KEY (id)
+); 
 CREATE TABLE transaction_categories (
 	id serial NOT NULL,
 	name varchar(50) NOT NULL,
@@ -345,6 +352,7 @@ INSERT INTO transaction_categories (name) VALUES
 	('Saving and Investments'),
 	('Variable Expenses'),
 	('Fixed Expenses');
+
 CREATE TABLE transaction_subcategories (
 	id serial NOT NULL,
 	name varchar(40) NOT NULL,
@@ -356,6 +364,7 @@ CREATE TABLE transaction_subcategories (
 	CONSTRAINT PK_transaction_subcategories PRIMARY KEY (id),
 	CONSTRAINT FK_category_id FOREIGN KEY (category_id) REFERENCES transaction_categories (id)
  );
+
 INSERT INTO transaction_subcategories (name, detailed_name, description, category_id) VALUES
 	('Dividends','Income Dividends','Dividends from investment accounts', 1),
 	('Interest Earned','Income Interest Earned','Income from interest on savings accounts', 1),

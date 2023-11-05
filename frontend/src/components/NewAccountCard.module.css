@@ -1,17 +1,21 @@
 .container {
-  width: 500px;
+  width: 600px;
 }
 .container .logo {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
 }
 .container .cardContent {
-  margin-left: 66px;
+  margin-left: 92px;
   margin-right: 56px;
   display: flex;
   flex-direction: column;
+  padding: 0;
 }
 .container .cardContent button {
   width: 100px;
   align-self: center;
+}
+.container .saveButton {
+  margin-left: auto;
 }

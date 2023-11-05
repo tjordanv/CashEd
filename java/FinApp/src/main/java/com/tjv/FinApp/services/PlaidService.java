@@ -142,12 +142,17 @@ import com.tjv.FinApp.model.TestModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Service;
 import retrofit2.Response;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -214,9 +219,9 @@ public class PlaidService {
         int userId = userDao.getUserIdByUsername(principal);
         System.out.println("token: " + accessToken + "\nuser id: " +  userId);
 
-        String sql = "INSERT INTO temp_access_tokens (token, user_id) VALUES (?, ?)";
+        String sql = "INSERT INTO access_tokens (token, user_id) VALUES (?, ?) RETURNING ID";
 
-        jdbcTemplate.update(sql, accessToken, userId);
+        Integer tokenId = jdbcTemplate.queryForObject(sql, Integer.class, accessToken, userId);
 
         AccountsGetRequest accReq = new AccountsGetRequest().accessToken(accessToken);
         Response<AccountsGetResponse> accResp = plaidClient.accountsGet(accReq).execute();
@@ -225,17 +230,53 @@ public class PlaidService {
         List<Account> accts = new ArrayList<>();
         Item item = test(accessToken);
         Institution inst = test2(item.getInstitutionId());
-        for (AccountBase account : accounts) {
-            Account acc = new Account();
-            acc.setAccountId(account.getAccountId());
-            acc.setMask(account.getMask());
-            acc.setName(account.getName());
-            acc.setOfficialName(account.getOfficialName());
-            acc.setType(account.getType().getValue());
-            acc.setSubtype(account.getSubtype().getValue());
-            acc.setLogo(inst.getLogo());
-            accts.add(acc);
-        }
+
+        String insertAccountsQuery = "INSERT INTO accounts (account_id, access_token_id, user_id, name, official_name, mask, subtype_id, logo_id) VALUES (?, ?, ?, ?, ?, ?,(SELECT id FROM account_subtypes WHERE name = ?), ?)";
+        String accountCheckQuery = "SELECT id from accounts where account_id = ? and is_deleted = false";
+        String getLogoQuery = "SELECT id from logos where logo = ?";
+        String insertLogoQuery = "INSERT INTO logos (logo) VALUES (?) returning id";
+        jdbcTemplate.batchUpdate(insertAccountsQuery, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                AccountBase account = accounts.get(i);
+
+                SqlRowSet isExistingAccount = jdbcTemplate.queryForRowSet(accountCheckQuery, account.getAccountId());
+
+                if (!isExistingAccount.next()) {
+                    SqlRowSet isExistingLogo = jdbcTemplate.queryForRowSet(getLogoQuery, inst.getLogo());
+                    int logoId;
+                    if(isExistingLogo.next()) {
+                        logoId = isExistingLogo.getInt("id");
+                    } else {
+                        logoId = jdbcTemplate.queryForObject(insertLogoQuery, Integer.class, inst.getLogo());
+                    }
+
+                    Account acc = new Account();
+                    acc.setAccountId(account.getAccountId());
+                    acc.setName(account.getName());
+                    acc.setOfficialName(account.getOfficialName());
+                    acc.setMask(account.getMask());
+                    acc.setSubtype(account.getSubtype().getValue());
+                    acc.setLogo(inst.getLogo());
+
+                    ps.setString(1, account.getAccountId());
+                    ps.setInt(2, tokenId);
+                    ps.setInt(3, userId);
+                    ps.setString(4, account.getName());
+                    ps.setString(5, account.getOfficialName());
+                    ps.setString(6, account.getMask());
+                    ps.setString(7, account.getSubtype().getValue());
+                    ps.setInt(8, logoId);
+
+                    accts.add(acc);
+                }
+            }
+
+            @Override
+            public int getBatchSize() {
+                return accounts.size();
+            }
+        });
         try {
             Gson gson = new Gson();
             PlaidError error = gson.fromJson(response.errorBody().string(), PlaidError.class);
@@ -245,6 +286,17 @@ public class PlaidService {
         return accts;
     }
 
+    public List<Account> getAccounts(Principal principal) {
+        String sql = "SELECT account_id, a.name as account_name, mask, official_name, logo, s.name as subtype_name FROM accounts a LEFT JOIN logos l ON a.logo_id = l.id LEFT JOIN account_subtypes s on a.subtype_id = s.id WHERE user_id = ?";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userDao.getUserIdByUsername(principal));
+        List<Account> accounts = new ArrayList<>();
+        while(results.next()) {
+            Account account = mapRowToAccount(results);
+            accounts.add(account);
+        }
+        return accounts;
+    }
     /**
      * Retrieves transactions for a given access token.
      *
@@ -331,5 +383,18 @@ public class PlaidService {
             .institutionsGetById(request)
             .execute();
     return  response.body().getInstitution();
+    }
+    public Account mapRowToAccount(SqlRowSet rs) {
+        Account account = new Account();
+        account.setAccountId(rs.getString("account_id"));
+        account.setName(rs.getString("account_name"));
+        account.setMask(rs.getString("mask"));
+        if (rs.findColumn("official_name") > 0) {
+            account.setOfficialName(rs.getString("official_name"));
+        }
+        account.setLogo(rs.getString("logo"));
+        account.setSubtype(rs.getString("subtype_name"));
+
+        return account;
     }
 }
