@@ -28,48 +28,47 @@ const Accounts = () => {
   const [accounts, setAccounts] = useState(useLoaderData())
   const [newAccounts, setNewAccounts] = useState([])
 
-  const updateNicknameHandler = (id, value) => {
-    let tempAccounts = newAccounts
+  const saveAccountHandler = async (id, nickname) => {
+    const checkAccounts = async (accountsArray, setAccountHandler) => {
+      if (!accountsArray) return false
 
-    for (let i = 0; i < tempAccounts.length; i++) {
-      if (tempAccounts[i].id === id) {
-        tempAccounts[i].nickname = value
-
-        setNewAccounts(tempAccounts)
-        return
+      let tempAccounts = accountsArray
+      for (let i = 0; i < tempAccounts.length; i++) {
+        if (tempAccounts[i].id === id) {
+          tempAccounts[i].nickname = nickname
+          // make api request to save updated account
+          const response = await fetcher(
+            `http://localhost:8080/updateAccount?${new URLSearchParams({
+              id: id,
+              nickname: nickname
+            })}`,
+            {
+              method: "PUT",
+              mode: "cors",
+              headers: { "Content-Type": "application/json" }
+            }
+          )
+          if (!response.ok) {
+            throw new FetchError.fromResponse(response)
+          } else if (response.status === 200) {
+            if (!response.json()) {
+              throw new Error("Account not updated")
+            } else {
+              setAccountHandler(tempAccounts)
+              return true
+            }
+          }
+        }
       }
+      return false
     }
-    tempAccounts = accounts
-    for (let i = 0; i < tempAccounts.length; i++) {
-      if (tempAccounts[i].id === id) {
-        tempAccounts[i].nickname = value
 
-        setAccounts(tempAccounts)
-        return
-      }
+    if (await checkAccounts(newAccounts, setNewAccounts)) {
+      return
+    } else {
+      await checkAccounts(accounts, setAccounts)
     }
   }
-  // const updateAccountHandler = (id) => {
-  //   const tempAccounts = newAccounts
-  //   tempAccounts.forEach((account) => {
-  //     if (account.id === id) {
-  //       account.nickname =
-  //     }
-  //   }
-
-  //   if (tempAccounts.length === newAccounts.length) {
-  //     const tempAccounts = accounts.filter((account) => account.id !== id)
-
-  //     setAccounts(tempAccounts)
-  //   } else {
-  //     setNewAccounts(tempAccounts)
-  //   }
-  //   newAccounts[index] = {
-  //     ...newAccounts[index],
-  //     isSelected: value
-  //   }
-  //   setAccounts(newAccounts)
-  // }
 
   const removeAccountHandler = async (id) => {
     try {
@@ -232,7 +231,7 @@ const Accounts = () => {
           <AccountCardsList
             accounts={newAccounts}
             removeAccountHandler={removeAccountHandler}
-            updateNicknameHandler={updateNicknameHandler}
+            saveAccountHandler={saveAccountHandler}
           />
           {newAccounts.length > 0 && (
             <Divider sx={{ width: "500px", margin: "20px" }} />
@@ -240,7 +239,7 @@ const Accounts = () => {
           <AccountCardsList
             accounts={accounts}
             removeAccountHandler={removeAccountHandler}
-            updateNicknameHandler={updateNicknameHandler}
+            saveAccountHandler={saveAccountHandler}
           />
         </List>
       </Box>

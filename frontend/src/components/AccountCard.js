@@ -15,14 +15,49 @@ import ConfirmationDialog from "./HelperComponents/ConfirmationDialog"
 import Zoom from "@mui/material/Zoom"
 import SaveIcon from "@mui/icons-material/Save"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Collapse from "@mui/material/Collapse"
+import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined"
+import PriorityHighIcon from "@mui/icons-material/PriorityHigh"
+import Alert from "@mui/material/Alert"
 
-const AccountCard = ({
-  account,
-  removeAccountHandler,
-  updateNicknameHandler
-}) => {
+const AccountCard = ({ account, removeAccountHandler, saveAccountHandler }) => {
+  const [nickname, setNickname] = useState(account.nickname)
+  const [nicknameFlag, setNicknameFlag] = useState(false)
+  const [isAlert, setIsAlert] = useState(false)
+  const UnsavedChanges = () => {
+    if (nicknameFlag) {
+      return (
+        <Tooltip title="unsaved changes">
+          <ErrorOutlineOutlinedIcon fontSize="large" color="danger" />
+        </Tooltip>
+      )
+    } else if (isAlert) {
+      return (
+        <Alert
+          onClose={() => {
+            setIsAlert(false)
+          }}
+        >
+          Account saved
+        </Alert>
+      )
+    }
+  }
+
+  useEffect(() => {
+    if (nickname !== account.nickname) {
+      setNicknameFlag(true)
+    } else {
+      setNicknameFlag(false)
+    }
+  }, [nickname, account.nickname])
+
+  const saveAccount = () => {
+    saveAccountHandler(account.id, nickname)
+    setNicknameFlag(false)
+    setIsAlert(true)
+  }
   const [isExpanded, setIsExpanded] = useState(false)
   const expandClasses = `${classes["expandMore"]} ${
     isExpanded ? classes["expandMoreExpanded"] : ""
@@ -60,6 +95,7 @@ const AccountCard = ({
         titleTypographyProps={{
           fontSize: 22
         }}
+        action={<UnsavedChanges />}
       />
       <CardContent className={classes.cardContent}>
         <Typography variant="body1">{account.officialName}</Typography>
@@ -81,10 +117,8 @@ const AccountCard = ({
               label="Nickname"
               size="small"
               variant="standard"
-              value={account.nickname}
-              onChange={(e) =>
-                updateNicknameHandler(account.id, e.target.value)
-              }
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
               className={classes.nicknameInput}
             />
             <Tooltip
@@ -93,7 +127,7 @@ const AccountCard = ({
               TransitionComponent={Zoom}
               className={classes.saveButton}
             >
-              <IconButton onClick={() => console.log(account)}>
+              <IconButton onClick={saveAccount}>
                 <SaveIcon color="#777777" />
               </IconButton>
             </Tooltip>

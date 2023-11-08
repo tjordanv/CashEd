@@ -259,6 +259,7 @@ public class PlaidService {
                 acc.setOfficialName(account.getOfficialName());
                 acc.setMask(account.getMask());
                 acc.setSubtype(account.getSubtype().getValue());
+                acc.setNickname("");
                 acc.setLogo(inst.getLogo());
 
                 accts.add(acc);
