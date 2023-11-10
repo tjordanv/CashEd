@@ -145,15 +145,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Service;
 import retrofit2.Response;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -286,6 +287,26 @@ public class PlaidService {
         }
         return accounts;
     }
+    public List<Account> getAccounts(String accountIds) {
+        String[] tempIds = accountIds.split(",");
+
+        int[] ids = new int[tempIds.length];
+        for (int i = 0; i < tempIds.length; i++) {
+            ids[i] = Integer.valueOf(tempIds[i]);
+        }
+        String sql = "SELECT a.id as accountId, account_id, a.name as account_name, mask, official_name, nickname, logo, s.name as subtype_name FROM accounts a LEFT JOIN logos l ON a.logo_id = l.id LEFT JOIN account_subtypes s on a.subtype_id = s.id WHERE a.id = ANY(:ids) AND is_deleted = false";
+        SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("ids", ids, Types.ARRAY);
+
+        NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate.getDataSource());
+
+        SqlRowSet results = namedParameterJdbcTemplate.queryForRowSet(sql, namedParameters); //jdbcTemplate.queryForRowSet(sql, namedParameters);
+        List<Account> accounts = new ArrayList<>();
+        while(results.next()) {
+            Account account = mapRowToAccount(results);
+            accounts.add(account);
+        }
+        return accounts;
+    }
     public boolean deleteAccount(int id) {
         String sql = "UPDATE accounts SET is_deleted = true, deleted_date = now() where id = ?";
         try {
@@ -306,6 +327,19 @@ public class PlaidService {
             return false;
         }
     }
+    public String getAccessToken(Principal principal) {
+        int userId = userDao.getUserIdByUsername(principal);
+        String sql = "SELECT token FROM access_tokens WHERE user_id = ? AND is_deleted = false";
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+            if (results.next()) {
+                return results.getString("token");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return "";
+    }
     /**
      * Retrieves transactions for a given access token.
      *
@@ -313,10 +347,11 @@ public class PlaidService {
      * @return The transactions.
      * @throws Exception if an error occurs while retrieving the transactions.
      */
-    public TransactionsGetResponse transactions(String accessToken) throws Exception {
-        LocalDate startDate = LocalDate.of(2020, 10, 1);
-        LocalDate endDate = LocalDate.of(2023, 10, 1);
+    public TransactionsGetResponse transactions(String accountIds, Principal principal) throws Exception {
+        LocalDate endDate = LocalDate.now();
+        LocalDate startDate = endDate.minusMonths(1);
 
+        String accessToken = this.getAccessToken(principal);
         AccountsGetRequest agRequest = new AccountsGetRequest()
                 .accessToken(accessToken);
 
@@ -324,17 +359,23 @@ public class PlaidService {
                 .accountsGet(agRequest)
                 .execute();
         log.info("account response "+accountsGetResponse);
-        String someAccountId = accountsGetResponse
-                .body()
-                .getAccounts()
-                .get(0)
-                .getAccountId();
-        log.info("account id: "+someAccountId );
-        int numTxns = 10;
+//        String someAccountId = accountsGetResponse
+//                .body()
+//                .getAccounts()
+//                .get(0)
+//                .getAccountId();
+        List<Account> accounts = this.getAccounts(accountIds);
+        String[] ids = new String[accounts.size()];
+        for(int i = 0; i < accounts.size(); i++) {
+            ids[i] = accounts.get(i).getAccountId();
+        }
+//        System.out.println(someAccountId);
+        //log.info("account id: "+someAccountId );
+        //int numTxns = 10;
         TransactionsGetRequestOptions options = new TransactionsGetRequestOptions()
-                .accountIds(Arrays.asList(someAccountId))
-                .count(numTxns)
-                .offset(1);
+                .accountIds(Arrays.asList(ids));
+                //.count(numTxns)
+                //.offset(1);
         TransactionsGetRequest request = new TransactionsGetRequest()
                 .accessToken(accessToken)
                 .startDate(startDate)
@@ -346,6 +387,11 @@ public class PlaidService {
             if (apiResponse.isSuccessful()) {
                 log.info("transaction response: "+apiResponse);
                 break;
+            } else {
+                Gson gson = new Gson();
+                PlaidError error = gson.fromJson(apiResponse.errorBody().string(), PlaidError.class);
+                log.info(error.toString());
+                //System.out.println(apiResponse.errorBody());
             }
         }
         return apiResponse.body();

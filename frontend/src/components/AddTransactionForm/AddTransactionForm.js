@@ -11,6 +11,18 @@ import DialogActions from "@mui/material/DialogActions"
 import Autocomplete from "@mui/material/Autocomplete"
 import InputAdornment from "@mui/material/InputAdornment"
 import { useLoaderData } from "react-router-dom"
+import Checkbox from "@mui/material/Checkbox"
+import FetchError from "../HelperComponents/FetchError"
+import fetcher from "../HelperFunctions/fetchAuthorize"
+import FormControlLabel from "@mui/material/FormControlLabel"
+import {
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  Select,
+  Tooltip
+} from "@mui/material"
+import { CheckBox, DraftsSharp } from "@mui/icons-material"
 
 const AddTransactionsForm = ({
   setIsOpen,
@@ -28,30 +40,53 @@ const AddTransactionsForm = ({
     categoryId: null
   })
   const [subcategories, setSubcategories] = useState(useLoaderData())
-  const [accounts, setAccounts] = useState([
-    { id: 1, name: "PNC Checking 1234" },
-    { id: 2, name: "PNC Credit 4567" },
-    { id: 3, name: "Petal Checking 5426" }
-  ])
+  const [accounts, setAccounts] = useState([])
+  const [isAllAccounts, setIsAllAccounts] = useState(false)
+  const [selectedAccounts, setSelectedAccounts] = useState([])
 
   useEffect(() => {
-    const mergedSubcategories = [
-      ...subcategories[0],
-      ...subcategories[1],
-      ...subcategories[2],
-      ...subcategories[3]
-    ]
-    let formattedSubcategories = []
-    mergedSubcategories.forEach((subcategory) =>
-      formattedSubcategories.push({
-        id: subcategory.id,
-        categoryId: subcategory.categoryId,
-        label: subcategory.name
-      })
-    )
-    setSubcategories(formattedSubcategories)
+    const getAccounts = async () => {
+      try {
+        const response = await fetcher("http://localhost:8080/getAccounts")
+        if (!response.ok) {
+          throw new FetchError.fromResponse(response)
+        } else if (response.status === 200) {
+          const responseJson = await response.json()
+          setAccounts(responseJson)
+        }
+      } catch (error) {
+        return []
+      }
+    }
+    if (isSingleTransaction) {
+      const mergedSubcategories = [
+        ...subcategories[0],
+        ...subcategories[1],
+        ...subcategories[2],
+        ...subcategories[3]
+      ]
+      let formattedSubcategories = []
+      mergedSubcategories.forEach((subcategory) =>
+        formattedSubcategories.push({
+          id: subcategory.id,
+          categoryId: subcategory.categoryId,
+          label: subcategory.name
+        })
+      )
+      setSubcategories(formattedSubcategories)
+    }
+    getAccounts()
   }, [])
 
+  const handleChange = (event) => {
+    const {
+      target: { value }
+    } = event
+    setSelectedAccounts(
+      // On autofill we get a stringified value.
+      typeof value === "string" ? value.split(",") : value
+    )
+  }
   const updateTransactionHandler = (updatedField) => {
     const value =
       updatedField.name === "amount"
@@ -78,7 +113,7 @@ const AddTransactionsForm = ({
     }
   }
 
-  const imports = (e) => {
+  const imports = async (e) => {
     e.preventDefault()
 
     if (isSingleTransaction) {
@@ -86,10 +121,41 @@ const AddTransactionsForm = ({
         ? addUnassignedTransactions((prevState) => [transaction, ...prevState])
         : addTransaction((prevState) => [transaction, ...prevState])
     } else {
-      addUnassignedTransactions((prevState) => [
-        ...data.transactions,
-        ...prevState
-      ])
+      let ids = ""
+
+      switch (isAllAccounts) {
+        case true:
+          accounts.forEach((account) => (ids = ids + "," + account.id))
+          break
+        case false:
+          selectedAccounts.forEach((account) => (ids = ids + "," + account))
+          break
+        default:
+          break
+      }
+
+      ids = ids.substring(1)
+
+      try {
+        const response = await fetcher(
+          `http://localhost:8080/transactions?${new URLSearchParams({
+            accountIds: ids
+          })}`
+        )
+        if (!response.ok) {
+          throw new FetchError.fromResponse(response)
+        } else if (response.status === 200) {
+          const responseJson = await response.json()
+
+          console.log(responseJson)
+          addUnassignedTransactions((prevState) => [
+            ...responseJson.transactions,
+            ...prevState
+          ])
+        }
+      } catch (error) {
+        return []
+      }
     }
     setIsOpen(false)
   }
@@ -176,27 +242,39 @@ const AddTransactionsForm = ({
                 />
               </>
             )) || (
-              <TextField
-                id="accountSelect"
-                select
-                required
-                multiple
-                variant="outlined"
-                label="Account"
-                value={transaction.accountId}
-                onChange={(e) =>
-                  updateTransactionHandler({
-                    name: "accountId",
-                    value: e.target.value
-                  })
-                }
-              >
-                {accounts.map((account) => (
-                  <MenuItem key={account.id} value={account.id}>
-                    {account.name}
-                  </MenuItem>
-                ))}
-              </TextField>
+              <>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      value={isAllAccounts}
+                      onChange={() => setIsAllAccounts(!isAllAccounts)}
+                    />
+                  }
+                  label="Use all accounts?"
+                />
+                <FormControl>
+                  <InputLabel id="accountsLabel">Accounts</InputLabel>
+                  <Select
+                    id="accountSelect"
+                    labelId="accountsLabel"
+                    disabled={isAllAccounts}
+                    required
+                    multiple
+                    variant="outlined"
+                    value={selectedAccounts}
+                    input={<OutlinedInput label="Accounts" />}
+                    onChange={handleChange}
+                  >
+                    {accounts.map((account) => (
+                      //<Tooltip title={account.nickname}>
+                      <MenuItem key={account.id} value={account.id}>
+                        {account.name}
+                      </MenuItem>
+                      //</Tooltip>
+                    ))}
+                  </Select>
+                </FormControl>
+              </>
             )}
           </Stack>
         </Box>

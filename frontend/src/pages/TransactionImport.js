@@ -15,14 +15,14 @@ const TransactionImport = () => {
   const [activeTransactions, setActiveTransactions] = useState([])
 
   const deleteTransactionHandler = (transaction) => {
-    if (transaction.subcategoryId === null) {
+    if (transaction.subcategoryId === (null || undefined)) {
       const updatedTransactions = unassignedTransactions.filter(
-        (trans) => trans.id !== transaction.id
+        (trans) => trans.transactionId !== transaction.transactionId
       )
       setUnassignedTransactions(updatedTransactions)
     } else {
       const updatedTransactions = transactions.filter(
-        (trans) => trans.id !== transaction.id
+        (trans) => trans.transactionId !== transaction.transactionId
       )
       setTransactions(updatedTransactions)
     }
@@ -48,7 +48,8 @@ const TransactionImport = () => {
       setTransactions((prevState) => [...prevState, transactionToUpdate])
       setUnassignedTransactions((prevState) =>
         prevState.filter(
-          (transaction) => transaction.id !== transactionToUpdate.id
+          (transaction) =>
+            transaction.transactionId !== transactionToUpdate.transactionId
         )
       )
     } else if (!subcategoryId) {
@@ -57,7 +58,8 @@ const TransactionImport = () => {
       setUnassignedTransactions(tempTransactions)
       setTransactions((prevState) =>
         prevState.filter(
-          (transaction) => transaction.id !== transactionToUpdate.id
+          (transaction) =>
+            transaction.transactionId !== transactionToUpdate.transactionId
         )
       )
     } else {
@@ -116,7 +118,6 @@ const TransactionImport = () => {
       const [destinationSubcategoryId, destinationCategoryId] =
         destination.droppableId.split(",").map(Number)
 
-      console.log(source)
       addSubcategory({
         transactionIndex: source.index,
         subcategoryId: destinationSubcategoryId,
@@ -147,11 +148,11 @@ const TransactionImport = () => {
     <DragDropContext onDragEnd={onDragEnd}>
       <div className={classes.container}>
         <Box className={classes.newTransactionsContainer}>
-          {/* <Button
+          <Button
             onClick={() => console.log(transactions, unassignedTransactions)}
           >
             log
-          </Button> */}
+          </Button>
           <Typography variant="h6">New Transactions</Typography>
           <Divider
             sx={{ width: "90%", borderColor: "rgba(119, 119, 119, 0.5)" }}
