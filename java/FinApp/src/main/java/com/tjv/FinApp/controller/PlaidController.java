@@ -92,8 +92,11 @@ public class PlaidController {
         return plaidService.test2(institutionId);
     }
     @GetMapping("/transactions")
-    public TransactionsGetResponse transactions(@RequestParam String accountIds, Principal principal) throws Exception {
-        return plaidService.transactions(accountIds, principal);
+    public void transactions(@RequestParam String accountIds, Principal principal) throws Exception {
+        List<PlaidToken> accessTokens = plaidService.getAccessToken(principal);
+        for (PlaidToken accessToken : accessTokens) {
+            System.out.println(plaidService.transactions(accountIds, accessToken));
+        }
     }
     @GetMapping("/accountBalance")
     public AccountBalance accountBalance(@RequestParam String accessToken) throws Exception {
