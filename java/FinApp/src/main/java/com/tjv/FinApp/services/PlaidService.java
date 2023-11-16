@@ -139,12 +139,9 @@ import com.plaid.client.request.PlaidApi;
 import com.tjv.FinApp.dao.UserDao;
 import com.tjv.FinApp.model.Account;
 import com.tjv.FinApp.model.PlaidToken;
-import com.tjv.FinApp.model.TestModel;
+import com.tjv.FinApp.model.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -157,9 +154,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class PlaidService {
@@ -300,7 +295,7 @@ public class PlaidService {
 
         NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate.getDataSource());
 
-        SqlRowSet results = namedParameterJdbcTemplate.queryForRowSet(sql, namedParameters); //jdbcTemplate.queryForRowSet(sql, namedParameters);
+        SqlRowSet results = namedParameterJdbcTemplate.queryForRowSet(sql, namedParameters);
         List<Account> accounts = new ArrayList<>();
         while(results.next()) {
             Account account = mapRowToAccount(results);
@@ -340,6 +335,7 @@ public class PlaidService {
                 token.setId(results.getInt("id"));
                 token.setToken(results.getString("token"));
                 token.setTokenType("access token");
+                token.setUserId(userId);
 
                 tokens.add(token);
             }
@@ -355,27 +351,28 @@ public class PlaidService {
      * @return The transactions.
      * @throws Exception if an error occurs while retrieving the transactions.
      */
-    public TransactionsGetResponse transactions(String accountIds, PlaidToken accessToken) throws Exception {
+    public List<Transaction> getTransactions(String accountIds, PlaidToken accessToken) throws Exception {
         LocalDate endDate = LocalDate.now();
         LocalDate startDate = endDate.minusMonths(1);
 
         //String accessToken = this.getAccessToken(principal);
-        AccountsGetRequest agRequest = new AccountsGetRequest()
-                .accessToken(accessToken.getToken());
-
-        Response<AccountsGetResponse> accountsGetResponse = plaidClient
-                .accountsGet(agRequest)
-                .execute();
-        log.info("account response "+accountsGetResponse);
+//        AccountsGetRequest agRequest = new AccountsGetRequest()
+//                .accessToken(accessToken.getToken());
+//
+//        Response<AccountsGetResponse> accountsGetResponse = plaidClient
+//                .accountsGet(agRequest)
+//                .execute();
+//        log.info("account response "+accountsGetResponse);
 
         List<Account> accounts = this.getAccounts(accountIds, accessToken.getId());
-        String[] ids = new String[accounts.size()];
-        for(int i = 0; i < accounts.size(); i++) {
-            ids[i] = accounts.get(i).getAccountId();
+        Map<String, Integer> accountsMap = new HashMap<>();
+        for(Account account : accounts) {
+            accountsMap.put(account.getAccountId(), account.getId());
         }
+        List<String> ids = new ArrayList<>(accountsMap.keySet());
 
         TransactionsGetRequestOptions options = new TransactionsGetRequestOptions()
-                .accountIds(Arrays.asList(ids));
+                .accountIds(ids);
                 //.count(numTxns)
                 //.offset(1);
         TransactionsGetRequest request = new TransactionsGetRequest()
@@ -396,7 +393,14 @@ public class PlaidService {
                 //System.out.println(apiResponse.errorBody());
             }
         }
-        return apiResponse.body();
+//        System.out.println("\nanother account trnas\n");
+//        System.out.println(apiResponse.body().getTransactions());
+        List<Transaction> transactions = new ArrayList<>();
+        for (com.plaid.client.model.Transaction transaction : apiResponse.body().getTransactions()) {
+            Transaction newTransaction = mapRowToTransaction(transaction, accessToken.getUserId(), accountsMap.get(transaction.getAccountId()));
+            transactions.add(newTransaction);
+        }
+        return transactions;
     }
     /**
      * Retrieves the account balance for a given access token.
@@ -459,4 +463,35 @@ public class PlaidService {
 
         return account;
     }
+
+   public Transaction mapRowToTransaction(com.plaid.client.model.Transaction transaction, int userId, int accountId) {
+       int paymentChannelId = 0;
+       switch (transaction.getPaymentChannel().getValue()) {
+           case "online" -> paymentChannelId = 1;
+           case "in store" -> paymentChannelId = 2;
+           case "other" -> paymentChannelId = 3;
+           default -> {
+           }
+       }
+
+        Transaction newTransaction = new Transaction();
+        newTransaction.setTransactionId(transaction.getTransactionId());
+       newTransaction.setAccountId(accountId);
+       newTransaction.setUserId(userId);
+       newTransaction.setName(transaction.getName());
+       newTransaction.setDescription(transaction.getOriginalDescription());
+       newTransaction.setMerchantLogoUrl(transaction.getLogoUrl());
+       newTransaction.setMerchantWebsite(transaction.getWebsite());
+       newTransaction.setDate(transaction.getDate());
+       newTransaction.setAmount(transaction.getAmount());
+       newTransaction.setPaymentChannelId(paymentChannelId);
+       newTransaction.setCheckNumber(transaction.getCheckNumber());
+//       newTransaction.setAddress();
+//       newTransaction.setCity();
+//       newTransaction.setRegion();
+//       newTransaction.setPostalCode();
+//       newTransaction.setCountry();
+
+       return newTransaction;
+   }
 }

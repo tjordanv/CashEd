@@ -43,12 +43,14 @@ package com.tjv.FinApp.controller;
         import com.plaid.client.model.*;
         import com.tjv.FinApp.model.Account;
         import com.tjv.FinApp.model.PlaidToken;
+        import com.tjv.FinApp.model.Transaction;
         import com.tjv.FinApp.services.PlaidService;
         import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.web.bind.annotation.*;
 
         import java.io.IOException;
         import java.security.Principal;
+        import java.util.ArrayList;
         import java.util.List;
 
 @RestController
@@ -92,11 +94,13 @@ public class PlaidController {
         return plaidService.test2(institutionId);
     }
     @GetMapping("/transactions")
-    public void transactions(@RequestParam String accountIds, Principal principal) throws Exception {
+    public List<Transaction> transactions(@RequestParam String accountIds, Principal principal) throws Exception {
         List<PlaidToken> accessTokens = plaidService.getAccessToken(principal);
+        List<Transaction> transactions = new ArrayList<>();
         for (PlaidToken accessToken : accessTokens) {
-            System.out.println(plaidService.transactions(accountIds, accessToken));
+            transactions.addAll(plaidService.getTransactions(accountIds, accessToken));
         }
+        return transactions;
     }
     @GetMapping("/accountBalance")
     public AccountBalance accountBalance(@RequestParam String accessToken) throws Exception {

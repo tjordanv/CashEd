@@ -149,7 +149,7 @@ const AddTransactionsForm = ({
 
           console.log(responseJson)
           addUnassignedTransactions((prevState) => [
-            ...responseJson.transactions,
+            ...responseJson,
             ...prevState
           ])
         }

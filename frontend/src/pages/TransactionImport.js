@@ -15,7 +15,7 @@ const TransactionImport = () => {
   const [activeTransactions, setActiveTransactions] = useState([])
 
   const deleteTransactionHandler = (transaction) => {
-    if (transaction.subcategoryId === (null || undefined)) {
+    if (transaction.subcategoryId === (null || undefined || 0)) {
       const updatedTransactions = unassignedTransactions.filter(
         (trans) => trans.transactionId !== transaction.transactionId
       )

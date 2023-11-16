@@ -15,6 +15,12 @@ import { usdFormatter } from "./HelperFunctions/usdFormatter"
 
 const Transaction = ({ transaction, index, deleteTransactionHandler }) => {
   const [isHovered, setIsHovered] = useState(false)
+  const [name, setName] = useState(() => {
+    const firstWord = transaction.name.split(" ")[0]
+    return firstWord.length < 15
+      ? transaction.name.slice(0, 20)
+      : transaction.name.slice(0, 14)
+  })
 
   const confirmationDialogDetails = {
     title: "Delete transaction?",
@@ -77,7 +83,7 @@ const Transaction = ({ transaction, index, deleteTransactionHandler }) => {
                 align="center"
                 sx={{ paddingTop: "2px", paddingBottom: "2px" }}
               >
-                {transaction.name.slice(0, 20)}
+                {name}
               </Typography>
               <Divider variant="middle" />
               <Typography

@@ -4,13 +4,15 @@ public class PlaidToken {
     private int id;
     private String token;
     private String tokenType;
+    private int userId;
 
     public PlaidToken(){}
 
-    public PlaidToken(int id, String token, String tokenType) {
+    public PlaidToken(int id, String token, String tokenType, int userId) {
         this.id = id;
         this.token = token;
         this.tokenType = tokenType;
+        this.userId = userId;
     }
 
     public int getId() {
@@ -35,5 +37,13 @@ public class PlaidToken {
 
     public void setTokenType(String tokenType) {
         this.tokenType = tokenType;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

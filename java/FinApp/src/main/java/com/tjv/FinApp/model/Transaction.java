@@ -1,10 +1,13 @@
 package com.tjv.FinApp.model;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Transaction {
     private int id;
-    private int transactionId;
+    private String transactionId;
+    // The accountId in this case is the FK id from the accounts table, not the accountId
     private int accountId;
     private int userId;
     private int subcategoryId;
@@ -13,8 +16,8 @@ public class Transaction {
     private String description;
     private String merchantLogoUrl;
     private String merchantWebsite;
-    private Date date;
-    private float amount;
+    private LocalDate date;
+    private Double amount;
     private String checkNumber;
     private String address;
     private String city;
@@ -28,7 +31,7 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(int id, int transactionId, int accountId, int userId, int subcategoryId, int paymentChannelId, String name, String description, String merchantLogoUrl, String merchantWebsite, Date date, float amount, String checkNumber, String address, String city, String region, String postalCode, String country, Date createdDate, boolean isDeleted, Date deletedDate) {
+    public Transaction(int id, String transactionId, int accountId, int userId, int subcategoryId, int paymentChannelId, String name, String description, String merchantLogoUrl, String merchantWebsite, LocalDate date, Double amount, String checkNumber, String address, String city, String region, String postalCode, String country, Date createdDate, boolean isDeleted, Date deletedDate) {
         this.id = id;
         this.transactionId = transactionId;
         this.accountId = accountId;
@@ -60,11 +63,11 @@ public class Transaction {
         this.id = id;
     }
 
-    public int getTransactionId() {
+    public String getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId(int transactionId) {
+    public void setTransactionId(String transactionId) {
         this.transactionId = transactionId;
     }
 
@@ -132,19 +135,19 @@ public class Transaction {
         this.merchantWebsite = merchantWebsite;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public float getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(float amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
