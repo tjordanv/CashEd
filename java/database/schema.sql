@@ -489,7 +489,7 @@ CREATE TABLE payment_channels (
 	('other');
 CREATE TABLE transactions (
 	id serial NOT NULL,
-	transaction_id int NOT NULL,
+	transaction_id varchar(100) NOT NULL,
 	account_id int NOT NULL,
 	user_id int NOT NULL, 
 	subcategory_id int NOT NULL,

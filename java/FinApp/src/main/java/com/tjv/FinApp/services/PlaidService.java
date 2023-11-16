@@ -396,9 +396,31 @@ public class PlaidService {
 //        System.out.println("\nanother account trnas\n");
 //        System.out.println(apiResponse.body().getTransactions());
         List<Transaction> transactions = new ArrayList<>();
+        String[] transactionIds = new String[apiResponse.body().getTransactions().size()];
+        int index = 0;
         for (com.plaid.client.model.Transaction transaction : apiResponse.body().getTransactions()) {
             Transaction newTransaction = mapRowToTransaction(transaction, accessToken.getUserId(), accountsMap.get(transaction.getAccountId()));
             transactions.add(newTransaction);
+            transactionIds[index] = newTransaction.getTransactionId();
+            index++;
+        }
+
+        String sql = "SELECT transaction_id FROM transactions WHERE transaction_id = ANY(:transactionIds)";
+        SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("transactionIds", transactionIds, Types.ARRAY);
+
+        NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate.getDataSource());
+
+        SqlRowSet results = namedParameterJdbcTemplate.queryForRowSet(sql, namedParameters);
+
+        while (results.next()) {
+            String transactionId = results.getString("transaction_id");
+            for (int i = 0; i < transactions.size(); i++) {
+                if (transactions.get(i).getTransactionId().equals(transactionId)) {
+                    System.out.println("found  it");
+                    transactions.remove(i);
+                    break;
+                }
+            }
         }
         return transactions;
     }
