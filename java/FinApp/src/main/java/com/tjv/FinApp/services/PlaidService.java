@@ -288,7 +288,7 @@ public class PlaidService {
 
         int[] ids = new int[tempIds.length];
         for (int i = 0; i < tempIds.length; i++) {
-            ids[i] = Integer.valueOf(tempIds[i]);
+            ids[i] = Integer.parseInt(tempIds[i]);
         }
         String sql = "SELECT a.id as accountId, account_id, a.name as account_name, mask, official_name, nickname, logo, s.name as subtype_name FROM accounts a LEFT JOIN logos l ON a.logo_id = l.id LEFT JOIN account_subtypes s on a.subtype_id = s.id WHERE a.id = ANY(:ids) AND access_token_id = (:accessTokenId) AND is_deleted = false";
         SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("ids", ids, Types.ARRAY).addValue("accessTokenId", accessTokenId, Types.INTEGER);

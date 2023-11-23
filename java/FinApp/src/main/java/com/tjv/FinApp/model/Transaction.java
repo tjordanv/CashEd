@@ -224,4 +224,33 @@ public class Transaction {
         this.deletedDate = deletedDate;
     }
 
+    @Override
+    public String toString() {
+        return String.format("""
+                        Id: %d
+                        transaction Id: %s
+                        account Id: %d
+                        user Id: %d
+                        subcategory Id: %d
+                        payment channel Id: %d
+                        name: %s
+                        description: %s
+                        merchant logo url: %s
+                        merchant website: %s
+                        date: %s
+                        amount: %f
+                        check number: %s
+                        address: %s
+                        city: %s
+                        region: %s
+                        postal code: %s
+                        country: %s
+                        created date: %s
+                        isDeleted: %s
+                        deleted date: %s""",
+                this.id, this.transactionId, this.accountId, this.userId, this.subcategoryId,
+                this.paymentChannelId, this.name, this.description, this.merchantLogoUrl, this.merchantWebsite,
+                this.date, this.amount, this.checkNumber, this.address, this.city, this.region, this.postalCode,
+                this.country, this.createdDate, this.isDeleted, this.deletedDate);
+    }
 }

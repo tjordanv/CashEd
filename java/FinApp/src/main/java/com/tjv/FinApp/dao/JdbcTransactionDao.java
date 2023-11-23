@@ -48,4 +48,23 @@ public class JdbcTransactionDao implements TransactionDao{
         });
         return false;
     }
+
+    @Override
+    public List<Transaction> getCurrentMonthTransactions() {
+        String sql = "SELECT ";
+        return null;
+    }
+
+    @Override
+    public List<Transaction> getCurrentMonthTransactions(String accountIds) {
+        // convert the string of account Ids into a usable array of Ids
+        String[] tempIds = accountIds.split(",");
+
+        int[] ids = new int[tempIds.length];
+        for (int i = 0; i < tempIds.length; i++) {
+            ids[i] = Integer.parseInt(tempIds[i]);
+        }
+
+        return null;
+    }
 }
