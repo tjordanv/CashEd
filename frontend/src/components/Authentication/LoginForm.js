@@ -4,11 +4,11 @@ import FormControlLabel from "@mui/material/FormControlLabel"
 import Switch from "@mui/material/Switch"
 
 import classes from "./Auth.module.css"
-import FetchError from "../HelperComponents/FetchError"
+import FetchError from "../../utils/fetchError"
 import ErrorMessage from "../HelperComponents/ErrorMessage"
 import PasswordInput from "./PasswordInput"
 import UsernameInput from "./UsernameInput"
-import InputError from "../HelperComponents/InputError"
+import InputError from "../../utils/inputError"
 import FormButton from "./FormButton"
 
 const LoginForm = () => {

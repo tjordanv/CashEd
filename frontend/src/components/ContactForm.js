@@ -8,8 +8,8 @@ import MessageInput from "../components/Authentication/MessageInput"
 import FormButton from "../components/Authentication/FormButton"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import Checkbox from "@mui/material/Checkbox"
-import FetchError from "./HelperComponents/FetchError"
-import InputError from "./HelperComponents/InputError"
+import FetchError from "../utils/fetchError"
+import InputError from "../utils/inputError"
 import CircularProgress from "@mui/material/CircularProgress"
 
 const ContactForm = ({ setIsSubmitted }) => {

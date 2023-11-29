@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-import FetchError from "../HelperComponents/FetchError"
+import FetchError from "../../utils/fetchError"
 import classes from "./InputFields.module.css"
 
 import InputLabel from "@mui/material/InputLabel"

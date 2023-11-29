@@ -17,7 +17,6 @@ import { headerNotificationsLoader } from "./components/Header/HeaderLayout"
 import { notificationsLoader } from "./components/Notifications/Notifications"
 import Home from "./pages/Home"
 import Contact from "./pages/Contact"
-import TransactionImportOLD from "./pages/TransactionImport(old)"
 import Accounts from "./pages/Accounts"
 import { accountsLoader } from "./pages/Accounts"
 
@@ -81,10 +80,6 @@ const router = createBrowserRouter([
         path: "TransactionImport",
         element: <TransactionImport />,
         loader: TransactionSubcategoriesImportLoader
-      },
-      {
-        path: "TransactionImport/old",
-        element: <TransactionImportOLD />
       },
       {
         path: "notifications",

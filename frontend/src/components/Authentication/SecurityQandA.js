@@ -4,13 +4,13 @@ import { useLoaderData, useNavigate } from "react-router-dom"
 
 import SecurityQuestions from "./SecurityQuestions"
 import SecurityAnswer from "./SecurityAnswer"
-import FetchError from "../HelperComponents/FetchError"
+import FetchError from "../../utils/fetchError"
 
 import CircularProgress from "@mui/material/CircularProgress"
 
 import classes from "./Auth.module.css"
-import InputError from "../HelperComponents/InputError"
-import fetcher from "../HelperFunctions/fetchAuthorize"
+import InputError from "../../utils/inputError"
+import fetcher from "../../utils/fetchAuthorize"
 import SecurityQuestionsCounter from "./SecurityQuestionsCounter"
 import FormButton from "./FormButton"
 

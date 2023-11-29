@@ -1,7 +1,7 @@
 import { useLoaderData } from "react-router-dom"
 
-import fetcher from "../HelperFunctions/fetchAuthorize"
-import FetchError from "../HelperComponents/FetchError"
+import fetcher from "../../utils/fetchAuthorize"
+import FetchError from "../../utils/fetchError"
 import NotificationCard from "./NotificationCard"
 
 const notificationsLoader = async () => {

@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@mui/material"
 import { Draggable } from "react-beautiful-dnd"
-import TransactionInfoTooltip from "./Transaction/TransactionInfoTooltip"
+import TransactionInfoTooltip from "./TransactionInfoTooltip"
 import ConfirmationDialog from "./HelperComponents/ConfirmationDialog"
 import Tooltip from "@mui/material/Tooltip"
 import IconButton from "@mui/material/IconButton"
@@ -11,7 +11,7 @@ import Box from "@mui/material/Box"
 import Divider from "@mui/material/Divider"
 import Typography from "@mui/material/Typography"
 import { useState } from "react"
-import { usdFormatter } from "./HelperFunctions/usdFormatter"
+import { usdFormatter } from "../utils/usdFormatter"
 
 const Transaction = ({ transaction, index, deleteTransactionHandler }) => {
   const [isHovered, setIsHovered] = useState(false)
