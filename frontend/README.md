@@ -3,7 +3,6 @@
 Know Your Money
 
 # Directory
-## app
 ## assets
 *Images and logos that are used throughout the application.*
 ## components
@@ -18,7 +17,17 @@ Know Your Money
 *React Redux Slice files that define the reducers and actions to manage specific parts of the application state*
 - notificationsSlice.js
   - reducers and actions for notifications
-## other
+## utils
+*Utility functions and modules*
+- **fetchAuthorize.js**
+  - an extension of the fetch API that passes the active user's access token to the HTTP request to grant access to protected endpoints
+- **fetchError.js**
+  - an extension of the JS Error class that deals specifically with server errors 
+- **inputError.js**
+  - an extension of the JS Error class that provides functionality for errors with input fields
+- **usdFormatter.js**
+  - takes an integer as input and formats it to USD
+## other 
 *Files that live directly inside of src*
 - **App.js**
   - serves as the root component of the application. The component structure, routing setup, context and providers, and themes are defined here
@@ -28,3 +37,5 @@ Know Your Money
   - a helper function used to report web performance metrics 
 - **setupTests.js**
   -  handles the global setup and teardown logic that needs to run before and after all tests
+- **store.js**
+  - initializes and configures the redux store
