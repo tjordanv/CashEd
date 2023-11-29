@@ -23,6 +23,7 @@ import { accountsLoader } from "./pages/Accounts"
 
 import "./App.css"
 
+// color palettes that can be used on any JSX component without the need for CSSs
 const theme = createTheme({
   palette: {
     primary: {
@@ -38,15 +39,6 @@ const theme = createTheme({
       main: "#227C9D"
     }
   }
-  // components: {
-  //   CardHeader: {
-  //     styleOverrides: {
-  //       title: {
-  //         fontSize: "large"
-  //       }
-  //     }
-  //   }
-  // }
 })
 
 const router = createBrowserRouter([
