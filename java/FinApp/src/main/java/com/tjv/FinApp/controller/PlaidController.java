@@ -40,42 +40,69 @@
 // Sandbox version
 package com.tjv.FinApp.controller;
 
+        import com.plaid.client.model.*;
+        import com.tjv.FinApp.model.Account;
         import com.tjv.FinApp.model.PlaidToken;
+        import com.tjv.FinApp.model.Transaction;
         import com.tjv.FinApp.services.PlaidService;
-        import com.plaid.client.model.AccountBalance;
-        import com.plaid.client.model.TransactionsGetResponse;
         import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.web.bind.annotation.*;
 
+        import java.io.IOException;
+        import java.security.Principal;
+        import java.util.ArrayList;
+        import java.util.List;
+
 @RestController
+@CrossOrigin
 public class PlaidController {
     @Autowired
     private PlaidService plaidService;
 
-    @CrossOrigin
-    @GetMapping("/auth/createLinkToken")
-    public PlaidToken createLinkToken() throws Exception {
+    @GetMapping("/createLinkToken")
+    public PlaidToken createLinkToken(Principal principal) throws Exception {
         PlaidToken linkToken = new PlaidToken();
-        linkToken.setToken(plaidService.createLinkToken());
+        linkToken.setToken(plaidService.createLinkToken(principal));
         linkToken.setTokenType("Link Token");
 
         return linkToken;
     }
-    @CrossOrigin
-    @PostMapping("/auth/exchangePublicToken")
-    public PlaidToken exchangePublicToken(@RequestBody PlaidToken publicToken) throws Exception {
-        PlaidToken accessToken = new PlaidToken();
-        accessToken.setToken(plaidService.exchangePublicToken(publicToken.getToken()));
-        accessToken.setTokenType("Access Token");
+    @PostMapping("/exchangePublicToken")
+    public List<Account> exchangePublicToken(Principal principal, @RequestBody PlaidToken publicToken) throws Exception {
+        return plaidService.exchangePublicToken(principal, publicToken.getToken());
+    }
+    @GetMapping("/getAccounts")
+    public List<Account> getAccounts(Principal principal) {
+        List<Account> accounts = plaidService.getAccounts(principal);
+        return accounts.size() > 0 ? accounts : null;
+    }
+    @PutMapping("/deleteAccount")
+    public boolean deleteAccount(@RequestParam int id) throws Exception {
+        return plaidService.deleteAccount(id);
+    }
+    @PutMapping("/updateAccount")
+    public boolean updateAccount(@RequestParam int id, @RequestParam String nickname) throws Exception {
+        return plaidService.updateAccount(id, nickname);
+    }
 
-        return accessToken;
+    @GetMapping("/test")
+    public Item test(@RequestBody PlaidToken accessToken) throws IOException {
+        return plaidService.test(accessToken.getToken());
     }
-    @CrossOrigin
+    @GetMapping("/test2")
+    public Institution test2(@RequestParam String institutionId) throws IOException {
+        return plaidService.test2(institutionId);
+    }
     @GetMapping("/transactions")
-    public TransactionsGetResponse transactions(@RequestParam String accessToken) throws Exception {
-        return plaidService.transactions(accessToken);
+    public List<Transaction> transactions(@RequestParam String accountIds, Principal principal) throws Exception {
+        List<PlaidToken> accessTokens = plaidService.getAccessTokens(accountIds, principal);
+        List<Transaction> transactions = new ArrayList<>();
+        System.out.println(accessTokens);
+        for (PlaidToken accessToken : accessTokens) {
+            transactions.addAll(plaidService.getTransactions(accountIds, accessToken));
+        }
+        return transactions;
     }
-    @CrossOrigin
     @GetMapping("/accountBalance")
     public AccountBalance accountBalance(@RequestParam String accessToken) throws Exception {
         return plaidService.accountBalance(accessToken);

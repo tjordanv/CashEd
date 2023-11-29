@@ -4,6 +4,8 @@ import Box from "@mui/material/Box"
 import List from "@mui/material/List"
 import ListItem from "@mui/material/ListItem"
 
+import classes from "./TransactionsList.module.css"
+
 const TransactionsList = ({
   transactions,
   droppableId,
@@ -15,21 +17,22 @@ const TransactionsList = ({
   return (
     <Droppable droppableId={droppableId}>
       {(provided, snapshot) => (
-        <Box style={{ height: "75vh", overflow: "auto" }}>
-          <List ref={provided.innerRef} {...provided.droppableProps}>
-            {transactions.map((transaction, index) =>
-              transaction.subcategoryId == droppableId ||
-              (droppableId === "list" && transaction.subcategoryId === null) ? (
-                <ListItem key={Math.floor(Math.random() * 99999)}>
-                  <Transaction
-                    transaction={transaction}
-                    deleteTransactionHandler={deleteTransactionHandler}
-                    index={index}
-                    key={Math.floor(Math.random() * 99999)}
-                  />
-                </ListItem>
-              ) : null
-            )}
+        <Box className={classes.container}>
+          <List
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+            className={classes.list}
+          >
+            {transactions.map((transaction, index) => (
+              <ListItem key={Math.floor(Math.random() * 99999)}>
+                <Transaction
+                  transaction={transaction}
+                  deleteTransactionHandler={deleteTransactionHandler}
+                  index={index}
+                  key={Math.floor(Math.random() * 99999)}
+                />
+              </ListItem>
+            ))}
             {provided.placeholder}
           </List>
         </Box>

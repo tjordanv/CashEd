@@ -12,8 +12,8 @@ import { fetchNotificationCounts } from "../../state/notificationsSlice"
 import { useEffect } from "react"
 
 const HeaderContainer = styled(Box)(({ theme }) => ({
-  height: "6vh",
-  borderBottom: "2px solid rgba(119, 119, 119, 0.2)"
+  maxHeight: "50px",
+  borderBottom: "2px solid rgba(119, 119, 119, 0.5)"
 }))
 
 const headerNotificationsLoader = async () => {

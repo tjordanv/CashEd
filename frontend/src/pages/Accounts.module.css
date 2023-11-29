@@ -1,0 +1,34 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 60px);
+}
+.container .accounts {
+  height: calc(100% - 30px);
+}
+.container .accounts h6 {
+  text-align: center;
+}
+.container .accounts .accountsList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: auto;
+  height: calc(100% - 35px);
+  padding-top: 0;
+}
+.container .addButton:hover {
+  color: #0f877b;
+}
+.accountsList::-webkit-scrollbar {
+  width: 7px;
+}
+.accountsList::-webkit-scrollbar-track {
+  background-color: rgba(119, 119, 119, 0.25);
+  border-radius: 8px;
+}
+.accountsList::-webkit-scrollbar-thumb {
+  background-color: rgba(119, 119, 119, 0.7);
+  border-radius: 8px;
+}

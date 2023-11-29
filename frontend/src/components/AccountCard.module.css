@@ -1,0 +1,47 @@
+.container {
+  width: 600px;
+}
+.container .logo {
+  width: 50px;
+  height: 50px;
+}
+.container .cardHeader {
+  padding-bottom: 0;
+}
+.container .cardContent {
+  margin-left: 82px;
+  margin-right: 56px;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+.container .cardContent button {
+  width: 100px;
+  align-self: center;
+}
+.container .cardActions {
+  padding: 0 8px;
+}
+.container .cardActions .saveButton {
+  margin-left: auto;
+}
+.expandMore {
+  transform: rotate(0deg);
+  transition: transform 0.2s;
+}
+
+.expandMoreExpanded {
+  transform: rotate(180deg);
+}
+.container .cardActions .expandedContent {
+  display: flex;
+  align-items: flex-end;
+  width: 520px;
+}
+.container .cardActions .nicknameInput {
+  width: 350px;
+}
+
+.container .cardActions button {
+  padding: 0 8px;
+}

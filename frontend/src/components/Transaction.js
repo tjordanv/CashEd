@@ -11,12 +11,19 @@ import Box from "@mui/material/Box"
 import Divider from "@mui/material/Divider"
 import Typography from "@mui/material/Typography"
 import { useState } from "react"
+import { usdFormatter } from "./HelperFunctions/usdFormatter"
 
 const Transaction = ({ transaction, index, deleteTransactionHandler }) => {
   const [isHovered, setIsHovered] = useState(false)
+  const [name, setName] = useState(() => {
+    const firstWord = transaction.name.split(" ")[0]
+    return firstWord.length < 15
+      ? transaction.name.slice(0, 20)
+      : transaction.name.slice(0, 14)
+  })
 
   const confirmationDialogDetails = {
-    title: "Are you sure you want to delete this transaction?",
+    title: "Delete transaction?",
     description:
       "This cannot be undone and this transaction will not appear in future imports.",
     confirmationLabel: "Delete"
@@ -43,7 +50,7 @@ const Transaction = ({ transaction, index, deleteTransactionHandler }) => {
         case 4:
           return "rgba(254, 109, 115, 0.4)"
         default:
-          return "rgba(119, 119, 119, 0.15)"
+          return "rgba(255, 255, 255, 0.9)"
       }
     }
   }
@@ -76,7 +83,7 @@ const Transaction = ({ transaction, index, deleteTransactionHandler }) => {
                 align="center"
                 sx={{ paddingTop: "2px", paddingBottom: "2px" }}
               >
-                {transaction.name.slice(0, 20)}
+                {name}
               </Typography>
               <Divider variant="middle" />
               <Typography
@@ -88,13 +95,13 @@ const Transaction = ({ transaction, index, deleteTransactionHandler }) => {
                   paddingBottom: "2px"
                 }}
               >
-                {"$" + transaction.amount}
+                {usdFormatter(transaction.amount)}
               </Typography>
             </Box>
             {(isHovered && (
               <ConfirmationDialog
                 dialogDetails={confirmationDialogDetails}
-                onConfirm={() => deleteTransactionHandler(transaction.id)}
+                onConfirm={() => deleteTransactionHandler(transaction)}
                 Component={component}
               />
             )) || <div className={classes.spacer}></div>}

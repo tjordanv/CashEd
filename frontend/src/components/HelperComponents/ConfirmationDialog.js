@@ -7,6 +7,7 @@ import DialogContent from "@mui/material/DialogContent"
 import DialogActions from "@mui/material/DialogActions"
 import Dialog from "@mui/material/Dialog"
 import Slide from "@mui/material/Slide"
+import FormButton from "../Authentication/FormButton"
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -36,7 +37,9 @@ const ConfirmationDialog = ({
         keepMounted={false}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{dialogDetails.title}</DialogTitle>
+        <DialogTitle sx={{ padding: "30px" }}>
+          {dialogDetails.title}
+        </DialogTitle>
         {dialogDetails.description && (
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
@@ -45,8 +48,12 @@ const ConfirmationDialog = ({
           </DialogContent>
         )}
         <DialogActions>
-          <Button onClick={closeDialogHandler}>Cancel</Button>
-          <Button onClick={onConfirm}>{dialogDetails.confirmationLabel}</Button>
+          <FormButton onClick={closeDialogHandler} label="cancel" />
+          <FormButton
+            color="danger"
+            onClick={onConfirm}
+            label={dialogDetails.confirmationLabel}
+          />
         </DialogActions>
       </Dialog>
       <Component func={openDialogHandler} obj={componentDetails} />

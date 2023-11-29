@@ -10,7 +10,7 @@ const categories = [
 
 const TransactionCategories = ({
   activeSubcategoryId,
-  setActiveSubcategoryId,
+  setActiveSubcategory,
   transactions
 }) => {
   let filteredTransactions = [[], [], [], []]
@@ -20,33 +20,32 @@ const TransactionCategories = ({
         (transaction) => transaction.categoryId === category.id
       )
     })
-
   return (
     <div className={classes.container}>
       <div className={classes.subContainer}>
         <TransactionCategory
           category={categories[0]}
           activeSubcategoryId={activeSubcategoryId}
-          setActiveSubcategoryId={setActiveSubcategoryId}
+          setActiveSubcategory={setActiveSubcategory}
           transactions={filteredTransactions[0]}
         />
         <TransactionCategory
           category={categories[1]}
           activeSubcategoryId={activeSubcategoryId}
-          setActiveSubcategoryId={setActiveSubcategoryId}
+          setActiveSubcategory={setActiveSubcategory}
           transactions={filteredTransactions[1]}
         />
       </div>
       <TransactionCategory
         category={categories[2]}
         activeSubcategoryId={activeSubcategoryId}
-        setActiveSubcategoryId={setActiveSubcategoryId}
+        setActiveSubcategory={setActiveSubcategory}
         transactions={filteredTransactions[2]}
       />
       <TransactionCategory
         category={categories[3]}
         activeSubcategoryId={activeSubcategoryId}
-        setActiveSubcategoryId={setActiveSubcategoryId}
+        setActiveSubcategory={setActiveSubcategory}
         transactions={filteredTransactions[3]}
       />
     </div>

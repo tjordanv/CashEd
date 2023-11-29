@@ -1,13 +1,18 @@
 .container {
   display: flex;
+  justify-content: center;
 }
 
 .container .newTransactionsContainer {
   height: 85vh;
   display: flex;
   flex-direction: column;
-  padding: 25px 20px;
+  padding: 25px 10px;
   justify-content: space-between;
   align-items: center;
-  width: 270px;
+  width: 225px;
+}
+.leftDivider {
+  height: calc(100vh - 71.1px);
+  border-left: 2px rgba(119, 119, 119, 0.5) solid;
 }

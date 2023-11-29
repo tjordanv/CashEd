@@ -14,36 +14,28 @@ const AddTransactionMenuButtons = ({
     setIsOpen(true)
     setIsSingleTransaction(isSingleTransaction)
   }
+  const direction = isTransactions ? "right" : "down"
   const style = isTransactions
     ? { marginLeft: "116px" }
-    : { marginLeft: "-35px", position: "absolute", top: "50%" }
+    : { marginLeft: "-28px", position: "absolute", top: "50%" }
   return (
     <SpeedDial
       ariaLabel="SpeedDial basic example"
-      // sx={{
-      //   position: "absolute",
-      //   top: isTransactions ? null : "45%",
-      //   left: isTransactions ? null : "90px",
-      //   "& .MuiFab-primary": { width: 38, height: 38 }
-      // }}
       icon={<SpeedDialIcon />}
-      // direction={isTransactions ? "right" : "down"}
-      direction="right"
-      // style={style}
+      direction={direction}
+      style={style}
     >
       <SpeedDialAction
         key="import"
-        icon={<DownloadForOfflineRounded fontSize="small" />}
+        icon={<DownloadForOfflineRounded />}
         tooltipTitle="Automatic Import"
         onClick={() => openDialogHandler(false)}
-        sx={{ height: 35, width: 35 }}
       />
       <SpeedDialAction
         key="AddSingleTransaction"
-        icon={<EditRounded fontSize="small" />}
+        icon={<EditRounded />}
         tooltipTitle="Add Single Transaction"
         onClick={() => openDialogHandler(true)}
-        sx={{ height: 35, width: 35 }}
       />
     </SpeedDial>
   )
