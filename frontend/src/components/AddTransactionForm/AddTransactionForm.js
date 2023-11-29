@@ -135,7 +135,7 @@ const AddTransactionsForm = ({
       }
 
       ids = ids.substring(1)
-
+      console.log(ids)
       try {
         const response = await fetcher(
           `http://localhost:8080/transactions?${new URLSearchParams({

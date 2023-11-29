@@ -140,6 +140,7 @@ import com.tjv.FinApp.dao.UserDao;
 import com.tjv.FinApp.model.Account;
 import com.tjv.FinApp.model.PlaidToken;
 import com.tjv.FinApp.model.Transaction;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -155,6 +156,8 @@ import java.security.Principal;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.*;
+
+import static com.tjv.FinApp.utils.ArrayUtils.StringToIntArray;
 
 @Service
 public class PlaidService {
@@ -284,12 +287,7 @@ public class PlaidService {
         return accounts;
     }
     public List<Account> getAccounts(String accountIds, int accessTokenId) {
-        String[] tempIds = accountIds.split(",");
-
-        int[] ids = new int[tempIds.length];
-        for (int i = 0; i < tempIds.length; i++) {
-            ids[i] = Integer.parseInt(tempIds[i]);
-        }
+        int[] ids = StringToIntArray(accountIds);
         String sql = "SELECT a.id as accountId, account_id, a.name as account_name, mask, official_name, nickname, logo, s.name as subtype_name FROM accounts a LEFT JOIN logos l ON a.logo_id = l.id LEFT JOIN account_subtypes s on a.subtype_id = s.id WHERE a.id = ANY(:ids) AND access_token_id = (:accessTokenId) AND is_deleted = false";
         SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("ids", ids, Types.ARRAY).addValue("accessTokenId", accessTokenId, Types.INTEGER);
 
@@ -323,13 +321,38 @@ public class PlaidService {
             return false;
         }
     }
-    public List<PlaidToken> getAccessToken(Principal principal) {
+    public List<PlaidToken> getAccessTokens(Principal principal) {
         int userId = userDao.getUserIdByUsername(principal);
         String sql = "SELECT id, token FROM access_tokens WHERE user_id = ? AND is_deleted = false";
         List<PlaidToken> tokens = new ArrayList<>();
 
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+            while (results.next()) {
+                PlaidToken token = new PlaidToken();
+                token.setId(results.getInt("id"));
+                token.setToken(results.getString("token"));
+                token.setTokenType("access token");
+                token.setUserId(userId);
+
+                tokens.add(token);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return tokens;
+    }
+    public List<PlaidToken> getAccessTokens(String accountIds, Principal principal) {
+        int userId = userDao.getUserIdByUsername(principal);
+        String sql = "SELECT at.id, token FROM access_tokens at JOIN accounts a on at.id = a.access_token_id WHERE at.user_id = :userId AND at.is_deleted = false AND a.id = ANY(:accountIds)";
+        int[] ids = StringToIntArray(accountIds);
+        SqlParameterSource namedParameters = new MapSqlParameterSource()
+                .addValue("accountIds", ids, Types.ARRAY)
+                .addValue("userId", userId, Types.INTEGER);
+        NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate.getDataSource());
+        List<PlaidToken> tokens = new ArrayList<>();
+        try {
+            SqlRowSet results = namedParameterJdbcTemplate.queryForRowSet(sql, namedParameters);
             while (results.next()) {
                 PlaidToken token = new PlaidToken();
                 token.setId(results.getInt("id"));
@@ -351,7 +374,7 @@ public class PlaidService {
      * @return The transactions.
      * @throws Exception if an error occurs while retrieving the transactions.
      */
-    public List<Transaction> getTransactions(String accountIds, PlaidToken accessToken) throws Exception {
+    public List<Transaction> getTransactions(String accountIds, @NotNull PlaidToken accessToken) throws Exception {
         LocalDate endDate = LocalDate.now();
         LocalDate startDate = endDate.minusMonths(1);
 
