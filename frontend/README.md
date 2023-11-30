@@ -13,10 +13,30 @@ Know Your Money
 - **server.js**
   - defines the mock server using MSW and the custom responses from handlers.js
 ## pages
+*The files that get used in the App.js file to render each page*
+- **AboutUs.js**
+- **Accounts.js**
+- **Contact.js**
+- **Header.js**
+- **Home.js**
+- **LandingWrapper.js**
+  - The landing pages (home, login, register, forgot username, and forgot password) get wrapped in this to provide the landing header and footer
+- **Notifications.js**
+- **TransactionImport.js**
 ## state
 *React Redux Slice files that define the reducers and actions to manage specific parts of the application state*
 - notificationsSlice.js
   - reducers and actions for notifications
+## uiComponents
+*Components used to standardize the UI*
+- **EmailInput.js**
+- **FormButton.js**
+- **MessageInput.js**
+- **NameInput.js**
+- **PasswordInput.js**
+- **SaveTransactionsButton.js**
+- **SecurityAnswer.js**
+- **UsernameInput.js**
 ## utils
 *Utility functions and modules*
 - **fetchAuthorize.js**
