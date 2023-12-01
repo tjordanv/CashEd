@@ -2,8 +2,8 @@ import { useState, useEffect } from "react"
 
 import { useLoaderData, useNavigate } from "react-router-dom"
 
-import SecurityQuestions from "./SecurityQuestions"
-import SecurityAnswer from "./SecurityAnswer"
+import SecurityQuestions from "../../uiComponents/SecurityQuestions"
+import SecurityAnswer from "../../uiComponents/SecurityAnswer"
 import FetchError from "../../utils/fetchError"
 
 import CircularProgress from "@mui/material/CircularProgress"
@@ -12,7 +12,7 @@ import classes from "./Auth.module.css"
 import InputError from "../../utils/inputError"
 import fetcher from "../../utils/fetchAuthorize"
 import SecurityQuestionsCounter from "./SecurityQuestionsCounter"
-import FormButton from "./FormButton"
+import FormButton from "../../uiComponents/FormButton"
 
 const QandALoader = async () => {
   const response = await fetcher(

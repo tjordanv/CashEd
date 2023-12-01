@@ -1,13 +1,17 @@
 import { useState } from "react"
 import classes from "./Auth.module.css"
 import FetchError from "../../utils/fetchError"
-import ErrorMessage from "../HelperComponents/ErrorMessage"
+import ErrorMessage from "../helperComponents/ErrorMessage"
 import InputError from "../../utils/inputError"
-import PasswordInput, { validatePassword } from "./PasswordInput"
-import UsernameInput, { validateUsername } from "./UsernameInput"
-import EmailInput from "./EmailInput"
-import NameInput, { validateName } from "./NameInput"
-import FormButton from "./FormButton"
+import PasswordInput, {
+  validatePassword
+} from "../../uiComponents/PasswordInput"
+import UsernameInput, {
+  validateUsername
+} from "../../uiComponents/UsernameInput"
+import EmailInput from "../../uiComponents/EmailInput"
+import NameInput, { validateName } from "../../uiComponents/NameInput"
+import FormButton from "../../uiComponents/FormButton"
 
 const RegisterForm = ({ setUserHandler, formSection, setFormSection }) => {
   const [emailAddress, setEmailAddress] = useState("")

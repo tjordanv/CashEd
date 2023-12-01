@@ -4,8 +4,10 @@ import { useState } from "react"
 import Button from "@mui/material/Button"
 import Box from "@mui/material/Box"
 import CircularProgress from "@mui/material/CircularProgress"
-import ErrorMessage from "../HelperComponents/ErrorMessage"
-import PasswordInput, { validatePassword } from ".//PasswordInput"
+import ErrorMessage from "../helperComponents/ErrorMessage"
+import PasswordInput, {
+  validatePassword
+} from "../../uiComponents/PasswordInput"
 import classes from "./Auth.module.css"
 import InputError from "../../utils/inputError"
 import FetchError from "../../utils/fetchError"

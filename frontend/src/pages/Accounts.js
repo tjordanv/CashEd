@@ -4,7 +4,7 @@ import fetcher from "../utils/fetchAuthorize"
 import { Box, Chip, Divider, IconButton, List, Typography } from "@mui/material"
 import { useLoaderData } from "react-router-dom"
 import FetchError from "../utils/fetchError"
-import AccountCardsList from "../components/AccountCardsList"
+import AccountCardsList from "../components/accounts/AccountCardsList"
 import classes from "./Accounts.module.css"
 import AddCircleIcon from "@mui/icons-material/AddCircle"
 

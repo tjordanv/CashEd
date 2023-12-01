@@ -7,7 +7,7 @@ import DialogContent from "@mui/material/DialogContent"
 import DialogActions from "@mui/material/DialogActions"
 import Dialog from "@mui/material/Dialog"
 import Slide from "@mui/material/Slide"
-import FormButton from "../Authentication/FormButton"
+import FormButton from "../../uiComponents/FormButton"
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />

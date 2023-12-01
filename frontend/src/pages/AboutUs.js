@@ -1,7 +1,7 @@
 import { useState } from "react"
-import AboutUsSelector from "../components/AboutUsSelector"
-import BioCard from "../components/BioCard"
-import AboutUsBio from "../components/AboutUsBio"
+import AboutUsSelector from "../components/aboutUs/AboutUsSelector"
+import BioCard from "../components/aboutUs/BioCard"
+import AboutUsBio from "../components/aboutUs/AboutUsBio"
 import classes from "./AboutUs.module.css"
 
 const AboutUs = () => {

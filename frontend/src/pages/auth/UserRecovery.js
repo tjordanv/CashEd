@@ -1,10 +1,10 @@
 import { useState } from "react"
-import UserLookup from "../../components/Authentication/UserLookup"
-import SecurityQAndA from "../../components/Authentication/SecurityQandA"
-import RequestResponse from "../../components/Authentication/RequestResponse"
+import UserLookup from "../../components/authentication/UserLookup"
+import SecurityQAndA from "../../components/authentication/SecurityQandA"
+import RequestResponse from "../../components/authentication/RequestResponse"
 import classes from "./Auth.module.css"
-import AuthFormFooter from "../../components/Authentication/AuthFormFooter"
-import AuthFormHeader from "../../components/Authentication/AuthFormHeader"
+import FormFooter from "../../components/authentication/FormFooter"
+import FormHeader from "../../components/authentication/FormHeader"
 import Box from "@mui/material/Box"
 
 const UserRecovery = ({ isPasswordReset }) => {
@@ -21,7 +21,7 @@ const UserRecovery = ({ isPasswordReset }) => {
 
   return (
     <Box className={classes.container}>
-      <AuthFormHeader
+      <FormHeader
         pageTitle={isPasswordReset ? "Forgot Password" : "Forgot Username"}
       />
       {!user && (
@@ -38,7 +38,7 @@ const UserRecovery = ({ isPasswordReset }) => {
         />
       )}
       {isAuthenticated && <RequestResponse type="user recovery" />}
-      <AuthFormFooter
+      <FormFooter
         type={isPasswordReset ? "forgot password" : "forgot username"}
         formSection={
           isAuthenticated

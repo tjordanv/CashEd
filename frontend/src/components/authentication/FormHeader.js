@@ -1,6 +1,6 @@
 import Typography from "@mui/material/Typography"
 
-import classes from "../Authentication/AuthFormHeader.module.css"
+import classes from "./FormHeader.module.css"
 
 const AuthFormHeader = ({ pageTitle }) => {
   return (

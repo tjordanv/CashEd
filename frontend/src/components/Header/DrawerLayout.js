@@ -14,7 +14,7 @@ import MenuIcon from "@mui/icons-material/Menu"
 import { Fragment, useState } from "react"
 import { Badge, IconButton } from "@mui/material"
 import { useLocation, useNavigate, useLoaderData } from "react-router-dom"
-import ConfirmationDialog from "../HelperComponents/ConfirmationDialog"
+import ConfirmationDialog from "../helperComponents/ConfirmationDialog"
 import { useSelector } from "react-redux"
 
 const DrawerLayout = () => {

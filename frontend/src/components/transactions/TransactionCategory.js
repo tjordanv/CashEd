@@ -3,13 +3,13 @@ import CardContent from "@mui/material/CardContent"
 import CardHeader from "@mui/material/CardHeader"
 import Stack from "@mui/material/Stack"
 import { useState } from "react"
-import data from "../data"
+import data from "../../data"
 import { useLoaderData } from "react-router-dom"
 import TransactionSubcategory from "./TransactionSubcategory"
 import classes from "./TransactionCategory.module.css"
 import IconButton from "@mui/material/IconButton"
 import AddBoxIcon from "@mui/icons-material/AddBox"
-import { usdFormatter } from "../utils/usdFormatter"
+import { usdFormatter } from "../../utils/usdFormatter"
 
 // This will ultimately be an async function to fetch the data from the DB
 const TransactionSubcategoriesImportLoader = () => {

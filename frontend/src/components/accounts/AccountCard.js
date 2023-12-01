@@ -11,7 +11,7 @@ import {
 } from "@mui/material"
 import classes from "./AccountCard.module.css"
 import DeleteIcon from "@mui/icons-material/Delete"
-import ConfirmationDialog from "./HelperComponents/ConfirmationDialog"
+import ConfirmationDialog from "../helperComponents/ConfirmationDialog"
 import Zoom from "@mui/material/Zoom"
 import SaveIcon from "@mui/icons-material/Save"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"

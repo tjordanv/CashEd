@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react"
-import TransactionCategories from "../components/TransactionCategories"
+import TransactionCategories from "../components/transactions/TransactionCategories"
 import Button from "@mui/material/Button"
 import classes from "./TransactionImport.module.css"
 import { DragDropContext } from "react-beautiful-dnd"
-import TransactionsList from "../components/TransactionsList"
-import AddTransactions from "../components/AddTransactionForm/AddTransactions"
+import TransactionsList from "../components/transactions/TransactionsList"
+import AddTransactions from "../components/transactions/AddTransactions"
 import { Box, Typography, Divider } from "@mui/material"
-import SaveTransactionsButton from "../components/SaveTransactionsButton"
+import SaveTransactionsButton from "../uiComponents/SaveTransactionsButton"
 
 const TransactionImport = () => {
   const [activeSubcategory, setActiveSubcategory] = useState(null)
