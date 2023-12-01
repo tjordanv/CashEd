@@ -1,5 +1,5 @@
 import { Stack } from "@mui/material"
-import AccountCard from "../components/AccountCard"
+import AccountCard from "./AccountCard"
 
 const AccountCardsList = ({
   accounts,

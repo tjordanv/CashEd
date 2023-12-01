@@ -4,12 +4,12 @@ import FormControlLabel from "@mui/material/FormControlLabel"
 import Switch from "@mui/material/Switch"
 
 import classes from "./Auth.module.css"
-import FetchError from "../HelperComponents/FetchError"
-import ErrorMessage from "../HelperComponents/ErrorMessage"
-import PasswordInput from "./PasswordInput"
-import UsernameInput from "./UsernameInput"
-import InputError from "../HelperComponents/InputError"
-import FormButton from "./FormButton"
+import FetchError from "../../utils/fetchError"
+import ErrorMessage from "../helperComponents/ErrorMessage"
+import PasswordInput from "../../uiComponents/PasswordInput"
+import UsernameInput from "../../uiComponents/UsernameInput"
+import InputError from "../../utils/inputError"
+import FormButton from "../../uiComponents/FormButton"
 
 const LoginForm = () => {
   const [username, setUsername] = useState("")

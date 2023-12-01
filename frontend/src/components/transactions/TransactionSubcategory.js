@@ -3,7 +3,7 @@ import CardContent from "@mui/material/CardContent"
 import { Droppable } from "react-beautiful-dnd"
 import classes from "./TransactionSubcategory.module.css"
 import { Typography } from "@mui/material"
-import { usdFormatter } from "./HelperFunctions/usdFormatter"
+import { usdFormatter } from "../../utils/usdFormatter"
 
 const TransactionSubcategory = ({
   subcategory,

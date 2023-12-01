@@ -4,25 +4,25 @@ import Login from "./pages/auth/Login"
 import Register from "./pages/auth/Register"
 import UserRecovery from "./pages/auth/UserRecovery"
 import TransactionImport from "./pages/TransactionImport"
-import { TransactionSubcategoriesImportLoader } from "./components/TransactionCategory"
+import { TransactionSubcategoriesImportLoader } from "./components/transactions/TransactionCategory"
 import Header from "./pages/Header"
 import Notifications from "./pages/Notifications"
 import PasswordReset from "./pages/auth/PasswordReset"
 import LandingWrapper from "./pages/LandingWrapper"
 import DashboardTest from "./components/DashboardTest"
 import AboutUs from "./pages/AboutUs"
-import { passwordResetLoader } from "./components/Authentication/PasswordResetForm"
-import { QandALoader } from "./components/Authentication/SecurityQandA"
-import { headerNotificationsLoader } from "./components/Header/HeaderLayout"
-import { notificationsLoader } from "./components/Notifications/Notifications"
+import { passwordResetLoader } from "./components/authentication/PasswordResetForm"
+import { QandALoader } from "./components/authentication/SecurityQandA"
+import { headerNotificationsLoader } from "./components/header/HeaderLayout"
+import { notificationsLoader } from "./components/notifications/Notifications"
 import Home from "./pages/Home"
 import Contact from "./pages/Contact"
-import TransactionImportOLD from "./pages/TransactionImport(old)"
 import Accounts from "./pages/Accounts"
 import { accountsLoader } from "./pages/Accounts"
 
 import "./App.css"
 
+// color palettes that can be used on any JSX component without the need for CSSs
 const theme = createTheme({
   palette: {
     primary: {
@@ -38,15 +38,6 @@ const theme = createTheme({
       main: "#227C9D"
     }
   }
-  // components: {
-  //   CardHeader: {
-  //     styleOverrides: {
-  //       title: {
-  //         fontSize: "large"
-  //       }
-  //     }
-  //   }
-  // }
 })
 
 const router = createBrowserRouter([
@@ -89,10 +80,6 @@ const router = createBrowserRouter([
         path: "TransactionImport",
         element: <TransactionImport />,
         loader: TransactionSubcategoriesImportLoader
-      },
-      {
-        path: "TransactionImport/old",
-        element: <TransactionImportOLD />
       },
       {
         path: "notifications",

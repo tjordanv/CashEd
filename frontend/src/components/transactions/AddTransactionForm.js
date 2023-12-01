@@ -4,7 +4,6 @@ import TextField from "@mui/material/TextField"
 import MenuItem from "@mui/material/MenuItem"
 import Stack from "@mui/material/Stack"
 import Button from "@mui/material/Button"
-import data from "../../app/data"
 import DialogContent from "@mui/material/DialogContent"
 import DialogContentText from "@mui/material/DialogContentText"
 import DialogActions from "@mui/material/DialogActions"
@@ -12,8 +11,8 @@ import Autocomplete from "@mui/material/Autocomplete"
 import InputAdornment from "@mui/material/InputAdornment"
 import { useLoaderData } from "react-router-dom"
 import Checkbox from "@mui/material/Checkbox"
-import FetchError from "../HelperComponents/FetchError"
-import fetcher from "../HelperFunctions/fetchAuthorize"
+import FetchError from "../../utils/fetchError"
+import fetcher from "../../utils/fetchAuthorize"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import {
   FormControl,
@@ -135,7 +134,6 @@ const AddTransactionsForm = ({
       }
 
       ids = ids.substring(1)
-      console.log(ids)
       try {
         const response = await fetcher(
           `http://localhost:8080/transactions?${new URLSearchParams({

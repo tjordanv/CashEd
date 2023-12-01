@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@mui/material"
 import { Draggable } from "react-beautiful-dnd"
-import TransactionInfoTooltip from "./Transaction/TransactionInfoTooltip"
-import ConfirmationDialog from "./HelperComponents/ConfirmationDialog"
+import TransactionTooltip from "./TransactionTooltip"
+import ConfirmationDialog from "../helperComponents/ConfirmationDialog"
 import Tooltip from "@mui/material/Tooltip"
 import IconButton from "@mui/material/IconButton"
 import Zoom from "@mui/material/Zoom"
@@ -11,7 +11,7 @@ import Box from "@mui/material/Box"
 import Divider from "@mui/material/Divider"
 import Typography from "@mui/material/Typography"
 import { useState } from "react"
-import { usdFormatter } from "./HelperFunctions/usdFormatter"
+import { usdFormatter } from "../../utils/usdFormatter"
 
 const Transaction = ({ transaction, index, deleteTransactionHandler }) => {
   const [isHovered, setIsHovered] = useState(false)
@@ -70,7 +70,7 @@ const Transaction = ({ transaction, index, deleteTransactionHandler }) => {
             style={{ "--backgroundColor": backgroundColor() }}
           >
             {(isHovered && (
-              <TransactionInfoTooltip
+              <TransactionTooltip
                 date={transaction.date}
                 name={transaction.name}
                 amount={transaction.amount}

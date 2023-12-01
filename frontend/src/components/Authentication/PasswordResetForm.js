@@ -4,11 +4,13 @@ import { useState } from "react"
 import Button from "@mui/material/Button"
 import Box from "@mui/material/Box"
 import CircularProgress from "@mui/material/CircularProgress"
-import ErrorMessage from "../HelperComponents/ErrorMessage"
-import PasswordInput, { validatePassword } from ".//PasswordInput"
+import ErrorMessage from "../helperComponents/ErrorMessage"
+import PasswordInput, {
+  validatePassword
+} from "../../uiComponents/PasswordInput"
 import classes from "./Auth.module.css"
-import InputError from "../HelperComponents/InputError"
-import FetchError from "../HelperComponents/FetchError"
+import InputError from "../../utils/inputError"
+import FetchError from "../../utils/fetchError"
 
 // validate the token from the URL before allowing users onto this page
 const passwordResetLoader = async (token) => {

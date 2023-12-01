@@ -1,10 +1,10 @@
 import { useState } from "react"
-import RegisterForm from "../../components/Authentication/RegisterForm"
-import SecurityQandA from "../../components/Authentication/SecurityQandA"
+import RegisterForm from "../../components/authentication/RegisterForm"
+import SecurityQandA from "../../components/authentication/SecurityQandA"
 import classes from "./Auth.module.css"
 import Box from "@mui/material/Box"
-import AuthFormHeader from "../../components/Authentication/AuthFormHeader"
-import AuthFormFooter from "../../components/Authentication/AuthFormFooter"
+import FormHeader from "../../components/authentication/FormHeader"
+import FormFooter from "../../components/authentication/FormFooter"
 
 const Register = () => {
   const [user, setUser] = useState("")
@@ -15,7 +15,7 @@ const Register = () => {
 
   return (
     <Box className={classes.container}>
-      <AuthFormHeader pageTitle={"Registration"} />
+      <FormHeader pageTitle={"Registration"} />
       {!user && (
         <RegisterForm
           setUserHandler={setUser}
@@ -28,7 +28,7 @@ const Register = () => {
           <SecurityQandA type="register" user={user} />{" "}
         </>
       )}
-      <AuthFormFooter
+      <FormFooter
         type="registration"
         formSection={formSection}
         setFormSection={setFormSection}

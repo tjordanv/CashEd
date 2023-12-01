@@ -23,19 +23,6 @@ html {
   margin-bottom: 10px;
 }
 
-.container .messageContainer {
-  margin-top: 8px;
-  height: 25px;
-  width: 100%;
-}
-
-.container .message {
-  border: 1px #ff095f solid;
-  border-radius: 4px;
-  color: #ff095f;
-  text-align: center;
-}
-
 .container .switch {
   margin-top: 10px;
   margin-bottom: 10px;

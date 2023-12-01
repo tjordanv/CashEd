@@ -2,11 +2,11 @@ import { useState } from "react"
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
 import classes from "./Auth.module.css"
-import FetchError from "../HelperComponents/FetchError"
-import ErrorMessage from "../HelperComponents/ErrorMessage"
-import EmailInput from "./EmailInput"
-import UsernameInput from "./UsernameInput"
-import FormButton from "./FormButton"
+import FetchError from "../../utils/fetchError"
+import ErrorMessage from "../helperComponents/ErrorMessage"
+import EmailInput from "../../uiComponents/EmailInput"
+import UsernameInput from "../../uiComponents/UsernameInput"
+import FormButton from "../../uiComponents/FormButton"
 
 const UserLookup = ({ setUserHandler, isPasswordReset }) => {
   const [emailAddress, setEmailAddress] = useState("")

@@ -1,0 +1,11 @@
+.container {
+  margin-top: 8px;
+  height: 25px;
+  width: 100%;
+}
+.container .message {
+  border: 1px #ff095f solid;
+  border-radius: 4px;
+  color: #ff095f;
+  text-align: center;
+}

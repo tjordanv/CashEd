@@ -1,7 +1,7 @@
 import Typography from "@mui/material/Typography"
 import Tooltip from "@mui/material/Tooltip"
 import { NavLink } from "react-router-dom"
-import classes from "./AuthFormFooter.module.css"
+import classes from "./FormFooter.module.css"
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline"
 
 /*

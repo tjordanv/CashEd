@@ -1,5 +1,5 @@
 import classes from "./EmailIcon.module.css"
-import email from "../assets/email.svg"
+import email from "../../assets/email.svg"
 import Alert from "@mui/material/Alert"
 import copy from "clipboard-copy"
 import { useState } from "react"

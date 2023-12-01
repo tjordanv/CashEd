@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { usePlaidLink } from "react-plaid-link"
-import fetcher from "../components/HelperFunctions/fetchAuthorize"
+import fetcher from "../utils/fetchAuthorize"
 import { Box, Chip, Divider, IconButton, List, Typography } from "@mui/material"
 import { useLoaderData } from "react-router-dom"
-import FetchError from "../components/HelperComponents/FetchError"
-import AccountCardsList from "../components/AccountCardsList"
+import FetchError from "../utils/fetchError"
+import AccountCardsList from "../components/accounts/AccountCardsList"
 import classes from "./Accounts.module.css"
 import AddCircleIcon from "@mui/icons-material/AddCircle"
 
