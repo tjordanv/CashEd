@@ -17,7 +17,9 @@ Know Your Money
 - **AboutUsBio.js**
   - The bio component used in the About Us page to describe CasedEd as an application
 - **AboutUsSelector.js**
+  - The selector component that allows users to switch between the application bio and the creator bio on the About Us page
 - **AboutUsWrapper.js**
+  - The Card wrapper used to build the application and creator bio cards
 - **BioCard.js**
 - **EmailIcon.js**
 ### accounts
