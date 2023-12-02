@@ -8,6 +8,7 @@ Know Your Money
 ## components
 *The component files that make up the rendered pages.*
 - **ContactForm.js**
+  - The form that allows users and non-users to contact us directly. 
 - **DashboardTest.js**
 - **HomePieChart.js**
 ### aboutUs
