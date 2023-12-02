@@ -8,16 +8,25 @@ Know Your Money
 ## components
 *The component files that make up the rendered pages.*
 - **ContactForm.js**
+  - The form that allows users and non-users to contact us directly. 
 - **DashboardTest.js**
+  - A placeholder file for the dashboard users see when they log in.
 - **HomePieChart.js**
+  - A pie chart used on the homepage that provides an interactive model to display basic information about the application to users.
 ### aboutUs
 - **AboutUsBio.js**
+  - The bio component used in the About Us page to describe CasedEd as an application
 - **AboutUsSelector.js**
+  - The selector component that allows users to switch between the application bio and the creator bio on the About Us page
 - **AboutUsWrapper.js**
+  - The Card wrapper used to build the application and creator bio cards
 - **BioCard.js**
+  - The bio card used to display info about a creator
 - **EmailIcon.js**
+  - an email icon that allows users to copy the email address of the corresponding creator to their clipboard. Used in the BioCard component.
 ### accounts
 - **AccountCard.js**
+  - The card component that renders a given bank account object
 - **AccountCardList.js**
 ### authentication 
 - **FormFooter.js**
