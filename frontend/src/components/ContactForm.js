@@ -12,6 +12,11 @@ import FetchError from "../utils/fetchError"
 import InputError from "../utils/inputError"
 import CircularProgress from "@mui/material/CircularProgress"
 
+/**
+ * The form on the contact page for users and non-users to contact us through
+ * @param {boolean} setIsSubmitted communicated the submitted state to parent component
+ * @returns
+ */
 const ContactForm = ({ setIsSubmitted }) => {
   const [isActiveUser, setIsActiveUser] = useState(false)
   const [firstName, setFirstName] = useState("")
