@@ -26,6 +26,7 @@ Know Your Money
   - an email icon that allows users to copy the email address of the corresponding creator to their clipboard. Used in the BioCard component.
 ### accounts
 - **AccountCard.js**
+  - The card component that renders a given bank account object
 - **AccountCardList.js**
 ### authentication 
 - **FormFooter.js**
