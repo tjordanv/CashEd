@@ -15,6 +15,7 @@ Know Your Money
   - A pie chart used on the homepage that provides an interactive model to display basic information about the application to users.
 ### aboutUs
 - **AboutUsBio.js**
+  - The bio component used in the About Us page to describe CasedEd as an application
 - **AboutUsSelector.js**
 - **AboutUsWrapper.js**
 - **BioCard.js**
