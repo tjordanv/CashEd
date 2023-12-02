@@ -3,6 +3,10 @@ import Typography from "@mui/material/Typography"
 import Stack from "@mui/material/Stack"
 import AboutUsWrapper from "./AboutUsWrapper"
 
+/**
+ * The bio component used in the About Us page to describe CasedEd as an application
+ * @returns
+ */
 const AboutUsBio = () => {
   const paragraphLines = [
     `A phrase that embodies the mission of Finance App. With endless information at our fingertips, too often 

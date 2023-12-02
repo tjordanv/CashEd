@@ -20,30 +20,74 @@ import Collapse from "@mui/material/Collapse"
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined"
 import Alert from "@mui/material/Alert"
 
+/**
+ * unsaved changes and account saved alerts used in the card header action
+ * @param {boolean} nicknameFlag whether or not the nickname has been changed
+ * @param {boolean} isAlert weather or not the account saved alert to be shown
+ * @param {function} setIsAlert the handler to set isAlert
+ * @returns
+ */
+const UnsavedChanges = ({ nicknameFlag, isAlert, setIsAlert }) => {
+  // render the unsaved changes alert if an account has unsaved changes
+  if (nicknameFlag) {
+    return (
+      <Tooltip title="unsaved changes">
+        <ErrorOutlineOutlinedIcon fontSize="large" color="danger" />
+      </Tooltip>
+    )
+  } else if (isAlert) {
+    // render the account saved alert once changes are saved
+    return (
+      <Alert
+        onClose={() => {
+          setIsAlert(false)
+        }}
+      >
+        Account saved
+      </Alert>
+    )
+  }
+}
+
+/**
+ * the component that gets passed to the confirmation dialog as a prop
+ * @param {function} func the function to be executed upon confirmation
+ */
+const component = ({ func }) => (
+  <Tooltip title="Remove" arrow TransitionComponent={Zoom}>
+    <IconButton onClick={func}>
+      <DeleteIcon color="#777777" />
+    </IconButton>
+  </Tooltip>
+)
+
+/**
+ * The card component that renders a given bank account object
+ * @param {object} account the bank account object to be rendered onto the card
+ * @param {function} removeAccountHandler the function that handles deleting the account
+ * @param {function} saveAccountHandler the function that handles saving the account after changes were made to it
+ */
 const AccountCard = ({ account, removeAccountHandler, saveAccountHandler }) => {
   const [nickname, setNickname] = useState(account.nickname)
   const [nicknameFlag, setNicknameFlag] = useState(false)
   const [isAlert, setIsAlert] = useState(false)
-  const UnsavedChanges = () => {
-    if (nicknameFlag) {
-      return (
-        <Tooltip title="unsaved changes">
-          <ErrorOutlineOutlinedIcon fontSize="large" color="danger" />
-        </Tooltip>
-      )
-    } else if (isAlert) {
-      return (
-        <Alert
-          onClose={() => {
-            setIsAlert(false)
-          }}
-        >
-          Account saved
-        </Alert>
-      )
-    }
+  const [isExpanded, setIsExpanded] = useState(false)
+  const expandClasses = `${classes["expandMore"]} ${
+    isExpanded ? classes["expandMoreExpanded"] : ""
+  }`
+  const logoBase64 = `data:image/png;base64,${account.logo}`
+  const Logo = (
+    <Avatar src={logoBase64} alt="Logo" className={classes.logo}></Avatar>
+  )
+  const title = `${account.name}: ${account.subtype}`
+  const subheader = `ending in ${account.mask}`
+  const confirmationDialogDetails = {
+    title: "Remove Account?",
+    description: null,
+    confirmationLabel: "Remove"
   }
 
+  // update flag state if changes are made to the account
   useEffect(() => {
     if (nickname !== account.nickname) {
       setNicknameFlag(true)
@@ -57,29 +101,6 @@ const AccountCard = ({ account, removeAccountHandler, saveAccountHandler }) => {
     setNicknameFlag(false)
     setIsAlert(true)
   }
-  const [isExpanded, setIsExpanded] = useState(false)
-  const expandClasses = `${classes["expandMore"]} ${
-    isExpanded ? classes["expandMoreExpanded"] : ""
-  }`
-  const logoBase64 = `data:image/png;base64,${account.logo}`
-  const Logo = (
-    <Avatar src={logoBase64} alt="Logo" className={classes.logo}></Avatar>
-  )
-  const title = `${account.name}: ${account.subtype}`
-  const subheader = `ending in ${account.mask}`
-
-  const confirmationDialogDetails = {
-    title: "Remove Account?",
-    description: null,
-    confirmationLabel: "Remove"
-  }
-  const component = ({ func }) => (
-    <Tooltip title="Remove" arrow TransitionComponent={Zoom}>
-      <IconButton onClick={func}>
-        <DeleteIcon color="#777777" />
-      </IconButton>
-    </Tooltip>
-  )
 
   const test = () => {
     console.log(account)
@@ -94,12 +115,16 @@ const AccountCard = ({ account, removeAccountHandler, saveAccountHandler }) => {
         titleTypographyProps={{
           fontSize: 22
         }}
-        action={<UnsavedChanges />}
+        action={
+          <UnsavedChanges
+            nicknameFlag={nicknameFlag}
+            isAlert={isAlert}
+            setIsAlert={setIsAlert}
+          />
+        }
       />
       <CardContent className={classes.cardContent}>
         <Typography variant="body1">{account.officialName}</Typography>
-        {/* <Input placeholder="Nickname" variant="standard" size="small" /> */}
-        {/* <FormButton label="SAVE" type="submit" size="small" /> */}
       </CardContent>
       <CardActions className={classes.cardActions}>
         <IconButton

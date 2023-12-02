@@ -9,6 +9,9 @@ import Stack from "@mui/material/Stack"
 import Box from "@mui/material/Box"
 import AboutUsWrapper from "./AboutUsWrapper"
 
+/**
+ * The bio card used to display info about a creator
+ */
 const BioCard = () => {
   return (
     <AboutUsWrapper>

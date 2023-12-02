@@ -3,6 +3,12 @@ import Typography from "@mui/material/Typography"
 import Stack from "@mui/material/Stack"
 import Divider from "@mui/material/Divider"
 
+/**
+ * The selector component that allows users to switch between the application bio and the creator bio on the about us page
+ * @param {boolean} isCreator used to determine if creator bio or application bio should be shown
+ * @param {function} setIsCreator the handler to set the isCreator value
+ * @returns
+ */
 const AboutUsSelector = ({ isCreator, setIsCreator }) => {
   return (
     <Stack
@@ -16,6 +22,7 @@ const AboutUsSelector = ({ isCreator, setIsCreator }) => {
         <Typography variant="h6" color="primary.text">
           Get to know your money
         </Typography>
+        {/* add background divs that get colored to show current selected tab */}
         {!isCreator && (
           <>
             <div></div>
@@ -28,6 +35,7 @@ const AboutUsSelector = ({ isCreator, setIsCreator }) => {
         <Typography variant="h6" color="primary.text">
           Get to know the creator
         </Typography>
+        {/* add background divs that get colored to show current selected tab */}
         {isCreator && (
           <>
             <div></div>
