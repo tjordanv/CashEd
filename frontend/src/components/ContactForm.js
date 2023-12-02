@@ -14,7 +14,7 @@ import CircularProgress from "@mui/material/CircularProgress"
 
 /**
  * The form on the contact page for users and non-users to contact us through
- * @param {boolean} setIsSubmitted communicated the submitted state to parent component
+ * @param {boolean} setIsSubmitted communicates the submitted state to parent component
  * @returns
  */
 const ContactForm = ({ setIsSubmitted }) => {
@@ -62,22 +62,22 @@ const ContactForm = ({ setIsSubmitted }) => {
           throw await FetchError.fromResponse(usernameResponse)
         } else {
           const usernameResponseJson = await usernameResponse.json()
-
           if (usernameResponseJson === false) {
-            throw new InputError()
+            throw new InputError("user not found", "usernameInput")
           }
         }
-
+        // insert username to the request body if the user is found.
         body.username = username
         stringifiedBody = JSON.stringify(body)
       } else {
+        // insert contact info to the request body for non-user
         body.firstName = firstName
         body.lastName = lastName
         body.emailAddress = emailAddress
 
         stringifiedBody = JSON.stringify(body)
       }
-
+      // send message to our server
       let response = await fetch("http://localhost:8080/auth/contactUs", {
         method: "POST",
         mode: "cors",
