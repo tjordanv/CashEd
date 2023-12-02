@@ -33,9 +33,6 @@ Know Your Money
 - **DrawerLayout.js**
 - **HeaderLayout.js**
 - **LandingHeader.js**
-### helperComponents
-- **ConfirmationDialog.js**
-- **ErrorMessage.js**
 ### notifications
 - **NotificationCard.js**
 - **Notifications.js**
@@ -78,7 +75,9 @@ Know Your Money
   - reducers and actions for notifications
 ## uiComponents
 *Components used to standardize the UI*
+- **ConfirmationDialog.js**
 - **EmailInput.js**
+- **ErrorMessage.js**
 - **FormButton.js**
 - **MessageInput.js**
 - **NameInput.js**
