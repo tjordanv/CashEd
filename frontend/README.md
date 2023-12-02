@@ -10,7 +10,9 @@ Know Your Money
 - **ContactForm.js**
   - The form that allows users and non-users to contact us directly. 
 - **DashboardTest.js**
+  - A placeholder file for the dashboard users see when they log in.
 - **HomePieChart.js**
+  - A pie chart used on the homepage that provides an interactive model to display basic information about the application to users.
 ### aboutUs
 - **AboutUsBio.js**
 - **AboutUsSelector.js**
