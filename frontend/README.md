@@ -21,7 +21,9 @@ Know Your Money
 - **AboutUsWrapper.js**
   - The Card wrapper used to build the application and creator bio cards
 - **BioCard.js**
+  - The bio card used to display info about a creator
 - **EmailIcon.js**
+  - an email icon that allows users to copy the email address of the corresponding creator to their clipboard. Used in the BioCard component.
 ### accounts
 - **AccountCard.js**
 - **AccountCardList.js**
