@@ -5,7 +5,7 @@ import Switch from "@mui/material/Switch"
 
 import classes from "./Auth.module.css"
 import FetchError from "../../utils/fetchError"
-import ErrorMessage from "../helperComponents/ErrorMessage"
+import ErrorMessage from "../../uiComponents/ErrorMessage"
 import PasswordInput from "../../uiComponents/PasswordInput"
 import UsernameInput from "../../uiComponents/UsernameInput"
 import InputError from "../../utils/inputError"

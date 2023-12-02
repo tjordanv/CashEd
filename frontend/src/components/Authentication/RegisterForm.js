@@ -1,7 +1,7 @@
 import { useState } from "react"
 import classes from "./Auth.module.css"
 import FetchError from "../../utils/fetchError"
-import ErrorMessage from "../helperComponents/ErrorMessage"
+import ErrorMessage from "../../uiComponents/ErrorMessage"
 import InputError from "../../utils/inputError"
 import PasswordInput, {
   validatePassword

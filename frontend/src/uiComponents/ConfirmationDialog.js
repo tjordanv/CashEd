@@ -1,13 +1,12 @@
 import { forwardRef, useState } from "react"
 
-import Button from "@mui/material/Button"
 import DialogTitle from "@mui/material/DialogTitle"
 import DialogContentText from "@mui/material/DialogContentText"
 import DialogContent from "@mui/material/DialogContent"
 import DialogActions from "@mui/material/DialogActions"
 import Dialog from "@mui/material/Dialog"
 import Slide from "@mui/material/Slide"
-import FormButton from "../../uiComponents/FormButton"
+import FormButton from "./FormButton"
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />

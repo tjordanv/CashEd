@@ -11,14 +11,13 @@ import {
 } from "@mui/material"
 import classes from "./AccountCard.module.css"
 import DeleteIcon from "@mui/icons-material/Delete"
-import ConfirmationDialog from "../helperComponents/ConfirmationDialog"
+import ConfirmationDialog from "../../uiComponents/ConfirmationDialog"
 import Zoom from "@mui/material/Zoom"
 import SaveIcon from "@mui/icons-material/Save"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import { useState, useEffect } from "react"
 import Collapse from "@mui/material/Collapse"
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined"
-import PriorityHighIcon from "@mui/icons-material/PriorityHigh"
 import Alert from "@mui/material/Alert"
 
 const AccountCard = ({ account, removeAccountHandler, saveAccountHandler }) => {
