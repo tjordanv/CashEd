@@ -38,6 +38,9 @@ Know Your Money
   - The user login form
 - **PasswordResetForm.js**
 - **RegisterForm.js**
+  - The form for users to reset their login password
+  - **PasswordResetLoader**
+    - confirms that the token in the URL is valid to control access to the reset page 
 - **RequestResponse.js**
 - **SecurityQandA.js**
 - **SecurityQuestionsCounter.js**
