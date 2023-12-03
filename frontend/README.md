@@ -42,6 +42,7 @@ Know Your Money
   - **PasswordResetLoader**
     - confirms that the token in the URL is valid to control access to the reset page 
 - **RequestResponse.js**
+  - The message displayed to users following various authentication requests made by them
 - **SecurityQandA.js**
 - **SecurityQuestionsCounter.js**
   -  Displays the number of active security questions the user has 
