@@ -23,21 +23,21 @@ const passwordResetLoader = async (token) => {
 
   if (!response.ok) {
     console.log("response not ok")
-    //return redirect("/auth/login")
   } else {
     try {
       return await response.json()
     } catch (error) {
       // Send the user back to the login page if they do not have a valid token
       return redirect("/login")
-      // If their token is valid but expired, let them know that and give them a link back to the reset password starter page
     }
-    // console.log(responseJson)
-    // console.log(user)
   }
   return null
 }
 
+/**
+ * The form for users to reset their login password
+ * @param {function} setIsResetHandler the handler to set the isReset state in the parent component that controls which part of the reset process to show
+ */
 const PasswordResetForm = ({ setIsResetHandler }) => {
   const userData = useLoaderData()
   const [password, setPassword] = useState("")
@@ -98,7 +98,7 @@ const PasswordResetForm = ({ setIsResetHandler }) => {
         })
         throw new InputError()
       }
-
+      // if all inputs are valid, send reset request
       let response = await fetch("http://localhost:8080/auth/updatePassword", {
         method: "PUT",
         mode: "cors",
@@ -112,13 +112,11 @@ const PasswordResetForm = ({ setIsResetHandler }) => {
       } else if (response.status === 200) {
         const responseJson = await response.json()
         if (responseJson === true) {
-          //navigate("/login")
           setIsResetHandler(true)
         }
       }
     } catch (error) {
       if (error instanceof InputError) {
-        // handle input error
       } else if (error instanceof FetchError) {
         setMessage(error.message)
       }
