@@ -28,12 +28,19 @@ Know Your Money
 - **AccountCard.js**
   - The card component that renders a given bank account object
 - **AccountCardList.js**
+  - The container that renders the user's active bank accounts
 ### authentication 
 - **FormFooter.js**
+  - The footer for the auth forms. Includes links to other pages, back button, and info tooltips
 - **FormHeader.js**
+  - The standardized header for all authentication forms
 - **LoginForm.js**
+  - The user login form
 - **PasswordResetForm.js**
 - **RegisterForm.js**
+  - The form for users to reset their login password
+  - **PasswordResetLoader**
+    - confirms that the token in the URL is valid to control access to the reset page 
 - **RequestResponse.js**
 - **SecurityQandA.js**
 - **SecurityQuestionsCounter.js**
