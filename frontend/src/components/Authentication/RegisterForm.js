@@ -41,6 +41,7 @@ const RegisterForm = ({ submitHandler }) => {
   }
 
   const formSubmissionHandler = async (e) => {
+    e.preventDefault()
     resetErrors()
 
     try {
@@ -129,7 +130,7 @@ const RegisterForm = ({ submitHandler }) => {
         error={errors.confirmPassword}
         isConfirmation={true}
       />
-      <FormButton label="Next" onClick={formSubmissionHandler} />
+      <FormButton label="Next" type="submit" />
       {message && <ErrorMessage message={message} />}
     </form>
   )
