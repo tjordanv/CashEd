@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@mui/material"
 import { Draggable } from "react-beautiful-dnd"
 import TransactionTooltip from "./TransactionTooltip"
-import ConfirmationDialog from "../helperComponents/ConfirmationDialog"
+import ConfirmationDialog from "../../uiComponents/ConfirmationDialog"
 import Tooltip from "@mui/material/Tooltip"
 import IconButton from "@mui/material/IconButton"
 import Zoom from "@mui/material/Zoom"

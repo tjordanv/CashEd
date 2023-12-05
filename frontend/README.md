@@ -8,24 +8,41 @@ Know Your Money
 ## components
 *The component files that make up the rendered pages.*
 - **ContactForm.js**
+  - The form that allows users and non-users to contact us directly. 
 - **DashboardTest.js**
+  - A placeholder file for the dashboard users see when they log in.
 - **HomePieChart.js**
+  - A pie chart used on the homepage that provides an interactive model to display basic information about the application to users.
 ### aboutUs
 - **AboutUsBio.js**
+  - The bio component used in the About Us page to describe CasedEd as an application
 - **AboutUsSelector.js**
+  - The selector component that allows users to switch between the application bio and the creator bio on the About Us page
 - **AboutUsWrapper.js**
+  - The Card wrapper used to build the application and creator bio cards
 - **BioCard.js**
+  - The bio card used to display info about a creator
 - **EmailIcon.js**
+  - an email icon that allows users to copy the email address of the corresponding creator to their clipboard. Used in the BioCard component.
 ### accounts
 - **AccountCard.js**
+  - The card component that renders a given bank account object
 - **AccountCardList.js**
+  - The container that renders the user's active bank accounts
 ### authentication 
 - **FormFooter.js**
+  - The footer for the auth forms. Includes links to other pages, back button, and info tooltips
 - **FormHeader.js**
+  - The standardized header for all authentication forms
 - **LoginForm.js**
+  - The user login form
 - **PasswordResetForm.js**
 - **RegisterForm.js**
+  - The form for users to reset their login password
+  - **PasswordResetLoader**
+    - confirms that the token in the URL is valid to control access to the reset page 
 - **RequestResponse.js**
+  - The message displayed to users following various authentication requests made by them
 - **SecurityQandA.js**
 - **SecurityQuestionsCounter.js**
   -  Displays the number of active security questions the user has 
@@ -33,9 +50,6 @@ Know Your Money
 - **DrawerLayout.js**
 - **HeaderLayout.js**
 - **LandingHeader.js**
-### helperComponents
-- **ConfirmationDialog.js**
-- **ErrorMessage.js**
 ### notifications
 - **NotificationCard.js**
 - **Notifications.js**
@@ -78,7 +92,9 @@ Know Your Money
   - reducers and actions for notifications
 ## uiComponents
 *Components used to standardize the UI*
+- **ConfirmationDialog.js**
 - **EmailInput.js**
+- **ErrorMessage.js**
 - **FormButton.js**
 - **MessageInput.js**
 - **NameInput.js**

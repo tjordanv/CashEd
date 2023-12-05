@@ -4,12 +4,12 @@ import { NavLink } from "react-router-dom"
 import classes from "./FormFooter.module.css"
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline"
 
-/*
-type: This is the type of auth form. Ex: Login form, Registration form, Password Reset for
-formSection: This is the state of the form section for the forms that have multiple parts. 
-  Ex: Registration form part 1 and part 2
-setFormSection: This is a function the handles setting the formSection state 
-*/
+/**
+ * The footer for the auth forms. Includes links to other pages, back button, and info tooltips
+ * @param {string} type the type of auth form (login, registration, password reset)
+ * @param {string} formSection the state of the form section for the forms that have multiple parts
+ * @param {function} setFormSection the handler that sets the formSection state
+ */
 const AuthFormFooter = ({ type, formSection, setFormSection }) => {
   const tooltip =
     formSection === "recovery security questions"

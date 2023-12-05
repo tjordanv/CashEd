@@ -2,7 +2,7 @@ import EmailInput from "../uiComponents/EmailInput"
 import { useState } from "react"
 import NameInput from "../uiComponents/NameInput"
 import UsernameInput from "../uiComponents/UsernameInput"
-import ErrorMessage from "./helperComponents/ErrorMessage"
+import ErrorMessage from "../uiComponents/ErrorMessage"
 import classes from "./ContactForm.module.css"
 import MessageInput from "../uiComponents/MessageInput"
 import FormButton from "../uiComponents/FormButton"
@@ -12,6 +12,11 @@ import FetchError from "../utils/fetchError"
 import InputError from "../utils/inputError"
 import CircularProgress from "@mui/material/CircularProgress"
 
+/**
+ * The form on the contact page for users and non-users to contact us through
+ * @param {boolean} setIsSubmitted communicates the submitted state to parent component
+ * @returns
+ */
 const ContactForm = ({ setIsSubmitted }) => {
   const [isActiveUser, setIsActiveUser] = useState(false)
   const [firstName, setFirstName] = useState("")
@@ -57,22 +62,22 @@ const ContactForm = ({ setIsSubmitted }) => {
           throw await FetchError.fromResponse(usernameResponse)
         } else {
           const usernameResponseJson = await usernameResponse.json()
-
           if (usernameResponseJson === false) {
-            throw new InputError()
+            throw new InputError("user not found", "usernameInput")
           }
         }
-
+        // insert username to the request body if the user is found.
         body.username = username
         stringifiedBody = JSON.stringify(body)
       } else {
+        // insert contact info to the request body for non-user
         body.firstName = firstName
         body.lastName = lastName
         body.emailAddress = emailAddress
 
         stringifiedBody = JSON.stringify(body)
       }
-
+      // send message to our server
       let response = await fetch("http://localhost:8080/auth/contactUs", {
         method: "POST",
         mode: "cors",
