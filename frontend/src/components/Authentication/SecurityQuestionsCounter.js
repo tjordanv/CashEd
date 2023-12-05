@@ -1,5 +1,11 @@
 import Typography from "@mui/material/Typography"
 import classes from "./SecurityQuestionsCounter.module.css"
+
+/**
+ * Displays the number of active security questions the user has
+ * @param {integer} count the number of active security questions that the user has. This comes from the parent component's state
+ * @returns
+ */
 const SecurityQuestionsCounter = ({ count }) => {
   return (
     <div className={classes.container}>
