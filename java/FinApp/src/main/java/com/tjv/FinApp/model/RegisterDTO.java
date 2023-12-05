@@ -9,12 +9,16 @@ public class RegisterDTO {
     private String firstName;
     @NotEmpty
     private String lastName;
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
     @NotEmpty
     private String email;
     @NotEmpty
     private String password;
-    @NotEmpty
-    private String confirmPassword;
     @NotEmpty(message = "Please select a role for this user.")
     private String role;
 
@@ -50,14 +54,6 @@ public class RegisterDTO {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
     }
 
     public String getRole() {

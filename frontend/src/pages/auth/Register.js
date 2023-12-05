@@ -1,5 +1,6 @@
 import { useState } from "react"
 import RegisterForm from "../../components/authentication/RegisterForm"
+import RegisterFormPt2 from "../../components/authentication/RegisterFormPt2"
 import SecurityQandA from "../../components/authentication/SecurityQandA"
 import classes from "./Auth.module.css"
 import Box from "@mui/material/Box"
@@ -10,7 +11,7 @@ import FetchError from "../../utils/fetchError"
 const Register = () => {
   const [user, setUser] = useState({
     id: "",
-    email: "",
+    emailAddress: "",
     password: "",
     username: ""
   })
@@ -25,7 +26,8 @@ const Register = () => {
   Example: using the BACK link to go back to part one -> setFormSection("one") */
   const [formSection, setFormSection] = useState("register one")
 
-  const createUser = async ({ username, firstName, lastName }) => {
+  const createUser = async (username, firstName, lastName) => {
+    console.log(username, firstName, lastName, user.email, user.password)
     const response = await fetch("http://localhost:8080/auth/register", {
       method: "POST",
       mode: "cors",
@@ -47,29 +49,31 @@ const Register = () => {
       const responseJson = await response.json()
       localStorage.setItem("jwt", responseJson.accessToken)
       // Set the user information so the securityQandA component has the necessary information
+      console.log(responseJson)
       setUserHandler({
-        id: responseJson.id,
-        username: responseJson.username
+        id: responseJson.user.id,
+        username: responseJson.user.username
       })
       setFormSection("registration security questions")
     }
   }
 
+  const Component = () => {
+    let comp = <RegisterForm submitHandler={setUserHandler} />
+
+    if (user.id) {
+      comp = <SecurityQandA type="register" user={user} />
+    } else if (user.emailAddress) {
+      comp = <RegisterFormPt2 submitHandler={createUser} />
+    }
+
+    return comp
+  }
+
   return (
     <Box className={classes.container}>
       <FormHeader pageTitle={"Registration"} />
-      {!user && (
-        <RegisterForm
-          setUserHandler={setUser}
-          formSection={formSection}
-          setFormSection={setFormSection}
-        />
-      )}
-      {user && (
-        <>
-          <SecurityQandA type="register" user={user} />{" "}
-        </>
-      )}
+      <Component />
       <FormFooter
         type="registration"
         formSection={formSection}

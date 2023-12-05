@@ -6,28 +6,19 @@ import InputError from "../../utils/inputError"
 import PasswordInput, {
   validatePassword
 } from "../../uiComponents/PasswordInput"
-import UsernameInput, {
-  validateUsername
-} from "../../uiComponents/UsernameInput"
 import EmailInput from "../../uiComponents/EmailInput"
-import NameInput, { validateName } from "../../uiComponents/NameInput"
 import FormButton from "../../uiComponents/FormButton"
 
-const RegisterForm = ({ setUserHandler, formSection, setFormSection }) => {
+const RegisterForm = ({ submitHandler }) => {
   const [emailAddress, setEmailAddress] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
-  const [username, setUsername] = useState("")
-  const [firstName, setFirstName] = useState("")
-  const [lastName, setLastName] = useState("")
+
   const [message, setMessage] = useState("")
   const [errors, setErrors] = useState({
     emailAddress: { isError: false, message: "" },
     password: { isError: false, message: "" },
-    confirmPassword: { isError: false, message: "" },
-    username: { isError: false, message: "" },
-    firstName: { isError: false, message: "" },
-    lastName: { isError: false, message: "" }
+    confirmPassword: { isError: false, message: "" }
   })
   let errorList = []
 
@@ -49,7 +40,7 @@ const RegisterForm = ({ setUserHandler, formSection, setFormSection }) => {
     setErrors(tempErrors)
   }
 
-  const registerHandlerPartOne = async (e) => {
+  const formSubmissionHandler = async (e) => {
     resetErrors()
 
     try {
@@ -105,9 +96,10 @@ const RegisterForm = ({ setUserHandler, formSection, setFormSection }) => {
           })
         })
         throw new InputError()
-      } else {
-        // If no input errors, send user to registration part 2
-        setFormSection("register two")
+      }
+      // submit the state to the parent component if all checks pass
+      else {
+        submitHandler({ emailAddress: emailAddress, password: password })
       }
     } catch (error) {
       //console.log(error)
@@ -119,154 +111,25 @@ const RegisterForm = ({ setUserHandler, formSection, setFormSection }) => {
     }
   }
 
-  const registerHandlerPartTwo = async (e) => {
-    e.preventDefault()
-    resetErrors()
-
-    try {
-      // validate first and last name
-      if (!validateName(firstName)) {
-        errorList.push(
-          new InputError("First name can only contain letters", "firstName")
-        )
-      }
-      if (!validateName(lastName)) {
-        errorList.push(
-          new InputError("Last name can only contain letters", "lastName")
-        )
-      }
-      // validate username
-      if (!validateUsername(username)) {
-        errorList.push(
-          new InputError(
-            "Username must be between 4 and 15 characters. The only valid special characters are (., _, -).",
-            "username"
-          )
-        )
-      } else {
-        // once username is validated, check that it is available
-        let usernameAvailabilityResponse = await fetch(
-          `http://localhost:8080/auth/checkUsernameAvailability?${new URLSearchParams(
-            { username: username }
-          )}`,
-          {
-            method: "GET",
-            mode: "cors",
-            headers: {
-              "Content-Type": "application/json"
-            }
-          }
-        )
-        if (!usernameAvailabilityResponse.ok) {
-          throw await FetchError.fromResponse(usernameAvailabilityResponse)
-        } else if (usernameAvailabilityResponse.status === 200) {
-          const usernameAvailabilityResponseJson =
-            await usernameAvailabilityResponse.json()
-
-          if (usernameAvailabilityResponseJson === true) {
-            errorList.push(
-              new InputError("Username already taken.", "username")
-            )
-          }
-        }
-      }
-
-      // Handle any input errors before attempting to register user
-      if (errorList.length > 0) {
-        errorList.forEach((error) => {
-          setErrorHandler({
-            inputField: error.getInputName(),
-            isError: true,
-            message: error.getMessage()
-          })
-        })
-        throw new InputError()
-      }
-
-      const registerResponse = await fetch(
-        "http://localhost:8080/auth/register",
-        {
-          method: "POST",
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            username: username,
-            firstName: firstName,
-            lastName: lastName,
-            email: emailAddress,
-            password: password,
-            confirmPassword: confirmPassword,
-            role: "USER"
-          })
-        }
-      )
-      if (!registerResponse.ok) {
-        throw await FetchError.fromResponse(registerResponse)
-      } else if (registerResponse.status === 200) {
-        const registerResponseJson = await registerResponse.json()
-        localStorage.setItem("jwt", registerResponseJson.accessToken)
-        // Set the user information so the securityQandA component has the necessary information
-        setUserHandler({
-          id: registerResponseJson.id,
-          username: registerResponseJson.username,
-          email: registerResponseJson.email
-        })
-        setFormSection("registration security questions")
-      }
-    } catch (error) {
-      if (error instanceof InputError) {
-        // handle input error
-      } else if (error instanceof FetchError) {
-        setMessage(error.message)
-      }
-    }
-  }
   return (
-    <form className={classes.container} onSubmit={registerHandlerPartTwo}>
-      {formSection === "register one" && (
-        <>
-          <EmailInput
-            email={emailAddress}
-            setEmailHandler={setEmailAddress}
-            error={errors.emailAddress}
-          />
-          <PasswordInput
-            password={password}
-            inputHandler={setPassword}
-            error={errors.password}
-          />
-          <PasswordInput
-            password={confirmPassword}
-            inputHandler={setConfirmPassword}
-            error={errors.confirmPassword}
-            isConfirmation={true}
-          />
-          <FormButton label="Next" onClick={registerHandlerPartOne} />
-        </>
-      )}
-      {formSection === "register two" && (
-        <>
-          <UsernameInput
-            username={username}
-            setUsernameHandler={setUsername}
-            error={errors.username}
-          />
-          <NameInput
-            name={firstName}
-            setNameHandler={setFirstName}
-            error={errors.firstName}
-          />
-          <NameInput
-            name={lastName}
-            setNameHandler={setLastName}
-            error={errors.lastName}
-            isLastName={true}
-          />
-          <FormButton label="Create Account" type="submit" />
-        </>
-      )}
+    <form className={classes.container} onSubmit={formSubmissionHandler}>
+      <EmailInput
+        email={emailAddress}
+        setEmailHandler={setEmailAddress}
+        error={errors.emailAddress}
+      />
+      <PasswordInput
+        password={password}
+        inputHandler={setPassword}
+        error={errors.password}
+      />
+      <PasswordInput
+        password={confirmPassword}
+        inputHandler={setConfirmPassword}
+        error={errors.confirmPassword}
+        isConfirmation={true}
+      />
+      <FormButton label="Next" onClick={formSubmissionHandler} />
       {message && <ErrorMessage message={message} />}
     </form>
   )

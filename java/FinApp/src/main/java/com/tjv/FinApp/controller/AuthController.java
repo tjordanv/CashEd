@@ -72,6 +72,7 @@ public class AuthController {
     }
     @PostMapping("/auth/register")
     public ResponseEntity<AuthResponseDTO> register(@Valid @RequestBody RegisterDTO newUser) {
+        System.out.println(newUser.toString());
         try {
             User user = userDao.findByUsername(newUser.getUsername());
             throw new UserAlreadyExistsException("Username taken.");
