@@ -9,10 +9,11 @@ import FetchError from "../../utils/fetchError"
 import CircularProgress from "@mui/material/CircularProgress"
 
 import classes from "./Auth.module.css"
-import InputError from "../../utils/inputError"
+import { InputError } from "../../utils/inputErrors"
 import fetcher from "../../utils/fetchAuthorize"
 import SecurityQuestionsCounter from "./SecurityQuestionsCounter"
 import FormButton from "../../uiComponents/FormButton"
+import FormFooter from "./FormFooter"
 
 /**
  * The container for users to create and answer security questions upon registration or user credential recovery.
@@ -169,33 +170,52 @@ const SecurityQandA = ({ type, user, setIsAuthenticatedHandler }) => {
     console.log("test function on submit")
   }
 
+  const footerData =
+    type === "register"
+      ? {
+          topLink: {},
+          tooltip:
+            "For additional security, please answer 3 security questions."
+        }
+      : {
+          topLink: {
+            to: "/login",
+            text: "Cancel"
+          },
+          tooltip:
+            "Select and answer a security question to receive a recovery email."
+        }
+
   return (
-    <form
-      className={classes.container}
-      onSubmit={
-        ["forgot password", "forgot username"].includes(type)
-          ? validateAnswer
-          : type === "register"
-          ? saveAnswer
-          : test
-      }
-    >
-      {type === "register" && (
-        <SecurityQuestionsCounter count={questionCount} />
-      )}
-      <SecurityQuestions
-        userId={userId}
-        setQuestionHandler={setQuestion}
-        question={question}
-      />
-      <SecurityAnswer
-        answer={answer}
-        setAnswerHandler={setAnswer}
-        error={error}
-      />
-      <FormButton type="submit" disabled={isLoading} />
-      {isLoading && <CircularProgress className={classes.loader} />}
-    </form>
+    <>
+      <form
+        className={classes.container}
+        onSubmit={
+          ["forgot password", "forgot username"].includes(type)
+            ? validateAnswer
+            : type === "register"
+            ? saveAnswer
+            : test
+        }
+      >
+        {type === "register" && (
+          <SecurityQuestionsCounter count={questionCount} />
+        )}
+        <SecurityQuestions
+          userId={userId}
+          setQuestionHandler={setQuestion}
+          question={question}
+        />
+        <SecurityAnswer
+          answer={answer}
+          setAnswerHandler={setAnswer}
+          error={error}
+        />
+        <FormButton type="submit" disabled={isLoading} />
+        {isLoading && <CircularProgress className={classes.loader} />}
+      </form>
+      <FormFooter topLink={footerData.topLink} tooltip={footerData.tooltip} />
+    </>
   )
 }
 export default SecurityQandA

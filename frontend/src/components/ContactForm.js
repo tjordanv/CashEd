@@ -9,9 +9,9 @@ import FormButton from "../uiComponents/FormButton"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import Checkbox from "@mui/material/Checkbox"
 import FetchError from "../utils/fetchError"
-import InputError from "../utils/inputError"
+import { InputError } from "../utils/inputErrors"
 import CircularProgress from "@mui/material/CircularProgress"
-import { Test } from "./authentication/FormFooter"
+import FormFooter from "./authentication/FormFooter"
 
 /**
  * The form on the contact page for users and non-users to contact us through
@@ -153,7 +153,7 @@ const ContactForm = ({ setIsSubmitted }) => {
         )}
         <ErrorMessage message={errorMessage} />
       </form>
-      <Test topLink={footerData.topLink} tooltip={footerData.tooltip} />
+      <FormFooter topLink={footerData.topLink} tooltip={footerData.tooltip} />
     </>
   )
 }

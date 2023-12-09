@@ -3,141 +3,55 @@ import Tooltip from "@mui/material/Tooltip"
 import { NavLink } from "react-router-dom"
 import classes from "./FormFooter.module.css"
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline"
-import { Box } from "@mui/material"
+import { Box, Stack } from "@mui/material"
 
 /**
- * The footer for the auth forms. Includes links to other pages, back button, and info tooltips
- * @param {string} type the type of auth form (login, registration, password reset)
- * @param {string} formSection the state of the form section for the forms that have multiple parts
- * @param {function} setFormSection the handler that sets the formSection state
+ * The footer for the auth forms. Includes links to other pages, back button, and info tooltips. All params are optional and the label for each link object is also optional
+ * @param {object} doubleLink the object used to render a double link such as the one on the login page for forgot username and forgot password. 
+ * example: {
+      label: " Having trouble logging in?",
+      firstLink: {
+        to: "/userRecovery/forgotUsername",
+        text: "Forgot Username"
+      },
+      secondLink: {
+        to: "/userRecovery/forgotPassword",
+        text: "Forgot Password"
+      }
+    },
+ * @param {object} topLink the object used to render a single navigation link. Renders below the double link but above the bottom link
+ * example: {
+      to: "/register",
+      text: "Create an Account",
+      label: "Need an account?"
+    }
+ * @param {object} bottomLink the object used to render a single navigation link. Renders below both the double link and the top link
+ * @param {string} tooltip the string that will display as the tooltip
  */
-const AuthFormFooter = ({ type, formSection, setFormSection }) => {
-  const tooltip =
-    formSection === "recovery security questions"
-      ? "Select and answer a security question to receive a recovery email."
-      : type === "forgot password"
-      ? "Enter the username and email address associated to your account."
-      : type === "forgot username"
-      ? "Enter the email address associated to your account."
-      : type === "registration"
-      ? "For additional security, please answer 3 security questions."
-      : type === "password reset"
-      ? "Enter your new password"
-      : type === "contact"
-      ? "Submit your contact information with a short descriptive message and we will reach out to your email shortly."
-      : null
-
-  return (
-    <div className={classes.container}>
-      {type === "login" && (
-        <>
-          <Typography className={classes.navLinkLabel}>
-            Having trouble logging in?
-          </Typography>
-          <div className={classes.userRecoveryContainer}>
-            <NavLink
-              to="/userRecovery/forgotUsername"
-              className={classes.navLink}
-            >
-              Forgot Username
-            </NavLink>
-            |
-            <NavLink
-              to="/userRecovery/forgotPassword"
-              className={classes.navLink}
-            >
-              Forgot Password
-            </NavLink>
-          </div>
-          <Typography className={classes.navLinkLabel}>
-            Need an account?
-          </Typography>
-          <NavLink to="/register" className={classes.navLink}>
-            Create Account
-          </NavLink>
-        </>
-      )}
-      {type === "registration" && formSection === "register one" && (
-        <>
-          <Typography className={classes.navLinkLabel}>
-            Already have an account?
-          </Typography>
-
-          <NavLink to="/login" className={classes.navLink}>
-            Login
-          </NavLink>
-        </>
-      )}
-      <>
-        {type === "registration" && formSection === "register two" && (
-          <NavLink
-            onClick={() => setFormSection("one")}
-            className={classes.navLink}
-          >
-            Back
-          </NavLink>
-        )}
-      </>
-      {(type.startsWith("forgot") ||
-        formSection === "registration security questions" ||
-        type === "password reset" ||
-        type === "contact") &&
-        formSection !== "user recovery response" && (
-          <div className={classes.subContainer}>
-            <div className={classes.userRecoverySubContainer}>
-              {!formSection.includes("security questions") &&
-                type !== "password reset" &&
-                type !== "contact" && (
-                  <NavLink
-                    to={`/userRecovery/forgot${
-                      type === "forgot password" ? "Username" : "Password"
-                    }`}
-                    className={classes.navLink}
-                  >
-                    {type === "forgot password"
-                      ? "Forgot Username"
-                      : "Forgot Password"}
-                  </NavLink>
-                )}
-              <NavLink to="/login" className={classes.navLink}>
-                Cancel
-              </NavLink>
-            </div>
-            <Tooltip title={tooltip} placement="top">
-              <HelpOutlineIcon className={classes.helpIcon} />
-            </Tooltip>
-          </div>
-        )}
-      {formSection === "user recovery response" && (
-        <NavLink to="/login" className={classes.navLink}>
-          Login
-        </NavLink>
-      )}
-      {type === "contact submitted" && (
-        <NavLink to="/home" className={classes.navLink}>
-          Home
-        </NavLink>
-      )}
-    </div>
-  )
-}
-
-AuthFormFooter.defaultProps = {
-  formSection: ""
-}
-export default AuthFormFooter
-
-const Test = ({ topLink, bottomLink, tooltip }) => {
+const FormFooter = ({ doubleLink, topLink, bottomLink, tooltip }) => {
   return (
     <Box className={classes.container}>
-      <Box className={classes.subContainer}>
+      <Stack spacing={2} className={classes.subContainer}>
+        {doubleLink && (
+          <div>
+            <Typography>{doubleLink.label}</Typography>
+            <Box className={classes.doubleLinkContainer}>
+              <NavLink to={doubleLink.firstLink.to} className={classes.navLink}>
+                {doubleLink.firstLink.text}
+              </NavLink>
+              <span>|</span>
+              <NavLink
+                to={doubleLink.secondLink.to}
+                className={classes.navLink}
+              >
+                {doubleLink.secondLink.text}
+              </NavLink>
+            </Box>
+          </div>
+        )}
         {topLink && (
           <div>
-            {topLink.label && (
-              <Typography className={classes.navLinkLabel}>
-                {topLink.label}
-              </Typography>
-            )}
+            {topLink.label && <Typography>{topLink.label}</Typography>}
             <NavLink
               to={topLink.to}
               className={classes.navLink}
@@ -149,17 +63,13 @@ const Test = ({ topLink, bottomLink, tooltip }) => {
         )}
         {bottomLink && (
           <div>
-            {bottomLink.label && (
-              <Typography className={classes.navLinkLabel}>
-                {bottomLink.label}
-              </Typography>
-            )}
+            {bottomLink.label && <Typography>{bottomLink.label}</Typography>}
             <NavLink to={bottomLink.to} className={classes.navLink}>
               {bottomLink.text}
             </NavLink>
           </div>
         )}
-      </Box>
+      </Stack>
       {tooltip && (
         <Tooltip title={tooltip} placement="top">
           <HelpOutlineIcon className={classes.helpIcon} />
@@ -168,4 +78,4 @@ const Test = ({ topLink, bottomLink, tooltip }) => {
     </Box>
   )
 }
-export { Test }
+export default FormFooter

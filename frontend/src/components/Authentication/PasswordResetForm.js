@@ -1,16 +1,15 @@
 import { redirect, useLoaderData } from "react-router-dom"
 import { useState } from "react"
-
-import Button from "@mui/material/Button"
-import Box from "@mui/material/Box"
 import CircularProgress from "@mui/material/CircularProgress"
 import ErrorMessage from "../../uiComponents/ErrorMessage"
 import PasswordInput, {
   validatePassword
 } from "../../uiComponents/PasswordInput"
 import classes from "./Auth.module.css"
-import InputError from "../../utils/inputError"
+import { InputError } from "../../utils/inputErrors"
 import FetchError from "../../utils/fetchError"
+import FormFooter from "./FormFooter"
+import FormButton from "../../uiComponents/FormButton"
 
 // validate the token from the URL before allowing users onto this page
 const passwordResetLoader = async (token) => {
@@ -124,9 +123,17 @@ const PasswordResetForm = ({ setIsResetHandler }) => {
     }
   }
 
+  const footerData = {
+    topLink: {
+      to: "/login",
+      text: "Cancel"
+    },
+    tooltip: "Enter your new password"
+  }
+
   return (
-    <form className={classes.form} onSubmit={resetPassword}>
-      <Box className={classes.container}>
+    <>
+      <form className={classes.container} onSubmit={resetPassword}>
         <PasswordInput
           password={password}
           inputHandler={setPassword}
@@ -138,13 +145,12 @@ const PasswordResetForm = ({ setIsResetHandler }) => {
           error={errors.confirmPassword}
           isConfirmation={true}
         />
-        <Button type="submit" variant="contained" className={classes.button}>
-          Create Account
-        </Button>
+        <FormButton label="Create Account" type="submit" />
         {isLoading && <CircularProgress className={classes.loader} />}
         <ErrorMessage message={message} />
-      </Box>
-    </form>
+      </form>
+      <FormFooter topLink={footerData.topLink} tooltip={footerData.tooltip} />
+    </>
   )
 }
 

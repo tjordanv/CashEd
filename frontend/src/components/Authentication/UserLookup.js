@@ -5,7 +5,7 @@ import ErrorMessage from "../../uiComponents/ErrorMessage"
 import EmailInput from "../../uiComponents/EmailInput"
 import UsernameInput from "../../uiComponents/UsernameInput"
 import FormButton from "../../uiComponents/FormButton"
-import { Test } from "./FormFooter"
+import FormFooter from "./FormFooter"
 
 const UserLookup = ({ setUserHandler, isPasswordReset }) => {
   const [emailAddress, setEmailAddress] = useState("")
@@ -91,7 +91,7 @@ const UserLookup = ({ setUserHandler, isPasswordReset }) => {
         <FormButton label="Next" type="submit" />
         {errorMessage && <ErrorMessage message={errorMessage} />}
       </form>
-      <Test
+      <FormFooter
         topLink={footerData.topLink}
         bottomLink={footerData.bottomLink}
         tooltip={footerData.tooltip}

@@ -1,21 +1,26 @@
 import { useState } from "react"
 import classes from "./Auth.module.css"
 import FetchError from "../../utils/fetchError"
+import { setError, resetErrors, InputError } from "../../utils/inputErrors"
 import ErrorMessage from "../../uiComponents/ErrorMessage"
-import InputError from "../../utils/inputError"
 import PasswordInput, {
   validatePassword
 } from "../../uiComponents/PasswordInput"
 import EmailInput from "../../uiComponents/EmailInput"
 import FormButton from "../../uiComponents/FormButton"
 
-import { Test } from "./FormFooter"
+import FormFooter from "./FormFooter"
 
-const RegisterForm = ({ submitHandler, user }) => {
+/**
+ * The first part of the user registration process. Prompts the user to provide an email and password,
+ *  confirming that the email is available before moving on.
+ * @param {function} submitHandler the function to execute when the form is submitted. This allows the data to be given back to the parent.
+ * @param {object} user the user object, used to communicate form data between portions of the registration process.
+ */
+const RegisterFormPt1 = ({ submitHandler, user }) => {
   const [emailAddress, setEmailAddress] = useState(user.emailAddress)
   const [password, setPassword] = useState(user.password)
   const [confirmPassword, setConfirmPassword] = useState("")
-
   const [message, setMessage] = useState("")
   const [errors, setErrors] = useState({
     emailAddress: { isError: false, message: "" },
@@ -24,27 +29,9 @@ const RegisterForm = ({ submitHandler, user }) => {
   })
   let errorList = []
 
-  const setErrorHandler = (error) => {
-    setErrors((prevState) => ({
-      ...prevState,
-      [error.inputField]: { isError: error.isError, message: error.message }
-    }))
-  }
-  const resetErrors = () => {
-    // reset any previous errors upon resubmission
-    const tempErrors = { ...errors }
-    for (const errorKey in tempErrors) {
-      tempErrors[errorKey] = {
-        isError: false,
-        message: ""
-      }
-    }
-    setErrors(tempErrors)
-  }
-
   const formSubmissionHandler = async (e) => {
     e.preventDefault()
-    resetErrors()
+    resetErrors(errors, setErrors)
 
     try {
       // Validate password criteria
@@ -92,11 +79,14 @@ const RegisterForm = ({ submitHandler, user }) => {
       // Handle any input errors
       if (errorList.length > 0) {
         errorList.forEach((error) => {
-          setErrorHandler({
-            inputField: error.getInputName(),
-            isError: true,
-            message: error.getMessage()
-          })
+          setError(
+            {
+              inputField: error.getInputName(),
+              isError: true,
+              message: error.getMessage()
+            },
+            setErrors
+          )
         })
         throw new InputError()
       }
@@ -146,9 +136,9 @@ const RegisterForm = ({ submitHandler, user }) => {
         <FormButton label="Next" type="submit" />
         {message && <ErrorMessage message={message} />}
       </form>
-      <Test topLink={footerLink} />
+      <FormFooter topLink={footerLink} />
     </>
   )
 }
 
-export default RegisterForm
+export default RegisterFormPt1

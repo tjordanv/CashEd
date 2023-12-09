@@ -2,15 +2,21 @@ import { useState } from "react"
 import classes from "./Auth.module.css"
 import FetchError from "../../utils/fetchError"
 import ErrorMessage from "../../uiComponents/ErrorMessage"
-import InputError from "../../utils/inputError"
+import { setError, resetErrors, InputError } from "../../utils/inputErrors"
 import UsernameInput, {
   validateUsername
 } from "../../uiComponents/UsernameInput"
 import NameInput, { validateName } from "../../uiComponents/NameInput"
 import FormButton from "../../uiComponents/FormButton"
-import { Test } from "./FormFooter"
+import FormFooter from "./FormFooter"
 
-const RegisterForm = ({ backHandler, submitHandler, user }) => {
+/**
+ * The second part of the user registration process. Prompts the user to provide a username, first, and last name;
+ * confirming that the username is available before moving on.
+ * @param {function} backHandler the function that powers the back button in the footer. This ensures the data on pt 1 is updated
+ * @param {function} submitHandler the function to execute when the form is submitted. This allows the data to be given back to the parent.
+ */
+const RegisterFormPt2 = ({ backHandler, submitHandler, user }) => {
   const [username, setUsername] = useState(user.username)
   const [firstName, setFirstName] = useState(user.firstName)
   const [lastName, setLastName] = useState(user.lastName)
@@ -22,27 +28,9 @@ const RegisterForm = ({ backHandler, submitHandler, user }) => {
   })
   let errorList = []
 
-  const setErrorHandler = (error) => {
-    setErrors((prevState) => ({
-      ...prevState,
-      [error.inputField]: { isError: error.isError, message: error.message }
-    }))
-  }
-  const resetErrors = () => {
-    // reset any previous errors upon resubmission
-    const tempErrors = { ...errors }
-    for (const errorKey in tempErrors) {
-      tempErrors[errorKey] = {
-        isError: false,
-        message: ""
-      }
-    }
-    setErrors(tempErrors)
-  }
-
   const formSubmissionHandler = async (e) => {
     e.preventDefault()
-    resetErrors()
+    resetErrors(errors, setErrors)
 
     try {
       // validate first and last name
@@ -95,15 +83,18 @@ const RegisterForm = ({ backHandler, submitHandler, user }) => {
       // Handle any input errors before attempting to register user
       if (errorList.length > 0) {
         errorList.forEach((error) => {
-          setErrorHandler({
-            inputField: error.getInputName(),
-            isError: true,
-            message: error.getMessage()
-          })
+          setError(
+            {
+              inputField: error.getInputName(),
+              isError: true,
+              message: error.getMessage()
+            },
+            setErrors
+          )
         })
         throw new InputError()
       }
-
+      // create the user
       submitHandler(username, firstName, lastName)
     } catch (error) {
       if (error instanceof InputError) {
@@ -145,9 +136,9 @@ const RegisterForm = ({ backHandler, submitHandler, user }) => {
         <FormButton label="Create Account" type="submit" />
         {message && <ErrorMessage message={message} />}
       </form>
-      <Test topLink={footerLink} />
+      <FormFooter topLink={footerLink} />
     </>
   )
 }
 
-export default RegisterForm
+export default RegisterFormPt2

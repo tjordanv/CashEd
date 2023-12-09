@@ -42,7 +42,7 @@ _The component files that make up the rendered pages._
 ### authentication
 
 - **FormFooter.js**
-  - The footer for the auth forms. Includes links to other pages, back button, and info tooltips
+  - The footer for the auth forms. Includes links to other pages, back button, and info tooltips. All params are optional and the label for each link object is also optional
 - **FormHeader.js**
   - The standardized header for all authentication forms
 - **LoginForm.js**
@@ -52,8 +52,9 @@ _The component files that make up the rendered pages._
   - **PasswordResetLoader**
     - confirms that the token in the URL is valid to control access to the reset page
 - **RegisterFormPt1.js**
+  - The first part of the user registration process. Prompts the user to provide an email and password, confirming that the email is available before moving on.
 - **RegisterFormPt2.js**
-  -
+  - The second part of the user registration process. Prompts the user to provide a username, first, and last name; confirming that the username is available before moving on.
 - **RequestResponse.js**
   - The message displayed to users following various authentication requests made by them
 - **SecurityQandA.js**
@@ -145,8 +146,13 @@ _Utility functions and modules_
   - an extension of the fetch API that passes the active user's access token to the HTTP request to grant access to protected endpoints
 - **fetchError.js**
   - an extension of the JS Error class that deals specifically with server errors
-- **inputError.js**
-  - an extension of the JS Error class that provides functionality for errors with input fields
+- **inputErrors.js**
+  - **InputError**
+    - A custom Error object that can be linked to a specific input field.
+  - **setError**
+    - updates the given error inside of an array of input errors, maintaining the state of the other errors
+      **resetErrors**
+    - Resets an array of input errors, clearing all of the error states and setting them to not show any errors
 - **usdFormatter.js**
   - takes an integer as input and formats it to USD
 

@@ -90,9 +90,9 @@ CREATE TABLE security_question_answers (
 
 INSERT INTO security_question_answers (answer) VALUES
 	('answer'),
-	('answer 2'),
-	('answer 3'),
-	('answer 4');
+	('answer'),
+	('answer'),
+	('answer');
 
 CREATE TABLE user_security_question_answers_xref (
 	user_id bigint NOT NULL, 

@@ -2,14 +2,14 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import Switch from "@mui/material/Switch"
-
 import classes from "./Auth.module.css"
 import FetchError from "../../utils/fetchError"
 import ErrorMessage from "../../uiComponents/ErrorMessage"
 import PasswordInput from "../../uiComponents/PasswordInput"
 import UsernameInput from "../../uiComponents/UsernameInput"
-import InputError from "../../utils/inputError"
+import { InputError } from "../../utils/inputErrors"
 import FormButton from "../../uiComponents/FormButton"
+import FormFooter from "./FormFooter"
 
 /**
  * user login form
@@ -71,26 +71,51 @@ const LoginForm = () => {
     }
   }
 
+  const footerData = {
+    doubleLink: {
+      label: " Having trouble logging in?",
+      firstLink: {
+        to: "/userRecovery/forgotUsername",
+        text: "Forgot Username"
+      },
+      secondLink: {
+        to: "/userRecovery/forgotPassword",
+        text: "Forgot Password"
+      }
+    },
+    bottomLink: {
+      to: "/register",
+      text: "Create an Account",
+      label: "Need an account?"
+    }
+  }
+
   return (
-    <form onSubmit={logInHandler} className={classes.container}>
-      <UsernameInput
-        username={username}
-        setUsernameHandler={setUsername}
-        error={error.username}
+    <>
+      <form onSubmit={logInHandler} className={classes.container}>
+        <UsernameInput
+          username={username}
+          setUsernameHandler={setUsername}
+          error={error.username}
+        />
+        <PasswordInput
+          password={password}
+          inputHandler={setPassword}
+          error={error.password}
+        />
+        <FormButton label="Log In" type="submit" />
+        <FormControlLabel
+          control={<Switch />}
+          label="Remember Me"
+          className={classes.switch}
+        />
+        <ErrorMessage message={message} />
+      </form>
+      <FormFooter
+        doubleLink={footerData.doubleLink}
+        bottomLink={footerData.bottomLink}
       />
-      <PasswordInput
-        password={password}
-        inputHandler={setPassword}
-        error={error.password}
-      />
-      <FormButton label="Log In" type="submit" />
-      <FormControlLabel
-        control={<Switch />}
-        label="Remember Me"
-        className={classes.switch}
-      />
-      <ErrorMessage message={message} />
-    </form>
+    </>
   )
 }
 

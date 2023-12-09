@@ -3,7 +3,6 @@ import UserLookup from "../../components/authentication/UserLookup"
 import SecurityQAndA from "../../components/authentication/SecurityQandA"
 import RequestResponse from "../../components/authentication/RequestResponse"
 import classes from "./Auth.module.css"
-import FormFooter from "../../components/authentication/FormFooter"
 import FormHeader from "../../components/authentication/FormHeader"
 import Box from "@mui/material/Box"
 
@@ -38,16 +37,6 @@ const UserRecovery = ({ isPasswordReset }) => {
         />
       )}
       {isAuthenticated && <RequestResponse type="user recovery" />}
-      {/* <FormFooter
-        type={isPasswordReset ? "forgot password" : "forgot username"}
-        formSection={
-          isAuthenticated
-            ? "user recovery response"
-            : user
-            ? "recovery security questions"
-            : ""
-        }
-      /> */}
     </Box>
   )
 }
