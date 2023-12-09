@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 
-import { useLoaderData, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 import SecurityQuestions from "../../uiComponents/SecurityQuestions"
 import SecurityAnswer from "../../uiComponents/SecurityAnswer"
@@ -14,46 +14,33 @@ import fetcher from "../../utils/fetchAuthorize"
 import SecurityQuestionsCounter from "./SecurityQuestionsCounter"
 import FormButton from "../../uiComponents/FormButton"
 
-const QandALoader = async () => {
-  const response = await fetcher(
-    "http://localhost:8080/getActiveSecurityQuestionsByUser"
-  )
-
-  if (!response.ok) {
-    console.log("error")
-  } else {
-    const num = await response.json()
-    return num
-  }
-  return 0
-}
-
-export { QandALoader }
-
+/**
+ * The container for users to create and answer security questions upon registration or user credential recovery.
+ * @param {string} type the type of securityQandA to render. This is used to determine which functionality to use within
+ * the component. Options include [forgot password, forgot username, and register]
+ * @param {object} user the user object. This is used to fetch the appropriate data when a user needs MFA or credential recovery.
+ * @param {function} setIsAuthenticatedHandler used to set a boolean value in the parent component that signifies that the user has been
+ * successfully authenticated, triggering a page render change.
+ */
 const SecurityQandA = ({ type, user, setIsAuthenticatedHandler }) => {
   const [answer, setAnswer] = useState("")
   const [question, setQuestion] = useState("")
-  const [questionCount, setQuestionCount] = useState(useLoaderData())
+  const [questionCount, setQuestionCount] = useState(1)
   const [error, setError] = useState({ isError: false, message: "" })
   const [isLoading, setIsLoading] = useState(false)
+  const userId = user ? user.id : null
 
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (questionCount === 3) navigate("/")
-  })
+    if (questionCount > 3) navigate("/")
+  }, [questionCount])
 
-  const setAnswerHandler = (answer) => {
-    setAnswer(answer)
-  }
-  const setQuestionHandler = (question) => {
-    setQuestion(question)
-  }
-
+  // used to authenticate users for MFA or credential recovery
   const validateAnswer = async (e) => {
     e.preventDefault()
 
-    // start the loading state
+    // start the loading state and check if answer is correct
     setIsLoading(true)
     try {
       const answerResponse = await fetch(
@@ -74,7 +61,7 @@ const SecurityQandA = ({ type, user, setIsAuthenticatedHandler }) => {
         throw await FetchError.fromResponse(answerResponse)
       } else {
         const answerResponseJson = await answerResponse.json()
-        // send email if answer is correct
+        // send recovery email to the user if answer is correct
         if (answerResponseJson === true) {
           let emailResponse
           if (type === "forgot password") {
@@ -140,6 +127,7 @@ const SecurityQandA = ({ type, user, setIsAuthenticatedHandler }) => {
     }
   }
 
+  // Used to save a new security question answer
   const saveAnswer = async (e) => {
     e.preventDefault()
 
@@ -160,10 +148,16 @@ const SecurityQandA = ({ type, user, setIsAuthenticatedHandler }) => {
       )
       if (!response.ok) {
         throw await FetchError.fromResponse(response)
-      } else if (response.status === 201) {
-        setQuestionCount((prevCount) => prevCount + 1)
-        setAnswer("")
-        setQuestion("")
+      }
+      // if the user successfully saved their third question navigate them to the dashboard, otherwise add to the count and reset the Q&A
+      else if (response.status === 201) {
+        if (questionCount === 3) {
+          navigate("/")
+        } else {
+          setQuestionCount((prevCount) => prevCount + 1)
+          setAnswer("")
+          setQuestion("")
+        }
       }
     } catch (error) {
       console.log(error)
@@ -190,13 +184,13 @@ const SecurityQandA = ({ type, user, setIsAuthenticatedHandler }) => {
         <SecurityQuestionsCounter count={questionCount} />
       )}
       <SecurityQuestions
-        userId={user.id}
-        setQuestionHandler={setQuestionHandler}
+        userId={userId}
+        setQuestionHandler={setQuestion}
         question={question}
       />
       <SecurityAnswer
         answer={answer}
-        setAnswerHandler={setAnswerHandler}
+        setAnswerHandler={setAnswer}
         error={error}
       />
       <FormButton type="submit" disabled={isLoading} />

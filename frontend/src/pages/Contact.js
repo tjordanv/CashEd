@@ -14,7 +14,7 @@ const Contact = () => {
       {(isSubmitted && <RequestResponse type="contact us" />) || (
         <ContactForm setIsSubmitted={setIsSubmitted} />
       )}
-      <FormFooter type={isSubmitted ? "contact submitted" : "contact"} />
+      {/* <FormFooter type={isSubmitted ? "contact submitted" : "contact"} /> */}
     </Box>
   )
 }

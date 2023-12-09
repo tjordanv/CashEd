@@ -8,11 +8,12 @@ import UsernameInput, {
 } from "../../uiComponents/UsernameInput"
 import NameInput, { validateName } from "../../uiComponents/NameInput"
 import FormButton from "../../uiComponents/FormButton"
+import { Test } from "./FormFooter"
 
-const RegisterForm = ({ submitHandler }) => {
-  const [username, setUsername] = useState("")
-  const [firstName, setFirstName] = useState("")
-  const [lastName, setLastName] = useState("")
+const RegisterForm = ({ backHandler, submitHandler, user }) => {
+  const [username, setUsername] = useState(user.username)
+  const [firstName, setFirstName] = useState(user.firstName)
+  const [lastName, setLastName] = useState(user.lastName)
   const [message, setMessage] = useState("")
   const [errors, setErrors] = useState({
     username: { isError: false, message: "" },
@@ -112,27 +113,40 @@ const RegisterForm = ({ submitHandler }) => {
       }
     }
   }
+  const footerLink = {
+    onClick: () =>
+      backHandler({
+        isPartTwo: false,
+        username: username,
+        firstName: firstName,
+        lastName: lastName
+      }),
+    text: "Back"
+  }
   return (
-    <form className={classes.container} onSubmit={formSubmissionHandler}>
-      <UsernameInput
-        username={username}
-        setUsernameHandler={setUsername}
-        error={errors.username}
-      />
-      <NameInput
-        name={firstName}
-        setNameHandler={setFirstName}
-        error={errors.firstName}
-      />
-      <NameInput
-        name={lastName}
-        setNameHandler={setLastName}
-        error={errors.lastName}
-        isLastName={true}
-      />
-      <FormButton label="Create Account" type="submit" />
-      {message && <ErrorMessage message={message} />}
-    </form>
+    <>
+      <form className={classes.container} onSubmit={formSubmissionHandler}>
+        <UsernameInput
+          username={username}
+          setUsernameHandler={setUsername}
+          error={errors.username}
+        />
+        <NameInput
+          name={firstName}
+          setNameHandler={setFirstName}
+          error={errors.firstName}
+        />
+        <NameInput
+          name={lastName}
+          setNameHandler={setLastName}
+          error={errors.lastName}
+          isLastName={true}
+        />
+        <FormButton label="Create Account" type="submit" />
+        {message && <ErrorMessage message={message} />}
+      </form>
+      <Test topLink={footerLink} />
+    </>
   )
 }
 

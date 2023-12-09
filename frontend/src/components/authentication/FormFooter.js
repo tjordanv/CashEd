@@ -3,6 +3,7 @@ import Tooltip from "@mui/material/Tooltip"
 import { NavLink } from "react-router-dom"
 import classes from "./FormFooter.module.css"
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline"
+import { Box } from "@mui/material"
 
 /**
  * The footer for the auth forms. Includes links to other pages, back button, and info tooltips
@@ -125,3 +126,46 @@ AuthFormFooter.defaultProps = {
   formSection: ""
 }
 export default AuthFormFooter
+
+const Test = ({ topLink, bottomLink, tooltip }) => {
+  return (
+    <Box className={classes.container}>
+      <Box className={classes.subContainer}>
+        {topLink && (
+          <div>
+            {topLink.label && (
+              <Typography className={classes.navLinkLabel}>
+                {topLink.label}
+              </Typography>
+            )}
+            <NavLink
+              to={topLink.to}
+              className={classes.navLink}
+              onClick={topLink.onClick}
+            >
+              {topLink.text}
+            </NavLink>
+          </div>
+        )}
+        {bottomLink && (
+          <div>
+            {bottomLink.label && (
+              <Typography className={classes.navLinkLabel}>
+                {bottomLink.label}
+              </Typography>
+            )}
+            <NavLink to={bottomLink.to} className={classes.navLink}>
+              {bottomLink.text}
+            </NavLink>
+          </div>
+        )}
+      </Box>
+      {tooltip && (
+        <Tooltip title={tooltip} placement="top">
+          <HelpOutlineIcon className={classes.helpIcon} />
+        </Tooltip>
+      )}
+    </Box>
+  )
+}
+export { Test }

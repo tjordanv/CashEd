@@ -9,9 +9,11 @@ import PasswordInput, {
 import EmailInput from "../../uiComponents/EmailInput"
 import FormButton from "../../uiComponents/FormButton"
 
-const RegisterForm = ({ submitHandler }) => {
-  const [emailAddress, setEmailAddress] = useState("")
-  const [password, setPassword] = useState("")
+import { Test } from "./FormFooter"
+
+const RegisterForm = ({ submitHandler, user }) => {
+  const [emailAddress, setEmailAddress] = useState(user.emailAddress)
+  const [password, setPassword] = useState(user.password)
   const [confirmPassword, setConfirmPassword] = useState("")
 
   const [message, setMessage] = useState("")
@@ -100,7 +102,11 @@ const RegisterForm = ({ submitHandler }) => {
       }
       // submit the state to the parent component if all checks pass
       else {
-        submitHandler({ emailAddress: emailAddress, password: password })
+        submitHandler({
+          emailAddress: emailAddress,
+          password: password,
+          isPartTwo: true
+        })
       }
     } catch (error) {
       //console.log(error)
@@ -112,27 +118,36 @@ const RegisterForm = ({ submitHandler }) => {
     }
   }
 
+  const footerLink = {
+    to: "/login",
+    text: "Login",
+    label: "Already have an account?"
+  }
+
   return (
-    <form className={classes.container} onSubmit={formSubmissionHandler}>
-      <EmailInput
-        email={emailAddress}
-        setEmailHandler={setEmailAddress}
-        error={errors.emailAddress}
-      />
-      <PasswordInput
-        password={password}
-        inputHandler={setPassword}
-        error={errors.password}
-      />
-      <PasswordInput
-        password={confirmPassword}
-        inputHandler={setConfirmPassword}
-        error={errors.confirmPassword}
-        isConfirmation={true}
-      />
-      <FormButton label="Next" type="submit" />
-      {message && <ErrorMessage message={message} />}
-    </form>
+    <>
+      <form className={classes.container} onSubmit={formSubmissionHandler}>
+        <EmailInput
+          email={emailAddress}
+          setEmailHandler={setEmailAddress}
+          error={errors.emailAddress}
+        />
+        <PasswordInput
+          password={password}
+          inputHandler={setPassword}
+          error={errors.password}
+        />
+        <PasswordInput
+          password={confirmPassword}
+          inputHandler={setConfirmPassword}
+          error={errors.confirmPassword}
+          isConfirmation={true}
+        />
+        <FormButton label="Next" type="submit" />
+        {message && <ErrorMessage message={message} />}
+      </form>
+      <Test topLink={footerLink} />
+    </>
   )
 }
 

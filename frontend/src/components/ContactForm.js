@@ -11,6 +11,7 @@ import Checkbox from "@mui/material/Checkbox"
 import FetchError from "../utils/fetchError"
 import InputError from "../utils/inputError"
 import CircularProgress from "@mui/material/CircularProgress"
+import { Test } from "./authentication/FormFooter"
 
 /**
  * The form on the contact page for users and non-users to contact us through
@@ -108,37 +109,52 @@ const ContactForm = ({ setIsSubmitted }) => {
     }
   }
 
+  const footerData = {
+    topLink: {
+      to: "/login",
+      text: "Cancel"
+    },
+    tooltip:
+      "Submit your contact information with a short descriptive message and we will reach out to your email shortly."
+  }
+
   return (
-    <form onSubmit={submitFormHandler} className={classes.container}>
-      <FormControlLabel
-        control={
-          <Checkbox value={isActiveUser} onChange={setIsActiveUserHandler} />
-        }
-        label="Active User?"
-      />
-      {(isActiveUser && (
-        <UsernameInput
-          username={username}
-          setUsernameHandler={setUsername}
-          error={error}
+    <>
+      <form onSubmit={submitFormHandler} className={classes.container}>
+        <FormControlLabel
+          control={
+            <Checkbox value={isActiveUser} onChange={setIsActiveUserHandler} />
+          }
+          label="Active User?"
         />
-      )) || (
-        <>
-          <NameInput name={firstName} setNameHandler={setFirstName} />
-          <NameInput
-            name={lastName}
-            setNameHandler={setLastName}
-            isLastName={true}
+        {(isActiveUser && (
+          <UsernameInput
+            username={username}
+            setUsernameHandler={setUsername}
+            error={error}
           />
-          <EmailInput email={emailAddress} setEmailHandler={setEmailAddress} />
-        </>
-      )}
-      <MessageInput message={message} setMessageHandler={setMessage} />
-      {(isLoading && <CircularProgress className={classes.loader} />) || (
-        <FormButton type="submit" />
-      )}
-      <ErrorMessage message={errorMessage} />
-    </form>
+        )) || (
+          <>
+            <NameInput name={firstName} setNameHandler={setFirstName} />
+            <NameInput
+              name={lastName}
+              setNameHandler={setLastName}
+              isLastName={true}
+            />
+            <EmailInput
+              email={emailAddress}
+              setEmailHandler={setEmailAddress}
+            />
+          </>
+        )}
+        <MessageInput message={message} setMessageHandler={setMessage} />
+        {(isLoading && <CircularProgress className={classes.loader} />) || (
+          <FormButton type="submit" />
+        )}
+        <ErrorMessage message={errorMessage} />
+      </form>
+      <Test topLink={footerData.topLink} tooltip={footerData.tooltip} />
+    </>
   )
 }
 

@@ -12,7 +12,6 @@ import LandingWrapper from "./pages/LandingWrapper"
 import DashboardTest from "./components/DashboardTest"
 import AboutUs from "./pages/AboutUs"
 import { passwordResetLoader } from "./components/authentication/PasswordResetForm"
-import { QandALoader } from "./components/authentication/SecurityQandA"
 import { headerNotificationsLoader } from "./components/header/HeaderLayout"
 import { notificationsLoader } from "./components/notifications/Notifications"
 import Home from "./pages/Home"
@@ -47,7 +46,7 @@ const router = createBrowserRouter([
     children: [
       { path: "home", element: <Home /> },
       { path: "login", element: <Login /> },
-      { path: "register", element: <Register />, loader: QandALoader },
+      { path: "register", element: <Register /> },
       { path: "userRecovery/forgotUsername", element: <UserRecovery /> },
       {
         path: "userRecovery/forgotPassword",

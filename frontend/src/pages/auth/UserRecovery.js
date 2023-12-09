@@ -38,7 +38,7 @@ const UserRecovery = ({ isPasswordReset }) => {
         />
       )}
       {isAuthenticated && <RequestResponse type="user recovery" />}
-      <FormFooter
+      {/* <FormFooter
         type={isPasswordReset ? "forgot password" : "forgot username"}
         formSection={
           isAuthenticated
@@ -47,7 +47,7 @@ const UserRecovery = ({ isPasswordReset }) => {
             ? "recovery security questions"
             : ""
         }
-      />
+      /> */}
     </Box>
   )
 }
