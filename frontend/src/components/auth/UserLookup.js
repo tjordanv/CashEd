@@ -5,6 +5,7 @@ import ErrorMessage from "../../uiComponents/ErrorMessage"
 import EmailInput from "../../uiComponents/EmailInput"
 import UsernameInput from "../../uiComponents/UsernameInput"
 import FormButton from "../../uiComponents/FormButton"
+import FormFooter from "./FormFooter"
 
 const UserLookup = ({ setUserHandler, isPasswordReset }) => {
   const [emailAddress, setEmailAddress] = useState("")
@@ -58,23 +59,44 @@ const UserLookup = ({ setUserHandler, isPasswordReset }) => {
     }
   }
 
+  const footerData = {
+    topLink: {
+      to: `/userRecovery/forgot${isPasswordReset ? "username" : "password"}`,
+      text: `Forgot ${isPasswordReset ? "username" : "password"}`
+    },
+    bottomLink: {
+      to: "/login",
+      text: "Cancel"
+    },
+    tooltip: isPasswordReset
+      ? "Enter the username and email address associated to your account."
+      : "Enter the email address associated to your account."
+  }
+
   return (
-    <form onSubmit={getUserIdByEmail} className={classes.container}>
-      <EmailInput
-        email={emailAddress}
-        setEmailHandler={setEmailAddress}
-        error={errors.email}
-      />
-      {isPasswordReset && (
-        <UsernameInput
-          username={username}
-          setUsernameHandler={setUsername}
-          error={errors.username}
+    <>
+      <form onSubmit={getUserIdByEmail} className={classes.container}>
+        <EmailInput
+          email={emailAddress}
+          setEmailHandler={setEmailAddress}
+          error={errors.email}
         />
-      )}
-      <FormButton label="Next" type="submit" />
-      {errorMessage && <ErrorMessage message={errorMessage} />}
-    </form>
+        {isPasswordReset && (
+          <UsernameInput
+            username={username}
+            setUsernameHandler={setUsername}
+            error={errors.username}
+          />
+        )}
+        <FormButton label="Next" type="submit" />
+        {errorMessage && <ErrorMessage message={errorMessage} />}
+      </form>
+      <FormFooter
+        topLink={footerData.topLink}
+        bottomLink={footerData.bottomLink}
+        tooltip={footerData.tooltip}
+      />
+    </>
   )
 }
 

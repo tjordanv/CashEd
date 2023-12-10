@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.container .navLink {
+  color: #17c3b2;
+}
+.container .helpIcon {
+  color: #777777;
+  margin-left: -24px;
+}
+.container .subContainer {
+  width: 100%;
+}
+.container .subContainer div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.container .subContainer div span {
+  padding: 0 10px;
+}
+.container .subContainer .doubleLinkContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

@@ -1,6 +1,7 @@
 import Typography from "@mui/material/Typography"
 import classes from "./Auth.module.css"
 import Box from "@mui/material/Box"
+import FormFooter from "./FormFooter"
 
 /**
  * The message displayed to users following various authentication requests made by them
@@ -23,10 +24,36 @@ const RequestResponse = ({ type }) => {
       text = ""
   }
 
+  const footerData =
+    type === "contact"
+      ? {
+          topLink: {
+            to: "/register",
+            text: "Register"
+          },
+          bottomLink: {
+            to: "/login",
+            text: "Login"
+          }
+        }
+      : {
+          topLink: {},
+          bottomLink: {
+            to: "/login",
+            text: "Login"
+          }
+        }
+
   return (
-    <Box className={classes.container}>
-      <Typography className={classes.requestResponse}>{text}</Typography>
-    </Box>
+    <>
+      <Box className={classes.container}>
+        <Typography className={classes.requestResponse}>{text}</Typography>
+      </Box>
+      <FormFooter
+        topLink={footerData.topLink}
+        bottomLink={footerData.bottomLink}
+      />
+    </>
   )
 }
 
