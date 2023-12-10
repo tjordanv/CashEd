@@ -1,8 +1,8 @@
 import Box from "@mui/material/Box"
 import classes from "./Contact.module.css"
-import FormHeader from "../components/authentication/FormHeader"
+import FormHeader from "../components/auth/FormHeader"
 import ContactForm from "../components/ContactForm"
-import RequestResponse from "../components/authentication/RequestResponse"
+import RequestResponse from "../components/auth/RequestResponse"
 import { useState } from "react"
 
 const Contact = () => {

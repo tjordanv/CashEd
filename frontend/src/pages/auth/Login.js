@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box"
-import FormHeader from "../../components/authentication/FormHeader"
-import LoginForm from "../../components/authentication/LoginForm"
+import FormHeader from "../../components/auth/FormHeader"
+import LoginForm from "../../components/auth/LoginForm"
 import classes from "./Auth.module.css"
 
 const Login = () => {
