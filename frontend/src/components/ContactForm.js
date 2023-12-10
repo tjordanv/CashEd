@@ -11,7 +11,7 @@ import Checkbox from "@mui/material/Checkbox"
 import FetchError from "../utils/fetchError"
 import { InputError } from "../utils/inputErrors"
 import CircularProgress from "@mui/material/CircularProgress"
-import FormFooter from "./authentication/FormFooter"
+import FormFooter from "./auth/FormFooter"
 
 /**
  * The form on the contact page for users and non-users to contact us through

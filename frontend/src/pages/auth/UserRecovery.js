@@ -1,9 +1,9 @@
 import { useState } from "react"
-import UserLookup from "../../components/authentication/UserLookup"
-import SecurityQAndA from "../../components/authentication/SecurityQandA"
-import RequestResponse from "../../components/authentication/RequestResponse"
+import UserLookup from "../../components/auth/UserLookup"
+import SecurityQAndA from "../../components/auth/SecurityQandA"
+import RequestResponse from "../../components/auth/RequestResponse"
 import classes from "./Auth.module.css"
-import FormHeader from "../../components/authentication/FormHeader"
+import FormHeader from "../../components/auth/FormHeader"
 import Box from "@mui/material/Box"
 
 const UserRecovery = ({ isPasswordReset }) => {

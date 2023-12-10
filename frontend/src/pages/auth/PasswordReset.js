@@ -1,8 +1,8 @@
-import PasswordResetForm from "../../components/authentication/PasswordResetForm"
+import PasswordResetForm from "../../components/auth/PasswordResetForm"
 import Box from "@mui/material/Box"
 import classes from "./Auth.module.css"
-import FormHeader from "../../components/authentication/FormHeader"
-import RequestResponse from "../../components/authentication/RequestResponse"
+import FormHeader from "../../components/auth/FormHeader"
+import RequestResponse from "../../components/auth/RequestResponse"
 import { useState } from "react"
 
 const PasswordReset = () => {
