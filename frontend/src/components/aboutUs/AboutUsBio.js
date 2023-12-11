@@ -5,7 +5,6 @@ import AboutUsWrapper from "./AboutUsWrapper"
 
 /**
  * The bio component used in the About Us page to describe CasedEd as an application
- * @returns
  */
 const AboutUsBio = () => {
   const paragraphLines = [

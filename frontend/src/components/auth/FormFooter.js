@@ -6,27 +6,55 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline"
 import { Box, Stack } from "@mui/material"
 
 /**
- * @description The footer for the auth forms. Includes links to other pages, back button, and info tooltips. All params are optional and the label for each link object is also optional
- * @param {object} doubleLink the object used to render a double link such as the one on the login page for forgot username and forgot password. 
- * example: {
-      label: " Having trouble logging in?",
-      firstLink: {
-        to: "/userRecovery/forgotUsername",
+ * @description The footer for the auth forms. Includes links to other pages, back button, and info tooltips. All params are optional but <b>at least one link must be provided</b>.
+ * @param {object} [doubleLink] - the object used to render a double link such as the one on the login page for forgot username and forgot password. 
+ * @param {string} doubleLink.label - the string that will display above the double link
+ * @param {object} doubleLink.firstLink - the object used to render the first link in the double link. The object has the same structure as the topLink and bottomLink objects.
+ * @param {object} doubleLink.secondLink - the object used to render the second link in the double link The object has the same structure as the topLink and bottomLink objects.
+ * @param {object} [topLink] - the object used to render a single navigation link. Renders below the double link but above the bottom link
+ * @param {string} [topLink.label] - the string that will display above the top link  
+ * @param {object} topLink.to - the router path that the NavLink will follow.
+ * @param {string} topLink.text - the string that will display as the NavLink text.
+ * @param {object} [bottomLink] - the object used to render a single navigation link. Renders below both the double link and the top link. 
+ * @param {string} [bottomLink.label] - the string that will display above the bottom link
+ * @param {object} bottomLink.to - the router path that the NavLink will follow.
+ * @param {string} bottomLink.text - the string that will display as the NavLink text.
+ * @param {string} [tooltip] - the string that will display as the tooltip
+ * @example 
+ * // topLink object with label
+ * const footerData = {
+     to: "/register",
+     text: "Create an Account",
+     label: "Need an account?"
+   }
+   <FormFooter topLink={footerData} />
+ * @example
+ * // topLink and bottomLink objects
+ * const footerData = {
+   topLink: {
+     to: "/userRecovery/forgotUsername",
         text: "Forgot Username"
       },
-      secondLink: {
-        to: "/userRecovery/forgotPassword",
-        text: "Forgot Password"
+      bottomLink: {
+        to: "/login",
+        text: "Cancel",
       }
-    },
- * @param {object} topLink the object used to render a single navigation link. Renders below the double link but above the bottom link
- * example: {
-      to: "/register",
-      text: "Create an Account",
-      label: "Need an account?"
     }
- * @param {object} bottomLink the object used to render a single navigation link. Renders below both the double link and the top link
- * @param {string} tooltip the string that will display as the tooltip
+    <FormFooter topLink={footerData.topLink} bottomLink={footerData.bottomLink} />     
+ * @example 
+ * // doubleLink object
+ * const footerData = {
+   label: " Having trouble logging in?",
+   firstLink: {
+           to: "/userRecovery/forgotUsername",
+           text: "Forgot Username"
+         },
+         secondLink: {
+           to: "/userRecovery/forgotPassword",
+           text: "Forgot Password"
+         }
+       }
+       <FormFooter doubleLink={footerData} />
  */
 const FormFooter = ({ doubleLink, topLink, bottomLink, tooltip }) => {
   return (

@@ -25,7 +25,6 @@ import Alert from "@mui/material/Alert"
  * @param {boolean} nicknameFlag whether or not the nickname has been changed
  * @param {boolean} isAlert weather or not the account saved alert to be shown
  * @param {function} setIsAlert the handler to set isAlert
- * @returns
  */
 const UnsavedChanges = ({ nicknameFlag, isAlert, setIsAlert }) => {
   // render the unsaved changes alert if an account has unsaved changes

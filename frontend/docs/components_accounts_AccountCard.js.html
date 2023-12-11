@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>components/accounts/AccountCard.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="FetchError.html">FetchError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="FetchError.html#.fromResponse">fromResponse</a></li></ul></li><li><a href="InputError.html">InputError</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AboutUsBio">AboutUsBio</a></li><li><a href="global.html#AboutUsSelector">AboutUsSelector</a></li><li><a href="global.html#AboutUsWrapper">AboutUsWrapper</a></li><li><a href="global.html#AccountCard">AccountCard</a></li><li><a href="global.html#AccountCardsList">AccountCardsList</a></li><li><a href="global.html#AuthFormHeader">AuthFormHeader</a></li><li><a href="global.html#BioCard">BioCard</a></li><li><a href="global.html#ContactForm">ContactForm</a></li><li><a href="global.html#EmailIcon">EmailIcon</a></li><li><a href="global.html#FormButton">FormButton</a></li><li><a href="global.html#FormFooter">FormFooter</a></li><li><a href="global.html#HomePieChart">HomePieChart</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#PasswordResetForm">PasswordResetForm</a></li><li><a href="global.html#RegisterFormPt1">RegisterFormPt1</a></li><li><a href="global.html#RegisterFormPt2">RegisterFormPt2</a></li><li><a href="global.html#RequestResponse">RequestResponse</a></li><li><a href="global.html#SecurityQandA">SecurityQandA</a></li><li><a href="global.html#SecurityQuestionsCounter">SecurityQuestionsCounter</a></li><li><a href="global.html#UnsavedChanges">UnsavedChanges</a></li><li><a href="global.html#component">component</a></li><li><a href="global.html#resetErrors">resetErrors</a></li><li><a href="global.html#setError">setError</a></li><li><a href="global.html#usdFormatter">usdFormatter</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">components/accounts/AccountCard.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {
+  Card,
+  CardContent,
+  CardHeader,
+  Avatar,
+  IconButton,
+  TextField,
+  Typography,
+  Tooltip,
+  CardActions
+} from "@mui/material"
+import classes from "./AccountCard.module.css"
+import DeleteIcon from "@mui/icons-material/Delete"
+import ConfirmationDialog from "../../uiComponents/ConfirmationDialog"
+import Zoom from "@mui/material/Zoom"
+import SaveIcon from "@mui/icons-material/Save"
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
+import { useState, useEffect } from "react"
+import Collapse from "@mui/material/Collapse"
+import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined"
+import Alert from "@mui/material/Alert"
+
+/**
+ * unsaved changes and account saved alerts used in the card header action
+ * @param {boolean} nicknameFlag whether or not the nickname has been changed
+ * @param {boolean} isAlert weather or not the account saved alert to be shown
+ * @param {function} setIsAlert the handler to set isAlert
+ */
+const UnsavedChanges = ({ nicknameFlag, isAlert, setIsAlert }) => {
+  // render the unsaved changes alert if an account has unsaved changes
+  if (nicknameFlag) {
+    return (
+      &lt;Tooltip title="unsaved changes">
+        &lt;ErrorOutlineOutlinedIcon fontSize="large" color="danger" />
+      &lt;/Tooltip>
+    )
+  } else if (isAlert) {
+    // render the account saved alert once changes are saved
+    return (
+      &lt;Alert
+        onClose={() => {
+          setIsAlert(false)
+        }}
+      >
+        Account saved
+      &lt;/Alert>
+    )
+  }
+}
+
+/**
+ * the component that gets passed to the confirmation dialog as a prop
+ * @param {function} func the function to be executed upon confirmation
+ */
+const component = ({ func }) => (
+  &lt;Tooltip title="Remove" arrow TransitionComponent={Zoom}>
+    &lt;IconButton onClick={func}>
+      &lt;DeleteIcon color="#777777" />
+    &lt;/IconButton>
+  &lt;/Tooltip>
+)
+
+/**
+ * The card component that renders a given bank account object
+ * @param {object} account the bank account object to be rendered onto the card
+ * @param {function} removeAccountHandler the function that handles deleting the account
+ * @param {function} saveAccountHandler the function that handles saving the account after changes were made to it
+ */
+const AccountCard = ({ account, removeAccountHandler, saveAccountHandler }) => {
+  const [nickname, setNickname] = useState(account.nickname)
+  const [nicknameFlag, setNicknameFlag] = useState(false)
+  const [isAlert, setIsAlert] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(false)
+  const expandClasses = `${classes["expandMore"]} ${
+    isExpanded ? classes["expandMoreExpanded"] : ""
+  }`
+  const logoBase64 = `data:image/png;base64,${account.logo}`
+  const Logo = (
+    &lt;Avatar src={logoBase64} alt="Logo" className={classes.logo}>&lt;/Avatar>
+  )
+  const title = `${account.name}: ${account.subtype}`
+  const subheader = `ending in ${account.mask}`
+  const confirmationDialogDetails = {
+    title: "Remove Account?",
+    description: null,
+    confirmationLabel: "Remove"
+  }
+
+  // update flag state if changes are made to the account
+  useEffect(() => {
+    if (nickname !== account.nickname) {
+      setNicknameFlag(true)
+    } else {
+      setNicknameFlag(false)
+    }
+  }, [nickname, account.nickname])
+
+  const saveAccount = () => {
+    saveAccountHandler(account.id, nickname)
+    setNicknameFlag(false)
+    setIsAlert(true)
+  }
+
+  const test = () => {
+    console.log(account)
+  }
+  return (
+    &lt;Card className={classes.container}>
+      &lt;CardHeader
+        className={classes.cardHeader}
+        avatar={Logo}
+        title={title}
+        subheader={subheader}
+        titleTypographyProps={{
+          fontSize: 22
+        }}
+        action={
+          &lt;UnsavedChanges
+            nicknameFlag={nicknameFlag}
+            isAlert={isAlert}
+            setIsAlert={setIsAlert}
+          />
+        }
+      />
+      &lt;CardContent className={classes.cardContent}>
+        &lt;Typography variant="body1">{account.officialName}&lt;/Typography>
+      &lt;/CardContent>
+      &lt;CardActions className={classes.cardActions}>
+        &lt;IconButton
+          className={expandClasses}
+          onClick={() => setIsExpanded(!isExpanded)}
+          aria-expanded={isExpanded}
+          aria-label="show more"
+        >
+          &lt;ExpandMoreIcon />
+        &lt;/IconButton>
+        &lt;Collapse in={isExpanded} timeout="auto" unmountOnExit>
+          &lt;CardContent className={classes.expandedContent}>
+            &lt;TextField
+              label="Nickname"
+              size="small"
+              variant="standard"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+              className={classes.nicknameInput}
+            />
+            &lt;Tooltip
+              title="Save"
+              arrow
+              TransitionComponent={Zoom}
+              className={classes.saveButton}
+            >
+              &lt;IconButton onClick={saveAccount}>
+                &lt;SaveIcon color="#777777" />
+              &lt;/IconButton>
+            &lt;/Tooltip>
+            &lt;ConfirmationDialog
+              dialogDetails={confirmationDialogDetails}
+              onConfirm={() => removeAccountHandler(account.id)}
+              Component={component}
+            />
+          &lt;/CardContent>
+        &lt;/Collapse>
+      &lt;/CardActions>
+    &lt;/Card>
+  )
+}
+
+export default AccountCard
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Mon Dec 11 2023 13:51:38 GMT-0500 (Eastern Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

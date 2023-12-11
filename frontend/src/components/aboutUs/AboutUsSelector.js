@@ -7,7 +7,6 @@ import Divider from "@mui/material/Divider"
  * The selector component that allows users to switch between the application bio and the creator bio on the about us page
  * @param {boolean} isCreator used to determine if creator bio or application bio should be shown
  * @param {function} setIsCreator the handler to set the isCreator value
- * @returns
  */
 const AboutUsSelector = ({ isCreator, setIsCreator }) => {
   return (

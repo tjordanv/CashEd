@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>Home - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="FetchError.html">FetchError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="FetchError.html#.fromResponse">fromResponse</a></li></ul></li><li><a href="InputError.html">InputError</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AboutUsBio">AboutUsBio</a></li><li><a href="global.html#AboutUsSelector">AboutUsSelector</a></li><li><a href="global.html#AboutUsWrapper">AboutUsWrapper</a></li><li><a href="global.html#AccountCard">AccountCard</a></li><li><a href="global.html#AccountCardsList">AccountCardsList</a></li><li><a href="global.html#AuthFormHeader">AuthFormHeader</a></li><li><a href="global.html#BioCard">BioCard</a></li><li><a href="global.html#ContactForm">ContactForm</a></li><li><a href="global.html#EmailIcon">EmailIcon</a></li><li><a href="global.html#FormButton">FormButton</a></li><li><a href="global.html#FormFooter">FormFooter</a></li><li><a href="global.html#HomePieChart">HomePieChart</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#PasswordResetForm">PasswordResetForm</a></li><li><a href="global.html#RegisterFormPt1">RegisterFormPt1</a></li><li><a href="global.html#RegisterFormPt2">RegisterFormPt2</a></li><li><a href="global.html#RequestResponse">RequestResponse</a></li><li><a href="global.html#SecurityQandA">SecurityQandA</a></li><li><a href="global.html#SecurityQuestionsCounter">SecurityQuestionsCounter</a></li><li><a href="global.html#UnsavedChanges">UnsavedChanges</a></li><li><a href="global.html#component">component</a></li><li><a href="global.html#resetErrors">resetErrors</a></li><li><a href="global.html#setError">setError</a></li><li><a href="global.html#usdFormatter">usdFormatter</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+
+    
+
+
+
+    
+
+
+    <section class="package">
+        <h3> </h3>		
+    </section>
+
+
+
+
+
+
+
+
+
+    
+
+
+
+    <section class="readme usertext">
+        <article><h1>CashEd</h1>
+<p>Know Your Money</p>
+<h1>Directory</h1>
+<h2>assets</h2>
+<p><em>Images and logos that are used throughout the application.</em></p>
+<h2>components</h2>
+<p><em>The component files that make up the rendered pages.</em></p>
+<ul>
+<li><strong>ContactForm.js</strong>
+<ul>
+<li>The form that allows users and non-users to contact us directly.</li>
+</ul>
+</li>
+<li><strong>DashboardTest.js</strong>
+<ul>
+<li>A placeholder file for the dashboard users see when they log in.</li>
+</ul>
+</li>
+<li><strong>HomePieChart.js</strong>
+<ul>
+<li>A pie chart used on the homepage that provides an interactive model to display basic information about the application to users.</li>
+</ul>
+</li>
+</ul>
+<h3>aboutUs</h3>
+<ul>
+<li><strong>AboutUsBio.js</strong>
+<ul>
+<li>The bio component used in the About Us page to describe CasedEd as an application</li>
+</ul>
+</li>
+<li><strong>AboutUsSelector.js</strong>
+<ul>
+<li>The selector component that allows users to switch between the application bio and the creator bio on the About Us page</li>
+</ul>
+</li>
+<li><strong>AboutUsWrapper.js</strong>
+<ul>
+<li>The Card wrapper used to build the application and creator bio cards</li>
+</ul>
+</li>
+<li><strong>BioCard.js</strong>
+<ul>
+<li>The bio card used to display info about a creator</li>
+</ul>
+</li>
+<li><strong>EmailIcon.js</strong>
+<ul>
+<li>an email icon that allows users to copy the email address of the corresponding creator to their clipboard. Used in the BioCard component.</li>
+</ul>
+</li>
+</ul>
+<h3>accounts</h3>
+<ul>
+<li><strong>AccountCard.js</strong>
+<ul>
+<li>The card component that renders a given bank account object</li>
+</ul>
+</li>
+<li><strong>AccountCardList.js</strong>
+<ul>
+<li>The container that renders the user's active bank accounts</li>
+</ul>
+</li>
+</ul>
+<h3>authentication</h3>
+<ul>
+<li><strong>FormFooter.js</strong>
+<ul>
+<li>The footer for the auth forms. Includes links to other pages, back button, and info tooltips. All params are optional and the label for each link object is also optional</li>
+</ul>
+</li>
+<li><strong>FormHeader.js</strong>
+<ul>
+<li>The standardized header for all authentication forms</li>
+</ul>
+</li>
+<li><strong>LoginForm.js</strong>
+<ul>
+<li>The user login form</li>
+</ul>
+</li>
+<li><strong>PasswordResetForm.js</strong>
+<ul>
+<li>The form for users to reset their login password</li>
+<li><strong>PasswordResetLoader</strong>
+<ul>
+<li>confirms that the token in the URL is valid to control access to the reset page</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>RegisterFormPt1.js</strong>
+<ul>
+<li>The first part of the user registration process. Prompts the user to provide an email and password, confirming that the email is available before moving on.</li>
+</ul>
+</li>
+<li><strong>RegisterFormPt2.js</strong>
+<ul>
+<li>The second part of the user registration process. Prompts the user to provide a username, first, and last name; confirming that the username is available before moving on.</li>
+</ul>
+</li>
+<li><strong>RequestResponse.js</strong>
+<ul>
+<li>The message displayed to users following various authentication requests made by them</li>
+</ul>
+</li>
+<li><strong>SecurityQandA.js</strong>
+<ul>
+<li>The container for users to create and answer security questions upon registration or user credential recovery</li>
+</ul>
+</li>
+<li><strong>SecurityQuestionsCounter.js</strong>
+<ul>
+<li>Displays the number of active security questions the user has</li>
+</ul>
+</li>
+</ul>
+<h3>header</h3>
+<ul>
+<li><strong>DrawerLayout.js</strong></li>
+<li><strong>HeaderLayout.js</strong></li>
+<li><strong>LandingHeader.js</strong></li>
+</ul>
+<h3>notifications</h3>
+<ul>
+<li><strong>NotificationCard.js</strong></li>
+<li><strong>Notifications.js</strong></li>
+</ul>
+<h3>transactions</h3>
+<ul>
+<li><strong>AddTransactionForm.js</strong></li>
+<li><strong>AddTransactionMenuButtons.js</strong></li>
+<li><strong>AddTransactions.js</strong></li>
+<li><strong>Transaction.js</strong></li>
+<li><strong>TransactionCategories.js</strong></li>
+<li><strong>TransactionCategory.js</strong></li>
+<li><strong>TransactionsList.js</strong></li>
+<li><strong>TransactionSubcategory.js</strong></li>
+<li><strong>TransactionToolTip.js</strong></li>
+</ul>
+<h2>mocks</h2>
+<p><em>Mimics the structure and behavior of the API without relying on the actual backend services. Enables the testing of components in isolation without making real network requests, ensuring that components respond correctly to various data scenarios.</em></p>
+<ul>
+<li><strong>handlers.js</strong>
+<ul>
+<li>defines the mock responses to mimic the behavior of the API. Allows you to simulate backend behavior for any given endpoint</li>
+</ul>
+</li>
+<li><strong>server.js</strong>
+<ul>
+<li>defines the mock server using MSW and the custom responses from handlers.js</li>
+</ul>
+</li>
+</ul>
+<h2>pages</h2>
+<p><em>The files that get used in the App.js file to render each page</em></p>
+<ul>
+<li><strong>AboutUs.js</strong></li>
+<li><strong>Accounts.js</strong></li>
+<li><strong>Contact.js</strong></li>
+<li><strong>Header.js</strong></li>
+<li><strong>Home.js</strong></li>
+<li><strong>LandingWrapper.js</strong>
+<ul>
+<li>The landing pages (home, login, register, forgot username, and forgot password) get wrapped in this to provide the landing header and footer</li>
+</ul>
+</li>
+<li><strong>Notifications.js</strong></li>
+<li><strong>TransactionImport.js</strong></li>
+</ul>
+<h3>auth</h3>
+<ul>
+<li><strong>AuthHeader.js</strong></li>
+<li><strong>Login.js</strong></li>
+<li><strong>PasswordReset.js</strong></li>
+<li><strong>Register.js</strong></li>
+<li><strong>UserRecovery.js</strong></li>
+</ul>
+<h2>state</h2>
+<p><em>React Redux Slice files that define the reducers and actions to manage specific parts of the application state</em></p>
+<ul>
+<li>notificationsSlice.js
+<ul>
+<li>reducers and actions for notifications</li>
+</ul>
+</li>
+</ul>
+<h2>uiComponents</h2>
+<p><em>Components used to standardize the UI</em></p>
+<ul>
+<li><strong>ConfirmationDialog.js</strong></li>
+<li><strong>EmailInput.js</strong></li>
+<li><strong>ErrorMessage.js</strong></li>
+<li><strong>FormButton.js</strong></li>
+<li><strong>MessageInput.js</strong></li>
+<li><strong>NameInput.js</strong></li>
+<li><strong>PasswordInput.js</strong></li>
+<li><strong>SaveTransactionsButton.js</strong></li>
+<li><strong>SecurityAnswer.js</strong></li>
+<li><strong>UsernameInput.js</strong></li>
+</ul>
+<h2>utils</h2>
+<p><em>Utility functions and modules</em></p>
+<ul>
+<li><strong>fetchAuthorize.js</strong>
+<ul>
+<li>an extension of the fetch API that passes the active user's access token to the HTTP request to grant access to protected endpoints</li>
+</ul>
+</li>
+<li><strong>fetchError.js</strong>
+<ul>
+<li>an extension of the JS Error class that deals specifically with server errors</li>
+</ul>
+</li>
+<li><strong>inputErrors.js</strong>
+<ul>
+<li><strong>InputError</strong>
+<ul>
+<li>A custom Error object that can be linked to a specific input field.</li>
+</ul>
+</li>
+<li><strong>setError</strong>
+<ul>
+<li>updates the given error inside of an array of input errors, maintaining the state of the other errors
+<strong>resetErrors</strong></li>
+<li>Resets an array of input errors, clearing all of the error states and setting them to not show any errors</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>usdFormatter.js</strong>
+<ul>
+<li>takes an integer as input and formats it to USD</li>
+</ul>
+</li>
+</ul>
+<h2>other</h2>
+<p><em>Files that live directly inside of src</em></p>
+<ul>
+<li><strong>App.js</strong>
+<ul>
+<li>serves as the root component of the application. The component structure, routing setup, context and providers, and themes are defined here</li>
+</ul>
+</li>
+<li><strong>index.js</strong>
+<ul>
+<li>the entry point for the application. This renders the app and sets up global configurations</li>
+</ul>
+</li>
+<li><strong>reportWebVitals.js</strong>
+<ul>
+<li>a helper function used to report web performance metrics</li>
+</ul>
+</li>
+<li><strong>setupTests.js</strong>
+<ul>
+<li>handles the global setup and teardown logic that needs to run before and after all tests</li>
+</ul>
+</li>
+<li><strong>store.js</strong>
+<ul>
+<li>initializes and configures the redux store</li>
+</ul>
+</li>
+</ul></article>
+    </section>
+
+
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Mon Dec 11 2023 13:51:38 GMT-0500 (Eastern Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

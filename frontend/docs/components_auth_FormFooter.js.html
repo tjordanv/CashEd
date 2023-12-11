@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>components/auth/FormFooter.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="FetchError.html">FetchError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="FetchError.html#.fromResponse">fromResponse</a></li></ul></li><li><a href="InputError.html">InputError</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AboutUsBio">AboutUsBio</a></li><li><a href="global.html#AboutUsSelector">AboutUsSelector</a></li><li><a href="global.html#AboutUsWrapper">AboutUsWrapper</a></li><li><a href="global.html#AccountCard">AccountCard</a></li><li><a href="global.html#AccountCardsList">AccountCardsList</a></li><li><a href="global.html#AuthFormHeader">AuthFormHeader</a></li><li><a href="global.html#BioCard">BioCard</a></li><li><a href="global.html#ContactForm">ContactForm</a></li><li><a href="global.html#EmailIcon">EmailIcon</a></li><li><a href="global.html#FormButton">FormButton</a></li><li><a href="global.html#FormFooter">FormFooter</a></li><li><a href="global.html#HomePieChart">HomePieChart</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#PasswordResetForm">PasswordResetForm</a></li><li><a href="global.html#RegisterFormPt1">RegisterFormPt1</a></li><li><a href="global.html#RegisterFormPt2">RegisterFormPt2</a></li><li><a href="global.html#RequestResponse">RequestResponse</a></li><li><a href="global.html#SecurityQandA">SecurityQandA</a></li><li><a href="global.html#SecurityQuestionsCounter">SecurityQuestionsCounter</a></li><li><a href="global.html#UnsavedChanges">UnsavedChanges</a></li><li><a href="global.html#component">component</a></li><li><a href="global.html#resetErrors">resetErrors</a></li><li><a href="global.html#setError">setError</a></li><li><a href="global.html#usdFormatter">usdFormatter</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">components/auth/FormFooter.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import Typography from "@mui/material/Typography"
+import Tooltip from "@mui/material/Tooltip"
+import { NavLink } from "react-router-dom"
+import classes from "./FormFooter.module.css"
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline"
+import { Box, Stack } from "@mui/material"
+
+/**
+ * @description The footer for the auth forms. Includes links to other pages, back button, and info tooltips. All params are optional but &lt;b>at least one link must be provided&lt;/b>.
+ * @param {object} [doubleLink] - the object used to render a double link such as the one on the login page for forgot username and forgot password. 
+ * @param {string} doubleLink.label - the string that will display above the double link
+ * @param {object} doubleLink.firstLink - the object used to render the first link in the double link. The object has the same structure as the topLink and bottomLink objects.
+ * @param {object} doubleLink.secondLink - the object used to render the second link in the double link The object has the same structure as the topLink and bottomLink objects.
+ * @example 
+ * // doubleLink object
+ * const footerData = {
+      label: " Having trouble logging in?",
+      firstLink: {
+        to: "/userRecovery/forgotUsername",
+        text: "Forgot Username"
+      },
+      secondLink: {
+        to: "/userRecovery/forgotPassword",
+        text: "Forgot Password"
+      }
+    }
+    &lt;FormFooter doubleLink={footerData} />
+ * @param {object} [topLink] - the object used to render a single navigation link. Renders below the double link but above the bottom link
+ * @param {string} [topLink.label] - the string that will display above the top link  
+ * @param {object} topLink.to - the router path that the NavLink will follow.
+ * @param {string} topLink.text - the string that will display as the NavLink text.
+ * @example 
+ * // topLink object with label
+ * const footerData = {
+      to: "/register",
+      text: "Create an Account",
+      label: "Need an account?"
+    }
+   &lt;FormFooter topLink={footerData} />
+ * @param {object} [bottomLink] - the object used to render a single navigation link. Renders below both the double link and the top link. 
+ * @param {string} [bottomLink.label] - the string that will display above the bottom link
+ * @param {object} bottomLink.to - the router path that the NavLink will follow.
+ * @param {string} bottomLink.text - the string that will display as the NavLink text.
+ * @example
+ * // topLink and bottomLink objects
+ * const footerData = {
+      topLink: {
+        to: "/userRecovery/forgotUsername",
+        text: "Forgot Username"
+      },
+      bottomLink: {
+        to: "/login",
+        text: "Cancel",
+      }
+  }
+  &lt;FormFooter topLink={footerData.topLink} bottomLink={footerData.bottomLink} />     
+ * @param {string} [tooltip] - the string that will display as the tooltip
+ */
+const FormFooter = ({ doubleLink, topLink, bottomLink, tooltip }) => {
+  return (
+    &lt;Box className={classes.container}>
+      &lt;Stack spacing={2} className={classes.subContainer}>
+        {doubleLink &amp;&amp; (
+          &lt;div>
+            &lt;Typography>{doubleLink.label}&lt;/Typography>
+            &lt;Box className={classes.doubleLinkContainer}>
+              &lt;NavLink to={doubleLink.firstLink.to} className={classes.navLink}>
+                {doubleLink.firstLink.text}
+              &lt;/NavLink>
+              &lt;span>|&lt;/span>
+              &lt;NavLink
+                to={doubleLink.secondLink.to}
+                className={classes.navLink}
+              >
+                {doubleLink.secondLink.text}
+              &lt;/NavLink>
+            &lt;/Box>
+          &lt;/div>
+        )}
+        {topLink &amp;&amp; (
+          &lt;div>
+            {topLink.label &amp;&amp; &lt;Typography>{topLink.label}&lt;/Typography>}
+            &lt;NavLink
+              to={topLink.to}
+              className={classes.navLink}
+              onClick={topLink.onClick}
+            >
+              {topLink.text}
+            &lt;/NavLink>
+          &lt;/div>
+        )}
+        {bottomLink &amp;&amp; (
+          &lt;div>
+            {bottomLink.label &amp;&amp; &lt;Typography>{bottomLink.label}&lt;/Typography>}
+            &lt;NavLink to={bottomLink.to} className={classes.navLink}>
+              {bottomLink.text}
+            &lt;/NavLink>
+          &lt;/div>
+        )}
+      &lt;/Stack>
+      {tooltip &amp;&amp; (
+        &lt;Tooltip title={tooltip} placement="top">
+          &lt;HelpOutlineIcon className={classes.helpIcon} />
+        &lt;/Tooltip>
+      )}
+    &lt;/Box>
+  )
+}
+export default FormFooter
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Mon Dec 11 2023 13:51:38 GMT-0500 (Eastern Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

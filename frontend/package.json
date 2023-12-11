@@ -30,7 +30,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "generate-docs": "node_modules/.bin/jsdoc -c jsdoc.json"
+    "docs": "jsdoc -d docs --configure jsdoc.json --verbose"
   },
   "eslintConfig": {
     "extends": [
@@ -54,7 +54,6 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^14.0.0",
     "jest": "^27.5.1",
-    "jsdoc": "^4.0.2",
     "msw": "^1.2.5"
   }
 }

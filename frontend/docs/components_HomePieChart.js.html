@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>components/HomePieChart.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="FetchError.html">FetchError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="FetchError.html#.fromResponse">fromResponse</a></li></ul></li><li><a href="InputError.html">InputError</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AboutUsBio">AboutUsBio</a></li><li><a href="global.html#AboutUsSelector">AboutUsSelector</a></li><li><a href="global.html#AboutUsWrapper">AboutUsWrapper</a></li><li><a href="global.html#AccountCard">AccountCard</a></li><li><a href="global.html#AccountCardsList">AccountCardsList</a></li><li><a href="global.html#AuthFormHeader">AuthFormHeader</a></li><li><a href="global.html#BioCard">BioCard</a></li><li><a href="global.html#ContactForm">ContactForm</a></li><li><a href="global.html#EmailIcon">EmailIcon</a></li><li><a href="global.html#FormButton">FormButton</a></li><li><a href="global.html#FormFooter">FormFooter</a></li><li><a href="global.html#HomePieChart">HomePieChart</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#PasswordResetForm">PasswordResetForm</a></li><li><a href="global.html#RegisterFormPt1">RegisterFormPt1</a></li><li><a href="global.html#RegisterFormPt2">RegisterFormPt2</a></li><li><a href="global.html#RequestResponse">RequestResponse</a></li><li><a href="global.html#SecurityQandA">SecurityQandA</a></li><li><a href="global.html#SecurityQuestionsCounter">SecurityQuestionsCounter</a></li><li><a href="global.html#UnsavedChanges">UnsavedChanges</a></li><li><a href="global.html#component">component</a></li><li><a href="global.html#resetErrors">resetErrors</a></li><li><a href="global.html#setError">setError</a></li><li><a href="global.html#usdFormatter">usdFormatter</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">components/HomePieChart.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { PieChart, Pie, Cell, Sector } from "recharts"
+import classes from "./HomePieChart.module.css"
+import { useEffect, useState } from "react"
+import Typography from "@mui/material/Typography"
+import Card from "@mui/material/Card"
+import CardContent from "@mui/material/CardContent"
+
+// The pie chart data for each slice. Values are all set to 1 so each slice is equal size.
+const data = [
+  {
+    value: 1,
+    text: "Design a straightforward budget in minutes. Take control of your money."
+  },
+  {
+    value: 1,
+    text: "CashEd's analysis engine provides a deeper understanding of your financial health, enabling you to be more intentional with your money."
+  },
+  {
+    value: 1,
+    text: "CashEd helps you set clear goals and objectives and then track your progress towards them."
+  },
+  {
+    value: 1,
+    text: "CashEd boasts a suite of interactive tools and technologies that simplify your journey to financial freedom."
+  }
+]
+
+// The colors for the pie chart slices.
+const COLORS = ["#FFCB77", "#227C9D", "#17C3B2", "#FE6D73"]
+
+// The outer line that displays over the active slice in the pie chart
+const renderActiveShape = (props) => {
+  const {
+    cx,
+    cy,
+    innerRadius,
+    outerRadius,
+    startAngle,
+    endAngle,
+    fill,
+    payload
+  } = props
+
+  return (
+    &lt;g>
+      &lt;text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
+        {payload.name}
+      &lt;/text>
+      &lt;Sector
+        cx={cx}
+        cy={cy}
+        innerRadius={innerRadius}
+        outerRadius={outerRadius}
+        startAngle={startAngle}
+        endAngle={endAngle}
+        fill={fill}
+      />
+      &lt;Sector
+        cx={cx}
+        cy={cy}
+        startAngle={startAngle}
+        endAngle={endAngle}
+        innerRadius={outerRadius + 8}
+        outerRadius={outerRadius + 15}
+        fill={fill}
+      />
+    &lt;/g>
+  )
+}
+
+/**
+ * The pie chart used on the homepage to provide an interactive model to display basic information about the application to users.
+ * @param {Integer} index the active index of the home page list. This gets passed to the pie to maintain consistency between the two.
+ * @param {function} setListIndex the handler that updates the home page list's active index when the pie chart's index changes.
+ */
+const HomePieChart = ({ index, setListIndex }) => {
+  const [text, setText] = useState("")
+  const [activeIndex, setActiveIndex] = useState("")
+  /* Recharts Pie chart is indexed counter clockwise. To make the hover animation go 
+  clockwise, we have to adjust the index incoming from the list accordingly */
+  const pieToList = { 0: 1, 2: 3, 3: 2, 1: 4 }
+
+  // update the pie chart's active index when the list index changes
+  useEffect(() => {
+    // converts list index to pie index
+    const listToPie = { 1: 0, 2: 3, 3: 2, 4: 1 }
+    const adjustedIndex = listToPie[index]
+
+    if (adjustedIndex || adjustedIndex === 0) {
+      setText(data[adjustedIndex].text)
+      setActiveIndex(adjustedIndex)
+    }
+  }, [index])
+
+  // Update the text displayed and the active index for both the pie chart and the home page list
+  const onPieEnter = (body, pieIndex) => {
+    setActiveIndex(pieIndex)
+    setText(body.text)
+    setListIndex(pieToList[pieIndex])
+  }
+
+  return (
+    &lt;div className={classes.container}>
+      &lt;PieChart width={350} height={350} className={classes.pie}>
+        &lt;Pie
+          data={data}
+          cx={"50%"}
+          cy={"50%"}
+          innerRadius={100}
+          outerRadius={140}
+          paddingAngle={1}
+          dataKey="value"
+          activeIndex={activeIndex}
+          activeShape={renderActiveShape}
+          onMouseEnter={onPieEnter}
+        >
+          {data.map((_entry, index) => (
+            &lt;Cell key={`cell-${index}`} fill={COLORS[index]} stroke="none" />
+          ))}
+        &lt;/Pie>
+      &lt;/PieChart>
+      &lt;Card
+        className={`${classes.infoContainer} ${
+          text ? "" : classes.infoContainerPlaceholder
+        }`}
+      >
+        &lt;CardContent>
+          &lt;Typography color="primary.text" variant="body1">
+            {text}
+          &lt;/Typography>
+        &lt;/CardContent>
+      &lt;/Card>
+    &lt;/div>
+  )
+}
+
+export default HomePieChart
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Mon Dec 11 2023 13:51:38 GMT-0500 (Eastern Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>
