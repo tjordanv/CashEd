@@ -12,6 +12,7 @@
     "@reduxjs/toolkit": "^1.9.0",
     "@testing-library/user-event": "^14.4.3",
     "clipboard-copy": "^4.0.1",
+    "docdash": "^2.0.2",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
@@ -28,7 +29,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "generate-docs": "node_modules/.bin/jsdoc -c jsdoc.json"
   },
   "eslintConfig": {
     "extends": [
@@ -52,6 +54,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^14.0.0",
     "jest": "^27.5.1",
+    "jsdoc": "^4.0.2",
     "msw": "^1.2.5"
   }
 }

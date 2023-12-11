@@ -6,7 +6,7 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline"
 import { Box, Stack } from "@mui/material"
 
 /**
- * The footer for the auth forms. Includes links to other pages, back button, and info tooltips. All params are optional and the label for each link object is also optional
+ * @description The footer for the auth forms. Includes links to other pages, back button, and info tooltips. All params are optional and the label for each link object is also optional
  * @param {object} doubleLink the object used to render a double link such as the one on the login page for forgot username and forgot password. 
  * example: {
       label: " Having trouble logging in?",

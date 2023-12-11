@@ -1,3 +1,7 @@
+/**
+ * @param {number} amount - amount to be formatted
+ * @returns {string} formatted usd string
+ */
 const usdFormatter = (amount) => {
   const usd = new Intl.NumberFormat("en-US", {
     style: "currency",
