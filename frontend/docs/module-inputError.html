@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>FetchError - Documentation</title>
+    <title>inputError - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">FetchError</h1>
+    <h1 class="page-title">inputError</h1>
     
 
     
@@ -49,15 +49,6 @@
 
 <header>
     
-        <h2>
-        
-            FetchError
-        
-        </h2>
-        
-            <div class="class-description usertext"><p>A custom Error object that is based on a HTTP response with an error code.</p></div>
-        
-    
 </header>
 
 <article>
@@ -66,11 +57,87 @@
         
             
 
-    
-    <h2>Constructor</h2>
+<dl class="details">
     
 
-    <h4 class="name" id="FetchError"><span class="type-signature"></span>new FetchError<span class="signature">(message, statusCode)</span><span class="type-signature"></span></h4>
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_inputErrors.js.html">utils/inputErrors.js</a>, <a href="utils_inputErrors.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+            
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="module-inputError-InputError.html">InputError</a></dt>
+            <dd></dd>
+        </dl>
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".resetErrors"><span class="type-signature type-signature-static">(static) </span>resetErrors<span class="signature">(errors, setErrorsHandler)</span><span class="type-signature"></span></h4>
 
     
 
@@ -80,13 +147,13 @@
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>Creates a new FetchError instance.</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Resets the given array of input errors, clearing all of the error states and setting them to not show any errors</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_fetchError.js.html">utils/fetchError.js</a>, <a href="utils_fetchError.js.html#line5">line 5</a>
+        <a href="utils_inputErrors.js.html">utils/inputErrors.js</a>, <a href="utils_inputErrors.js.html#line65">line 65</a>
     </li></ul></dd>
     
 
@@ -154,6 +221,256 @@
     </thead>
 
     <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>errors</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the array of errors that are being reset</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>setErrorsHandler</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the useState setter that controls the error state in the parent</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".setError"><span class="type-signature type-signature-static">(static) </span>setError<span class="signature">(error, setErrorsHandler)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>updates the given error inside of the given array of input errors, maintaining the state of the other errors</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="utils_inputErrors.js.html">utils/inputErrors.js</a>, <a href="utils_inputErrors.js.html#line49">line 49</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>error</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the error that is being updated</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>inputField</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the name of the input field that is being updated</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isError</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>whether or not the input field has an error</p></td>
+        </tr>
+
     
 
         <tr>
@@ -175,20 +492,27 @@
 
             
 
-            <td class="description last"><p>The error message.</p></td>
+            <td class="description last"><p>the error message that will be displayed to the user</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>statusCode</code></td>
+                <td class="name"><code>setErrorsHandler</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">function</span>
 
 
 
@@ -199,7 +523,7 @@
 
             
 
-            <td class="description last"><p>The HTTP status code.</p></td>
+            <td class="description last"><p>the useState setter that controls the error state in the parent</p></td>
         </tr>
 
     
@@ -221,183 +545,6 @@
 
 
 
-
-
-
-        
-        </div>
-    
-
-    
-        <h3 class="subsection-title">Extends</h3>
-
-        
-
-
-    <ul>
-        <li>Error</li>
-    </ul>
-
-
-    
-
-    
-
-    
-    
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    <h4 class="name" id=".fromResponse"><span class="type-signature type-signature-async, static">(async, static) </span>fromResponse<span class="signature">(response)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-<dl class="details">
-    
-    <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>takes the response with an error status code and converts it to a fetch error. The error contains the message coming from the server.</p></li></ul></dd>
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="utils_fetchError.js.html">utils/fetchError.js</a>, <a href="utils_fetchError.js.html#line23">line 23</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <h5 class="h5-parameters">Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>response</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>an HTTP response with an error status code</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5 class="h5-returns">Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>new FetchError</p>
-</div>
-
-
-
-    
 
 
 

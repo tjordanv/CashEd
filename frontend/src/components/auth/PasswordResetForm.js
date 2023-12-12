@@ -12,7 +12,11 @@ import FormFooter from "./FormFooter"
 import FormButton from "../../uiComponents/FormButton"
 
 /**
+ * @async
+ * @function passwordResetLoader
  * @description Validates the token from the URL before allowing users onto this page.
+ * @param {Object} params - The URL parameters.
+ * @param {Object} params.token - The token to be validated.
  * @param {string} token - The token to be validated.
  * @returns {Promise<Object|null>} - A promise that resolves to the response JSON object if the token is valid, or null if the token is invalid.
  */
@@ -36,6 +40,7 @@ const passwordResetLoader = async (token) => {
   }
   return null
 }
+export { passwordResetLoader }
 
 /**
  * @description The form for users to reset their login password
@@ -159,7 +164,5 @@ const PasswordResetForm = ({ setIsResetHandler }) => {
     </>
   )
 }
-
-export { passwordResetLoader }
 
 export default PasswordResetForm

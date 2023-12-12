@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>components/auth/LoginForm.js - Documentation</title>
+    <title>components/header/HeaderLayout.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">components/auth/LoginForm.js</h1>
+    <h1 class="page-title">components/header/HeaderLayout.js</h1>
     
 
     
@@ -47,130 +47,124 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import FormControlLabel from "@mui/material/FormControlLabel"
-import Switch from "@mui/material/Switch"
-import classes from "./Auth.module.css"
+            <pre class="prettyprint source linenums"><code>import { NavLink, useLoaderData, useNavigate } from "react-router-dom"
+import Box from "@mui/material/Box"
+import Stack from "@mui/material/Stack"
+import Divider from "@mui/material/Divider"
+import classes from "./HeaderLayout.module.css"
+import DrawerLayout from "./DrawerLayout"
+import fetcher from "../../utils/fetchAuthorize"
 import FetchError from "../../utils/fetchError"
-import ErrorMessage from "../../uiComponents/ErrorMessage"
-import PasswordInput from "../../uiComponents/PasswordInput"
-import UsernameInput from "../../uiComponents/UsernameInput"
-import { InputError } from "../../utils/inputErrors"
-import FormButton from "../../uiComponents/FormButton"
-import FormFooter from "./FormFooter"
+import { useDispatch, useSelector } from "react-redux"
+import { fetchNotificationCounts } from "../../state/notificationsSlice"
+import { useEffect } from "react"
 
 /**
- * @description The login form for the login page
- * @example &lt;LoginForm />
- * @returns {JSX.Element} - the login form
+ * @async
+ * @function headerNotificationsLoader
+ * @description Fetches the unread notification counts for the current user from the server.
+ * @returns {Promise&lt;Array>|boolean} - Returns an array of notification counts if the user is authenticated, otherwise returns false.
  */
-const LoginForm = () => {
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState({ isError: false, message: "" })
-  const [message, setMessage] = useState("")
-
-  const navigate = useNavigate()
-
-  const logInHandler = async (e) => {
-    e.preventDefault()
-
+const headerNotificationsLoader = async () => {
+  if (localStorage.jwt) {
     try {
-      let response = await fetch("http://localhost:8080/auth/login", {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password
-        })
-      })
-      if (!response.ok) {
-        throw await FetchError.fromResponse(response)
-      }
-      if (response.status === 200) {
-        // Check that there is a loginDTO response before attempting to parse JSON data
-        const responseText = await response.text()
-
-        if (responseText) {
-          const responseJson = JSON.parse(responseText)
-          // Store the returned access token if user is successfully authenticated
-          localStorage.setItem("jwt", responseJson.accessToken)
-          navigate("/")
-        } else {
-          throw new InputError()
-        }
+      const response = await fetcher(
+        "http://localhost:8080/getUnreadNotificationsByUserByCategory"
+      )
+      if (!response.ok) throw new FetchError.fromResponse(response)
+      else if (response.status === 200) {
+        return await response.json()
       }
     } catch (error) {
+      // Handle a server side error
       if (error instanceof FetchError) {
-        setMessage(error.message)
-      } else {
-        setError({
-          username: {
-            isError: true,
-            message: ""
-          },
-          password: {
-            isError: true,
-            message: "Username and Password do not match."
-          }
-        })
+        console.log("fetch error")
       }
+      // return false if the user is not authenticated
+      return false
     }
   }
+  return false
+}
 
-  const footerData = {
-    doubleLink: {
-      label: " Having trouble logging in?",
-      firstLink: {
-        to: "/userRecovery/forgotUsername",
-        text: "Forgot Username"
-      },
-      secondLink: {
-        to: "/userRecovery/forgotPassword",
-        text: "Forgot Password"
-      }
-    },
-    bottomLink: {
-      to: "/register",
-      text: "Create an Account",
-      label: "Need an account?"
+export { headerNotificationsLoader }
+
+/**
+ * @description Renders the header component that allows the user to navigate through the application. Redirects the user to the landing page if they are not authenticated.
+ * @example &lt;Header />
+ * @returns {JSX.Element} The JSX element representing the header navigation bar.
+ */
+const Header = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const isAuthenticated = useLoaderData()
+
+  useEffect(() => {
+    // If the user is not authenticated, send them to the landing (home) page
+    if (isAuthenticated === false) {
+      navigate("/home")
     }
-  }
+  })
+
+  // I may need to use redux to track this state to have accurate data when updates happen. unsure
+  // set global state for notification counts that were fetched in the loader function prior to rendering the component
+  dispatch(fetchNotificationCounts(useLoaderData()))
+  const notificationCounts = useSelector((state) => state.notifications.value)
 
   return (
-    &lt;>
-      &lt;form onSubmit={logInHandler} className={classes.container}>
-        &lt;UsernameInput
-          username={username}
-          setUsernameHandler={setUsername}
-          error={error.username}
-        />
-        &lt;PasswordInput
-          password={password}
-          inputHandler={setPassword}
-          error={error.password}
-        />
-        &lt;FormButton label="Log In" type="submit" />
-        &lt;FormControlLabel
-          control={&lt;Switch />}
-          label="Remember Me"
-          className={classes.switch}
-        />
-        &lt;ErrorMessage message={message} />
-      &lt;/form>
-      &lt;FormFooter
-        doubleLink={footerData.doubleLink}
-        bottomLink={footerData.bottomLink}
-      />
-    &lt;/>
+    // add confirmation functionality to prevent users from navigating without saving changes first
+    &lt;Box className={classes.container}>
+      &lt;Stack
+        className={classes.list}
+        justifyContent="center"
+        alignItems="center"
+        direction="row"
+        spacing={6}
+        divider={&lt;Divider orientation="vertical" flexItem />}
+      >
+        &lt;NavLink
+          to="/"
+          className={({ isActive }) => (isActive ? classes.active : undefined)}
+        >
+          Dashboard
+        &lt;/NavLink>
+        &lt;NavLink
+          to="TransactionImport"
+          className={({ isActive }) => (isActive ? classes.active : undefined)}
+        >
+          Transaction Import
+        &lt;/NavLink>
+        &lt;NavLink
+          to="nothing"
+          className={({ isActive }) => (isActive ? classes.active : undefined)}
+        >
+          Budget
+        &lt;/NavLink>
+        &lt;NavLink
+          to="accounts"
+          className={({ isActive }) => (isActive ? classes.active : undefined)}
+        >
+          Accounts
+        &lt;/NavLink>
+        &lt;NavLink
+          to="home/AboutUs"
+          className={({ isActive }) => (isActive ? classes.active : undefined)}
+        >
+          About Us
+        &lt;/NavLink>
+        &lt;NavLink
+          to="last"
+          className={({ isActive }) => (isActive ? classes.active : undefined)}
+        >
+          Contact Us
+        &lt;/NavLink>
+        &lt;DrawerLayout />
+      &lt;/Stack>
+    &lt;/Box>
   )
 }
 
-export default LoginForm
+export default Header
 </code></pre>
         </article>
     </section>

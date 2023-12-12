@@ -1,5 +1,4 @@
 /**
- * @class FetchError
  * @extends Error
  * @classdesc A custom Error object that is based on a HTTP response with an error code.
  */

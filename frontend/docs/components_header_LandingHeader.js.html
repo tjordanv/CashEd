@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>components/auth/LoginForm.js - Documentation</title>
+    <title>components/header/LandingHeader.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">components/auth/LoginForm.js</h1>
+    <h1 class="page-title">components/header/LandingHeader.js</h1>
     
 
     
@@ -47,130 +47,106 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import FormControlLabel from "@mui/material/FormControlLabel"
-import Switch from "@mui/material/Switch"
-import classes from "./Auth.module.css"
-import FetchError from "../../utils/fetchError"
-import ErrorMessage from "../../uiComponents/ErrorMessage"
-import PasswordInput from "../../uiComponents/PasswordInput"
-import UsernameInput from "../../uiComponents/UsernameInput"
-import { InputError } from "../../utils/inputErrors"
-import FormButton from "../../uiComponents/FormButton"
-import FormFooter from "./FormFooter"
+            <pre class="prettyprint source linenums"><code>import { useEffect, useState } from "react"
+import Typography from "@mui/material/Typography"
+import Stack from "@mui/material/Stack"
+import Divider from "@mui/material/Divider"
+import walletIcon from "../../assets/walletIcon.png"
+import { NavLink, useLocation } from "react-router-dom"
+import classes from "./LandingHeader.module.css"
 
 /**
- * @description The login form for the login page
- * @example &lt;LoginForm />
- * @returns {JSX.Element} - the login form
+ * @description Renders the header component when the user is not authenticated.
+ * @example &lt;LandingHeader />
+ * @returns {JSX.Element} The JSX element representing the landing header.
  */
-const LoginForm = () => {
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState({ isError: false, message: "" })
-  const [message, setMessage] = useState("")
+const LandingHeader = () => {
+  const location = useLocation()
+  const [linkStates, setLinkStates] = useState({
+    home: false,
+    aboutUs: false,
+    contact: false,
+    login: false,
+    register: false
+  })
 
-  const navigate = useNavigate()
-
-  const logInHandler = async (e) => {
-    e.preventDefault()
-
-    try {
-      let response = await fetch("http://localhost:8080/auth/login", {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          username: username,
-          password: password
-        })
-      })
-      if (!response.ok) {
-        throw await FetchError.fromResponse(response)
-      }
-      if (response.status === 200) {
-        // Check that there is a loginDTO response before attempting to parse JSON data
-        const responseText = await response.text()
-
-        if (responseText) {
-          const responseJson = JSON.parse(responseText)
-          // Store the returned access token if user is successfully authenticated
-          localStorage.setItem("jwt", responseJson.accessToken)
-          navigate("/")
-        } else {
-          throw new InputError()
-        }
-      }
-    } catch (error) {
-      if (error instanceof FetchError) {
-        setMessage(error.message)
-      } else {
-        setError({
-          username: {
-            isError: true,
-            message: ""
-          },
-          password: {
-            isError: true,
-            message: "Username and Password do not match."
-          }
-        })
+  /**
+   * Updates the link states based on the current path.
+   *
+   * @param {string} currentPath - The current path.
+   */
+  const setLinkStatesHandler = (currentPath) => {
+    let prevPath = null
+    for (const link in linkStates) {
+      if (linkStates[link] === true) {
+        prevPath = link
       }
     }
+    setLinkStates((prevState) => ({
+      ...prevState,
+      [prevPath]: false,
+      [currentPath]: true
+    }))
   }
-
-  const footerData = {
-    doubleLink: {
-      label: " Having trouble logging in?",
-      firstLink: {
-        to: "/userRecovery/forgotUsername",
-        text: "Forgot Username"
-      },
-      secondLink: {
-        to: "/userRecovery/forgotPassword",
-        text: "Forgot Password"
-      }
-    },
-    bottomLink: {
-      to: "/register",
-      text: "Create an Account",
-      label: "Need an account?"
-    }
-  }
+  useEffect(() => {
+    // use substring to remove the "/"
+    const currentPath = location.pathname.substring(1)
+    setLinkStatesHandler(currentPath)
+  }, [location])
 
   return (
-    &lt;>
-      &lt;form onSubmit={logInHandler} className={classes.container}>
-        &lt;UsernameInput
-          username={username}
-          setUsernameHandler={setUsername}
-          error={error.username}
-        />
-        &lt;PasswordInput
-          password={password}
-          inputHandler={setPassword}
-          error={error.password}
-        />
-        &lt;FormButton label="Log In" type="submit" />
-        &lt;FormControlLabel
-          control={&lt;Switch />}
-          label="Remember Me"
-          className={classes.switch}
-        />
-        &lt;ErrorMessage message={message} />
-      &lt;/form>
-      &lt;FormFooter
-        doubleLink={footerData.doubleLink}
-        bottomLink={footerData.bottomLink}
-      />
-    &lt;/>
+    &lt;div className={classes.container}>
+      &lt;div className={classes.leftSideContainer}>
+        &lt;div className={classes.titleContainer}>
+          &lt;Typography variant="h4" className={classes.title}>
+            CashEd
+          &lt;/Typography>
+          &lt;Typography variant="h6" className={classes.title}>
+            The Finance Tracker
+          &lt;/Typography>
+        &lt;/div>
+        &lt;img src={walletIcon} alt="logo" className={classes.logo}>&lt;/img>
+      &lt;/div>
+      &lt;Stack
+        direction="row"
+        spacing={3}
+        divider={
+          &lt;Divider className={classes.navLinkDivider} orientation="vertical" />
+        }
+        justifyContent="center"
+        alignItems="center"
+        className={classes.rightSideContainer}
+      >
+        {!linkStates.home &amp;&amp; (
+          &lt;NavLink className={classes.navLink} to="/home">
+            Home
+          &lt;/NavLink>
+        )}
+        {!linkStates.aboutUs &amp;&amp; (
+          &lt;NavLink className={classes.navLink} to="/aboutUs">
+            About Us
+          &lt;/NavLink>
+        )}
+        {!linkStates.contact &amp;&amp; (
+          &lt;NavLink className={classes.navLink} to="/contact">
+            Contact
+          &lt;/NavLink>
+        )}
+        {!linkStates.login &amp;&amp; (
+          &lt;NavLink className={classes.navLink} to="/login">
+            Login
+          &lt;/NavLink>
+        )}
+        {!linkStates.register &amp;&amp; (
+          &lt;NavLink className={classes.navLink} to="/register">
+            Register
+          &lt;/NavLink>
+        )}
+      &lt;/Stack>
+    &lt;/div>
   )
 }
-
-export default LoginForm
+export default LandingHeader
 </code></pre>
         </article>
     </section>

@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react"
-
 import Typography from "@mui/material/Typography"
 import Stack from "@mui/material/Stack"
 import Divider from "@mui/material/Divider"
-
 import walletIcon from "../../assets/walletIcon.png"
-
 import { NavLink, useLocation } from "react-router-dom"
 import classes from "./LandingHeader.module.css"
 
+/**
+ * @description Renders the header component when the user is not authenticated.
+ * @example <LandingHeader />
+ * @returns {JSX.Element} The JSX element representing the landing header.
+ */
 const LandingHeader = () => {
   const location = useLocation()
   const [linkStates, setLinkStates] = useState({
@@ -19,6 +21,10 @@ const LandingHeader = () => {
     register: false
   })
 
+  /**
+   * Updates the link states based on the current path.
+   * @param {string} currentPath - The current path.
+   */
   const setLinkStatesHandler = (currentPath) => {
     let prevPath = null
     for (const link in linkStates) {

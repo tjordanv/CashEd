@@ -1,5 +1,6 @@
+/** @module inputError */
+
 /**
- * @class InputError
  * @extends Error
  * @classdesc Represents an error that occurs with input validation.
  */
@@ -37,6 +38,7 @@ export { InputError }
 
 /**
  * @function
+ * @static
  * @description updates the given error inside of the given array of input errors, maintaining the state of the other errors
  * @param {object} error - the error that is being updated
  * @param {string} error.inputField - the name of the input field that is being updated
@@ -55,6 +57,7 @@ export { setError }
 
 /**
  * @function
+ * @static
  * @description Resets the given array of input errors, clearing all of the error states and setting them to not show any errors
  * @param {array} errors - the array of errors that are being reset
  * @param {function} setErrorsHandler - the useState setter that controls the error state in the parent
