@@ -31,7 +31,7 @@
     <input type="text" id="nav-search" placeholder="Search" />
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="FetchError.html">FetchError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="FetchError.html#.fromResponse">fromResponse</a></li></ul></li><li><a href="InputError.html">InputError</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AboutUsBio">AboutUsBio</a></li><li><a href="global.html#AboutUsSelector">AboutUsSelector</a></li><li><a href="global.html#AboutUsWrapper">AboutUsWrapper</a></li><li><a href="global.html#AccountCard">AccountCard</a></li><li><a href="global.html#AccountCardsList">AccountCardsList</a></li><li><a href="global.html#AuthFormHeader">AuthFormHeader</a></li><li><a href="global.html#BioCard">BioCard</a></li><li><a href="global.html#ContactForm">ContactForm</a></li><li><a href="global.html#EmailIcon">EmailIcon</a></li><li><a href="global.html#FormButton">FormButton</a></li><li><a href="global.html#FormFooter">FormFooter</a></li><li><a href="global.html#HomePieChart">HomePieChart</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#PasswordResetForm">PasswordResetForm</a></li><li><a href="global.html#RegisterFormPt1">RegisterFormPt1</a></li><li><a href="global.html#RegisterFormPt2">RegisterFormPt2</a></li><li><a href="global.html#RequestResponse">RequestResponse</a></li><li><a href="global.html#SecurityQandA">SecurityQandA</a></li><li><a href="global.html#SecurityQuestionsCounter">SecurityQuestionsCounter</a></li><li><a href="global.html#UnsavedChanges">UnsavedChanges</a></li><li><a href="global.html#component">component</a></li><li><a href="global.html#resetErrors">resetErrors</a></li><li><a href="global.html#setError">setError</a></li><li><a href="global.html#usdFormatter">usdFormatter</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AccountCard.html">AccountCard</a><ul class='methods'><li data-type='method' style='display: none;'><a href="AccountCard.html#~UnsavedChanges">UnsavedChanges</a></li><li data-type='method' style='display: none;'><a href="AccountCard.html#~component">component</a></li></ul></li><li><a href="DrawerLayout.html">DrawerLayout</a><ul class='methods'><li data-type='method' style='display: none;'><a href="DrawerLayout.html#~Comp">Comp</a></li></ul></li><li><a href="FetchError.html">FetchError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="FetchError.html#.fromResponse">fromResponse</a></li></ul></li><li></li><li><a href="InputError.html">InputError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="InputError.html#getInputName">getInputName</a></li><li data-type='method' style='display: none;'><a href="InputError.html#getMessage">getMessage</a></li></ul></li><li></li></ul><h3>Global</h3><ul><li><a href="global.html#AboutUsBio">AboutUsBio</a></li><li><a href="global.html#AboutUsSelector">AboutUsSelector</a></li><li><a href="global.html#AboutUsWrapper">AboutUsWrapper</a></li><li><a href="global.html#AccountCardsList">AccountCardsList</a></li><li><a href="global.html#AuthFormHeader">AuthFormHeader</a></li><li><a href="global.html#BioCard">BioCard</a></li><li><a href="global.html#ContactForm">ContactForm</a></li><li><a href="global.html#EmailIcon">EmailIcon</a></li><li><a href="global.html#FormButton">FormButton</a></li><li><a href="global.html#FormFooter">FormFooter</a></li><li><a href="global.html#HomePieChart">HomePieChart</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#PasswordResetForm">PasswordResetForm</a></li><li><a href="global.html#RegisterFormPt1">RegisterFormPt1</a></li><li><a href="global.html#RegisterFormPt2">RegisterFormPt2</a></li><li><a href="global.html#RequestResponse">RequestResponse</a></li><li><a href="global.html#SecurityQandA">SecurityQandA</a></li><li><a href="global.html#SecurityQuestionsCounter">SecurityQuestionsCounter</a></li><li><a href="global.html#passwordResetLoader">passwordResetLoader</a></li><li><a href="global.html#resetErrors">resetErrors</a></li><li><a href="global.html#setError">setError</a></li><li><a href="global.html#updateOptions">updateOptions</a></li><li><a href="global.html#usdFormatter">usdFormatter</a></li></ul>
     
 </nav>
 
@@ -48,11 +48,17 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * A custom Error object that is based on a HTTP response with an error code.
- * @param {string} message the error message
- * @param {integer} statusCode the status code returned by the response
+ * @class FetchError
+ * @extends Error
+ * @classdesc A custom Error object that is based on a HTTP response with an error code.
  */
 class FetchError extends Error {
+  /**
+   * @constructor
+   * @description Creates a new FetchError instance.
+   * @param {string} message - The error message.
+   * @param {number} statusCode - The HTTP status code.
+   */
   constructor(message, statusCode) {
     super(message)
     this.name = "FetchError"
@@ -60,9 +66,8 @@ class FetchError extends Error {
   }
 
   /**
-   * takes the response with an error status code and converts it to a fetch error.
-   * The error contains the message coming from the server.
-   * @param {Object} response an HTTP response with an error status code
+   * @description takes the response with an error status code and converts it to a fetch error. The error contains the message coming from the server.
+   * @param {Object} response - an HTTP response with an error status code
    * @returns new FetchError
    */
   static async fromResponse(response) {
@@ -86,7 +91,7 @@ export default FetchError
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Mon Dec 11 2023 13:51:38 GMT-0500 (Eastern Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Tue Dec 12 2023 08:59:38 GMT-0500 (Eastern Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>AccountCard - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AccountCard.html">AccountCard</a><ul class='methods'><li data-type='method' style='display: none;'><a href="AccountCard.html#~UnsavedChanges">UnsavedChanges</a></li><li data-type='method' style='display: none;'><a href="AccountCard.html#~component">component</a></li></ul></li><li><a href="DrawerLayout.html">DrawerLayout</a><ul class='methods'><li data-type='method' style='display: none;'><a href="DrawerLayout.html#~Comp">Comp</a></li></ul></li><li><a href="FetchError.html">FetchError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="FetchError.html#.fromResponse">fromResponse</a></li></ul></li><li></li><li><a href="InputError.html">InputError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="InputError.html#getInputName">getInputName</a></li><li data-type='method' style='display: none;'><a href="InputError.html#getMessage">getMessage</a></li></ul></li><li></li></ul><h3>Global</h3><ul><li><a href="global.html#AboutUsBio">AboutUsBio</a></li><li><a href="global.html#AboutUsSelector">AboutUsSelector</a></li><li><a href="global.html#AboutUsWrapper">AboutUsWrapper</a></li><li><a href="global.html#AccountCardsList">AccountCardsList</a></li><li><a href="global.html#AuthFormHeader">AuthFormHeader</a></li><li><a href="global.html#BioCard">BioCard</a></li><li><a href="global.html#ContactForm">ContactForm</a></li><li><a href="global.html#EmailIcon">EmailIcon</a></li><li><a href="global.html#FormButton">FormButton</a></li><li><a href="global.html#FormFooter">FormFooter</a></li><li><a href="global.html#HomePieChart">HomePieChart</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#PasswordResetForm">PasswordResetForm</a></li><li><a href="global.html#RegisterFormPt1">RegisterFormPt1</a></li><li><a href="global.html#RegisterFormPt2">RegisterFormPt2</a></li><li><a href="global.html#RequestResponse">RequestResponse</a></li><li><a href="global.html#SecurityQandA">SecurityQandA</a></li><li><a href="global.html#SecurityQuestionsCounter">SecurityQuestionsCounter</a></li><li><a href="global.html#passwordResetLoader">passwordResetLoader</a></li><li><a href="global.html#resetErrors">resetErrors</a></li><li><a href="global.html#setError">setError</a></li><li><a href="global.html#updateOptions">updateOptions</a></li><li><a href="global.html#usdFormatter">usdFormatter</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">AccountCard</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+        
+            AccountCard
+        
+        </h2>
+        
+            <div class="class-description usertext"><p>The card component that renders a given bank account object</p></div>
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+    
+    <h2>Constructor</h2>
+    
+
+    <h4 class="name" id="AccountCard"><span class="type-signature"></span>new AccountCard<span class="signature">(account, removeAccountHandler, saveAccountHandler)</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_accounts_AccountCard.js.html">components/accounts/AccountCard.js</a>, <a href="components_accounts_AccountCard.js.html#line40">line 40</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-examples">Example</h5>
+    
+    <pre class="prettyprint"><code>&lt;AccountCard account={account} removeAccountHandler={removeAccountHandler} saveAccountHandler={saveAccountHandler} /></code></pre>
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>account</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the bank account object to be rendered onto the card</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the id of the account</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>accountId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the account_id of the account</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>mask</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the mask of the account</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the name of the account</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>officialName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the official name of the account</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>logo</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the logo of the account. This is a base64 string that is converted to an image in the component</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>subtype</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the subtype of the account</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>nickname</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the nickname of the account (can be changed by the user)</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>removeAccountHandler</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the function that handles deleting the account</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>saveAccountHandler</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the function that handles saving the account after changes were made to it</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The JSX code for the component that will be displayed in the browser</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="~UnsavedChanges"><span class="type-signature type-signature-inner">(inner) </span>UnsavedChanges<span class="signature">(nicknameFlag, isAlert, setIsAlert)</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>'unsaved changes' and 'account saved' alerts used in the card header action</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_accounts_AccountCard.js.html">components/accounts/AccountCard.js</a>, <a href="components_accounts_AccountCard.js.html#line53">line 53</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>nicknameFlag</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>whether or not the nickname has been changed</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>isAlert</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>whether or not the account saved alert should be shown</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>setIsAlert</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the react state setter function that will modify the state of the parent component as needed</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The JSX code for the component that will be displayed in the browser</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~component"><span class="type-signature type-signature-inner">(inner) </span>component<span class="signature">(func)</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>The component that gets passed to the confirmation dialog as a prop</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_accounts_AccountCard.js.html">components/accounts/AccountCard.js</a>, <a href="components_accounts_AccountCard.js.html#line80">line 80</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>func</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the function to be executed upon confirmation</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The JSX code for the component that will be displayed in the browser</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">JSX.Element</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Tue Dec 12 2023 08:59:38 GMT-0500 (Eastern Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

@@ -31,7 +31,7 @@
     <input type="text" id="nav-search" placeholder="Search" />
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="FetchError.html">FetchError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="FetchError.html#.fromResponse">fromResponse</a></li></ul></li><li><a href="InputError.html">InputError</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AboutUsBio">AboutUsBio</a></li><li><a href="global.html#AboutUsSelector">AboutUsSelector</a></li><li><a href="global.html#AboutUsWrapper">AboutUsWrapper</a></li><li><a href="global.html#AccountCard">AccountCard</a></li><li><a href="global.html#AccountCardsList">AccountCardsList</a></li><li><a href="global.html#AuthFormHeader">AuthFormHeader</a></li><li><a href="global.html#BioCard">BioCard</a></li><li><a href="global.html#ContactForm">ContactForm</a></li><li><a href="global.html#EmailIcon">EmailIcon</a></li><li><a href="global.html#FormButton">FormButton</a></li><li><a href="global.html#FormFooter">FormFooter</a></li><li><a href="global.html#HomePieChart">HomePieChart</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#PasswordResetForm">PasswordResetForm</a></li><li><a href="global.html#RegisterFormPt1">RegisterFormPt1</a></li><li><a href="global.html#RegisterFormPt2">RegisterFormPt2</a></li><li><a href="global.html#RequestResponse">RequestResponse</a></li><li><a href="global.html#SecurityQandA">SecurityQandA</a></li><li><a href="global.html#SecurityQuestionsCounter">SecurityQuestionsCounter</a></li><li><a href="global.html#UnsavedChanges">UnsavedChanges</a></li><li><a href="global.html#component">component</a></li><li><a href="global.html#resetErrors">resetErrors</a></li><li><a href="global.html#setError">setError</a></li><li><a href="global.html#usdFormatter">usdFormatter</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AccountCard.html">AccountCard</a><ul class='methods'><li data-type='method' style='display: none;'><a href="AccountCard.html#~UnsavedChanges">UnsavedChanges</a></li><li data-type='method' style='display: none;'><a href="AccountCard.html#~component">component</a></li></ul></li><li><a href="DrawerLayout.html">DrawerLayout</a><ul class='methods'><li data-type='method' style='display: none;'><a href="DrawerLayout.html#~Comp">Comp</a></li></ul></li><li><a href="FetchError.html">FetchError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="FetchError.html#.fromResponse">fromResponse</a></li></ul></li><li></li><li><a href="InputError.html">InputError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="InputError.html#getInputName">getInputName</a></li><li data-type='method' style='display: none;'><a href="InputError.html#getMessage">getMessage</a></li></ul></li><li></li></ul><h3>Global</h3><ul><li><a href="global.html#AboutUsBio">AboutUsBio</a></li><li><a href="global.html#AboutUsSelector">AboutUsSelector</a></li><li><a href="global.html#AboutUsWrapper">AboutUsWrapper</a></li><li><a href="global.html#AccountCardsList">AccountCardsList</a></li><li><a href="global.html#AuthFormHeader">AuthFormHeader</a></li><li><a href="global.html#BioCard">BioCard</a></li><li><a href="global.html#ContactForm">ContactForm</a></li><li><a href="global.html#EmailIcon">EmailIcon</a></li><li><a href="global.html#FormButton">FormButton</a></li><li><a href="global.html#FormFooter">FormFooter</a></li><li><a href="global.html#HomePieChart">HomePieChart</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#PasswordResetForm">PasswordResetForm</a></li><li><a href="global.html#RegisterFormPt1">RegisterFormPt1</a></li><li><a href="global.html#RegisterFormPt2">RegisterFormPt2</a></li><li><a href="global.html#RequestResponse">RequestResponse</a></li><li><a href="global.html#SecurityQandA">SecurityQandA</a></li><li><a href="global.html#SecurityQuestionsCounter">SecurityQuestionsCounter</a></li><li><a href="global.html#passwordResetLoader">passwordResetLoader</a></li><li><a href="global.html#resetErrors">resetErrors</a></li><li><a href="global.html#setError">setError</a></li><li><a href="global.html#updateOptions">updateOptions</a></li><li><a href="global.html#usdFormatter">usdFormatter</a></li></ul>
     
 </nav>
 
@@ -70,70 +70,86 @@ import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined"
 import Alert from "@mui/material/Alert"
 
 /**
- * unsaved changes and account saved alerts used in the card header action
- * @param {boolean} nicknameFlag whether or not the nickname has been changed
- * @param {boolean} isAlert weather or not the account saved alert to be shown
- * @param {function} setIsAlert the handler to set isAlert
- */
-const UnsavedChanges = ({ nicknameFlag, isAlert, setIsAlert }) => {
-  // render the unsaved changes alert if an account has unsaved changes
-  if (nicknameFlag) {
-    return (
-      &lt;Tooltip title="unsaved changes">
-        &lt;ErrorOutlineOutlinedIcon fontSize="large" color="danger" />
-      &lt;/Tooltip>
-    )
-  } else if (isAlert) {
-    // render the account saved alert once changes are saved
-    return (
-      &lt;Alert
-        onClose={() => {
-          setIsAlert(false)
-        }}
-      >
-        Account saved
-      &lt;/Alert>
-    )
-  }
-}
-
-/**
- * the component that gets passed to the confirmation dialog as a prop
- * @param {function} func the function to be executed upon confirmation
- */
-const component = ({ func }) => (
-  &lt;Tooltip title="Remove" arrow TransitionComponent={Zoom}>
-    &lt;IconButton onClick={func}>
-      &lt;DeleteIcon color="#777777" />
-    &lt;/IconButton>
-  &lt;/Tooltip>
-)
-
-/**
- * The card component that renders a given bank account object
- * @param {object} account the bank account object to be rendered onto the card
- * @param {function} removeAccountHandler the function that handles deleting the account
+ * @class
+ * @classdesc The card component that renders a given bank account object
+ * @param {object} account - the bank account object to be rendered onto the card
+ * @param {number} account.id - the id of the account
+ * @param {string} account.accountId - the account_id of the account
+ * @param {string} account.mask - the mask of the account
+ * @param {string} account.name - the name of the account
+ * @param {string} account.officialName - the official name of the account
+ * @param {string} account.logo - the logo of the account. This is a base64 string that is converted to an image in the component
+ * @param {string} account.subtype - the subtype of the account
+ * @param {string} account.nickname - the nickname of the account (can be changed by the user)
+ * @param {function} removeAccountHandler - the function that handles deleting the account
  * @param {function} saveAccountHandler the function that handles saving the account after changes were made to it
+ * @example &lt;AccountCard account={account} removeAccountHandler={removeAccountHandler} saveAccountHandler={saveAccountHandler} />
+ * @returns {JSX.Element} The JSX code for the component that will be displayed in the browser
  */
 const AccountCard = ({ account, removeAccountHandler, saveAccountHandler }) => {
   const [nickname, setNickname] = useState(account.nickname)
   const [nicknameFlag, setNicknameFlag] = useState(false)
   const [isAlert, setIsAlert] = useState(false)
   const [isExpanded, setIsExpanded] = useState(false)
+
+  /**
+   * @description 'unsaved changes' and 'account saved' alerts used in the card header action
+   * @param {boolean} nicknameFlag - whether or not the nickname has been changed
+   * @param {boolean} isAlert - whether or not the account saved alert should be shown
+   * @param {function} setIsAlert - the react state setter function that will modify the state of the parent component as needed
+   * @returns {JSX.Element} The JSX code for the component that will be displayed in the browser
+   */
+  const UnsavedChanges = ({ nicknameFlag, isAlert, setIsAlert }) => {
+    // render the unsaved changes alert if an account has unsaved changes
+    if (nicknameFlag) {
+      return (
+        &lt;Tooltip title="unsaved changes">
+          &lt;ErrorOutlineOutlinedIcon fontSize="large" color="danger" />
+        &lt;/Tooltip>
+      )
+    } else if (isAlert) {
+      // render the account saved alert once changes are saved
+      return (
+        &lt;Alert
+          onClose={() => {
+            setIsAlert(false)
+          }}
+        >
+          Account saved
+        &lt;/Alert>
+      )
+    }
+  }
+
+  /**
+   * @description The component that gets passed to the confirmation dialog as a prop
+   * @param {function} func - the function to be executed upon confirmation
+   * @returns {JSX.Element} The JSX code for the component that will be displayed in the browser
+   */
+  const component = ({ func }) => (
+    &lt;Tooltip title="Remove" arrow TransitionComponent={Zoom}>
+      &lt;IconButton onClick={func}>
+        &lt;DeleteIcon color="#777777" />
+      &lt;/IconButton>
+    &lt;/Tooltip>
+  )
+  const confirmationDialogDetails = {
+    title: "Remove Account?",
+    description: null,
+    confirmationLabel: "Remove"
+  }
+
+  // classes used for styling the card when expanded
   const expandClasses = `${classes["expandMore"]} ${
     isExpanded ? classes["expandMoreExpanded"] : ""
   }`
+  // convert the logo base64 string to an image
   const logoBase64 = `data:image/png;base64,${account.logo}`
   const Logo = (
     &lt;Avatar src={logoBase64} alt="Logo" className={classes.logo}>&lt;/Avatar>
   )
   const title = `${account.name}: ${account.subtype}`
   const subheader = `ending in ${account.mask}`
-  const confirmationDialogDetails = {
-    title: "Remove Account?",
-    description: null,
-    confirmationLabel: "Remove"
-  }
 
   // update flag state if changes are made to the account
   useEffect(() => {
@@ -230,7 +246,7 @@ export default AccountCard
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Mon Dec 11 2023 13:51:38 GMT-0500 (Eastern Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Tue Dec 12 2023 08:59:38 GMT-0500 (Eastern Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

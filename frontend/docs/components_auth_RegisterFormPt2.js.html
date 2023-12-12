@@ -31,7 +31,7 @@
     <input type="text" id="nav-search" placeholder="Search" />
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="FetchError.html">FetchError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="FetchError.html#.fromResponse">fromResponse</a></li></ul></li><li><a href="InputError.html">InputError</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AboutUsBio">AboutUsBio</a></li><li><a href="global.html#AboutUsSelector">AboutUsSelector</a></li><li><a href="global.html#AboutUsWrapper">AboutUsWrapper</a></li><li><a href="global.html#AccountCard">AccountCard</a></li><li><a href="global.html#AccountCardsList">AccountCardsList</a></li><li><a href="global.html#AuthFormHeader">AuthFormHeader</a></li><li><a href="global.html#BioCard">BioCard</a></li><li><a href="global.html#ContactForm">ContactForm</a></li><li><a href="global.html#EmailIcon">EmailIcon</a></li><li><a href="global.html#FormButton">FormButton</a></li><li><a href="global.html#FormFooter">FormFooter</a></li><li><a href="global.html#HomePieChart">HomePieChart</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#PasswordResetForm">PasswordResetForm</a></li><li><a href="global.html#RegisterFormPt1">RegisterFormPt1</a></li><li><a href="global.html#RegisterFormPt2">RegisterFormPt2</a></li><li><a href="global.html#RequestResponse">RequestResponse</a></li><li><a href="global.html#SecurityQandA">SecurityQandA</a></li><li><a href="global.html#SecurityQuestionsCounter">SecurityQuestionsCounter</a></li><li><a href="global.html#UnsavedChanges">UnsavedChanges</a></li><li><a href="global.html#component">component</a></li><li><a href="global.html#resetErrors">resetErrors</a></li><li><a href="global.html#setError">setError</a></li><li><a href="global.html#usdFormatter">usdFormatter</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AccountCard.html">AccountCard</a><ul class='methods'><li data-type='method' style='display: none;'><a href="AccountCard.html#~UnsavedChanges">UnsavedChanges</a></li><li data-type='method' style='display: none;'><a href="AccountCard.html#~component">component</a></li></ul></li><li><a href="DrawerLayout.html">DrawerLayout</a><ul class='methods'><li data-type='method' style='display: none;'><a href="DrawerLayout.html#~Comp">Comp</a></li></ul></li><li><a href="FetchError.html">FetchError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="FetchError.html#.fromResponse">fromResponse</a></li></ul></li><li></li><li><a href="InputError.html">InputError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="InputError.html#getInputName">getInputName</a></li><li data-type='method' style='display: none;'><a href="InputError.html#getMessage">getMessage</a></li></ul></li><li></li></ul><h3>Global</h3><ul><li><a href="global.html#AboutUsBio">AboutUsBio</a></li><li><a href="global.html#AboutUsSelector">AboutUsSelector</a></li><li><a href="global.html#AboutUsWrapper">AboutUsWrapper</a></li><li><a href="global.html#AccountCardsList">AccountCardsList</a></li><li><a href="global.html#AuthFormHeader">AuthFormHeader</a></li><li><a href="global.html#BioCard">BioCard</a></li><li><a href="global.html#ContactForm">ContactForm</a></li><li><a href="global.html#EmailIcon">EmailIcon</a></li><li><a href="global.html#FormButton">FormButton</a></li><li><a href="global.html#FormFooter">FormFooter</a></li><li><a href="global.html#HomePieChart">HomePieChart</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#PasswordResetForm">PasswordResetForm</a></li><li><a href="global.html#RegisterFormPt1">RegisterFormPt1</a></li><li><a href="global.html#RegisterFormPt2">RegisterFormPt2</a></li><li><a href="global.html#RequestResponse">RequestResponse</a></li><li><a href="global.html#SecurityQandA">SecurityQandA</a></li><li><a href="global.html#SecurityQuestionsCounter">SecurityQuestionsCounter</a></li><li><a href="global.html#passwordResetLoader">passwordResetLoader</a></li><li><a href="global.html#resetErrors">resetErrors</a></li><li><a href="global.html#setError">setError</a></li><li><a href="global.html#updateOptions">updateOptions</a></li><li><a href="global.html#usdFormatter">usdFormatter</a></li></ul>
     
 </nav>
 
@@ -60,10 +60,15 @@ import FormButton from "../../uiComponents/FormButton"
 import FormFooter from "./FormFooter"
 
 /**
- * The second part of the user registration process. Prompts the user to provide a username, first, and last name;
- * confirming that the username is available before moving on.
- * @param {function} backHandler the function that powers the back button in the footer. This ensures the data on pt 1 is updated
- * @param {function} submitHandler the function to execute when the form is submitted. This allows the data to be given back to the parent.
+ * @description The second part of the user registration process. Prompts the user to provide a username, first, and last name; confirming that the username is available before moving on.
+ * @param {function} backHandler - the function that powers the back button in the footer. This ensures the data on pt 1 is updated
+ * @param {function} submitHandler - the function to execute when the form is submitted. This allows the data to be given back to the parent.
+ * @param {object} user - the user object, used to communicate form data between portions of the registration process.
+ * @param {string} user.username - the user's username
+ * @param {string} user.firstName - the user's first name
+ * @param {string} user.lastName - the user's last name
+ * @example &lt;RegisterFormPt2 backHandler={backHandler} submitHandler={submitHandler} user={user} />
+ * @returns {JSX.Element} the second part of the user registration process.
  */
 const RegisterFormPt2 = ({ backHandler, submitHandler, user }) => {
   const [username, setUsername] = useState(user.username)
@@ -154,6 +159,7 @@ const RegisterFormPt2 = ({ backHandler, submitHandler, user }) => {
     }
   }
   const footerLink = {
+    // update the user object with the current state of the form before going back to pt 1
     onClick: () =>
       backHandler({
         isPartTwo: false,
@@ -205,7 +211,7 @@ export default RegisterFormPt2
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Mon Dec 11 2023 13:51:38 GMT-0500 (Eastern Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Tue Dec 12 2023 08:59:38 GMT-0500 (Eastern Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

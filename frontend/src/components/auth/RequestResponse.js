@@ -4,8 +4,10 @@ import Box from "@mui/material/Box"
 import FormFooter from "./FormFooter"
 
 /**
- * The message displayed to users following various authentication requests made by them
- * @param {string} type the type of request that was made, used to determine the appropriate response
+ * @description The message displayed to users following various authentication requests made by them
+ * @param {string} type - the type of request that was made, used to determine the appropriate response
+ * @example <RequestResponse type="user recovery" />
+ * @returns {JSX.Element} - the appropriate response to the user's request
  */
 const RequestResponse = ({ type }) => {
   let text

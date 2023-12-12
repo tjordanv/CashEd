@@ -4,9 +4,10 @@ import Stack from "@mui/material/Stack"
 import Divider from "@mui/material/Divider"
 
 /**
- * The selector component that allows users to switch between the application bio and the creator bio on the about us page
- * @param {boolean} isCreator used to determine if creator bio or application bio should be shown
- * @param {function} setIsCreator the handler to set the isCreator value
+ * @description The selector component that allows users to switch between the application bio and the creator bio on the about us page
+ * @param {boolean} isCreator - used to determine if creator bio or application bio should be shown
+ * @param {function} setIsCreator - the react state setter function that will modify the state of the parent component when the selector is clicked
+ * @returns {JSX.Element} The JSX code for the component that will be displayed in the browser
  */
 const AboutUsSelector = ({ isCreator, setIsCreator }) => {
   return (

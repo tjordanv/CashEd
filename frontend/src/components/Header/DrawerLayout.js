@@ -16,12 +16,20 @@ import { Badge, IconButton } from "@mui/material"
 import { useLocation, useNavigate, useLoaderData } from "react-router-dom"
 import ConfirmationDialog from "../../uiComponents/ConfirmationDialog"
 
+/**
+ * @class
+ * @classdesc Represents a drawer layout component.
+ * @example <DrawerLayout />
+ * @returns {JSX.Element} The JSX element representing the drawer layout.
+ */
 const DrawerLayout = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   const navigate = useNavigate()
+  // this is used to track the current location of the user
   const location = useLocation().pathname
 
+  // used to open and close the drawer
   const toggleDrawer = (isOpen) => (event) => {
     if (
       event.type === "keydown" &&
@@ -32,12 +40,23 @@ const DrawerLayout = () => {
     setIsOpen(isOpen)
   }
 
+  // used to navigate to the appropriate page
   const navigationHandler = (pathname) => {
     if (pathname === "/login") localStorage.removeItem("jwt")
 
     if (pathname !== location) navigate(pathname)
   }
 
+  /**
+   * @description Represents a component used in the confirmation dialog.
+   * @param {Object} obj - The object containing component details.
+   * @param {string} obj.text - The text to be displayed in the component.
+   * @param {string} obj.pathname - The pathname to navigate to on component click.
+   * @param {Function} obj.icon - The icon to be displayed in the component.
+   * @param {number} obj.badgeContent - The number to be displayed in the component's badge.
+   * @param {Function} func - The function to be called on component click.
+   * @returns {JSX.Element} The JSX element representing the component.
+   */
   const Comp = ({ obj, func }) => (
     <ListItemButton onClick={func}>
       <ListItemIcon>
@@ -62,9 +81,9 @@ const DrawerLayout = () => {
   }
 
   // I may need to use redux to track this state to have accurate data when updates happen. unsure
-  //const notificationCounts = useSelector((state) => state.notifications.value)
   const notificationCounts = useLoaderData()
 
+  // used to populate the drawer, each object represents a drawer item that get passed to Comp
   const drawerList = [
     {
       text: "Profile",
@@ -92,6 +111,7 @@ const DrawerLayout = () => {
     }
   ]
 
+  // used to render the drawer when it is open
   const list = () => (
     <Box sx={{ width: 250 }} role="presentation">
       <List>

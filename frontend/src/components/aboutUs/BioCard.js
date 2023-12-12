@@ -10,7 +10,8 @@ import Box from "@mui/material/Box"
 import AboutUsWrapper from "./AboutUsWrapper"
 
 /**
- * The bio card used to display info about a creator
+ * @description The bio card used to display info about a team member
+ * @returns {JSX.Element} The JSX code for the component that will be displayed in the browser
  */
 const BioCard = () => {
   return (

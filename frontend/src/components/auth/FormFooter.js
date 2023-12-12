@@ -20,6 +20,7 @@ import { Box, Stack } from "@mui/material"
  * @param {object} bottomLink.to - the router path that the NavLink will follow.
  * @param {string} bottomLink.text - the string that will display as the NavLink text.
  * @param {string} [tooltip] - the string that will display as the tooltip
+ * @returns {JSX.Element} - the footer for the auth forms
  * @example 
  * // topLink object with label
  * const footerData = {

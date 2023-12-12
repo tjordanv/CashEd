@@ -31,7 +31,7 @@
     <input type="text" id="nav-search" placeholder="Search" />
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="FetchError.html">FetchError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="FetchError.html#.fromResponse">fromResponse</a></li></ul></li><li><a href="InputError.html">InputError</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AboutUsBio">AboutUsBio</a></li><li><a href="global.html#AboutUsSelector">AboutUsSelector</a></li><li><a href="global.html#AboutUsWrapper">AboutUsWrapper</a></li><li><a href="global.html#AccountCard">AccountCard</a></li><li><a href="global.html#AccountCardsList">AccountCardsList</a></li><li><a href="global.html#AuthFormHeader">AuthFormHeader</a></li><li><a href="global.html#BioCard">BioCard</a></li><li><a href="global.html#ContactForm">ContactForm</a></li><li><a href="global.html#EmailIcon">EmailIcon</a></li><li><a href="global.html#FormButton">FormButton</a></li><li><a href="global.html#FormFooter">FormFooter</a></li><li><a href="global.html#HomePieChart">HomePieChart</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#PasswordResetForm">PasswordResetForm</a></li><li><a href="global.html#RegisterFormPt1">RegisterFormPt1</a></li><li><a href="global.html#RegisterFormPt2">RegisterFormPt2</a></li><li><a href="global.html#RequestResponse">RequestResponse</a></li><li><a href="global.html#SecurityQandA">SecurityQandA</a></li><li><a href="global.html#SecurityQuestionsCounter">SecurityQuestionsCounter</a></li><li><a href="global.html#UnsavedChanges">UnsavedChanges</a></li><li><a href="global.html#component">component</a></li><li><a href="global.html#resetErrors">resetErrors</a></li><li><a href="global.html#setError">setError</a></li><li><a href="global.html#usdFormatter">usdFormatter</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AccountCard.html">AccountCard</a><ul class='methods'><li data-type='method' style='display: none;'><a href="AccountCard.html#~UnsavedChanges">UnsavedChanges</a></li><li data-type='method' style='display: none;'><a href="AccountCard.html#~component">component</a></li></ul></li><li><a href="DrawerLayout.html">DrawerLayout</a><ul class='methods'><li data-type='method' style='display: none;'><a href="DrawerLayout.html#~Comp">Comp</a></li></ul></li><li><a href="FetchError.html">FetchError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="FetchError.html#.fromResponse">fromResponse</a></li></ul></li><li></li><li><a href="InputError.html">InputError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="InputError.html#getInputName">getInputName</a></li><li data-type='method' style='display: none;'><a href="InputError.html#getMessage">getMessage</a></li></ul></li><li></li></ul><h3>Global</h3><ul><li><a href="global.html#AboutUsBio">AboutUsBio</a></li><li><a href="global.html#AboutUsSelector">AboutUsSelector</a></li><li><a href="global.html#AboutUsWrapper">AboutUsWrapper</a></li><li><a href="global.html#AccountCardsList">AccountCardsList</a></li><li><a href="global.html#AuthFormHeader">AuthFormHeader</a></li><li><a href="global.html#BioCard">BioCard</a></li><li><a href="global.html#ContactForm">ContactForm</a></li><li><a href="global.html#EmailIcon">EmailIcon</a></li><li><a href="global.html#FormButton">FormButton</a></li><li><a href="global.html#FormFooter">FormFooter</a></li><li><a href="global.html#HomePieChart">HomePieChart</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#PasswordResetForm">PasswordResetForm</a></li><li><a href="global.html#RegisterFormPt1">RegisterFormPt1</a></li><li><a href="global.html#RegisterFormPt2">RegisterFormPt2</a></li><li><a href="global.html#RequestResponse">RequestResponse</a></li><li><a href="global.html#SecurityQandA">SecurityQandA</a></li><li><a href="global.html#SecurityQuestionsCounter">SecurityQuestionsCounter</a></li><li><a href="global.html#passwordResetLoader">passwordResetLoader</a></li><li><a href="global.html#resetErrors">resetErrors</a></li><li><a href="global.html#setError">setError</a></li><li><a href="global.html#updateOptions">updateOptions</a></li><li><a href="global.html#usdFormatter">usdFormatter</a></li></ul>
     
 </nav>
 
@@ -60,50 +60,51 @@ import { Box, Stack } from "@mui/material"
  * @param {string} doubleLink.label - the string that will display above the double link
  * @param {object} doubleLink.firstLink - the object used to render the first link in the double link. The object has the same structure as the topLink and bottomLink objects.
  * @param {object} doubleLink.secondLink - the object used to render the second link in the double link The object has the same structure as the topLink and bottomLink objects.
- * @example 
- * // doubleLink object
- * const footerData = {
-      label: " Having trouble logging in?",
-      firstLink: {
-        to: "/userRecovery/forgotUsername",
-        text: "Forgot Username"
-      },
-      secondLink: {
-        to: "/userRecovery/forgotPassword",
-        text: "Forgot Password"
-      }
-    }
-    &lt;FormFooter doubleLink={footerData} />
  * @param {object} [topLink] - the object used to render a single navigation link. Renders below the double link but above the bottom link
  * @param {string} [topLink.label] - the string that will display above the top link  
  * @param {object} topLink.to - the router path that the NavLink will follow.
  * @param {string} topLink.text - the string that will display as the NavLink text.
- * @example 
- * // topLink object with label
- * const footerData = {
-      to: "/register",
-      text: "Create an Account",
-      label: "Need an account?"
-    }
-   &lt;FormFooter topLink={footerData} />
  * @param {object} [bottomLink] - the object used to render a single navigation link. Renders below both the double link and the top link. 
  * @param {string} [bottomLink.label] - the string that will display above the bottom link
  * @param {object} bottomLink.to - the router path that the NavLink will follow.
  * @param {string} bottomLink.text - the string that will display as the NavLink text.
+ * @param {string} [tooltip] - the string that will display as the tooltip
+ * @returns {JSX.Element} - the footer for the auth forms
+ * @example 
+ * // topLink object with label
+ * const footerData = {
+     to: "/register",
+     text: "Create an Account",
+     label: "Need an account?"
+   }
+   &lt;FormFooter topLink={footerData} />
  * @example
  * // topLink and bottomLink objects
  * const footerData = {
-      topLink: {
-        to: "/userRecovery/forgotUsername",
+   topLink: {
+     to: "/userRecovery/forgotUsername",
         text: "Forgot Username"
       },
       bottomLink: {
         to: "/login",
         text: "Cancel",
       }
-  }
-  &lt;FormFooter topLink={footerData.topLink} bottomLink={footerData.bottomLink} />     
- * @param {string} [tooltip] - the string that will display as the tooltip
+    }
+    &lt;FormFooter topLink={footerData.topLink} bottomLink={footerData.bottomLink} />     
+ * @example 
+ * // doubleLink object
+ * const footerData = {
+   label: " Having trouble logging in?",
+   firstLink: {
+           to: "/userRecovery/forgotUsername",
+           text: "Forgot Username"
+         },
+         secondLink: {
+           to: "/userRecovery/forgotPassword",
+           text: "Forgot Password"
+         }
+       }
+       &lt;FormFooter doubleLink={footerData} />
  */
 const FormFooter = ({ doubleLink, topLink, bottomLink, tooltip }) => {
   return (
@@ -170,7 +171,7 @@ export default FormFooter
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Mon Dec 11 2023 13:51:38 GMT-0500 (Eastern Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Tue Dec 12 2023 08:59:38 GMT-0500 (Eastern Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

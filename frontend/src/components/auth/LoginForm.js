@@ -12,7 +12,9 @@ import FormButton from "../../uiComponents/FormButton"
 import FormFooter from "./FormFooter"
 
 /**
- * user login form
+ * @description The login form for the login page
+ * @example <LoginForm />
+ * @returns {JSX.Element} - the login form
  */
 const LoginForm = () => {
   const [username, setUsername] = useState("")

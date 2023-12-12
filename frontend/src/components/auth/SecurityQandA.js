@@ -16,12 +16,15 @@ import FormButton from "../../uiComponents/FormButton"
 import FormFooter from "./FormFooter"
 
 /**
- * The container for users to create and answer security questions upon registration or user credential recovery.
- * @param {string} type the type of securityQandA to render. This is used to determine which functionality to use within
- * the component. Options include [forgot password, forgot username, and register]
- * @param {object} user the user object. This is used to fetch the appropriate data when a user needs MFA or credential recovery.
- * @param {function} setIsAuthenticatedHandler used to set a boolean value in the parent component that signifies that the user has been
- * successfully authenticated, triggering a page render change.
+ * @description The container for users to create and answer security questions upon registration or user credential recovery.
+ * @param {string} type - the type of securityQandA to render. This is used to determine which functionality to use within the component. Options include [forgot password, forgot username, and register]
+ * @param {object} user - the user object. This is used to fetch the appropriate data when a user needs MFA or credential recovery.
+ * @param {string} user.id - the user's id
+ * @param {string} user.username - the user's username
+ * @param {string} user.email - the user's email address
+ * @param {function} setIsAuthenticatedHandler - used to set a boolean value in the parent component that signifies that the user has been successfully authenticated, triggering a page render change.
+ * @example <SecurityQandA type="register" user={user} setIsAuthenticatedHandler={setIsAuthenticatedHandler} />
+ * @returns {JSX.Element} the security question and answer form
  */
 const SecurityQandA = ({ type, user, setIsAuthenticatedHandler }) => {
   const [answer, setAnswer] = useState("")

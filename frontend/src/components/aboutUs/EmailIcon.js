@@ -6,9 +6,9 @@ import { useState } from "react"
 import { useEffect } from "react"
 
 /**
- * an email icon that allows users to copy the email address of the corresponding creator to their clipboard.
- * Used in the BioCard component.
- * @param {string} email the email address that will be copied to clipboard when the icon is clicked
+ * @description An email icon that allows users to copy the email address of the corresponding creator to their clipboard. Used in the BioCard component.
+ * @param {string} email - the email address that will be copied to clipboard when the icon is clicked
+ * @returns {JSX.Element} The JSX code for the component that will be displayed in the browser
  */
 const EmailIcon = () => {
   const [isAlert, setIsAlert] = useState(false)
