@@ -14,14 +14,7 @@ import Checkbox from "@mui/material/Checkbox"
 import FetchError from "../../utils/fetchError"
 import fetcher from "../../utils/fetchAuthorize"
 import FormControlLabel from "@mui/material/FormControlLabel"
-import {
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  Select,
-  Tooltip
-} from "@mui/material"
-import { CheckBox, DraftsSharp } from "@mui/icons-material"
+import { FormControl, InputLabel, OutlinedInput, Select } from "@mui/material"
 
 const AddTransactionsForm = ({
   setIsOpen,
@@ -264,11 +257,9 @@ const AddTransactionsForm = ({
                     onChange={handleChange}
                   >
                     {accounts.map((account) => (
-                      //<Tooltip title={account.nickname}>
                       <MenuItem key={account.id} value={account.id}>
                         {account.name}
                       </MenuItem>
-                      //</Tooltip>
                     ))}
                   </Select>
                 </FormControl>
