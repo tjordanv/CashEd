@@ -190,7 +190,8 @@ public class PlaidService {
                 .clientName("CashEd Financial")
                 .products(Arrays.asList(Products.TRANSACTIONS))
                 .countryCodes(Arrays.asList(CountryCode.US))
-                .language("en");
+                .language("en")
+                .redirectUri("http://localhost:3000/");
 
         Response<LinkTokenCreateResponse> response = plaidClient
                 .linkTokenCreate(request)
