@@ -37,6 +37,7 @@ const AddTransactionsForm = ({
   const [selectedAccounts, setSelectedAccounts] = useState([])
 
   useEffect(() => {
+    // load in the user's accounts from the database
     const getAccounts = async () => {
       try {
         const response = await fetcher("http://localhost:8080/getAccounts")
@@ -50,6 +51,7 @@ const AddTransactionsForm = ({
         return []
       }
     }
+    // format the subcategories for the autocomplete component if the user is adding a single transaction
     if (isSingleTransaction) {
       const mergedSubcategories = [
         ...subcategories[0],
@@ -105,7 +107,7 @@ const AddTransactionsForm = ({
     }
   }
 
-  const imports = async (e) => {
+  const addTransactionsHandler = async (e) => {
     e.preventDefault()
 
     if (isSingleTransaction) {
@@ -152,7 +154,10 @@ const AddTransactionsForm = ({
   }
 
   return (
-    <form onSubmit={(event) => imports(event)} style={{ minWidth: "400px" }}>
+    <form
+      onSubmit={(event) => addTransactionsHandler(event)}
+      style={{ minWidth: "400px" }}
+    >
       <DialogContent>
         <DialogContentText id="alert-dialog-slide-description"></DialogContentText>
         <Box sx={{ padding: "15px" }}>

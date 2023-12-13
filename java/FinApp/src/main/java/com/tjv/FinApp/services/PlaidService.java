@@ -531,6 +531,7 @@ public class PlaidService {
        newTransaction.setAmount(transaction.getAmount());
        newTransaction.setPaymentChannelId(paymentChannelId);
        newTransaction.setCheckNumber(transaction.getCheckNumber());
+       //newTransaction.setPaymentMeta()
 //       newTransaction.setAddress();
 //       newTransaction.setCity();
 //       newTransaction.setRegion();
