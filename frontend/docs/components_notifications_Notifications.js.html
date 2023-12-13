@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>components/auth/FormHeader.js - Documentation</title>
+    <title>components/notifications/Notifications.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">components/auth/FormHeader.js</h1>
+    <h1 class="page-title">components/notifications/Notifications.js</h1>
     
 
     
@@ -47,26 +47,57 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import Typography from "@mui/material/Typography"
-
-import classes from "./FormHeader.module.css"
+            <pre class="prettyprint source linenums"><code>import { useLoaderData } from "react-router-dom"
+import fetcher from "../../utils/fetchAuthorize"
+import FetchError from "../../utils/fetchError"
+import NotificationCard from "./NotificationCard"
 
 /**
- * @description The standardized header for all authentication forms
- * @param {string} pageTitle - the title of the page/form to display
- * @example &lt;AuthFormHeader pageTitle="Login" />
- * @returns {JSX.Element} - the header for the auth forms
+ * @async
+ * @function notificationsLoader
+ * @description Fetches notifications for the current user by category.
+ * @returns {Promise&lt;Array&lt;Object>>} - The array of notifications.
  */
-const AuthFormHeader = ({ pageTitle }) => {
+const notificationsLoader = async () => {
+  if (localStorage.jwt) {
+    try {
+      const response = await fetcher(
+        `http://localhost:8080/getNotificationsByUserByCategory?${new URLSearchParams(
+          { categoryId: 1 }
+        )}`
+      )
+      if (!response.ok) throw new FetchError.fromResponse(response)
+      else if (response.status === 200) {
+        return await response.json()
+      }
+    } catch (error) {
+      console.log(error)
+      return null
+    }
+  }
+  console.log("did not try")
+  return null
+}
+
+export { notificationsLoader }
+
+/**
+ * @description Renders the notifications. &lt;b>Not completed yet.&lt;/b>
+ * @returns {JSX.Element} - The rendered notifications.
+ */
+const Notifications = () => {
+  const notifications = useLoaderData()
+
   return (
-    &lt;div className={classes.wrapper}>
-      &lt;Typography variant="h4">CashEd&lt;/Typography>
-      &lt;Typography variant="body">Know Your Money&lt;/Typography>
-      &lt;Typography variant="h6">{pageTitle}&lt;/Typography>
-    &lt;/div>
+    &lt;>
+      {notifications &amp;&amp;
+        notifications.map((notification) => (
+          &lt;NotificationCard notification={notification} key={notification.id} />
+        ))}
+    &lt;/>
   )
 }
-export default AuthFormHeader
+export default Notifications
 </code></pre>
         </article>
     </section>

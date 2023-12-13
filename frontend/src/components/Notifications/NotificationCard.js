@@ -5,7 +5,7 @@ import Card from "@mui/material/Card"
  *
  * @param {Object} notification - The notification object.
  * @param {string} notification.subject - The subject of the notification.
- * @param {string} notification.createdDate - The creation date of the notification.
+ * @param {Date} notification.createdDate - The creation date of the notification.
  * @returns {JSX.Element} The rendered notification card.
  */
 const NotificationCard = ({ notification }) => {
