@@ -4,7 +4,6 @@ import Button from "@mui/material/Button"
 /**
  *
  * @param {string} color - The name of the color object from the theme palette
- * @returns
  */
 const FormButton = ({ label, type, onClick, disabled, color, size }) => {
   return (

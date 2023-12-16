@@ -14,9 +14,9 @@ import CircularProgress from "@mui/material/CircularProgress"
 import FormFooter from "./auth/FormFooter"
 
 /**
- * The form on the contact page for users and non-users to contact us through
- * @param {boolean} setIsSubmitted communicates the submitted state to parent component
- * @returns
+ * @description The form on the contact page for users and non-users to contact us through
+ * @param {function} setIsSubmitted - the react state setter function that will set the state of the parent component to true when the form is submitted successfully
+ * @returns {JSX.Element} The JSX code for the component that will be displayed in the browser
  */
 const ContactForm = ({ setIsSubmitted }) => {
   const [isActiveUser, setIsActiveUser] = useState(false)

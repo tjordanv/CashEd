@@ -11,7 +11,15 @@ import FetchError from "../../utils/fetchError"
 import FormFooter from "./FormFooter"
 import FormButton from "../../uiComponents/FormButton"
 
-// validate the token from the URL before allowing users onto this page
+/**
+ * @async
+ * @function passwordResetLoader
+ * @description Validates the token from the URL before allowing users onto this page.
+ * @param {Object} params - The URL parameters.
+ * @param {Object} params.token - The token to be validated.
+ * @param {string} token - The token to be validated.
+ * @returns {Promise<Object|null>} - A promise that resolves to the response JSON object if the token is valid, or null if the token is invalid.
+ */
 const passwordResetLoader = async (token) => {
   const response = await fetch(
     `http://localhost:8080/auth/verifyToken?${new URLSearchParams({
@@ -32,10 +40,13 @@ const passwordResetLoader = async (token) => {
   }
   return null
 }
+export { passwordResetLoader }
 
 /**
- * The form for users to reset their login password
- * @param {function} setIsResetHandler the handler to set the isReset state in the parent component that controls which part of the reset process to show
+ * @description The form for users to reset their login password
+ * @param {function} setIsResetHandler - the handler to set the isReset state in the parent component that controls which part of the reset process to show
+ * @example <PasswordResetForm setIsResetHandler={setIsResetHandler} />
+ * @returns {JSX.Element} - the password reset form
  */
 const PasswordResetForm = ({ setIsResetHandler }) => {
   const userData = useLoaderData()
@@ -153,7 +164,5 @@ const PasswordResetForm = ({ setIsResetHandler }) => {
     </>
   )
 }
-
-export { passwordResetLoader }
 
 export default PasswordResetForm

@@ -3,9 +3,11 @@ import CardContent from "@mui/material/CardContent"
 import classes from "./AboutUsWrapper.module.css"
 
 /**
- * The Card wrapper used to build the application and creator bio cards
- * @param {object} props an object of property values. As of now, 'size' is the only property
- * that would be used. Size determines the size of the container
+ * @description The Card wrapper used to build the application and creator bio cards
+ * @param {object} props - an object of property values.
+ * @param {string} props.size - the size of the card.
+ * @example <AboutUsWrapper size="small">...</AboutUsWrapper>
+ * @returns {JSX.Element} The JSX code for the component that will be displayed in the browser
  */
 const AboutUsWrapper = (props) => {
   const { size } = props

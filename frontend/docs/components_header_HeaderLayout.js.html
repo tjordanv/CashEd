@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>components/header/HeaderLayout.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AccountCard.html">AccountCard</a><ul class='methods'><li data-type='method' style='display: none;'><a href="AccountCard.html#~UnsavedChanges">UnsavedChanges</a></li><li data-type='method' style='display: none;'><a href="AccountCard.html#~component">component</a></li></ul></li><li><a href="DrawerLayout.html">DrawerLayout</a><ul class='methods'><li data-type='method' style='display: none;'><a href="DrawerLayout.html#~Comp">Comp</a></li></ul></li><li><a href="FetchError.html">FetchError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="FetchError.html#.fromResponse">fromResponse</a></li></ul></li><li><a href="module-inputError-InputError.html">InputError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-inputError-InputError.html#getInputName">getInputName</a></li><li data-type='method' style='display: none;'><a href="module-inputError-InputError.html#getMessage">getMessage</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-inputError.html">inputError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-inputError.html#.resetErrors">resetErrors</a></li><li data-type='method' style='display: none;'><a href="module-inputError.html#.setError">setError</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#AboutUsBio">AboutUsBio</a></li><li><a href="global.html#AboutUsSelector">AboutUsSelector</a></li><li><a href="global.html#AboutUsWrapper">AboutUsWrapper</a></li><li><a href="global.html#AccountCardsList">AccountCardsList</a></li><li><a href="global.html#AuthFormHeader">AuthFormHeader</a></li><li><a href="global.html#BioCard">BioCard</a></li><li><a href="global.html#ContactForm">ContactForm</a></li><li><a href="global.html#EmailIcon">EmailIcon</a></li><li><a href="global.html#FormButton">FormButton</a></li><li><a href="global.html#FormFooter">FormFooter</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#HomePieChart">HomePieChart</a></li><li><a href="global.html#LandingHeader">LandingHeader</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#NotificationCard">NotificationCard</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PasswordResetForm">PasswordResetForm</a></li><li><a href="global.html#RegisterFormPt1">RegisterFormPt1</a></li><li><a href="global.html#RegisterFormPt2">RegisterFormPt2</a></li><li><a href="global.html#RequestResponse">RequestResponse</a></li><li><a href="global.html#SecurityQandA">SecurityQandA</a></li><li><a href="global.html#SecurityQuestionsCounter">SecurityQuestionsCounter</a></li><li><a href="global.html#headerNotificationsLoader">headerNotificationsLoader</a></li><li><a href="global.html#notificationsLoader">notificationsLoader</a></li><li><a href="global.html#passwordResetLoader">passwordResetLoader</a></li><li><a href="global.html#updateOptions">updateOptions</a></li><li><a href="global.html#usdFormatter">usdFormatter</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">components/header/HeaderLayout.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { NavLink, useLoaderData, useNavigate } from "react-router-dom"
+import Box from "@mui/material/Box"
+import Stack from "@mui/material/Stack"
+import Divider from "@mui/material/Divider"
+import classes from "./HeaderLayout.module.css"
+import DrawerLayout from "./DrawerLayout"
+import fetcher from "../../utils/fetchAuthorize"
+import FetchError from "../../utils/fetchError"
+import { useDispatch, useSelector } from "react-redux"
+import { fetchNotificationCounts } from "../../state/notificationsSlice"
+import { useEffect } from "react"
+
+/**
+ * @async
+ * @function headerNotificationsLoader
+ * @description Fetches the unread notification counts for the current user from the server.
+ * @returns {Promise&lt;Array>|boolean} - Returns an array of notification counts if the user is authenticated, otherwise returns false.
+ */
+const headerNotificationsLoader = async () => {
+  if (localStorage.jwt) {
+    try {
+      const response = await fetcher(
+        "http://localhost:8080/getUnreadNotificationsByUserByCategory"
+      )
+      if (!response.ok) throw new FetchError.fromResponse(response)
+      else if (response.status === 200) {
+        return await response.json()
+      }
+    } catch (error) {
+      // Handle a server side error
+      if (error instanceof FetchError) {
+        console.log("fetch error")
+      }
+      // return false if the user is not authenticated
+      return false
+    }
+  }
+  return false
+}
+
+export { headerNotificationsLoader }
+
+/**
+ * @description Renders the header component that allows the user to navigate through the application. Redirects the user to the landing page if they are not authenticated.
+ * @example &lt;Header />
+ * @returns {JSX.Element} The JSX element representing the header navigation bar.
+ */
+const Header = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const isAuthenticated = useLoaderData()
+
+  useEffect(() => {
+    // If the user is not authenticated, send them to the landing (home) page
+    if (isAuthenticated === false) {
+      navigate("/home")
+    }
+  })
+
+  // I may need to use redux to track this state to have accurate data when updates happen. unsure
+  // set global state for notification counts that were fetched in the loader function prior to rendering the component
+  dispatch(fetchNotificationCounts(useLoaderData()))
+  const notificationCounts = useSelector((state) => state.notifications.value)
+
+  return (
+    // add confirmation functionality to prevent users from navigating without saving changes first
+    &lt;Box className={classes.container}>
+      &lt;Stack
+        className={classes.list}
+        justifyContent="center"
+        alignItems="center"
+        direction="row"
+        spacing={6}
+        divider={&lt;Divider orientation="vertical" flexItem />}
+      >
+        &lt;NavLink
+          to="/"
+          className={({ isActive }) => (isActive ? classes.active : undefined)}
+        >
+          Dashboard
+        &lt;/NavLink>
+        &lt;NavLink
+          to="TransactionImport"
+          className={({ isActive }) => (isActive ? classes.active : undefined)}
+        >
+          Transaction Import
+        &lt;/NavLink>
+        &lt;NavLink
+          to="nothing"
+          className={({ isActive }) => (isActive ? classes.active : undefined)}
+        >
+          Budget
+        &lt;/NavLink>
+        &lt;NavLink
+          to="accounts"
+          className={({ isActive }) => (isActive ? classes.active : undefined)}
+        >
+          Accounts
+        &lt;/NavLink>
+        &lt;NavLink
+          to="home/AboutUs"
+          className={({ isActive }) => (isActive ? classes.active : undefined)}
+        >
+          About Us
+        &lt;/NavLink>
+        &lt;NavLink
+          to="last"
+          className={({ isActive }) => (isActive ? classes.active : undefined)}
+        >
+          Contact Us
+        &lt;/NavLink>
+        &lt;DrawerLayout />
+      &lt;/Stack>
+    &lt;/Box>
+  )
+}
+
+export default Header
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Tue Dec 12 2023 20:29:06 GMT-0500 (Eastern Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

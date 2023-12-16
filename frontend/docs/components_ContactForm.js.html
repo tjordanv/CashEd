@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>components/ContactForm.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AccountCard.html">AccountCard</a><ul class='methods'><li data-type='method' style='display: none;'><a href="AccountCard.html#~UnsavedChanges">UnsavedChanges</a></li><li data-type='method' style='display: none;'><a href="AccountCard.html#~component">component</a></li></ul></li><li><a href="DrawerLayout.html">DrawerLayout</a><ul class='methods'><li data-type='method' style='display: none;'><a href="DrawerLayout.html#~Comp">Comp</a></li></ul></li><li><a href="FetchError.html">FetchError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="FetchError.html#.fromResponse">fromResponse</a></li></ul></li><li><a href="module-inputError-InputError.html">InputError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-inputError-InputError.html#getInputName">getInputName</a></li><li data-type='method' style='display: none;'><a href="module-inputError-InputError.html#getMessage">getMessage</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-inputError.html">inputError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-inputError.html#.resetErrors">resetErrors</a></li><li data-type='method' style='display: none;'><a href="module-inputError.html#.setError">setError</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#AboutUsBio">AboutUsBio</a></li><li><a href="global.html#AboutUsSelector">AboutUsSelector</a></li><li><a href="global.html#AboutUsWrapper">AboutUsWrapper</a></li><li><a href="global.html#AccountCardsList">AccountCardsList</a></li><li><a href="global.html#AuthFormHeader">AuthFormHeader</a></li><li><a href="global.html#BioCard">BioCard</a></li><li><a href="global.html#ContactForm">ContactForm</a></li><li><a href="global.html#EmailIcon">EmailIcon</a></li><li><a href="global.html#FormButton">FormButton</a></li><li><a href="global.html#FormFooter">FormFooter</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#HomePieChart">HomePieChart</a></li><li><a href="global.html#LandingHeader">LandingHeader</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#NotificationCard">NotificationCard</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PasswordResetForm">PasswordResetForm</a></li><li><a href="global.html#RegisterFormPt1">RegisterFormPt1</a></li><li><a href="global.html#RegisterFormPt2">RegisterFormPt2</a></li><li><a href="global.html#RequestResponse">RequestResponse</a></li><li><a href="global.html#SecurityQandA">SecurityQandA</a></li><li><a href="global.html#SecurityQuestionsCounter">SecurityQuestionsCounter</a></li><li><a href="global.html#headerNotificationsLoader">headerNotificationsLoader</a></li><li><a href="global.html#notificationsLoader">notificationsLoader</a></li><li><a href="global.html#passwordResetLoader">passwordResetLoader</a></li><li><a href="global.html#updateOptions">updateOptions</a></li><li><a href="global.html#usdFormatter">usdFormatter</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">components/ContactForm.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import EmailInput from "../uiComponents/EmailInput"
+import { useState } from "react"
+import NameInput from "../uiComponents/NameInput"
+import UsernameInput from "../uiComponents/UsernameInput"
+import ErrorMessage from "../uiComponents/ErrorMessage"
+import classes from "./ContactForm.module.css"
+import MessageInput from "../uiComponents/MessageInput"
+import FormButton from "../uiComponents/FormButton"
+import FormControlLabel from "@mui/material/FormControlLabel"
+import Checkbox from "@mui/material/Checkbox"
+import FetchError from "../utils/fetchError"
+import { InputError } from "../utils/inputErrors"
+import CircularProgress from "@mui/material/CircularProgress"
+import FormFooter from "./auth/FormFooter"
+
+/**
+ * @description The form on the contact page for users and non-users to contact us through
+ * @param {function} setIsSubmitted - the react state setter function that will set the state of the parent component to true when the form is submitted successfully
+ * @returns {JSX.Element} The JSX code for the component that will be displayed in the browser
+ */
+const ContactForm = ({ setIsSubmitted }) => {
+  const [isActiveUser, setIsActiveUser] = useState(false)
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [username, setUsername] = useState("")
+  const [emailAddress, setEmailAddress] = useState("")
+  const [message, setMessage] = useState("")
+  const [error, setError] = useState({ isError: false, message: "" })
+  const [errorMessage, setErrorMessage] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+
+  const setIsActiveUserHandler = () => {
+    setIsActiveUser(!isActiveUser)
+    setFirstName("")
+    setLastName("")
+    setUsername("")
+  }
+
+  const submitFormHandler = async (e) => {
+    e.preventDefault()
+    setIsLoading(true)
+
+    const body = { message: message, activeUser: isActiveUser }
+    let stringifiedBody
+
+    try {
+      // set the request body appropriately for a user or non-user
+      if (isActiveUser) {
+        // confirm that the user exists
+        const usernameResponse = await fetch(
+          `http://localhost:8080/auth/checkUsernameAvailability?${new URLSearchParams(
+            { username: username }
+          )}`,
+          {
+            method: "GET",
+            mode: "cors",
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }
+        )
+        if (!usernameResponse.ok) {
+          throw await FetchError.fromResponse(usernameResponse)
+        } else {
+          const usernameResponseJson = await usernameResponse.json()
+          if (usernameResponseJson === false) {
+            throw new InputError("user not found", "usernameInput")
+          }
+        }
+        // insert username to the request body if the user is found.
+        body.username = username
+        stringifiedBody = JSON.stringify(body)
+      } else {
+        // insert contact info to the request body for non-user
+        body.firstName = firstName
+        body.lastName = lastName
+        body.emailAddress = emailAddress
+
+        stringifiedBody = JSON.stringify(body)
+      }
+      // send message to our server
+      let response = await fetch("http://localhost:8080/auth/contactUs", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: stringifiedBody
+      })
+      if (!response.ok) {
+        throw await FetchError.fromResponse(response)
+      } else {
+        const responseJson = await response.json()
+        if (responseJson) {
+          setIsSubmitted(true)
+        } else {
+          setIsLoading(false)
+        }
+      }
+    } catch (error) {
+      if (error instanceof FetchError) {
+        setMessage(error.message)
+      } else if (error instanceof InputError) {
+        setError({ isError: true, message: "Username not found." })
+      } else {
+        console.log("caught an error")
+      }
+      setIsLoading(false)
+    }
+  }
+
+  const footerData = {
+    topLink: {
+      to: "/login",
+      text: "Cancel"
+    },
+    tooltip:
+      "Submit your contact information with a short descriptive message and we will reach out to your email shortly."
+  }
+
+  return (
+    &lt;>
+      &lt;form onSubmit={submitFormHandler} className={classes.container}>
+        &lt;FormControlLabel
+          control={
+            &lt;Checkbox value={isActiveUser} onChange={setIsActiveUserHandler} />
+          }
+          label="Active User?"
+        />
+        {(isActiveUser &amp;&amp; (
+          &lt;UsernameInput
+            username={username}
+            setUsernameHandler={setUsername}
+            error={error}
+          />
+        )) || (
+          &lt;>
+            &lt;NameInput name={firstName} setNameHandler={setFirstName} />
+            &lt;NameInput
+              name={lastName}
+              setNameHandler={setLastName}
+              isLastName={true}
+            />
+            &lt;EmailInput
+              email={emailAddress}
+              setEmailHandler={setEmailAddress}
+            />
+          &lt;/>
+        )}
+        &lt;MessageInput message={message} setMessageHandler={setMessage} />
+        {(isLoading &amp;&amp; &lt;CircularProgress className={classes.loader} />) || (
+          &lt;FormButton type="submit" />
+        )}
+        &lt;ErrorMessage message={errorMessage} />
+      &lt;/form>
+      &lt;FormFooter topLink={footerData.topLink} tooltip={footerData.tooltip} />
+    &lt;/>
+  )
+}
+
+export default ContactForm
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Tue Dec 12 2023 20:29:06 GMT-0500 (Eastern Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

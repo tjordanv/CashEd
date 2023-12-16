@@ -12,10 +12,13 @@ import FormButton from "../../uiComponents/FormButton"
 import FormFooter from "./FormFooter"
 
 /**
- * The first part of the user registration process. Prompts the user to provide an email and password,
- *  confirming that the email is available before moving on.
- * @param {function} submitHandler the function to execute when the form is submitted. This allows the data to be given back to the parent.
- * @param {object} user the user object, used to communicate form data between portions of the registration process.
+ * @description The first part of the user registration process. Prompts the user to provide an email and password, confirming that the email is available before moving on.
+ * @param {function} submitHandler - the function to execute when the form is submitted. This allows the data to be given back to the parent.
+ * @param {object} user - the user object, used to communicate form data between portions of the registration process.
+ * @param {string} user.emailAddress - the user's email address
+ * @param {string} user.password - the user's password
+ * @example <RegisterFormPt1 submitHandler={submitHandler} user={user} />
+ * @returns {JSX.Element} the first part of the user registration process.
  */
 const RegisterFormPt1 = ({ submitHandler, user }) => {
   const [emailAddress, setEmailAddress] = useState(user.emailAddress)

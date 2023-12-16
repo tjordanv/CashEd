@@ -1,4 +1,3 @@
-import { styled } from "@mui/material/styles"
 import { NavLink, useLoaderData, useNavigate } from "react-router-dom"
 import Box from "@mui/material/Box"
 import Stack from "@mui/material/Stack"
@@ -11,11 +10,12 @@ import { useDispatch, useSelector } from "react-redux"
 import { fetchNotificationCounts } from "../../state/notificationsSlice"
 import { useEffect } from "react"
 
-const HeaderContainer = styled(Box)(({ theme }) => ({
-  maxHeight: "50px",
-  borderBottom: "2px solid rgba(119, 119, 119, 0.5)"
-}))
-
+/**
+ * @async
+ * @function headerNotificationsLoader
+ * @description Fetches the unread notification counts for the current user from the server.
+ * @returns {Promise<Array>|boolean} - Returns an array of notification counts if the user is authenticated, otherwise returns false.
+ */
 const headerNotificationsLoader = async () => {
   if (localStorage.jwt) {
     try {
@@ -40,6 +40,11 @@ const headerNotificationsLoader = async () => {
 
 export { headerNotificationsLoader }
 
+/**
+ * @description Renders the header component that allows the user to navigate through the application. Redirects the user to the landing page if they are not authenticated.
+ * @example <Header />
+ * @returns {JSX.Element} The JSX element representing the header navigation bar.
+ */
 const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -55,12 +60,11 @@ const Header = () => {
   // I may need to use redux to track this state to have accurate data when updates happen. unsure
   // set global state for notification counts that were fetched in the loader function prior to rendering the component
   dispatch(fetchNotificationCounts(useLoaderData()))
-
   const notificationCounts = useSelector((state) => state.notifications.value)
 
   return (
     // add confirmation functionality to prevent users from navigating without saving changes first
-    <HeaderContainer>
+    <Box className={classes.container}>
       <Stack
         className={classes.list}
         justifyContent="center"
@@ -107,7 +111,8 @@ const Header = () => {
         </NavLink>
         <DrawerLayout />
       </Stack>
-    </HeaderContainer>
+    </Box>
   )
 }
+
 export default Header

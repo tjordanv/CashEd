@@ -21,71 +21,86 @@ import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined"
 import Alert from "@mui/material/Alert"
 
 /**
- * unsaved changes and account saved alerts used in the card header action
- * @param {boolean} nicknameFlag whether or not the nickname has been changed
- * @param {boolean} isAlert weather or not the account saved alert to be shown
- * @param {function} setIsAlert the handler to set isAlert
- * @returns
- */
-const UnsavedChanges = ({ nicknameFlag, isAlert, setIsAlert }) => {
-  // render the unsaved changes alert if an account has unsaved changes
-  if (nicknameFlag) {
-    return (
-      <Tooltip title="unsaved changes">
-        <ErrorOutlineOutlinedIcon fontSize="large" color="danger" />
-      </Tooltip>
-    )
-  } else if (isAlert) {
-    // render the account saved alert once changes are saved
-    return (
-      <Alert
-        onClose={() => {
-          setIsAlert(false)
-        }}
-      >
-        Account saved
-      </Alert>
-    )
-  }
-}
-
-/**
- * the component that gets passed to the confirmation dialog as a prop
- * @param {function} func the function to be executed upon confirmation
- */
-const component = ({ func }) => (
-  <Tooltip title="Remove" arrow TransitionComponent={Zoom}>
-    <IconButton onClick={func}>
-      <DeleteIcon color="#777777" />
-    </IconButton>
-  </Tooltip>
-)
-
-/**
- * The card component that renders a given bank account object
- * @param {object} account the bank account object to be rendered onto the card
- * @param {function} removeAccountHandler the function that handles deleting the account
+ * @class
+ * @classdesc The card component that renders a given bank account object
+ * @param {object} account - the bank account object to be rendered onto the card
+ * @param {number} account.id - the id of the account
+ * @param {string} account.accountId - the account_id of the account
+ * @param {string} account.mask - the mask of the account
+ * @param {string} account.name - the name of the account
+ * @param {string} account.officialName - the official name of the account
+ * @param {string} account.logo - the logo of the account. This is a base64 string that is converted to an image in the component
+ * @param {string} account.subtype - the subtype of the account
+ * @param {string} account.nickname - the nickname of the account (can be changed by the user)
+ * @param {function} removeAccountHandler - the function that handles deleting the account
  * @param {function} saveAccountHandler the function that handles saving the account after changes were made to it
+ * @example <AccountCard account={account} removeAccountHandler={removeAccountHandler} saveAccountHandler={saveAccountHandler} />
+ * @returns {JSX.Element} The JSX code for the component that will be displayed in the browser
  */
 const AccountCard = ({ account, removeAccountHandler, saveAccountHandler }) => {
   const [nickname, setNickname] = useState(account.nickname)
   const [nicknameFlag, setNicknameFlag] = useState(false)
   const [isAlert, setIsAlert] = useState(false)
   const [isExpanded, setIsExpanded] = useState(false)
+
+  /**
+   * @description 'unsaved changes' and 'account saved' alerts used in the card header action
+   * @param {boolean} nicknameFlag - whether or not the nickname has been changed
+   * @param {boolean} isAlert - whether or not the account saved alert should be shown
+   * @param {function} setIsAlert - the react state setter function that will modify the state of the parent component as needed
+   * @returns {JSX.Element} The JSX code for the component that will be displayed in the browser
+   */
+  const UnsavedChanges = ({ nicknameFlag, isAlert, setIsAlert }) => {
+    // render the unsaved changes alert if an account has unsaved changes
+    if (nicknameFlag) {
+      return (
+        <Tooltip title="unsaved changes">
+          <ErrorOutlineOutlinedIcon fontSize="large" color="danger" />
+        </Tooltip>
+      )
+    } else if (isAlert) {
+      // render the account saved alert once changes are saved
+      return (
+        <Alert
+          onClose={() => {
+            setIsAlert(false)
+          }}
+        >
+          Account saved
+        </Alert>
+      )
+    }
+  }
+
+  /**
+   * @description The component that gets passed to the confirmation dialog as a prop
+   * @param {function} func - the function to be executed upon confirmation
+   * @returns {JSX.Element} The JSX code for the component that will be displayed in the browser
+   */
+  const component = ({ func }) => (
+    <Tooltip title="Remove" arrow TransitionComponent={Zoom}>
+      <IconButton onClick={func}>
+        <DeleteIcon color="#777777" />
+      </IconButton>
+    </Tooltip>
+  )
+  const confirmationDialogDetails = {
+    title: "Remove Account?",
+    description: null,
+    confirmationLabel: "Remove"
+  }
+
+  // classes used for styling the card when expanded
   const expandClasses = `${classes["expandMore"]} ${
     isExpanded ? classes["expandMoreExpanded"] : ""
   }`
+  // convert the logo base64 string to an image
   const logoBase64 = `data:image/png;base64,${account.logo}`
   const Logo = (
     <Avatar src={logoBase64} alt="Logo" className={classes.logo}></Avatar>
   )
   const title = `${account.name}: ${account.subtype}`
   const subheader = `ending in ${account.mask}`
-  const confirmationDialogDetails = {
-    title: "Remove Account?",
-    description: null,
-    confirmationLabel: "Remove"
-  }
 
   // update flag state if changes are made to the account
   useEffect(() => {

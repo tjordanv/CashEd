@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>components/aboutUs/AboutUsBio.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AccountCard.html">AccountCard</a><ul class='methods'><li data-type='method' style='display: none;'><a href="AccountCard.html#~UnsavedChanges">UnsavedChanges</a></li><li data-type='method' style='display: none;'><a href="AccountCard.html#~component">component</a></li></ul></li><li><a href="DrawerLayout.html">DrawerLayout</a><ul class='methods'><li data-type='method' style='display: none;'><a href="DrawerLayout.html#~Comp">Comp</a></li></ul></li><li><a href="FetchError.html">FetchError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="FetchError.html#.fromResponse">fromResponse</a></li></ul></li><li><a href="module-inputError-InputError.html">InputError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-inputError-InputError.html#getInputName">getInputName</a></li><li data-type='method' style='display: none;'><a href="module-inputError-InputError.html#getMessage">getMessage</a></li></ul></li></ul><h3>Modules</h3><ul><li><a href="module-inputError.html">inputError</a><ul class='methods'><li data-type='method' style='display: none;'><a href="module-inputError.html#.resetErrors">resetErrors</a></li><li data-type='method' style='display: none;'><a href="module-inputError.html#.setError">setError</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#AboutUsBio">AboutUsBio</a></li><li><a href="global.html#AboutUsSelector">AboutUsSelector</a></li><li><a href="global.html#AboutUsWrapper">AboutUsWrapper</a></li><li><a href="global.html#AccountCardsList">AccountCardsList</a></li><li><a href="global.html#AuthFormHeader">AuthFormHeader</a></li><li><a href="global.html#BioCard">BioCard</a></li><li><a href="global.html#ContactForm">ContactForm</a></li><li><a href="global.html#EmailIcon">EmailIcon</a></li><li><a href="global.html#FormButton">FormButton</a></li><li><a href="global.html#FormFooter">FormFooter</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#HomePieChart">HomePieChart</a></li><li><a href="global.html#LandingHeader">LandingHeader</a></li><li><a href="global.html#Login">Login</a></li><li><a href="global.html#LoginForm">LoginForm</a></li><li><a href="global.html#NotificationCard">NotificationCard</a></li><li><a href="global.html#Notifications">Notifications</a></li><li><a href="global.html#PasswordResetForm">PasswordResetForm</a></li><li><a href="global.html#RegisterFormPt1">RegisterFormPt1</a></li><li><a href="global.html#RegisterFormPt2">RegisterFormPt2</a></li><li><a href="global.html#RequestResponse">RequestResponse</a></li><li><a href="global.html#SecurityQandA">SecurityQandA</a></li><li><a href="global.html#SecurityQuestionsCounter">SecurityQuestionsCounter</a></li><li><a href="global.html#headerNotificationsLoader">headerNotificationsLoader</a></li><li><a href="global.html#notificationsLoader">notificationsLoader</a></li><li><a href="global.html#passwordResetLoader">passwordResetLoader</a></li><li><a href="global.html#updateOptions">updateOptions</a></li><li><a href="global.html#usdFormatter">usdFormatter</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">components/aboutUs/AboutUsBio.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import classes from "./AboutUsBio.module.css"
+import Typography from "@mui/material/Typography"
+import Stack from "@mui/material/Stack"
+import AboutUsWrapper from "./AboutUsWrapper"
+
+/**
+ * @description The bio component used in the About Us page to describe CasedEd as an application
+ * @returns {JSX.Element} The JSX code for the component that will be displayed in the browser
+ */
+const AboutUsBio = () => {
+  const paragraphLines = [
+    `A phrase that embodies the mission of Finance App. With endless information at our fingertips, too often 
+  do the important things get lost or forgotten. Your money should not be one of those things.`,
+
+    `Simply having information is not always enough; more importantly is what we do with that information.`,
+
+    `Finance App provides the tools necessary to successfully
+  control your personal finances. As you set budgets and goals, your performance can be easily tracked in real time. Your spending
+  and deposits are automatically brought into an easy to use drag and drop system that allows you to quickly get your hands on
+  each transaction and categorize them appropriately. A deep understanding of your spending habits and overall financial health 
+  will be gained through the use of simple, yet powerful, tools such as spending forecast calculators, beautiful charts, and more.`,
+
+    `Know your money, own your money.`
+  ]
+  const information = [
+    {
+      header: "Lorem ipsum dolor sit amet consectetur",
+      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisi scelerisque eu ultrices vitae auctor eu augue ut. Feugiat sed lectus vestibulum mattis ullamcorper."
+    },
+    {
+      header:
+        "qui officia deserunt mollit anim id est laborum. Nisi scelerisque eu ultrices ",
+      text: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Nisi scelerisque eu ultrices vitae auctor eu augue ut. Feugiat sed lectus vestibulum mattis ullamcorper."
+    },
+    {
+      header: "Nisi scelerisque eu ultrices vitae auctor eu augue ut",
+      text: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nisi scelerisque eu ultrices vitae auctor eu augue ut. Feugiat sed lectus vestibulum mattis ullamcorper."
+    },
+    {
+      header:
+        "ullamco laboris commodo consequat nisi ut aliquip ex ea commodo consequat",
+      text: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. "
+    },
+    {
+      header:
+        "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit",
+      text: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nisi scelerisque eu ultrices vitae auctor eu augue ut. Feugiat sed lectus vestibulum mattis ullamcorper. Nisi scelerisque eu ultrices vitae auctor eu augue ut. Feugiat sed lectus vestibulum mattis ullamcorper."
+    }
+  ]
+  return (
+    &lt;AboutUsWrapper size="510px">
+      &lt;Stack spacing={2} alignItems="center" className={classes.stack}>
+        {information.map((info) => (
+          &lt;div>
+            &lt;Typography variant="h6" color="primary.text">
+              {info.header}
+            &lt;/Typography>
+            &lt;Typography variant="body2" color="primary.text">
+              {info.text}
+            &lt;/Typography>
+          &lt;/div>
+        ))}
+      &lt;/Stack>
+    &lt;/AboutUsWrapper>
+  )
+}
+
+export default AboutUsBio
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Tue Dec 12 2023 20:29:06 GMT-0500 (Eastern Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

@@ -11,10 +11,15 @@ import FormButton from "../../uiComponents/FormButton"
 import FormFooter from "./FormFooter"
 
 /**
- * The second part of the user registration process. Prompts the user to provide a username, first, and last name;
- * confirming that the username is available before moving on.
- * @param {function} backHandler the function that powers the back button in the footer. This ensures the data on pt 1 is updated
- * @param {function} submitHandler the function to execute when the form is submitted. This allows the data to be given back to the parent.
+ * @description The second part of the user registration process. Prompts the user to provide a username, first, and last name; confirming that the username is available before moving on.
+ * @param {function} backHandler - the function that powers the back button in the footer. This ensures the data on pt 1 is updated
+ * @param {function} submitHandler - the function to execute when the form is submitted. This allows the data to be given back to the parent.
+ * @param {object} user - the user object, used to communicate form data between portions of the registration process.
+ * @param {string} user.username - the user's username
+ * @param {string} user.firstName - the user's first name
+ * @param {string} user.lastName - the user's last name
+ * @example <RegisterFormPt2 backHandler={backHandler} submitHandler={submitHandler} user={user} />
+ * @returns {JSX.Element} the second part of the user registration process.
  */
 const RegisterFormPt2 = ({ backHandler, submitHandler, user }) => {
   const [username, setUsername] = useState(user.username)
@@ -105,6 +110,7 @@ const RegisterFormPt2 = ({ backHandler, submitHandler, user }) => {
     }
   }
   const footerLink = {
+    // update the user object with the current state of the form before going back to pt 1
     onClick: () =>
       backHandler({
         isPartTwo: false,

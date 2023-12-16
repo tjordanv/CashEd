@@ -69,9 +69,11 @@ const renderActiveShape = (props) => {
 }
 
 /**
- * The pie chart used on the homepage to provide an interactive model to display basic information about the application to users.
- * @param {Integer} index the active index of the home page list. This gets passed to the pie to maintain consistency between the two.
- * @param {function} setListIndex the handler that updates the home page list's active index when the pie chart's index changes.
+ * @description The pie chart used on the homepage to provide an interactive model to display basic information about the application to users.
+ * @param {number} index - the active index of the home page list. This gets passed to the pie to maintain consistency between the two.
+ * @param {function} setListIndex - the handler that updates the home page list's active index when the pie chart's index changes.
+ * @example <HomePieChart index={index} setListIndex={setListIndex} />
+ * @returns {JSX.Element} The JSX code for the component that will be displayed in the browser
  */
 const HomePieChart = ({ index, setListIndex }) => {
   const [text, setText] = useState("")

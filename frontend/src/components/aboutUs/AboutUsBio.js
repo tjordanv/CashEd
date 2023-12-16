@@ -4,8 +4,8 @@ import Stack from "@mui/material/Stack"
 import AboutUsWrapper from "./AboutUsWrapper"
 
 /**
- * The bio component used in the About Us page to describe CasedEd as an application
- * @returns
+ * @description The bio component used in the About Us page to describe CasedEd as an application
+ * @returns {JSX.Element} The JSX code for the component that will be displayed in the browser
  */
 const AboutUsBio = () => {
   const paragraphLines = [

@@ -1,9 +1,14 @@
 import { useLoaderData } from "react-router-dom"
-
 import fetcher from "../../utils/fetchAuthorize"
 import FetchError from "../../utils/fetchError"
 import NotificationCard from "./NotificationCard"
 
+/**
+ * @async
+ * @function notificationsLoader
+ * @description Fetches notifications for the current user by category.
+ * @returns {Promise<Array<Object>>} - The array of notifications.
+ */
 const notificationsLoader = async () => {
   if (localStorage.jwt) {
     try {
@@ -27,6 +32,10 @@ const notificationsLoader = async () => {
 
 export { notificationsLoader }
 
+/**
+ * @description Renders the notifications. <b>Not completed yet.</b>
+ * @returns {JSX.Element} - The rendered notifications.
+ */
 const Notifications = () => {
   const notifications = useLoaderData()
 
