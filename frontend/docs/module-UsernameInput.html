@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>AccountCard - Documentation</title>
+    <title>UsernameInput - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">AccountCard</h1>
+    <h1 class="page-title">UsernameInput</h1>
     
 
     
@@ -49,15 +49,6 @@
 
 <header>
     
-        <h2>
-        
-            AccountCard
-        
-        </h2>
-        
-            <div class="class-description usertext"><p>The card component that renders a given bank account object</p></div>
-        
-    
 </header>
 
 <article>
@@ -66,24 +57,16 @@
         
             
 
-    
-    <h2>Constructor</h2>
-    
-
-    <h4 class="name" id="AccountCard"><span class="type-signature"></span>new AccountCard<span class="signature">(account, removeAccountHandler, saveAccountHandler)</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
-
-    
-
-
-
-
 <dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Represents the UsernameInput component.</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_accounts_AccountCard.js.html">components/accounts/AccountCard.js</a>, <a href="components_accounts_AccountCard.js.html#line40">line 40</a>
+        <a href="uiComponents_UsernameInput.js.html">uiComponents/UsernameInput.js</a>, <a href="uiComponents_UsernameInput.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -121,376 +104,11 @@
 
 
 
-
-
-
-
-
-
-
-    <h5 class="h5-examples">Example</h5>
-    
-    <pre class="prettyprint"><code>&lt;AccountCard account={account} removeAccountHandler={removeAccountHandler} saveAccountHandler={saveAccountHandler} /></code></pre>
-
-
-
-
-    <h5 class="h5-parameters">Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>account</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the bank account object to be rendered onto the card</p>
-                <h6>Properties</h6>
-                
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>id</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the id of the account</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>accountId</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the account_id of the account</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>mask</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the mask of the account</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the name of the account</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>officialName</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the official name of the account</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>logo</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the logo of the account. This is a base64 string that is converted to an image in the component</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>subtype</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the subtype of the account</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>nickname</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the nickname of the account (can be changed by the user)</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>removeAccountHandler</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>the function that handles deleting the account</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>saveAccountHandler</code></td>
-            
-
-            <td class="type">
             
-                
-<span class="param-type">function</span>
-
-
-
+                <div class="description usertext"><p>Represents the UsernameInput component.</p></div>
             
-            </td>
 
             
-
-            
-
-            <td class="description last"><p>the function that handles saving the account after changes were made to it</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5 class="h5-returns">Returns:</h5>
-
-        
-<div class="param-desc">
-    <p>The JSX code for the component that will be displayed in the browser</p>
-</div>
-
-
-
-<dl class="param-type">
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">JSX.Element</span>
-
-
-
-    </dd>
-</dl>
-
-    
-
-
-
         
         </div>
     
@@ -517,7 +135,7 @@
 
     
 
-    <h4 class="name" id="~UnsavedChanges"><span class="type-signature type-signature-inner">(inner) </span>UnsavedChanges<span class="signature">(nicknameFlag, isAlert, setIsAlert)</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    <h4 class="name" id="~UsernameInput"><span class="type-signature type-signature-inner">(inner) </span>UsernameInput<span class="signature">(username, setUsernameHandler, error)</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
 
     
 
@@ -527,13 +145,13 @@
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>'unsaved changes' and 'account saved' alerts used in the card header action</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Represents the UsernameInput component.</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_accounts_AccountCard.js.html">components/accounts/AccountCard.js</a>, <a href="components_accounts_AccountCard.js.html#line53">line 53</a>
+        <a href="uiComponents_UsernameInput.js.html">uiComponents/UsernameInput.js</a>, <a href="uiComponents_UsernameInput.js.html#line19">line 19</a>
     </li></ul></dd>
     
 
@@ -605,13 +223,13 @@
 
         <tr>
             
-                <td class="name"><code>nicknameFlag</code></td>
+                <td class="name"><code>username</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">boolean</span>
+<span class="param-type">string</span>
 
 
 
@@ -622,38 +240,14 @@
 
             
 
-            <td class="description last"><p>whether or not the nickname has been changed</p></td>
+            <td class="description last"><p>The current username value.</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>isAlert</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>whether or not the account saved alert should be shown</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>setIsAlert</code></td>
+                <td class="name"><code>setUsernameHandler</code></td>
             
 
             <td class="type">
@@ -670,7 +264,105 @@
 
             
 
-            <td class="description last"><p>the react state setter function that will modify the state of the parent component as needed</p></td>
+            <td class="description last"><p>The function to handle username changes.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>error</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The error object.</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>isError</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Indicates if there is an error.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>message</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The error message.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -696,7 +388,7 @@
 
         
 <div class="param-desc">
-    <p>The JSX code for the component that will be displayed in the browser</p>
+    <p>The rendered UsernameInput component.</p>
 </div>
 
 
@@ -723,7 +415,7 @@
 
     
 
-    <h4 class="name" id="~component"><span class="type-signature type-signature-inner">(inner) </span>component<span class="signature">(func)</span><span class="type-signature"> &rarr; {JSX.Element}</span></h4>
+    <h4 class="name" id="~checkUsernameAvailability"><span class="type-signature type-signature-async, inner">(async, inner) </span>checkUsernameAvailability<span class="signature">(username)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
 
     
 
@@ -733,13 +425,13 @@
 <dl class="details">
     
     <dt class="tag-description">Description:</dt>
-    <dd class="tag-description"><ul class="dummy"><li><p>The component that gets passed to the confirmation dialog as a prop</p></li></ul></dd>
+    <dd class="tag-description"><ul class="dummy"><li><p>Checks the availability of a username.</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="components_accounts_AccountCard.js.html">components/accounts/AccountCard.js</a>, <a href="components_accounts_AccountCard.js.html#line80">line 80</a>
+        <a href="uiComponents_UsernameInput.js.html">uiComponents/UsernameInput.js</a>, <a href="uiComponents_UsernameInput.js.html#line63">line 63</a>
     </li></ul></dd>
     
 
@@ -811,13 +503,13 @@
 
         <tr>
             
-                <td class="name"><code>func</code></td>
+                <td class="name"><code>username</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">function</span>
+<span class="param-type">string</span>
 
 
 
@@ -828,7 +520,195 @@
 
             
 
-            <td class="description last"><p>the function to be executed upon confirmation</p></td>
+            <td class="description last"><p>The username to check availability for.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="h5-throws">Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc usertext">
+        <p>Throws a FetchError if there is an error in the availability response.</p>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl class="param-type">
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type"><a href="FetchError.html">FetchError</a></span>
+
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
+
+
+<h5 class="h5-returns">Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>a boolean value for whether the username is available or not false = username was found / true = username was not found.</p>
+</div>
+
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~validateUsername"><span class="type-signature type-signature-inner">(inner) </span>validateUsername<span class="signature">(username)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Validates the username.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="uiComponents_UsernameInput.js.html">uiComponents/UsernameInput.js</a>, <a href="uiComponents_UsernameInput.js.html#line46">line 46</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5 class="h5-parameters">Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>username</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The username to validate.</p></td>
         </tr>
 
     
@@ -854,7 +734,7 @@
 
         
 <div class="param-desc">
-    <p>The JSX code for the component that will be displayed in the browser</p>
+    <p>Returns true if the username is valid, false otherwise.</p>
 </div>
 
 
@@ -865,7 +745,7 @@
     </dt>
     <dd>
         
-<span class="param-type">JSX.Element</span>
+<span class="param-type">boolean</span>
 
 
 

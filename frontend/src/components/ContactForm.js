@@ -1,7 +1,9 @@
 import EmailInput from "../uiComponents/EmailInput"
 import { useState } from "react"
 import NameInput from "../uiComponents/NameInput"
-import UsernameInput from "../uiComponents/UsernameInput"
+import UsernameInput, {
+  checkUsernameAvailability
+} from "../uiComponents/UsernameInput"
 import ErrorMessage from "../uiComponents/ErrorMessage"
 import classes from "./ContactForm.module.css"
 import MessageInput from "../uiComponents/MessageInput"
@@ -47,25 +49,9 @@ const ContactForm = ({ setIsSubmitted }) => {
       // set the request body appropriately for a user or non-user
       if (isActiveUser) {
         // confirm that the user exists
-        const usernameResponse = await fetch(
-          `http://localhost:8080/auth/checkUsernameAvailability?${new URLSearchParams(
-            { username: username }
-          )}`,
-          {
-            method: "GET",
-            mode: "cors",
-            headers: {
-              "Content-Type": "application/json"
-            }
-          }
-        )
-        if (!usernameResponse.ok) {
-          throw await FetchError.fromResponse(usernameResponse)
-        } else {
-          const usernameResponseJson = await usernameResponse.json()
-          if (usernameResponseJson === false) {
-            throw new InputError("user not found", "usernameInput")
-          }
+        let isValidUsername = await checkUsernameAvailability(username)
+        if (!isValidUsername) {
+          throw new InputError("Username not found.", "username")
         }
         // insert username to the request body if the user is found.
         body.username = username
