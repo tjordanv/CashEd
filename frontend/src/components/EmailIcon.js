@@ -5,7 +5,7 @@ import copy from "clipboard-copy"
 import { useState } from "react"
 import { useEffect } from "react"
 
-const EmailIcon = () => {
+const EmailIcon = ({ emailAddress }) => {
   const [isAlert, setIsAlert] = useState(false)
 
   const ReturnContent = () => {
@@ -20,12 +20,12 @@ const EmailIcon = () => {
     } else {
       return (
         <img
-          title="TylerVicari@gmail.com"
+          title={emailAddress}
           src={email}
           alt="email"
           className={classes.emailImage}
           style={{ "--color": "#FBBC05" }}
-          onClick={() => copyToClipboard("tylervicari@gmail.com")}
+          onClick={() => copyToClipboard(emailAddress)}
         />
       )
     }
@@ -50,4 +50,6 @@ const EmailIcon = () => {
 
   return <ReturnContent />
 }
+
 export default EmailIcon
+

@@ -8,10 +8,9 @@ const AboutUsBio = () => {
     `A phrase that embodies the mission of Finance App. With endless information at our fingertips, too often 
   do the important things get lost or forgotten. Your money should not be one of those things.`,
 
-    `Simply having information is not always enough; more importantly is what we do with that information.`,
+    `Simply having information is not always enough; more importantly, it's what we do with that information.`,
 
-    `Finance App provides the tools necessary to successfully
-  control your personal finances. As you set budgets and goals, your performance can be easily tracked in real time. Your spending
+    `CashEd provides the tools necessary to successfully control your personal finances. As you set budgets and goals, your performance can be easily tracked in real time. Your spending
   and deposits are automatically brought into an easy to use drag and drop system that allows you to quickly get your hands on
   each transaction and categorize them appropriately. A deep understanding of your spending habits and overall financial health 
   will be gained through the use of simple, yet powerful, tools such as spending forecast calculators, beautiful charts, and more.`,
