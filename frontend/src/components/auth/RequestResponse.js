@@ -5,7 +5,7 @@ import FormFooter from "./FormFooter"
 
 /**
  * @description The message displayed to users following various authentication requests made by them
- * @param {string} type - the type of request that was made, used to determine the appropriate response
+ * @param {("user recover"|"password reset"|"contact us")} type - the type of request that was made, used to determine the appropriate response
  * @example <RequestResponse type="user recovery" />
  * @returns {JSX.Element} - the appropriate response to the user's request
  */
@@ -23,11 +23,11 @@ const RequestResponse = ({ type }) => {
       text = "Thank you for contacting us!\nWe will be in touch :)"
       break
     default:
-      text = ""
+      throw new Error("Invalid request type")
   }
 
   const footerData =
-    type === "contact"
+    type === "contact us"
       ? {
           topLink: {
             to: "/register",
