@@ -33,7 +33,6 @@ const RegisterFormPt1 = ({ submitHandler, user }) => {
   let errorList = []
 
   const formSubmissionHandler = async (e) => {
-    console.log("form submitted")
     e.preventDefault()
     resetErrors(errors, setErrors)
 
@@ -82,7 +81,6 @@ const RegisterFormPt1 = ({ submitHandler, user }) => {
       }
       // Handle any input errors
       if (errorList.length > 0) {
-        console.log(errorList)
         errorList.forEach((error) => {
           setError(
             {
@@ -97,7 +95,6 @@ const RegisterFormPt1 = ({ submitHandler, user }) => {
       }
       // submit the state to the parent component if all checks pass
       else {
-        console.log("submitting")
         submitHandler({
           emailAddress: emailAddress,
           password: password,

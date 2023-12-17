@@ -56,8 +56,7 @@ describe("RegisterFormPt1", () => {
 
   test("calls submitHandler when form is submitted", async () => {
     renderComponent()
-    const email = updateInputs().emailInput
-    console.log(email.value)
+    updateInputs()
 
     const submitButton = screen.getByRole("button", { name: /next/i })
     fireEvent.click(submitButton)
