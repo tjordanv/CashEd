@@ -12,7 +12,7 @@ export const handlers = [
     "http://localhost:8080/auth/checkUsernameAvailability",
     (req, res, ctx) => {
       const username = req.url.searchParams.get("username")
-      return res(ctx.status(200), ctx.json(username === "user"))
+      return res(ctx.status(200), ctx.json(username !== "user"))
     }
   ),
   rest.post("http://localhost:8080/auth/register", (req, res, ctx) => {

@@ -6,7 +6,7 @@ import PasswordInput, {
   validatePassword
 } from "../../uiComponents/PasswordInput"
 import classes from "./Auth.module.css"
-import { InputError } from "../../utils/inputErrors"
+import { InputError, setError, resetErrors } from "../../utils/inputErrors"
 import FetchError from "../../utils/fetchError"
 import FormFooter from "./FormFooter"
 import FormButton from "../../uiComponents/FormButton"
@@ -60,27 +60,9 @@ const PasswordResetForm = ({ setIsResetHandler }) => {
   })
   let errorList = []
 
-  const setErrorHandler = (error) => {
-    setErrors((prevState) => ({
-      ...prevState,
-      [error.inputField]: { isError: error.isError, message: error.message }
-    }))
-  }
-  const resetErrors = () => {
-    // reset any previous errors upon resubmission
-    const tempErrors = { ...errors }
-    for (const errorKey in tempErrors) {
-      tempErrors[errorKey] = {
-        isError: false,
-        message: ""
-      }
-    }
-    setErrors(tempErrors)
-  }
-
   const resetPassword = async (e) => {
     e.preventDefault()
-    resetErrors()
+    resetErrors(errors, setErrors)
     setIsLoading(true)
 
     try {
@@ -100,11 +82,14 @@ const PasswordResetForm = ({ setIsResetHandler }) => {
 
       if (errorList.length > 0) {
         errorList.forEach((error) => {
-          setErrorHandler({
-            inputField: error.getInputName(),
-            isError: true,
-            message: error.getMessage()
-          })
+          setError(
+            {
+              inputField: error.getInputName(),
+              isError: true,
+              message: error.getMessage()
+            },
+            setErrors
+          )
         })
         throw new InputError()
       }
@@ -156,7 +141,7 @@ const PasswordResetForm = ({ setIsResetHandler }) => {
           error={errors.confirmPassword}
           isConfirmation={true}
         />
-        <FormButton label="Create Account" type="submit" />
+        <FormButton label="Reset Password" type="submit" />
         {isLoading && <CircularProgress className={classes.loader} />}
         <ErrorMessage message={message} />
       </form>

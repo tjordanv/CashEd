@@ -14,6 +14,9 @@ const renderComponent = () => {
     </BrowserRouter>
   )
 }
+/* this updates the inputs and returns them so they can be tested. the parameters are used to test different scenarios,
+if they are not provided, the default values are used but if they are true, an invalid input is used. 
+*/
 const updateInputs = (emailTaken, invalidPassword, nonMatchingPassword) => {
   const emailInput = screen.getByLabelText(/Email Address/i)
   fireEvent.change(emailInput, {
@@ -31,16 +34,22 @@ const updateInputs = (emailTaken, invalidPassword, nonMatchingPassword) => {
   return { emailInput, passwordInput, confirmPasswordInput }
 }
 
+const submit = () => {
+  const submitButton = screen.getByRole("button", { name: /next/i })
+  fireEvent.click(submitButton)
+}
+
 describe("RegisterFormPt1", () => {
   test("renders all elements", () => {
     renderComponent()
     const emailInput = screen.getByLabelText(/Email Address/i)
-    expect(emailInput).toBeInTheDocument()
     const passwordInput = screen.getAllByLabelText(/Password/i)[0]
-    expect(passwordInput).toBeInTheDocument()
     const confirmPasswordInput = screen.getByLabelText(/Confirm Password/i)
-    expect(confirmPasswordInput).toBeInTheDocument()
     const submitButton = screen.getByRole("button", { name: /next/i })
+
+    expect(emailInput).toBeInTheDocument()
+    expect(passwordInput).toBeInTheDocument()
+    expect(confirmPasswordInput).toBeInTheDocument()
     expect(submitButton).toBeInTheDocument()
   })
 
@@ -57,9 +66,7 @@ describe("RegisterFormPt1", () => {
   test("calls submitHandler when form is submitted", async () => {
     renderComponent()
     updateInputs()
-
-    const submitButton = screen.getByRole("button", { name: /next/i })
-    fireEvent.click(submitButton)
+    submit()
 
     await waitFor(() => {
       expect(submitHandler).toHaveBeenCalled()
@@ -68,10 +75,8 @@ describe("RegisterFormPt1", () => {
 
   test("shows email taken", async () => {
     renderComponent()
-    updateInputs({ emailTaken: true })
-
-    const submitButton = screen.getByRole("button", { name: /next/i })
-    fireEvent.click(submitButton)
+    updateInputs(true)
+    submit()
 
     await waitFor(() => {
       expect(
@@ -83,9 +88,7 @@ describe("RegisterFormPt1", () => {
   test("shows password is invalid", async () => {
     renderComponent()
     updateInputs(false, true)
-
-    const submitButton = screen.getByRole("button", { name: /next/i })
-    fireEvent.click(submitButton)
+    submit()
 
     await waitFor(() => {
       expect(
@@ -99,9 +102,7 @@ describe("RegisterFormPt1", () => {
   test("shows passwords must match", async () => {
     renderComponent()
     updateInputs(false, false, true)
-
-    const submitButton = screen.getByRole("button", { name: /next/i })
-    fireEvent.click(submitButton)
+    submit()
 
     await waitFor(() => {
       expect(screen.getByText(/Passwords must match./i)).toBeInTheDocument()
