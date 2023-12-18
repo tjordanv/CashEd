@@ -37,5 +37,14 @@ export const handlers = [
         return res(ctx.status(200))
       }
     })
+  }),
+  rest.put("http://localhost:8080/auth/updatePassword", (req, res, ctx) => {
+    return req.json().then((data) => {
+      if (data.id === "1" && data.password === "newPassword1!") {
+        return res(ctx.status(200), ctx.json(true))
+      } else {
+        return res(ctx.status(200), ctx.json(false))
+      }
+    })
   })
 ]

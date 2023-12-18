@@ -59,7 +59,6 @@ const PasswordResetForm = ({ setIsResetHandler }) => {
     confirmPassword: { isError: false, message: "" }
   })
   let errorList = []
-
   const resetPassword = async (e) => {
     e.preventDefault()
     resetErrors(errors, setErrors)
@@ -108,6 +107,7 @@ const PasswordResetForm = ({ setIsResetHandler }) => {
         const responseJson = await response.json()
         if (responseJson === true) {
           setIsResetHandler(true)
+        } else {
         }
       }
     } catch (error) {
