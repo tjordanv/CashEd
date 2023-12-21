@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react"
+import { render, screen, fireEvent, waitFor } from "@testing-library/react"
 import UserLookup from "./UserLookup"
 import { BrowserRouter } from "react-router-dom"
 
@@ -56,18 +56,62 @@ describe("UserLookup", () => {
     expect(nextButton).toBeInTheDocument()
   })
 
-  test("calls setUserHandler when form is submitted", () => {
+  test("calls setUserHandler when form is submitted (password reset)", async () => {
     const isPasswordReset = true
     renderComponent(isPasswordReset)
 
     const { emailInput, usernameInput } = updateInputs(isPasswordReset)
     submit()
 
-    expect(setUserHandler).toHaveBeenCalled()
-    expect(setUserHandler).toHaveBeenCalledWith({
-      email: emailInput.value,
-      username: usernameInput.value,
-      id: 2
+    await waitFor(() => {
+      expect(setUserHandler).toHaveBeenCalled()
+    })
+    await waitFor(() => {
+      expect(setUserHandler).toHaveBeenCalledWith({
+        email: emailInput.value,
+        username: usernameInput.value,
+        id: 2
+      })
+    })
+  })
+  test("calls setUserHandler when form is submitted", async () => {
+    const isPasswordReset = false
+    renderComponent(isPasswordReset)
+
+    const { emailInput } = updateInputs(isPasswordReset)
+    submit()
+
+    await waitFor(() => {
+      expect(setUserHandler).toHaveBeenCalled()
+    })
+    await waitFor(() => {
+      expect(setUserHandler).toHaveBeenCalledWith({
+        email: emailInput.value,
+        username: "",
+        id: 1
+      })
+    })
+  })
+  test("shows email not found", async () => {
+    const isPasswordReset = false
+    renderComponent(isPasswordReset)
+
+    updateInputs(isPasswordReset, true)
+    submit()
+
+    await waitFor(() => {
+      expect(screen.getByText(/Email not found./i)).toBeInTheDocument()
+    })
+  })
+  test("shows username not found", async () => {
+    const isPasswordReset = true
+    renderComponent(isPasswordReset)
+
+    updateInputs(isPasswordReset, false, true)
+    submit()
+
+    await waitFor(() => {
+      expect(screen.getByText(/User not found./i)).toBeInTheDocument()
     })
   })
 })

@@ -1,10 +1,10 @@
-## Frontend
+# Frontend
 
 Refer to the [JSDoc Index File](./docs/index.html) for detailed documentation on the frontend code. The JSDoc Index File provides a comprehensive overview of the codebase, including detailed explanations of each function, class, and module. To use the JSDoc Index File, simply open it in a web browser and navigate through the documentation to find the information you need.
 
-## Unit Testing
+# Unit Testing
 
-### Usage of BrowserRouter
+## Usage of BrowserRouter
 
 In [RegisterFormPt1](./src/components/auth/RegisterFormPt1.test.js), the `BrowserRouter` component from the `react-router-dom` library is used to provide routing functionalityThe `BrowserRouter` component wraps the component being tested and enables navigation between different routes within the application.
 
@@ -54,7 +54,7 @@ const renderComponent = () => {
   })
 ```
 
-### Usage of createMemoryRouter in unit tests
+## Usage of createMemoryRouter in unit tests
 
 In [PasswordResetForm](./src/components/auth/PasswordResetForm.test.js), the `createMemoryRouter` function is used to create a memory router for testing purposes. This allows the test to simulate navigation within the application without actually changing the URL. This is necessary because that component relies on the useLoaderData hook, which must be wrapped in a data/memory router.
 

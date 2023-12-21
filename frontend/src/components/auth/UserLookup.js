@@ -29,20 +29,19 @@ const UserLookup = ({ setUserHandler, isPasswordReset }) => {
       emailAddress: emailAddress
     }
     if (isPasswordReset) params.username = username
-    console.log(params)
+
     try {
-      console.log("trying")
       // This API call will return 0 if the user is not found
       const response = await fetch(
         `http://localhost:8080/auth/getUserIdByEmailAndUsername?${new URLSearchParams(
           params
         )}`,
         {
+          method: "GET",
           mode: "cors",
           headers: { "Content-Type": "application/json" }
         }
       )
-
       if (!response.ok) throw await FetchError.fromResponse(response)
 
       const userId = await response.json()
@@ -62,7 +61,6 @@ const UserLookup = ({ setUserHandler, isPasswordReset }) => {
         setErrors(errorObject)
       }
     } catch (error) {
-      console.log(error)
       setErrorMessage(error.message)
     }
   }
