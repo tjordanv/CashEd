@@ -7,6 +7,12 @@ import UsernameInput from "../../uiComponents/UsernameInput"
 import FormButton from "../../uiComponents/FormButton"
 import FormFooter from "./FormFooter"
 
+/**
+ * @description UserLookup component for user authentication.
+ * @param {Function} setUserHandler - The function to handle user data.
+ * @param {boolean} isPasswordReset - Flag indicating if it's a password reset.
+ * @returns {JSX.Element} The rendered UserLookup component.
+ */
 const UserLookup = ({ setUserHandler, isPasswordReset }) => {
   const [emailAddress, setEmailAddress] = useState("")
   const [username, setUsername] = useState("")
@@ -23,8 +29,9 @@ const UserLookup = ({ setUserHandler, isPasswordReset }) => {
       emailAddress: emailAddress
     }
     if (isPasswordReset) params.username = username
-
+    console.log(params)
     try {
+      console.log("trying")
       // This API call will return 0 if the user is not found
       const response = await fetch(
         `http://localhost:8080/auth/getUserIdByEmailAndUsername?${new URLSearchParams(
@@ -55,6 +62,7 @@ const UserLookup = ({ setUserHandler, isPasswordReset }) => {
         setErrors(errorObject)
       }
     } catch (error) {
+      console.log(error)
       setErrorMessage(error.message)
     }
   }

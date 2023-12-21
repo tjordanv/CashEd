@@ -46,5 +46,21 @@ export const handlers = [
         return res(ctx.status(200), ctx.json(false))
       }
     })
-  })
+  }),
+  rest.get(
+    "http://localhost:8080/auth/getUserIdByEmailAndUsername",
+    (req, res, ctx) => {
+      console.log("fetching")
+      const email = req.url.searchParams.get("emailAddress")
+      const username = req.url.searchParams.get("username")
+      console.log(email, username)
+      if (email === "taken@email.com" && !username) {
+        return res(ctx.status(200), ctx.json(1))
+      } else if (email === "taken@email.com" && username === "user") {
+        return res(ctx.status(200), ctx.json(2))
+      } else {
+        return res(ctx.status(200), ctx.json(0))
+      }
+    }
+  )
 ]
