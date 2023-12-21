@@ -158,6 +158,27 @@ describe("FormFooter", () => {
     expect(
       screen.getByRole("link", { name: /Forgot Password/i })
     ).toBeInTheDocument()
-    expect(screen.getByLabeText(/This is a tooltip/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/This is a tooltip/i)).toBeInTheDocument()
+  })
+  test("renders top and bottom link with correct href", () => {
+    const data = {
+      topLink: {
+        to: "/register",
+        text: "Create an Account"
+      },
+      bottomLink: {
+        to: "/login",
+        text: "Cancel"
+      }
+    }
+    renderContent(data)
+
+    expect(
+      screen.getByRole("link", { name: /Create an account?/i })
+    ).toHaveAttribute("href", "/register")
+    expect(screen.getByRole("link", { name: /Cancel/i })).toHaveAttribute(
+      "href",
+      "/login"
+    )
   })
 })
