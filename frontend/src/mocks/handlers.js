@@ -60,5 +60,33 @@ export const handlers = [
         return res(ctx.status(200), ctx.json(0))
       }
     }
+  ),
+  rest.get(
+    "http://localhost:8080/auth/getSecurityQuestions",
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json([
+          {
+            id: 1,
+            question: "What is your favorite color?"
+          },
+          {
+            id: 2,
+            question: "What is your favorite food?"
+          },
+          {
+            id: 3,
+            question: "What is your favorite animal?"
+          }
+        ])
+      )
+    }
+  ),
+  rest.post(
+    "http://localhost:8080/saveSecurityQuestionAnswer",
+    (req, res, ctx) => {
+      return res(ctx.status(201))
+    }
   )
 ]

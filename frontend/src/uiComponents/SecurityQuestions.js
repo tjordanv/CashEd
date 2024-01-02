@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react"
-
 import FetchError from "../utils/fetchError"
 import classes from "./InputFields.module.css"
-
 import InputLabel from "@mui/material/InputLabel"
 import MenuItem from "@mui/material/MenuItem"
 import FormControl from "@mui/material/FormControl"
@@ -75,7 +73,7 @@ const SecurityQuestions = ({ question, userId, setQuestionHandler }) => {
       }
     }
     getSecurityQuestions()
-  }, [])
+  }, [userId])
 
   return (
     <FormControl fullWidth>
@@ -96,7 +94,7 @@ const SecurityQuestions = ({ question, userId, setQuestionHandler }) => {
               id={classes.questions}
               key={securityQuestion.id}
               value={securityQuestion}
-              divider="true"
+              divider={true}
             >
               {securityQuestion.question}
             </MenuItem>
