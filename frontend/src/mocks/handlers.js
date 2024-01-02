@@ -88,5 +88,37 @@ export const handlers = [
     (req, res, ctx) => {
       return res(ctx.status(201))
     }
-  )
+  ),
+  rest.get(
+    "http://localhost:8080/auth/getActiveSecurityQuestionAnswersByUserId",
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json([
+          {
+            id: 1,
+            question: "What is your favorite color?"
+          },
+          {
+            id: 2,
+            question: "What is your favorite food?"
+          },
+          {
+            id: 3,
+            question: "What is your favorite animal?"
+          }
+        ])
+      )
+    }
+  ),
+  rest.get("http://localhost:8080/auth/validateAnswer", (req, res, ctx) => {
+    const answer = req.url.searchParams.get("answerProvided")
+    return res(ctx.status(200), ctx.json(answer === "correct answer"))
+  }),
+  rest.get("http://localhost:8080/auth/usernameRecovery", (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(true))
+  }),
+  rest.get("http://localhost:8080/auth/resetPassword", (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(true))
+  })
 ]
