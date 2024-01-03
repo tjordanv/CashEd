@@ -155,4 +155,20 @@ describe("SecurityQandA", () => {
       expect(setIsAuthenticatedHandler).toHaveBeenCalled()
     })
   })
+  test("displays error message when user submits incorrect answer", async () => {
+    renderComponent({
+      type: "forgot password",
+      user: { username: "user", email: "email@mail.com", id: 1 }
+    })
+    await waitFor(async () => {
+      await updateInputs(true)
+      submit()
+    })
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("Answer is incorrect, please try again.")
+      ).toBeInTheDocument()
+    })
+  })
 })
