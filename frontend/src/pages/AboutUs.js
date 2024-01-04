@@ -7,26 +7,17 @@ import teamMembers from "../components/TeamData"; // Update the path accordingly
 
 const AboutUs = () => {
   const [isCreator, setIsCreator] = useState(false);
-  const [selectedCreator, setSelectedCreator] = useState(null);
-
-  const handleCreatorSelect = (index) => {
-    const selectedCreator = teamMembers[index];
-    setSelectedCreator(selectedCreator);
-  };
 
   return (
     <div className={classes.container}>
       <AboutUsSelector
         isCreator={isCreator}
         setIsCreator={setIsCreator}
-        onCreatorSelect={handleCreatorSelect}
       />
       {isCreator ? (
-        selectedCreator ? (
-          <BioCard member={selectedCreator} />
-        ) : (
-          <AboutUsBio />
-        )
+        teamMembers.map((member, index) => (
+          <BioCard key={index} member={member} />
+        ))
       ) : (
         <AboutUsBio />
       )}

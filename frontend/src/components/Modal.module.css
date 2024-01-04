@@ -1,0 +1,27 @@
+/* Modal.module.css */
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 10;
+  }
+  
+  .modal {
+    position: fixed;
+    top: 20vh;
+    left: 10%;
+    width: 80%;
+    background: white;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px black;
+    z-index: 100;
+  }
+  
+  .content {
+    margin: 1rem;
+  }
+  
