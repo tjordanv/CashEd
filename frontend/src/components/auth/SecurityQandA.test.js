@@ -1,7 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react"
 import { createMemoryRouter, RouterProvider } from "react-router-dom"
 import SecurityQandA from "./SecurityQandA"
-import { act } from "react-dom/test-utils"
 
 const setIsAuthenticatedHandler = jest.fn()
 

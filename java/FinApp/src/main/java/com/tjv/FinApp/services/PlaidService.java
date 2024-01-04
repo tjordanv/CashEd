@@ -190,8 +190,8 @@ public class PlaidService {
                 .clientName("CashEd Financial")
                 .products(Arrays.asList(Products.TRANSACTIONS))
                 .countryCodes(Arrays.asList(CountryCode.US))
-                .language("en")
-                .redirectUri("http://localhost:3000/");
+                .language("en");
+//                .redirectUri("http://localhost:3000/");
 
         Response<LinkTokenCreateResponse> response = plaidClient
                 .linkTokenCreate(request)
@@ -212,14 +212,12 @@ public class PlaidService {
     public List<Account> exchangePublicToken(Principal principal, String token) throws Exception {
         ItemPublicTokenExchangeRequest request = new ItemPublicTokenExchangeRequest().publicToken(token);
         Response<ItemPublicTokenExchangeResponse> response = plaidClient.itemPublicTokenExchange(request).execute();
-        System.out.println(token);
         String accessToken = "not found";
 
         if (response.isSuccessful()) {
             accessToken = response.body().getAccessToken();
         }
         int userId = userDao.getUserIdByUsername(principal);
-        System.out.println("token: " + accessToken + "\nuser id: " +  userId);
 
         String sql = "INSERT INTO access_tokens (token, user_id) VALUES (?, ?) RETURNING ID";
 
@@ -243,14 +241,14 @@ public class PlaidService {
 
             if (!isExistingAccount.next()) {
                 SqlRowSet isExistingLogo = jdbcTemplate.queryForRowSet(getLogoQuery, inst.getLogo());
-                int logoId;
+                Integer logoId = null;
                 if (isExistingLogo.next()) {
                     logoId = isExistingLogo.getInt("id");
-                } else {
+                } else if (inst.getLogo() != null) {
                     logoId = jdbcTemplate.queryForObject(insertLogoQuery, Integer.class, inst.getLogo());
                 }
 
-                int accountId = jdbcTemplate.queryForObject(insertAccountQuery, Integer.class, account.getAccountId(), tokenId, userId,
+                Integer accountId = jdbcTemplate.queryForObject(insertAccountQuery, Integer.class, account.getAccountId(), tokenId, userId,
                         account.getName(), account.getOfficialName(), account.getMask(), account.getSubtype().getValue(), logoId);
 
                 Account acc = new Account();

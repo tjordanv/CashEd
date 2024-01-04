@@ -8,6 +8,7 @@ import AccountCardsList from "../components/accounts/AccountCardsList"
 import classes from "./Accounts.module.css"
 import AddCircleIcon from "@mui/icons-material/AddCircle"
 
+// loads the user's accounts from the database
 const accountsLoader = async () => {
   try {
     const response = await fetcher("http://localhost:8080/getAccounts")
@@ -21,6 +22,7 @@ const accountsLoader = async () => {
   }
 }
 export { accountsLoader }
+
 const Accounts = () => {
   const [token, setToken] = useState(null)
   const [data, setData] = useState(null)
@@ -28,6 +30,7 @@ const Accounts = () => {
   const [accounts, setAccounts] = useState(useLoaderData())
   const [newAccounts, setNewAccounts] = useState([])
 
+  // saves the nickname of an account to the database
   const saveAccountHandler = async (id, nickname) => {
     const checkAccounts = async (accountsArray, setAccountHandler) => {
       if (!accountsArray) return false
@@ -70,6 +73,7 @@ const Accounts = () => {
     }
   }
 
+  // handles "removing" an account from the database. The account is not actually removed, but is instead is_deleted is set to true
   const removeAccountHandler = async (id) => {
     try {
       const response = await fetcher(
@@ -105,8 +109,8 @@ const Accounts = () => {
     }
   }
 
+  // exchanges and stores the public token for an access token and new account information when the user successfully completes the Plaid Link flow
   const onSuccess = useCallback(async (publicToken, metadata) => {
-    //console.log("publicToken: " + publicToken)
     setLoading(true)
     const accessTokenResponse = await fetcher(
       "http://localhost:8080/exchangePublicToken",
@@ -121,7 +125,8 @@ const Accounts = () => {
       }
     )
     const accessTokenResponseJson = await accessTokenResponse.json()
-    accessTokenResponseJson.forEach((account) => (account.isSelected = true))
+    accessTokenResponseJson.forEach((account) => (account.isSelected = true)) // ???
+    setAccounts((accounts) => [...accounts, ...newAccounts])
     setNewAccounts(accessTokenResponseJson)
   }, [])
 
@@ -137,9 +142,6 @@ const Accounts = () => {
     const data = await response.json()
     setToken(data.token)
   }, [setToken])
-
-  // Select and save accounts
-  const saveAccounts = () => {}
 
   // Fetch balance data
   const getBalance = useCallback(
@@ -164,29 +166,7 @@ const Accounts = () => {
     [setData, setLoading]
   )
 
-  // Fetch Transactions
-  const getTransactions = useCallback(
-    async (accessToken) => {
-      setLoading(true)
-      const response = await fetcher(
-        `http://localhost:8080/transactions?${new URLSearchParams({
-          accessToken: accessToken
-        })}`,
-        {
-          method: "GET",
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json"
-          }
-        }
-      )
-      const data = await response.json()
-      setData(data)
-      setLoading(false)
-    },
-    [setData, setLoading]
-  )
-
+  // configures the Plaid Link modal
   const config = {
     onSuccess: onSuccess,
     token: token,
@@ -197,6 +177,7 @@ const Accounts = () => {
   }
   const { open, ready } = usePlaidLink(config)
 
+  // creates a link token when the component mounts. This is necessary because the token is only valid for a short period and is required to open the Plaid Link modal
   useEffect(() => {
     const fetchData = async () => {
       if (token == null) {
@@ -248,24 +229,3 @@ const Accounts = () => {
   )
 }
 export default Accounts
-
-{
-  /* <button onClick={() => open()} disabled={!ready}>
-<strong>Link account</strong>
-</button>
-
-<button onClick={() => getBalance(accessToken)}>get balance</button>
-<button onClick={() => getTransactions(accessToken)}>
-get transactions
-</button>
-<button onClick={() => console.log("accounts: " + accounts[0])}>
-log
-</button>
-{!loading &&
-data != null &&
-Object.entries(data).map((entry, i) => (
-  <pre key={i}>
-    <code>{JSON.stringify(entry[1], null, 2)}</code>
-  </pre>
-))} */
-}
