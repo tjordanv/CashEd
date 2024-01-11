@@ -124,10 +124,15 @@ const Accounts = () => {
         })
       }
     )
-    const accessTokenResponseJson = await accessTokenResponse.json()
-    accessTokenResponseJson.forEach((account) => (account.isSelected = true)) // ???
-    setAccounts((accounts) => [...accounts, ...newAccounts])
-    setNewAccounts(accessTokenResponseJson)
+    if (!accessTokenResponse.ok) {
+      throw new FetchError.fromResponse(accessTokenResponse)
+    } else {
+      const accessTokenResponseJson = await accessTokenResponse.json()
+      accessTokenResponseJson.forEach((account) => (account.isSelected = true)) // ???
+
+      setAccounts((accounts) => [...newAccounts, ...accounts])
+      setNewAccounts(accessTokenResponseJson)
+    }
   }, [])
 
   // Creates a Link token
@@ -189,6 +194,7 @@ const Accounts = () => {
 
   return (
     <Box className={classes.container}>
+      <button onClick={() => console.log(accounts, newAccounts)}>test</button>
       <IconButton
         className={classes.addButton}
         onClick={() => open()}
