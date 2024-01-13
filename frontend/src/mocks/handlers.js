@@ -12,7 +12,7 @@ export const handlers = [
     "http://localhost:8080/auth/checkUsernameAvailability",
     (req, res, ctx) => {
       const username = req.url.searchParams.get("username")
-      return res(ctx.status(200), ctx.json(username === "user"))
+      return res(ctx.status(200), ctx.json(username !== "user"))
     }
   ),
   rest.post("http://localhost:8080/auth/register", (req, res, ctx) => {
@@ -37,5 +37,88 @@ export const handlers = [
         return res(ctx.status(200))
       }
     })
+  }),
+  rest.put("http://localhost:8080/auth/updatePassword", (req, res, ctx) => {
+    return req.json().then((data) => {
+      if (data.id === "1" && data.password === "newPassword1!") {
+        return res(ctx.status(200), ctx.json(true))
+      } else {
+        return res(ctx.status(200), ctx.json(false))
+      }
+    })
+  }),
+  rest.get(
+    "http://localhost:8080/auth/getUserIdByEmailAndUsername",
+    (req, res, ctx) => {
+      const email = req.url.searchParams.get("emailAddress")
+      const username = req.url.searchParams.get("username")
+      if (email === "taken@email.com" && !username) {
+        return res(ctx.status(200), ctx.json(1))
+      } else if (email === "taken@email.com" && username === "user") {
+        return res(ctx.status(200), ctx.json(2))
+      } else {
+        return res(ctx.status(200), ctx.json(0))
+      }
+    }
+  ),
+  rest.get(
+    "http://localhost:8080/auth/getSecurityQuestions",
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json([
+          {
+            id: 1,
+            question: "What is your favorite color?"
+          },
+          {
+            id: 2,
+            question: "What is your favorite food?"
+          },
+          {
+            id: 3,
+            question: "What is your favorite animal?"
+          }
+        ])
+      )
+    }
+  ),
+  rest.post(
+    "http://localhost:8080/saveSecurityQuestionAnswer",
+    (req, res, ctx) => {
+      return res(ctx.status(201))
+    }
+  ),
+  rest.get(
+    "http://localhost:8080/auth/getActiveSecurityQuestionAnswersByUserId",
+    (req, res, ctx) => {
+      return res(
+        ctx.status(200),
+        ctx.json([
+          {
+            id: 1,
+            question: "What is your favorite color?"
+          },
+          {
+            id: 2,
+            question: "What is your favorite food?"
+          },
+          {
+            id: 3,
+            question: "What is your favorite animal?"
+          }
+        ])
+      )
+    }
+  ),
+  rest.get("http://localhost:8080/auth/validateAnswer", (req, res, ctx) => {
+    const answer = req.url.searchParams.get("answerProvided")
+    return res(ctx.status(200), ctx.json(answer === "correct answer"))
+  }),
+  rest.get("http://localhost:8080/auth/usernameRecovery", (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(true))
+  }),
+  rest.get("http://localhost:8080/auth/resetPassword", (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(true))
   })
 ]

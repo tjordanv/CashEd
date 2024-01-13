@@ -4,6 +4,7 @@ import FetchError from "../../utils/fetchError"
 import ErrorMessage from "../../uiComponents/ErrorMessage"
 import { setError, resetErrors, InputError } from "../../utils/inputErrors"
 import UsernameInput, {
+  checkUsernameAvailability,
   validateUsername
 } from "../../uiComponents/UsernameInput"
 import NameInput, { validateName } from "../../uiComponents/NameInput"
@@ -59,29 +60,9 @@ const RegisterFormPt2 = ({ backHandler, submitHandler, user }) => {
         )
       } else {
         // once username is validated, check that it is available
-        let usernameAvailabilityResponse = await fetch(
-          `http://localhost:8080/auth/checkUsernameAvailability?${new URLSearchParams(
-            { username: username }
-          )}`,
-          {
-            method: "GET",
-            mode: "cors",
-            headers: {
-              "Content-Type": "application/json"
-            }
-          }
-        )
-        if (!usernameAvailabilityResponse.ok) {
-          throw await FetchError.fromResponse(usernameAvailabilityResponse)
-        } else if (usernameAvailabilityResponse.status === 200) {
-          const usernameAvailabilityResponseJson =
-            await usernameAvailabilityResponse.json()
-
-          if (usernameAvailabilityResponseJson === true) {
-            errorList.push(
-              new InputError("Username already taken.", "username")
-            )
-          }
+        let isUsernameAvailable = await checkUsernameAvailability(username)
+        if (!isUsernameAvailable) {
+          errorList.push(new InputError("Username already taken.", "username"))
         }
       }
 

@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>utils/inputErrors.js - Documentation</title>
+    <title>uiComponents/UsernameInput.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">utils/inputErrors.js</h1>
+    <h1 class="page-title">uiComponents/UsernameInput.js</h1>
     
 
     
@@ -47,83 +47,88 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/** @module inputError */
+            <pre class="prettyprint source linenums"><code>/**
+ * Represents the UsernameInput component.
+ * @module UsernameInput
+ */
+
+import TextField from "@mui/material/TextField"
+import classes from "./InputFields.module.css"
+import FetchError from "../utils/fetchError"
 
 /**
- * @extends Error
- * @classdesc Represents an error that occurs with input validation.
+ * @description Represents the UsernameInput component.
+ * @param {string} username - The current username value.
+ * @param {Function} setUsernameHandler - The function to handle username changes.
+ * @param {Object} error - The error object.
+ * @param {boolean} error.isError - Indicates if there is an error.
+ * @param {string} error.message - The error message.
+ * @returns {JSX.Element} The rendered UsernameInput component.
  */
-class InputError extends Error {
-  /**
-   * @constructor
-   * @description Creates a new InputError instance.
-   * @param {string} message - The error message.
-   * @param {string} inputName - The name of the input associated with the error.
-   */
-  constructor(message, inputName) {
-    super(message)
-    this.name = "InputError"
-    this.inputName = inputName
-  }
-
-  /**
-   * @description Gets the name of the input associated with the error.
-   * @returns {string} The input name.
-   */
-  getInputName() {
-    return this.inputName
-  }
-
-  /**
-   * @description Gets the error message.
-   * @returns {string} The error message.
-   */
-  getMessage() {
-    return this.message
-  }
+const UsernameInput = ({ username, setUsernameHandler, error }) => {
+  return (
+    &lt;TextField
+      required
+      variant="outlined"
+      label="Username"
+      size="small"
+      value={username}
+      onChange={(e) => setUsernameHandler(e.target.value)}
+      className={classes.inputField}
+      error={error.isError}
+      helperText={error.message}
+    />
+  )
 }
 
-export { InputError }
-
-/**
- * @function
- * @static
- * @description updates the given error inside of the given array of input errors, maintaining the state of the other errors
- * @param {object} error - the error that is being updated
- * @param {string} error.inputField - the name of the input field that is being updated
- * @param {boolean} error.isError - whether or not the input field has an error
- * @param {string} error.message - the error message that will be displayed to the user
- * @param {function} setErrorsHandler - the useState setter that controls the error state in the parent
- */
-const setError = (error, setErrorHandler) => {
-  setErrorHandler((prevState) => ({
-    ...prevState,
-    [error.inputField]: { isError: error.isError, message: error.message }
-  }))
+UsernameInput.defaultProps = {
+  error: { isError: false, message: "" }
 }
 
-export { setError }
+export default UsernameInput
 
 /**
- * @function
- * @static
- * @description Resets the given array of input errors, clearing all of the error states and setting them to not show any errors
- * @param {array} errors - the array of errors that are being reset
- * @param {function} setErrorsHandler - the useState setter that controls the error state in the parent
+ * @description Validates the username.
+ * @param {string} username - The username to validate.
+ * @returns {boolean} Returns true if the username is valid, false otherwise.
  */
-const resetErrors = (errors, setErrorsHandler) => {
-  // reset any previous errors upon resubmission
-  const tempErrors = { ...errors }
-  for (const errorKey in tempErrors) {
-    tempErrors[errorKey] = {
-      isError: false,
-      message: ""
+const validateUsername = (username) => {
+  const regex = /^[a-zA-Z0-9.,_-]{4,15}$/
+
+  if (typeof username !== "string" || username.trim().length === 0) {
+    return false
+  }
+
+  return regex.test(username.trim())
+}
+export { validateUsername }
+
+/**
+ * @description Checks the availability of a username.
+ * @param {string} username - The username to check availability for.
+ * @returns {boolean} a boolean value for whether the username is available or not false = username was found / true = username was not found.
+ * @throws {FetchError} Throws a FetchError if there is an error in the availability response.
+ */
+const checkUsernameAvailability = async (username) => {
+  const availabilityResponse = await fetch(
+    `http://localhost:8080/auth/checkUsernameAvailability?${new URLSearchParams(
+      { username: username }
+    )}`,
+    {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json"
+      }
     }
+  )
+  if (!availabilityResponse.ok) {
+    throw await FetchError.fromResponse(availabilityResponse)
+  } else if (availabilityResponse.status === 200) {
+    return await availabilityResponse.json()
   }
-  setErrorsHandler(tempErrors)
 }
-
-export { resetErrors }
+export { checkUsernameAvailability }
 </code></pre>
         </article>
     </section>

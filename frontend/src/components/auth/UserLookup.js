@@ -7,6 +7,12 @@ import UsernameInput from "../../uiComponents/UsernameInput"
 import FormButton from "../../uiComponents/FormButton"
 import FormFooter from "./FormFooter"
 
+/**
+ * @description UserLookup component for user authentication.
+ * @param {Function} setUserHandler - The function to handle user data.
+ * @param {boolean} isPasswordReset - Flag indicating if it's a password reset.
+ * @returns {JSX.Element} The rendered UserLookup component.
+ */
 const UserLookup = ({ setUserHandler, isPasswordReset }) => {
   const [emailAddress, setEmailAddress] = useState("")
   const [username, setUsername] = useState("")
@@ -31,11 +37,11 @@ const UserLookup = ({ setUserHandler, isPasswordReset }) => {
           params
         )}`,
         {
+          method: "GET",
           mode: "cors",
           headers: { "Content-Type": "application/json" }
         }
       )
-
       if (!response.ok) throw await FetchError.fromResponse(response)
 
       const userId = await response.json()

@@ -3,7 +3,6 @@ import TransactionCategory from "./TransactionCategory"
 import fetcher from "../../utils/fetchAuthorize"
 import FetchError from "../../utils/fetchError"
 
-// This will ultimately be an async function to fetch the data from the DB
 const TransactionSubcategoriesImportLoader = async () => {
   let subcategories = [[], [], [], []]
   try {

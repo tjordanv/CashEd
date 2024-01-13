@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useEffect, useReducer, useState } from "react"
 import { usePlaidLink } from "react-plaid-link"
 import fetcher from "../utils/fetchAuthorize"
 import { Box, Chip, Divider, IconButton, List, Typography } from "@mui/material"
@@ -8,6 +8,7 @@ import AccountCardsList from "../components/accounts/AccountCardsList"
 import classes from "./Accounts.module.css"
 import AddCircleIcon from "@mui/icons-material/AddCircle"
 
+// loads the user's accounts from the database
 const accountsLoader = async () => {
   try {
     const response = await fetcher("http://localhost:8080/getAccounts")
@@ -21,55 +22,162 @@ const accountsLoader = async () => {
   }
 }
 export { accountsLoader }
+
 const Accounts = () => {
   const [token, setToken] = useState(null)
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [accounts, setAccounts] = useState(useLoaderData())
-  const [newAccounts, setNewAccounts] = useState([])
 
-  const saveAccountHandler = async (id, nickname) => {
-    const checkAccounts = async (accountsArray, setAccountHandler) => {
-      if (!accountsArray) return false
-
-      let tempAccounts = accountsArray
-      for (let i = 0; i < tempAccounts.length; i++) {
-        if (tempAccounts[i].id === id) {
-          tempAccounts[i].nickname = nickname
-          // make api request to save updated account
-          const response = await fetcher(
-            `http://localhost:8080/updateAccount?${new URLSearchParams({
-              id: id,
-              nickname: nickname
-            })}`,
-            {
-              method: "PUT",
-              mode: "cors",
-              headers: { "Content-Type": "application/json" }
-            }
-          )
-          if (!response.ok) {
-            throw new FetchError.fromResponse(response)
-          } else if (response.status === 200) {
-            if (!response.json()) {
-              throw new Error("Account not updated")
-            } else {
-              setAccountHandler(tempAccounts)
-              return true
-            }
-          }
+  const accountsReducer = (state, action) => {
+    let tempAccounts
+    switch (action.type) {
+      case "new accounts":
+        return {
+          accounts: [...state.accounts, ...state.newAccounts],
+          newAccounts: action.payload
         }
-      }
-      return false
-    }
+      case "delete account":
+        tempAccounts = state.newAccounts.filter(
+          (account) => account.id !== action.payload
+        )
+        // if nothing was filtered out, then the account was not in the newAccounts array but rather the accounts array.
+        if (tempAccounts.length === state.newAccounts.length) {
+          tempAccounts = state.accounts.filter(
+            (account) => account.id !== action.payload
+          )
+          return { ...state, accounts: tempAccounts }
+        } else {
+          return { ...state, newAccounts: tempAccounts }
+        }
+      case "save account":
+        tempAccounts = state.newAccounts
+        let isAccountFound = tempAccounts.some((account) => {
+          if (account.id === action.payload.id) {
+            account.nickname = action.payload.nickname
+            return true
+          }
+          return false
+        })
+        if (isAccountFound) {
+          return { ...state, newAccounts: tempAccounts }
+        }
 
-    if (await checkAccounts(newAccounts, setNewAccounts)) {
-      return
-    } else {
-      await checkAccounts(accounts, setAccounts)
+        tempAccounts = state.accounts
+        isAccountFound = tempAccounts.some((account) => {
+          if (account.id === action.payload.id) {
+            account.nickname = action.payload.nickname
+            return true
+          }
+          return false
+        })
+        if (isAccountFound) {
+          return { ...state, accounts: tempAccounts }
+        }
+        break
+      default:
+        return state
     }
   }
 
+  const [accountsState, dispatch] = useReducer(accountsReducer, {
+    accounts: useLoaderData(),
+    newAccounts: []
+  })
+
+  // saves the nickname of an account to the database
+  const saveAccountHandler = async (id, nickname) => {
+    // handles making the api request to save the account
+    const saveAccount = async (id, nickname) => {
+      const response = await fetcher(
+        `http://localhost:8080/updateAccount?${new URLSearchParams({
+          id: id,
+          nickname: nickname
+        })}`,
+        {
+          method: "PUT",
+          mode: "cors",
+          headers: { "Content-Type": "application/json" }
+        }
+      )
+      if (!response.ok) {
+        throw new FetchError.fromResponse(response)
+      } else if (response.status === 200) {
+        if (!response.json()) {
+          throw new Error("Account not updated")
+        } else {
+          // update the accounts state
+          dispatch({
+            type: "save account",
+            payload: { id: id, nickname: nickname }
+          })
+          return true
+        }
+      }
+    }
+    let isAccountFound = accountsState.newAccounts.some((account) => {
+      if (account.id === id) {
+        saveAccount(id, nickname)
+        return true
+      }
+      return false
+    })
+    if (isAccountFound) {
+      return
+    } else {
+      isAccountFound = accountsState.accounts.some((account) => {
+        if (account.id === id) {
+          saveAccount(id, nickname)
+          return true
+        }
+        return false
+      })
+      if (isAccountFound) {
+        return
+      }
+    }
+
+    // const checkAccounts = async (accountsArray, setAccountHandler) => {
+    //   if (!accountsArray) return false
+
+    //   let tempAccounts = accountsArray
+    //   for (let i = 0; i < tempAccounts.length; i++) {
+    //     if (tempAccounts[i].id === id) {
+    //       tempAccounts[i].nickname = nickname
+    //       // make api request to save updated account
+    //       const response = await fetcher(
+    //         `http://localhost:8080/updateAccount?${new URLSearchParams({
+    //           id: id,
+    //           nickname: nickname
+    //         })}`,
+    //         {
+    //           method: "PUT",
+    //           mode: "cors",
+    //           headers: { "Content-Type": "application/json" }
+    //         }
+    //       )
+    //       if (!response.ok) {
+    //         throw new FetchError.fromResponse(response)
+    //       } else if (response.status === 200) {
+    //         if (!response.json()) {
+    //           throw new Error("Account not updated")
+    //         } else {
+    //           setAccountHandler(tempAccounts)
+    //           return true
+    //         }
+    //       }
+    //     }
+    //   }
+    //   return false
+    // }
+
+    // if (await checkAccounts(newAccounts, setNewAccounts)) {
+    //   return
+    // } else {
+    //   await checkAccounts(accounts, setAccounts)
+    // }
+  }
+
+  // handles "removing" an account from the database. The account is not actually removed, but is instead is_deleted is set to true
   const removeAccountHandler = async (id) => {
     try {
       const response = await fetcher(
@@ -88,16 +196,7 @@ const Accounts = () => {
         if (!response.json()) {
           throw new Error("Account not deleted")
         } else {
-          const tempAccounts = newAccounts.filter(
-            (account) => account.id !== id
-          )
-          if (tempAccounts.length === newAccounts.length) {
-            const tempAccounts = accounts.filter((account) => account.id !== id)
-
-            setAccounts(tempAccounts)
-          } else {
-            setNewAccounts(tempAccounts)
-          }
+          dispatch({ type: "delete account", payload: id })
         }
       }
     } catch (error) {
@@ -105,8 +204,8 @@ const Accounts = () => {
     }
   }
 
+  // exchanges and stores the public token for an access token and new account information when the user successfully completes the Plaid Link flow
   const onSuccess = useCallback(async (publicToken, metadata) => {
-    //console.log("publicToken: " + publicToken)
     setLoading(true)
     const accessTokenResponse = await fetcher(
       "http://localhost:8080/exchangePublicToken",
@@ -120,9 +219,12 @@ const Accounts = () => {
         })
       }
     )
-    const accessTokenResponseJson = await accessTokenResponse.json()
-    accessTokenResponseJson.forEach((account) => (account.isSelected = true))
-    setNewAccounts(accessTokenResponseJson)
+    if (!accessTokenResponse.ok) {
+      throw new FetchError.fromResponse(accessTokenResponse)
+    } else {
+      const accessTokenResponseJson = await accessTokenResponse.json()
+      dispatch({ type: "new accounts", payload: accessTokenResponseJson })
+    }
   }, [])
 
   // Creates a Link token
@@ -137,9 +239,6 @@ const Accounts = () => {
     const data = await response.json()
     setToken(data.token)
   }, [setToken])
-
-  // Select and save accounts
-  const saveAccounts = () => {}
 
   // Fetch balance data
   const getBalance = useCallback(
@@ -164,29 +263,7 @@ const Accounts = () => {
     [setData, setLoading]
   )
 
-  // Fetch Transactions
-  const getTransactions = useCallback(
-    async (accessToken) => {
-      setLoading(true)
-      const response = await fetcher(
-        `http://localhost:8080/transactions?${new URLSearchParams({
-          accessToken: accessToken
-        })}`,
-        {
-          method: "GET",
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json"
-          }
-        }
-      )
-      const data = await response.json()
-      setData(data)
-      setLoading(false)
-    },
-    [setData, setLoading]
-  )
-
+  // configures the Plaid Link modal
   const config = {
     onSuccess: onSuccess,
     token: token,
@@ -197,6 +274,7 @@ const Accounts = () => {
   }
   const { open, ready } = usePlaidLink(config)
 
+  // creates a link token when the component mounts. This is necessary because the token is only valid for a short period and is required to open the Plaid Link modal
   useEffect(() => {
     const fetchData = async () => {
       if (token == null) {
@@ -208,6 +286,13 @@ const Accounts = () => {
 
   return (
     <Box className={classes.container}>
+      <button
+        onClick={() =>
+          console.log(accountsState.accounts, accountsState.newAccounts)
+        }
+      >
+        test
+      </button>
       <IconButton
         className={classes.addButton}
         onClick={() => open()}
@@ -221,7 +306,7 @@ const Accounts = () => {
       <Box className={classes.accounts}>
         <Typography variant="h6">Connected Accounts</Typography>
         <List className={classes.accountsList}>
-          {newAccounts.length > 0 && (
+          {accountsState.newAccounts.length > 0 && (
             <Box>
               <Divider sx={{ width: "500px", margin: "5px" }}>
                 <Chip label="NEW" />
@@ -229,15 +314,15 @@ const Accounts = () => {
             </Box>
           )}
           <AccountCardsList
-            accounts={newAccounts}
+            accounts={accountsState.newAccounts}
             removeAccountHandler={removeAccountHandler}
             saveAccountHandler={saveAccountHandler}
           />
-          {newAccounts.length > 0 && (
+          {accountsState.newAccounts.length > 0 && (
             <Divider sx={{ width: "500px", margin: "20px" }} />
           )}
           <AccountCardsList
-            accounts={accounts}
+            accounts={accountsState.accounts}
             removeAccountHandler={removeAccountHandler}
             saveAccountHandler={saveAccountHandler}
           />
@@ -248,24 +333,3 @@ const Accounts = () => {
   )
 }
 export default Accounts
-
-{
-  /* <button onClick={() => open()} disabled={!ready}>
-<strong>Link account</strong>
-</button>
-
-<button onClick={() => getBalance(accessToken)}>get balance</button>
-<button onClick={() => getTransactions(accessToken)}>
-get transactions
-</button>
-<button onClick={() => console.log("accounts: " + accounts[0])}>
-log
-</button>
-{!loading &&
-data != null &&
-Object.entries(data).map((entry, i) => (
-  <pre key={i}>
-    <code>{JSON.stringify(entry[1], null, 2)}</code>
-  </pre>
-))} */
-}

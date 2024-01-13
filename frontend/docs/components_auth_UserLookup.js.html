@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>utils/inputErrors.js - Documentation</title>
+    <title>components/auth/UserLookup.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">utils/inputErrors.js</h1>
+    <h1 class="page-title">components/auth/UserLookup.js</h1>
     
 
     
@@ -47,83 +47,117 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/** @module inputError */
+            <pre class="prettyprint source linenums"><code>import { useState } from "react"
+import classes from "./Auth.module.css"
+import FetchError from "../../utils/fetchError"
+import ErrorMessage from "../../uiComponents/ErrorMessage"
+import EmailInput from "../../uiComponents/EmailInput"
+import UsernameInput from "../../uiComponents/UsernameInput"
+import FormButton from "../../uiComponents/FormButton"
+import FormFooter from "./FormFooter"
 
 /**
- * @extends Error
- * @classdesc Represents an error that occurs with input validation.
+ * @description UserLookup component for user authentication.
+ * @param {Function} setUserHandler - The function to handle user data.
+ * @param {boolean} isPasswordReset - Flag indicating if it's a password reset.
+ * @returns {JSX.Element} The rendered UserLookup component.
  */
-class InputError extends Error {
-  /**
-   * @constructor
-   * @description Creates a new InputError instance.
-   * @param {string} message - The error message.
-   * @param {string} inputName - The name of the input associated with the error.
-   */
-  constructor(message, inputName) {
-    super(message)
-    this.name = "InputError"
-    this.inputName = inputName
-  }
+const UserLookup = ({ setUserHandler, isPasswordReset }) => {
+  const [emailAddress, setEmailAddress] = useState("")
+  const [username, setUsername] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
+  const [errors, setErrors] = useState({
+    email: { isError: false, message: "" },
+    username: { isError: false, message: "" }
+  })
 
-  /**
-   * @description Gets the name of the input associated with the error.
-   * @returns {string} The input name.
-   */
-  getInputName() {
-    return this.inputName
-  }
+  const getUserIdByEmail = async (e) => {
+    e.preventDefault()
 
-  /**
-   * @description Gets the error message.
-   * @returns {string} The error message.
-   */
-  getMessage() {
-    return this.message
-  }
-}
+    let params = {
+      emailAddress: emailAddress
+    }
+    if (isPasswordReset) params.username = username
+    console.log(params)
+    try {
+      console.log("trying")
+      // This API call will return 0 if the user is not found
+      const response = await fetch(
+        `http://localhost:8080/auth/getUserIdByEmailAndUsername?${new URLSearchParams(
+          params
+        )}`,
+        {
+          mode: "cors",
+          headers: { "Content-Type": "application/json" }
+        }
+      )
 
-export { InputError }
+      if (!response.ok) throw await FetchError.fromResponse(response)
 
-/**
- * @function
- * @static
- * @description updates the given error inside of the given array of input errors, maintaining the state of the other errors
- * @param {object} error - the error that is being updated
- * @param {string} error.inputField - the name of the input field that is being updated
- * @param {boolean} error.isError - whether or not the input field has an error
- * @param {string} error.message - the error message that will be displayed to the user
- * @param {function} setErrorsHandler - the useState setter that controls the error state in the parent
- */
-const setError = (error, setErrorHandler) => {
-  setErrorHandler((prevState) => ({
-    ...prevState,
-    [error.inputField]: { isError: error.isError, message: error.message }
-  }))
-}
-
-export { setError }
-
-/**
- * @function
- * @static
- * @description Resets the given array of input errors, clearing all of the error states and setting them to not show any errors
- * @param {array} errors - the array of errors that are being reset
- * @param {function} setErrorsHandler - the useState setter that controls the error state in the parent
- */
-const resetErrors = (errors, setErrorsHandler) => {
-  // reset any previous errors upon resubmission
-  const tempErrors = { ...errors }
-  for (const errorKey in tempErrors) {
-    tempErrors[errorKey] = {
-      isError: false,
-      message: ""
+      const userId = await response.json()
+      if (userId !== 0) {
+        setUserHandler({ id: userId, username: username, email: emailAddress })
+      } else {
+        let errorObject = {
+          email: {
+            isError: true,
+            message: "Email not found."
+          }
+        }
+        if (isPasswordReset) {
+          errorObject.username = { isError: true, message: "User not found." }
+          errorObject.email.message = ""
+        }
+        setErrors(errorObject)
+      }
+    } catch (error) {
+      console.log(error)
+      setErrorMessage(error.message)
     }
   }
-  setErrorsHandler(tempErrors)
+
+  const footerData = {
+    topLink: {
+      to: `/userRecovery/forgot${isPasswordReset ? "username" : "password"}`,
+      text: `Forgot ${isPasswordReset ? "username" : "password"}`
+    },
+    bottomLink: {
+      to: "/login",
+      text: "Cancel"
+    },
+    tooltip: isPasswordReset
+      ? "Enter the username and email address associated to your account."
+      : "Enter the email address associated to your account."
+  }
+
+  return (
+    &lt;>
+      &lt;form onSubmit={getUserIdByEmail} className={classes.container}>
+        &lt;EmailInput
+          email={emailAddress}
+          setEmailHandler={setEmailAddress}
+          error={errors.email}
+        />
+        {isPasswordReset &amp;&amp; (
+          &lt;UsernameInput
+            username={username}
+            setUsernameHandler={setUsername}
+            error={errors.username}
+          />
+        )}
+        &lt;FormButton label="Next" type="submit" />
+        {errorMessage &amp;&amp; &lt;ErrorMessage message={errorMessage} />}
+      &lt;/form>
+      &lt;FormFooter
+        topLink={footerData.topLink}
+        bottomLink={footerData.bottomLink}
+        tooltip={footerData.tooltip}
+      />
+    &lt;/>
+  )
 }
 
-export { resetErrors }
+export default UserLookup
 </code></pre>
         </article>
     </section>

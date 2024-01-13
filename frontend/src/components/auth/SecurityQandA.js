@@ -1,13 +1,9 @@
-import { useState, useEffect } from "react"
-
+import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-
 import SecurityQuestions from "../../uiComponents/SecurityQuestions"
 import SecurityAnswer from "../../uiComponents/SecurityAnswer"
 import FetchError from "../../utils/fetchError"
-
 import CircularProgress from "@mui/material/CircularProgress"
-
 import classes from "./Auth.module.css"
 import { InputError } from "../../utils/inputErrors"
 import fetcher from "../../utils/fetchAuthorize"
@@ -17,7 +13,7 @@ import FormFooter from "./FormFooter"
 
 /**
  * @description The container for users to create and answer security questions upon registration or user credential recovery.
- * @param {string} type - the type of securityQandA to render. This is used to determine which functionality to use within the component. Options include [forgot password, forgot username, and register]
+ * @param {"register"||"forgot password"||"forgot username"} type - the type of securityQandA to render. This is used to determine which functionality to use within the component. Options include [forgot password, forgot username, and register]
  * @param {object} user - the user object. This is used to fetch the appropriate data when a user needs MFA or credential recovery.
  * @param {number} user.id - the user's id
  * @param {string} user.username - the user's username
@@ -35,10 +31,6 @@ const SecurityQandA = ({ type, user, setIsAuthenticatedHandler }) => {
   const userId = user ? user.id : null
 
   const navigate = useNavigate()
-
-  useEffect(() => {
-    if (questionCount > 3) navigate("/")
-  }, [questionCount])
 
   // used to authenticate users for MFA or credential recovery
   const validateAnswer = async (e) => {
@@ -125,7 +117,6 @@ const SecurityQandA = ({ type, user, setIsAuthenticatedHandler }) => {
         console.log("server error")
       } else {
         console.log("failed to validate")
-        console.log(error.message)
       }
       setIsLoading(false)
     }

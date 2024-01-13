@@ -97,7 +97,7 @@ const AccountCard = ({ account, removeAccountHandler, saveAccountHandler }) => {
   // convert the logo base64 string to an image
   const logoBase64 = `data:image/png;base64,${account.logo}`
   const Logo = (
-    <Avatar src={logoBase64} alt="Logo" className={classes.logo}></Avatar>
+    <Avatar src={logoBase64} alt="$" className={classes.logo}></Avatar>
   )
   const title = `${account.name}: ${account.subtype}`
   const subheader = `ending in ${account.mask}`
@@ -117,9 +117,6 @@ const AccountCard = ({ account, removeAccountHandler, saveAccountHandler }) => {
     setIsAlert(true)
   }
 
-  const test = () => {
-    console.log(account)
-  }
   return (
     <Card className={classes.container}>
       <CardHeader

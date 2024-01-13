@@ -2,11 +2,6 @@ import React from "react"
 import { BrowserRouter } from "react-router-dom"
 import { render, screen, fireEvent, waitFor } from "@testing-library/react"
 import LoginForm from "./LoginForm"
-import { server } from "../../mocks/server"
-
-beforeAll(() => server.listen())
-afterEach(() => server.resetHandlers())
-afterAll(() => server.close())
 
 const renderComponent = () => {
   /*The LoginForm must be wrapped in the BrowserRouter since it contains a NavLink. 
