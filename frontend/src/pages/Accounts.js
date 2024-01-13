@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useEffect, useReducer, useState } from "react"
 import { usePlaidLink } from "react-plaid-link"
 import fetcher from "../utils/fetchAuthorize"
 import { Box, Chip, Divider, IconButton, List, Typography } from "@mui/material"
@@ -27,50 +27,154 @@ const Accounts = () => {
   const [token, setToken] = useState(null)
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [accounts, setAccounts] = useState(useLoaderData())
-  const [newAccounts, setNewAccounts] = useState([])
+
+  const accountsReducer = (state, action) => {
+    let tempAccounts
+    switch (action.type) {
+      case "new accounts":
+        return {
+          accounts: [...state.accounts, ...state.newAccounts],
+          newAccounts: action.payload
+        }
+      case "delete account":
+        tempAccounts = state.newAccounts.filter(
+          (account) => account.id !== action.payload
+        )
+        // if nothing was filtered out, then the account was not in the newAccounts array but rather the accounts array.
+        if (tempAccounts.length === state.newAccounts.length) {
+          tempAccounts = state.accounts.filter(
+            (account) => account.id !== action.payload
+          )
+          return { ...state, accounts: tempAccounts }
+        } else {
+          return { ...state, newAccounts: tempAccounts }
+        }
+      case "save account":
+        tempAccounts = state.newAccounts
+        let isAccountFound = tempAccounts.some((account) => {
+          if (account.id === action.payload.id) {
+            account.nickname = action.payload.nickname
+            return true
+          }
+          return false
+        })
+        if (isAccountFound) {
+          return { ...state, newAccounts: tempAccounts }
+        }
+
+        tempAccounts = state.accounts
+        isAccountFound = tempAccounts.some((account) => {
+          if (account.id === action.payload.id) {
+            account.nickname = action.payload.nickname
+            return true
+          }
+          return false
+        })
+        if (isAccountFound) {
+          return { ...state, accounts: tempAccounts }
+        }
+        break
+      default:
+        return state
+    }
+  }
+
+  const [accountsState, dispatch] = useReducer(accountsReducer, {
+    accounts: useLoaderData(),
+    newAccounts: []
+  })
 
   // saves the nickname of an account to the database
   const saveAccountHandler = async (id, nickname) => {
-    const checkAccounts = async (accountsArray, setAccountHandler) => {
-      if (!accountsArray) return false
-
-      let tempAccounts = accountsArray
-      for (let i = 0; i < tempAccounts.length; i++) {
-        if (tempAccounts[i].id === id) {
-          tempAccounts[i].nickname = nickname
-          // make api request to save updated account
-          const response = await fetcher(
-            `http://localhost:8080/updateAccount?${new URLSearchParams({
-              id: id,
-              nickname: nickname
-            })}`,
-            {
-              method: "PUT",
-              mode: "cors",
-              headers: { "Content-Type": "application/json" }
-            }
-          )
-          if (!response.ok) {
-            throw new FetchError.fromResponse(response)
-          } else if (response.status === 200) {
-            if (!response.json()) {
-              throw new Error("Account not updated")
-            } else {
-              setAccountHandler(tempAccounts)
-              return true
-            }
-          }
+    // handles making the api request to save the account
+    const saveAccount = async (id, nickname) => {
+      const response = await fetcher(
+        `http://localhost:8080/updateAccount?${new URLSearchParams({
+          id: id,
+          nickname: nickname
+        })}`,
+        {
+          method: "PUT",
+          mode: "cors",
+          headers: { "Content-Type": "application/json" }
+        }
+      )
+      if (!response.ok) {
+        throw new FetchError.fromResponse(response)
+      } else if (response.status === 200) {
+        if (!response.json()) {
+          throw new Error("Account not updated")
+        } else {
+          // update the accounts state
+          dispatch({
+            type: "save account",
+            payload: { id: id, nickname: nickname }
+          })
+          return true
         }
       }
-      return false
     }
-
-    if (await checkAccounts(newAccounts, setNewAccounts)) {
+    let isAccountFound = accountsState.newAccounts.some((account) => {
+      if (account.id === id) {
+        saveAccount(id, nickname)
+        return true
+      }
+      return false
+    })
+    if (isAccountFound) {
       return
     } else {
-      await checkAccounts(accounts, setAccounts)
+      isAccountFound = accountsState.accounts.some((account) => {
+        if (account.id === id) {
+          saveAccount(id, nickname)
+          return true
+        }
+        return false
+      })
+      if (isAccountFound) {
+        return
+      }
     }
+
+    // const checkAccounts = async (accountsArray, setAccountHandler) => {
+    //   if (!accountsArray) return false
+
+    //   let tempAccounts = accountsArray
+    //   for (let i = 0; i < tempAccounts.length; i++) {
+    //     if (tempAccounts[i].id === id) {
+    //       tempAccounts[i].nickname = nickname
+    //       // make api request to save updated account
+    //       const response = await fetcher(
+    //         `http://localhost:8080/updateAccount?${new URLSearchParams({
+    //           id: id,
+    //           nickname: nickname
+    //         })}`,
+    //         {
+    //           method: "PUT",
+    //           mode: "cors",
+    //           headers: { "Content-Type": "application/json" }
+    //         }
+    //       )
+    //       if (!response.ok) {
+    //         throw new FetchError.fromResponse(response)
+    //       } else if (response.status === 200) {
+    //         if (!response.json()) {
+    //           throw new Error("Account not updated")
+    //         } else {
+    //           setAccountHandler(tempAccounts)
+    //           return true
+    //         }
+    //       }
+    //     }
+    //   }
+    //   return false
+    // }
+
+    // if (await checkAccounts(newAccounts, setNewAccounts)) {
+    //   return
+    // } else {
+    //   await checkAccounts(accounts, setAccounts)
+    // }
   }
 
   // handles "removing" an account from the database. The account is not actually removed, but is instead is_deleted is set to true
@@ -92,16 +196,7 @@ const Accounts = () => {
         if (!response.json()) {
           throw new Error("Account not deleted")
         } else {
-          const tempAccounts = newAccounts.filter(
-            (account) => account.id !== id
-          )
-          if (tempAccounts.length === newAccounts.length) {
-            const tempAccounts = accounts.filter((account) => account.id !== id)
-
-            setAccounts(tempAccounts)
-          } else {
-            setNewAccounts(tempAccounts)
-          }
+          dispatch({ type: "delete account", payload: id })
         }
       }
     } catch (error) {
@@ -128,10 +223,7 @@ const Accounts = () => {
       throw new FetchError.fromResponse(accessTokenResponse)
     } else {
       const accessTokenResponseJson = await accessTokenResponse.json()
-      accessTokenResponseJson.forEach((account) => (account.isSelected = true)) // ???
-
-      setAccounts((accounts) => [...newAccounts, ...accounts])
-      setNewAccounts(accessTokenResponseJson)
+      dispatch({ type: "new accounts", payload: accessTokenResponseJson })
     }
   }, [])
 
@@ -194,7 +286,13 @@ const Accounts = () => {
 
   return (
     <Box className={classes.container}>
-      <button onClick={() => console.log(accounts, newAccounts)}>test</button>
+      <button
+        onClick={() =>
+          console.log(accountsState.accounts, accountsState.newAccounts)
+        }
+      >
+        test
+      </button>
       <IconButton
         className={classes.addButton}
         onClick={() => open()}
@@ -208,7 +306,7 @@ const Accounts = () => {
       <Box className={classes.accounts}>
         <Typography variant="h6">Connected Accounts</Typography>
         <List className={classes.accountsList}>
-          {newAccounts.length > 0 && (
+          {accountsState.newAccounts.length > 0 && (
             <Box>
               <Divider sx={{ width: "500px", margin: "5px" }}>
                 <Chip label="NEW" />
@@ -216,15 +314,15 @@ const Accounts = () => {
             </Box>
           )}
           <AccountCardsList
-            accounts={newAccounts}
+            accounts={accountsState.newAccounts}
             removeAccountHandler={removeAccountHandler}
             saveAccountHandler={saveAccountHandler}
           />
-          {newAccounts.length > 0 && (
+          {accountsState.newAccounts.length > 0 && (
             <Divider sx={{ width: "500px", margin: "20px" }} />
           )}
           <AccountCardsList
-            accounts={accounts}
+            accounts={accountsState.accounts}
             removeAccountHandler={removeAccountHandler}
             saveAccountHandler={saveAccountHandler}
           />
