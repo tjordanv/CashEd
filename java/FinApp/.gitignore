@@ -6,6 +6,8 @@ target/
 /src/main/resources/gmailAPI.json
 /src/main/resources/gmailAPI(old).json
 /tokens
+/src/main/resources/application.properties
+/src/main/resources/app.properties
 java/FinApp/src/main/resources/application.properties
 ### STS ###
 .apt_generated
