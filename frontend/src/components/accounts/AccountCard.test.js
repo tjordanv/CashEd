@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react"
+import { render, screen, fireEvent, waitFor } from "@testing-library/react"
 import AccountCard from "./AccountCard"
 
 describe("AccountCard", () => {
@@ -18,6 +18,37 @@ describe("AccountCard", () => {
   const removeAccountHandler = jest.fn()
   const saveAccountHandler = jest.fn()
 
+  const expandCard = async (isClosing) => {
+    const expandButton = screen.getByLabelText(/show more/i)
+    fireEvent.click(expandButton)
+
+    if (isClosing) {
+      fireEvent.click(expandButton)
+    }
+
+    let nicknameInput
+    let saveButton
+    let removeButton
+    if (isClosing) {
+      // Wait for the element to be removed from the document
+      await waitFor(() => {
+        nicknameInput = screen.queryByText(/nickname/i)
+        saveButton = screen.queryByLabelText(/save/i)
+        removeButton = screen.queryByLabelText(/remove/i)
+      })
+    } else {
+      nicknameInput = screen.getByText(/nickname/i)
+      saveButton = screen.getByLabelText(/save/i)
+      removeButton = screen.getByLabelText(/remove/i)
+    }
+
+    return {
+      nicknameInput: nicknameInput,
+      saveButton: saveButton,
+      removeButton: removeButton
+    }
+  }
+
   const renderComponent = (account) => {
     render(
       <AccountCard
@@ -36,26 +67,37 @@ describe("AccountCard", () => {
     expect(screen.getByRole("img", { alt: /$/ })).toBeInTheDocument()
   })
 
-  test("expands the card when the expand button is clicked", () => {
+  test("expands the card when the expand button is clicked", async () => {
     renderComponent(defaultAccount)
 
-    const expandButton = screen.getByLabelText(/show more/i)
-    fireEvent.click(expandButton)
+    const expandedFields = await waitFor(() => {
+      expandCard()
+    })
 
-    expect(screen.getByText(/nickname/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/save/i)).toBeInTheDocument()
-    expect(screen.getByLabelText(/remove/i)).toBeInTheDocument()
+    await waitFor(() => {
+      expect(expandedFields.nicknameInput).toBeInTheDocument()
+    })
+    await waitFor(() => {
+      expect(expandedFields.saveButton).toBeInTheDocument()
+    })
+    await waitFor(() => {
+      expect(expandedFields.removeButton).toBeInTheDocument()
+    })
   })
 
   test("expands and closes the card", () => {
     renderComponent(defaultAccount)
 
-    const expandButton = screen.getByLabelText(/show more/i)
-    fireEvent.click(expandButton)
-    fireEvent.click(expandButton)
+    const expandedFields = expandCard(true)
 
-    expect(screen.queryByPlaceholderText(/nickname/i)).toBeNull()
+    expect(expandedFields.nicknameInput).toBeNull()
   })
+
+  // test("recieves nickname input", () => {
+  //   renderComponent(defaultAccount)
+  //   expandCard()
+
+  // })
 
   // test("calls removeAccountHandler when delete button is clicked", () => {
   //   const deleteButton = screen.getByTestId("delete-button")
