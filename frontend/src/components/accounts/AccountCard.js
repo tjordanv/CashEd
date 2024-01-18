@@ -99,8 +99,7 @@ const AccountCard = ({ account, removeAccountHandler, saveAccountHandler }) => {
   const Logo = (
     <Avatar src={logoBase64} alt="$" className={classes.logo}></Avatar>
   )
-  const title = `${account.name}: ${account.subtype}`
-  const subheader = `ending in ${account.mask}`
+  const subheader = `${account.subtype}: ending in ${account.mask}`
 
   // update flag state if changes are made to the account
   useEffect(() => {
@@ -115,6 +114,11 @@ const AccountCard = ({ account, removeAccountHandler, saveAccountHandler }) => {
     saveAccountHandler(account.id, nickname)
     setNicknameFlag(false)
     setIsAlert(true)
+
+    // Set a timer to set isAlert to false after 4 seconds
+    setTimeout(() => {
+      setIsAlert(false)
+    }, 4000) // 4000 milliseconds = 4 seconds
   }
 
   return (
@@ -122,7 +126,7 @@ const AccountCard = ({ account, removeAccountHandler, saveAccountHandler }) => {
       <CardHeader
         className={classes.cardHeader}
         avatar={Logo}
-        title={title}
+        title={account.name}
         subheader={subheader}
         titleTypographyProps={{
           fontSize: 22
