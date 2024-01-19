@@ -102,3 +102,4 @@ export default function App() {
     </ThemeProvider>
   )
 }
+export { theme }

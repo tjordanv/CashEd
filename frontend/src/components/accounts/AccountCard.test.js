@@ -1,5 +1,7 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react"
 import AccountCard from "./AccountCard"
+import { ThemeProvider } from "@mui/material/styles"
+import { theme } from "../../App"
 
 describe("AccountCard", () => {
   const defaultAccount = {
@@ -18,44 +20,20 @@ describe("AccountCard", () => {
   const removeAccountHandler = jest.fn()
   const saveAccountHandler = jest.fn()
 
-  const expandCard = async (isClosing) => {
+  const expandCard = () => {
     const expandButton = screen.getByLabelText(/show more/i)
     fireEvent.click(expandButton)
-
-    if (isClosing) {
-      fireEvent.click(expandButton)
-    }
-
-    let nicknameInput
-    let saveButton
-    let removeButton
-    if (isClosing) {
-      // Wait for the element to be removed from the document
-      await waitFor(() => {
-        nicknameInput = screen.queryByText(/nickname/i)
-        saveButton = screen.queryByLabelText(/save/i)
-        removeButton = screen.queryByLabelText(/remove/i)
-      })
-    } else {
-      nicknameInput = screen.getByText(/nickname/i)
-      saveButton = screen.getByLabelText(/save/i)
-      removeButton = screen.getByLabelText(/remove/i)
-    }
-
-    return {
-      nicknameInput: nicknameInput,
-      saveButton: saveButton,
-      removeButton: removeButton
-    }
   }
 
   const renderComponent = (account) => {
     render(
-      <AccountCard
-        account={account}
-        removeAccountHandler={removeAccountHandler}
-        saveAccountHandler={saveAccountHandler}
-      />
+      <ThemeProvider theme={theme}>
+        <AccountCard
+          account={account}
+          removeAccountHandler={removeAccountHandler}
+          saveAccountHandler={saveAccountHandler}
+        />
+      </ThemeProvider>
     )
   }
 
@@ -69,47 +47,106 @@ describe("AccountCard", () => {
 
   test("expands the card when the expand button is clicked", async () => {
     renderComponent(defaultAccount)
+    expandCard()
 
-    const expandedFields = await waitFor(() => {
-      expandCard()
-    })
-
-    await waitFor(() => {
-      expect(expandedFields.nicknameInput).toBeInTheDocument()
-    })
-    await waitFor(() => {
-      expect(expandedFields.saveButton).toBeInTheDocument()
-    })
-    await waitFor(() => {
-      expect(expandedFields.removeButton).toBeInTheDocument()
-    })
+    expect(screen.getByText(/nickname/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/save/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/remove/i)).toBeInTheDocument()
   })
 
-  test("expands and closes the card", () => {
+  test("expands and closes the card", async () => {
     renderComponent(defaultAccount)
 
-    const expandedFields = expandCard(true)
+    expandCard()
+    expandCard()
 
-    expect(expandedFields.nicknameInput).toBeNull()
+    await waitFor(() => {
+      expect(screen.queryByText(/nickname/i)).toBeNull()
+    })
+    expect(screen.queryByLabelText(/save/i)).toBeNull()
+    expect(screen.queryByLabelText(/remove/i)).toBeNull()
   })
 
-  // test("recieves nickname input", () => {
-  //   renderComponent(defaultAccount)
-  //   expandCard()
+  test("recieves nickname input", () => {
+    renderComponent(defaultAccount)
+    expandCard()
 
-  // })
+    const nicknameInput = screen.getByLabelText(/nickname/i)
+    fireEvent.change(nicknameInput, { target: { value: "New Nickname" } })
 
-  // test("calls removeAccountHandler when delete button is clicked", () => {
-  //   const deleteButton = screen.getByTestId("delete-button")
-  //   fireEvent.click(deleteButton)
-  //   expect(removeAccountHandler).toHaveBeenCalledTimes(1)
-  //   expect(removeAccountHandler).toHaveBeenCalledWith(defaultAccount.id)
-  // })
+    expect(nicknameInput.value).toBe("New Nickname")
+    expect(screen.getByDisplayValue(/New Nickname/i)).toBeInTheDocument()
+  })
+  test("Displays the unsaved changes message when the nickname is changed", () => {
+    renderComponent(defaultAccount)
+    expandCard()
 
-  // test("calls saveAccountHandler when save button is clicked", () => {
-  //   const saveButton = screen.getByTestId("save-button")
-  //   fireEvent.click(saveButton)
-  //   expect(saveAccountHandler).toHaveBeenCalledTimes(1)
-  //   expect(saveAccountHandler).toHaveBeenCalledWith(defaultAccount)
-  // })
+    const nicknameInput = screen.getByLabelText(/nickname/i)
+    fireEvent.change(nicknameInput, { target: { value: "New Nickname" } })
+
+    expect(screen.getByLabelText(/unsaved changes/i)).toBeInTheDocument()
+  })
+  test("calls saveAccountHandler when save button is clicked", () => {
+    renderComponent(defaultAccount)
+    expandCard()
+
+    const nicknameInput = screen.getByLabelText(/nickname/i)
+    fireEvent.change(nicknameInput, { target: { value: "New Nickname" } })
+
+    const saveButton = screen.getByRole("button", { name: /save/i })
+    fireEvent.click(saveButton)
+
+    expect(saveAccountHandler).toHaveBeenCalledTimes(1)
+    expect(saveAccountHandler).toHaveBeenCalledWith(1, "New Nickname")
+  })
+  test("Display the saved message when the save button is clicked", () => {
+    renderComponent(defaultAccount)
+    expandCard()
+
+    const nicknameInput = screen.getByLabelText(/nickname/i)
+    fireEvent.change(nicknameInput, { target: { value: "New Nickname" } })
+
+    const saveButton = screen.getByRole("button", { name: /save/i })
+    fireEvent.click(saveButton)
+
+    expect(screen.getByText(/saved/i)).toBeInTheDocument()
+  })
+  test("opens the delete confirmation modal when the delete button is clicked", () => {
+    renderComponent(defaultAccount)
+    expandCard()
+
+    const deleteButton = screen.getByRole("button", { name: /remove/i })
+    fireEvent.click(deleteButton)
+
+    expect(screen.getByText(/remove account/i)).toBeInTheDocument()
+  })
+  test("calls removeAccountHandler when delete button is clicked", () => {
+    renderComponent(defaultAccount)
+    expandCard()
+
+    const deleteButton = screen.getByRole("button", { name: /remove/i })
+    fireEvent.click(deleteButton)
+
+    const confirmButton = screen.getByRole("button", {
+      name: /remove/i
+    })
+    fireEvent.click(confirmButton)
+
+    expect(removeAccountHandler).toHaveBeenCalledTimes(1)
+    expect(removeAccountHandler).toHaveBeenCalledWith(defaultAccount.id)
+  })
+  test("closes the delete confirmation modal when cancel button is clicked", async () => {
+    renderComponent(defaultAccount)
+    expandCard()
+
+    const deleteButton = screen.getByRole("button", { name: /remove/i })
+    fireEvent.click(deleteButton)
+
+    const cancelButton = screen.getByRole("button", { name: /cancel/i })
+    fireEvent.click(cancelButton)
+
+    await waitFor(() => {
+      expect(screen.queryByText(/remove account/i)).toBeNull()
+    })
+  })
 })
