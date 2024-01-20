@@ -37,7 +37,10 @@ describe("RequestResponse", () => {
     expect(screen.getByText(/register/i)).toBeInTheDocument()
   })
 
-  test("throw error if invalid 'type' prop is used to render component", () => {
-    expect(() => renderComponent()).toThrow("Invalid request type")
+  test("show error message error if invalid 'type' prop is used to render component", () => {
+    renderComponent()
+    expect(
+      screen.getByText(/System error. Please contact site administrators./i)
+    ).toBeInTheDocument()
   })
 })
