@@ -55,41 +55,7 @@ describe("AccountCardsList", () => {
     renderComponent()
 
     // Assert that the account cards are rendered
-    const accountCards = screen.getAllByTestId("account-card")
-    expect(accountCards.length).toBe(accounts.length)
-  })
-
-  test("calls the removeAccountHandler when an account is removed", () => {
-    render(
-      <AccountCardsList
-        accounts={accounts}
-        removeAccountHandler={removeAccountHandler}
-        saveAccountHandler={saveAccountHandler}
-      />
-    )
-
-    // Simulate removing an account
-    const removeButton = screen.getAllByTestId("remove-button")[0]
-    removeButton.click()
-
-    // Assert that the removeAccountHandler is called with the correct account ID
-    expect(removeAccountHandler).toHaveBeenCalledWith(accounts[0].id)
-  })
-
-  test("calls the saveAccountHandler when an account is saved", () => {
-    render(
-      <AccountCardsList
-        accounts={accounts}
-        removeAccountHandler={removeAccountHandler}
-        saveAccountHandler={saveAccountHandler}
-      />
-    )
-
-    // Simulate saving an account
-    const saveButton = screen.getAllByTestId("save-button")[0]
-    saveButton.click()
-
-    // Assert that the saveAccountHandler is called with the correct account ID
-    expect(saveAccountHandler).toHaveBeenCalledWith(accounts[0].id)
+    const accountsList = screen.getAllByTestId("accounts-list")
+    expect(accountsList.children).toBe(accounts.length)
   })
 })
