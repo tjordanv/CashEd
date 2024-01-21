@@ -4,8 +4,10 @@
  * @returns {object} - The updated options object with Authorization header.
  */
 function updateOptions(options) {
+  console.log("fetcherTest")
   const update = { ...options }
   if (localStorage.jwt) {
+    console.log(localStorage.jwt)
     update.headers = {
       ...update.headers,
       Authorization: `Bearer ${localStorage.jwt}`
