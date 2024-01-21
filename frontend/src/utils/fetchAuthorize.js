@@ -7,7 +7,6 @@ function updateOptions(options) {
   console.log("fetcherTest")
   const update = { ...options }
   if (localStorage.jwt) {
-    console.log(localStorage.jwt)
     update.headers = {
       ...update.headers,
       Authorization: `Bearer ${localStorage.jwt}`
