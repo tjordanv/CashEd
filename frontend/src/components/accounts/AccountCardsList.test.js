@@ -55,7 +55,7 @@ describe("AccountCardsList", () => {
     renderComponent()
 
     // Assert that the account cards are rendered
-    const accountsList = screen.getByTestId("accounts-list")
-    expect(accountsList.children).toHaveLength(accounts.length)
+    const accountsList = screen.getAllByTestId("account-card")
+    expect(accountsList).toHaveLength(accounts.length)
   })
 })

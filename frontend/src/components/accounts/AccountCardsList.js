@@ -17,7 +17,7 @@ const AccountCardsList = ({
   return (
     <>
       {accounts && (
-        <Stack spacing={2} data-testid="accounts-list">
+        <Stack spacing={2}>
           {accounts.map((account) => (
             <AccountCard
               key={account.accountId}

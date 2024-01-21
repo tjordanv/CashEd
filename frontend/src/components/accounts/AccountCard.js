@@ -122,7 +122,7 @@ const AccountCard = ({ account, removeAccountHandler, saveAccountHandler }) => {
   }
 
   return (
-    <Card className={classes.container}>
+    <Card className={classes.container} data-testid="account-card">
       <CardHeader
         className={classes.cardHeader}
         avatar={Logo}
