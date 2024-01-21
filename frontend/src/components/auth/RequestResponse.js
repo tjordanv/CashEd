@@ -23,28 +23,41 @@ const RequestResponse = ({ type }) => {
       text = "Thank you for contacting us!\nWe will be in touch :)"
       break
     default:
-      throw new Error("Invalid request type")
+      text = "System error. Please contact site administrators."
   }
 
-  const footerData =
-    type === "contact us"
-      ? {
-          topLink: {
-            to: "/register",
-            text: "Register"
-          },
-          bottomLink: {
-            to: "/login",
-            text: "Login"
-          }
+  let footerData = {}
+  switch (type) {
+    case "contact us":
+      footerData = {
+        topLink: {
+          to: "/register",
+          text: "Register"
+        },
+        bottomLink: {
+          to: "/login",
+          text: "Login"
         }
-      : {
-          topLink: {},
-          bottomLink: {
-            to: "/login",
-            text: "Login"
-          }
+      }
+      break
+    case "user recovery" || "password reset":
+      footerData = {
+        topLink: {},
+        bottomLink: {
+          to: "/login",
+          text: "Login"
         }
+      }
+      break
+    default:
+      footerData = {
+        topLink: { to: "/contact", text: "Contact Us" },
+        bottomLink: {
+          to: "/login",
+          text: "Login"
+        }
+      }
+  }
 
   return (
     <>

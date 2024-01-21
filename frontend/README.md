@@ -6,7 +6,7 @@ Refer to the [JSDoc Index File](./docs/index.html) for detailed documentation on
 
 ## Usage of BrowserRouter
 
-In [RegisterFormPt1](./src/components/auth/RegisterFormPt1.test.js), the `BrowserRouter` component from the `react-router-dom` library is used to provide routing functionalityThe `BrowserRouter` component wraps the component being tested and enables navigation between different routes within the application.
+In [RegisterFormPt1.test](./src/components/auth/RegisterFormPt1.test.js), the `BrowserRouter` component from the `react-router-dom` library is used to provide routing functionalityThe `BrowserRouter` component wraps the component being tested and enables navigation between different routes within the application.
 
 The `BrowserRouter` should be used when testing components that rely on routing functionality, such as navigating to different pages or handling route parameters, or simply include a `NavLink` element. It allows you to simulate the behavior of the application's routing system during testing.
 
@@ -56,7 +56,7 @@ const renderComponent = () => {
 
 ## Usage of createMemoryRouter in unit tests
 
-In [PasswordResetForm](./src/components/auth/PasswordResetForm.test.js), the `createMemoryRouter` function is used to create a memory router for testing purposes. This allows the test to simulate navigation within the application without actually changing the URL. This is necessary because that component relies on the useLoaderData hook, which must be wrapped in a data/memory router.
+In [PasswordResetForm.test](./src/components/auth/PasswordResetForm.test.js), the `createMemoryRouter` function is used to create a memory router for testing purposes. This allows the test to simulate navigation within the application without actually changing the URL. This is necessary because that component relies on the useLoaderData hook, which must be wrapped in a data/memory router.
 
 When testing a component that uses the useLoaderData hook, the following code can be used as a guide to setting up the router to render the component.
 
@@ -94,3 +94,26 @@ test("submits the form correctly", async () => {
   })
 })
 ```
+
+## Usage of theme in unit tests
+
+In [AccountCard.Test](./src/components/accounts/AccountCard.test.js), `theme` is imported from [App](./src/App.js) and passed as a prop to the `ThemeProvider` that wraps the [AccountCard](./src/components/accounts/AccountCard.js) component. This is necessary because the [AccountCard](./src/components/accounts/AccountCard.js) utilizes the [ConfirmationDialog](./src/uiComponents/ConfirmationDialog.js) and that modal requires a theme.
+
+```
+import { ThemeProvider } from "@mui/material/styles"
+import { theme } from "../../App"
+
+  const renderComponent = (account) => {
+    render(
+      <ThemeProvider theme={theme}>
+        <AccountCard
+          account={account}
+          removeAccountHandler={removeAccountHandler}
+          saveAccountHandler={saveAccountHandler}
+        />
+      </ThemeProvider>
+    )
+  }
+```
+
+If you encounter an error when testing, such as, `TypeError: Cannot read properties of undefined (reading 'dark')`; you may need to provide a theme to the component(s) that are being tested.
