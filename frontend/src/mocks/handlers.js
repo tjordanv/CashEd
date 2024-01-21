@@ -122,13 +122,15 @@ export const handlers = [
     return res(ctx.status(200), ctx.json(true))
   }),
   rest.get("http://localhost:8080/fetcherTest", (req, res, ctx) => {
-    console.log("here")
     // Get the Authorization header
     const authHeader = req.headers.get("Authorization")
-    console.log(authHeader)
+
     // The Authorization header should be in the format "Bearer <token>"
     // You can get the token by removing the "Bearer " prefix
     const token = authHeader.replace("Bearer ", "")
     return res(ctx.status(200), ctx.json(token === "validToken" ? true : false))
+  }),
+  rest.get("http://localhost:8080/fetchErrorTest", (req, res, ctx) => {
+    return res(ctx.status(500), ctx.text("Server error"))
   })
 ]
