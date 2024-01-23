@@ -6,16 +6,19 @@ public class TransactionSubcategory {
     private int categoryId;
     private String detailedName;
     private String description;
-
+    private boolean isDeleted;
+    private boolean isActive;
     public TransactionSubcategory() {
     }
 
-    public TransactionSubcategory(int id, String name, int categoryId, String detailedName, String description) {
+    public TransactionSubcategory(int id, String name, int categoryId, String detailedName, String description, boolean isDeleted, boolean isActive) {
         this.id = id;
         this.name = name;
         this.categoryId = categoryId;
         this.detailedName = detailedName;
         this.description = description;
+        this.isDeleted = isDeleted;
+        this.isActive = isActive;
     }
 
     public int getId() {
@@ -56,5 +59,21 @@ public class TransactionSubcategory {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

@@ -7,7 +7,7 @@ div .container {
   min-width: 215px;
 }
 div .container .cardContent {
-  height: calc(100% - 200px);
+  height: calc(100% - 130px);
   overflow: auto;
   padding: 0 5px;
 }

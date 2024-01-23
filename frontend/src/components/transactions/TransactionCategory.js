@@ -9,6 +9,10 @@ import classes from "./TransactionCategory.module.css"
 import IconButton from "@mui/material/IconButton"
 import AddBoxIcon from "@mui/icons-material/AddBox"
 import { usdFormatter } from "../../utils/usdFormatter"
+import { DialogContent, DialogContentText, Tooltip } from "@mui/material"
+import fetcher from "../../utils/fetchAuthorize"
+import FetchError from "../../utils/fetchError"
+import TransactionImportAddCategory from "./TransactionImportAddCategory"
 
 const TransactionCategory = ({
   category,
@@ -17,7 +21,7 @@ const TransactionCategory = ({
   transactions
 }) => {
   const [subcategories, setSubcategories] = useState(
-    useLoaderData()[category.id - 1]
+    useLoaderData()[category.id - 1].filter((subcategory) => subcategory.active)
   )
 
   const sumOfTransactions = (id) => {
@@ -53,6 +57,23 @@ const TransactionCategory = ({
         return "rgba(119, 119, 119, 0.15)"
     }
   }
+
+  const addCategory = async () => {
+    const params = new URLSearchParams({
+      categoryId: category.id
+    })
+    const response = await fetcher(
+      `http://localhost:8080/getTransactionSubcategories?${params}`
+    )
+    if (!response.ok) {
+      throw new FetchError.fromResponse(response)
+    } else if (response.status === 200) {
+      const responseJson = await response.json()
+      console.log(responseJson)
+    }
+    console.log("add category")
+  }
+
   return (
     <Card
       className={classes.container}
@@ -85,9 +106,7 @@ const TransactionCategory = ({
           })}
         </Stack>
       </CardContent>
-      <IconButton aria-label="Import" className={classes.button}>
-        <AddBoxIcon color="lightWhite" fontSize="large" />
-      </IconButton>
+      <TransactionImportAddCategory categoryId={category.id} />
     </Card>
   )
 }
