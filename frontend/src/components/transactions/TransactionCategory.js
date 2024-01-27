@@ -12,7 +12,7 @@ import { usdFormatter } from "../../utils/usdFormatter"
 import { DialogContent, DialogContentText, Tooltip } from "@mui/material"
 import fetcher from "../../utils/fetchAuthorize"
 import FetchError from "../../utils/fetchError"
-import TransactionImportAddCategory from "./TransactionImportAddCategory"
+import TransactionImportAddCategory from "./TransactionImportAddCategoryV2"
 
 const TransactionCategory = ({
   category,
