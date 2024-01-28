@@ -20,9 +20,6 @@ import FormControlLabel from "@mui/material/FormControlLabel"
 import Divider from "@mui/material/Divider"
 import Typography from "@mui/material/Typography"
 
-const icon = <CheckBoxOutlineBlankIcon fontSize="small" />
-const checkedIcon = <CheckBoxIcon fontSize="small" />
-
 const TransactionImportAddCategory = ({ categoryId }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [subcategories, setSubcategories] = useState(
@@ -33,14 +30,15 @@ const TransactionImportAddCategory = ({ categoryId }) => {
       selected: subcategory.active
     }))
   )
-  const [checkedState, setCheckedState] = useState(true)
 
   //   useEffect(() => {
   //   }, [])
   const addCategories = async () => {}
   const test = (event) => {
-    event.stopPropagation()
-    console.log(event.target.value)
+    setIsOpen(false)
+    //event.stopPropagation()
+    //console.log(event.target.value)
+    console.log("test")
   }
 
   const prevValueRef = useRef()
@@ -61,7 +59,7 @@ const TransactionImportAddCategory = ({ categoryId }) => {
   }
 
   const background = (isActive, isChanged) => {
-    return isChanged && isActive ? "rgba(0, 0, 0, 0.04)" : undefined
+    return isChanged && isActive ? "rgba(200, 10, 10, 0.10)" : undefined
   }
   return (
     <>
@@ -70,7 +68,7 @@ const TransactionImportAddCategory = ({ categoryId }) => {
           <AddBoxIcon color="lightWhite" fontSize="large" />
         </IconButton>
       </Tooltip>
-      <Dialog open={isOpen} aria-labelledby="alert-dialog-title">
+      <Dialog open={isOpen} aria-labelledby="alert-dialog-title" onClose={test}>
         <DialogTitle id="alert-dialog-title">Select Categories</DialogTitle>
         <DialogContent sx={{ width: "500px" }}>
           <Divider />
@@ -78,7 +76,14 @@ const TransactionImportAddCategory = ({ categoryId }) => {
             {subcategories.map((subcategory) => (
               <Box key={subcategory.id}>
                 <li
-                  style={{ listStyleType: "none", display: "flex" }}
+                  style={{
+                    listStyleType: "none",
+                    display: "flex",
+                    background: background(
+                      subcategory.active,
+                      subcategory.isChanged
+                    )
+                  }}
                   onClick={(e) => updateCategoryHandler(e, subcategory)}
                 >
                   <Checkbox
@@ -94,7 +99,12 @@ const TransactionImportAddCategory = ({ categoryId }) => {
                   {subcategory.isChanged && (
                     <FormControlLabel
                       sx={{ width: "175px" }}
-                      control={<Switch defaultChecked onClick={test} />}
+                      control={
+                        <Switch
+                          defaultChecked
+                          onClick={() => console.log("switch")}
+                        />
+                      }
                       label={
                         <Typography variant="caption">
                           Save changes for future use
