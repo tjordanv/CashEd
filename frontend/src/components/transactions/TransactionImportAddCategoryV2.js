@@ -31,8 +31,9 @@ const TransactionImportAddCategory = ({ categoryId }) => {
     }))
   )
 
-  //   useEffect(() => {
-  //   }, [])
+    useEffect(() => {
+    }, [])
+    
   const addCategories = async () => {}
   const test = (event) => {
     setIsOpen(false)
@@ -72,7 +73,6 @@ const TransactionImportAddCategory = ({ categoryId }) => {
         <DialogTitle id="alert-dialog-title">Select Categories</DialogTitle>
         <DialogContent sx={{ width: "500px" }}>
           <Divider />
-          <form onSubmit={(e) => addCategories(e)}>
             {subcategories.map((subcategory) => (
               <Box key={subcategory.id}>
                 <li
@@ -117,11 +117,10 @@ const TransactionImportAddCategory = ({ categoryId }) => {
                 <Divider variant="middle" />
               </Box>
             ))}
-          </form>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setIsOpen(false)}>Cancel</Button>
-          <Button type="submit">Save</Button>
+          <Button onClick={addCategories}>Save</Button>
         </DialogActions>
       </Dialog>
     </>
