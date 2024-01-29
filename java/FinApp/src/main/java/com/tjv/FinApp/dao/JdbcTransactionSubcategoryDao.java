@@ -39,7 +39,8 @@ public class JdbcTransactionSubcategoryDao implements TransactionSubcategoryDao{
         String sql = "SELECT id, name, category_id, detailed_name, description, is_deleted, " +
                 "CASE WHEN sx.subcategory_id IS NOT NULL AND is_deleted = false THEN true ELSE false END AS isActive " +
                 "FROM transaction_subcategories s " +
-                "LEFT JOIN transaction_subcategory_user_xref sx ON s.id = sx.subcategory_id AND user_id = ? AND is_deleted = false";
+                "LEFT JOIN transaction_subcategory_user_xref sx ON s.id = sx.subcategory_id AND user_id = ? AND is_deleted = false " +
+                "ORDER BY isActive desc, name";
         int userId = userDao.getUserIdByUsername(principal);
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);

@@ -9,7 +9,6 @@ import classes from "./TransactionCategory.module.css"
 import IconButton from "@mui/material/IconButton"
 import AddBoxIcon from "@mui/icons-material/AddBox"
 import { usdFormatter } from "../../utils/usdFormatter"
-import { DialogContent, DialogContentText, Tooltip } from "@mui/material"
 import fetcher from "../../utils/fetchAuthorize"
 import FetchError from "../../utils/fetchError"
 import TransactionImportAddCategory from "./TransactionImportAddCategoryV2"
@@ -23,6 +22,9 @@ const TransactionCategory = ({
   const [subcategories, setSubcategories] = useState(
     useLoaderData()[category.id - 1].filter((subcategory) => subcategory.active)
   )
+  const setSubcategoriesHandler = (subcategories) => {
+    setSubcategories((prevState) => [...prevState, ...subcategories])
+  }
 
   const sumOfTransactions = (id) => {
     try {
@@ -106,7 +108,10 @@ const TransactionCategory = ({
           })}
         </Stack>
       </CardContent>
-      <TransactionImportAddCategory categoryId={category.id} />
+      <TransactionImportAddCategory
+        categoryId={category.id}
+        setSubcategoriesHandler={setSubcategories}
+      />
     </Card>
   )
 }
