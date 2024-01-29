@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface TransactionSubcategoryDao {
     List<TransactionSubcategory> getActiveSubcategoriesByUser(Principal principal);
+    List<TransactionSubcategory> getSubcategoriesByUser(Principal principal);
 }

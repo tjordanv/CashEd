@@ -1,0 +1,142 @@
+import { useState, useEffect, useRef } from "react"
+import Box from "@mui/material/Box"
+import Button from "@mui/material/Button"
+import DialogContent from "@mui/material/DialogContent"
+import DialogTitle from "@mui/material/DialogTitle"
+import DialogActions from "@mui/material/DialogActions"
+import { useLoaderData } from "react-router-dom"
+import Dialog from "@mui/material/Dialog"
+import Tooltip from "@mui/material/Tooltip"
+import IconButton from "@mui/material/IconButton"
+import AddBoxIcon from "@mui/icons-material/AddBox"
+import Checkbox from "@mui/material/Checkbox"
+import classes from "./TransactionImportAddCategory.module.css"
+import Switch from "@mui/material/Switch"
+import FormControlLabel from "@mui/material/FormControlLabel"
+import Divider from "@mui/material/Divider"
+import Typography from "@mui/material/Typography"
+
+const TransactionImportAddCategory = ({
+  categoryId,
+  setSubcategoriesHandler
+}) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const [subcategories, setSubcategories] = useState(
+    useLoaderData()[categoryId - 1].map((subcategory) => ({
+      ...subcategory,
+      label: subcategory.name,
+      isChanged: false,
+      selected: subcategory.active
+    }))
+  )
+
+  const initialSubcategories = useRef(subcategories)
+
+  const addCategories = () => {
+    let nonSelectedSubcategories = subcategories.filter(
+      (subcategory) => !subcategory.selected
+    )
+    let subcategoriesToAdd = subcategories.filter(
+      (subcategory) => subcategory.selected
+    )
+    subcategoriesToAdd = subcategoriesToAdd.map((subcategory) => ({
+      ...subcategory,
+      isChanged: false,
+      active: true
+    }))
+    setSubcategoriesHandler(subcategoriesToAdd)
+    setSubcategories([...subcategoriesToAdd, ...nonSelectedSubcategories])
+    setIsOpen(false)
+  }
+  const onCloseHandler = (event) => {
+    setIsOpen(false)
+    setSubcategories(initialSubcategories.current)
+  }
+
+  const test = (e) => {
+    e.stopPropagation()
+    console.log("test")
+  }
+
+  const updateCategoryHandler = (event, value) => {
+    setSubcategories((prevState) => {
+      return prevState.map((subcategory) => {
+        if (subcategory.id === value.id) {
+          return {
+            ...subcategory,
+            isChanged: !subcategory.isChanged,
+            selected: !subcategory.selected
+          }
+        }
+        return subcategory
+      })
+    })
+  }
+
+  const background = (isActive, isChanged) => {
+    return isChanged && isActive ? "rgba(200, 10, 10, 0.10)" : undefined
+  }
+  return (
+    <>
+      <Tooltip title="Add categories" placement="top">
+        <IconButton aria-label="Import" onClick={() => setIsOpen(true)}>
+          <AddBoxIcon color="lightWhite" fontSize="large" />
+        </IconButton>
+      </Tooltip>
+      <Dialog
+        open={isOpen}
+        aria-labelledby="alert-dialog-title"
+        onClose={onCloseHandler}
+      >
+        <DialogTitle id="alert-dialog-title">Select Categories</DialogTitle>
+        <DialogContent sx={{ width: "500px" }}>
+          <Divider />
+          {subcategories.map((subcategory) => (
+            <Box key={subcategory.id}>
+              <li
+                style={{
+                  listStyleType: "none",
+                  display: "flex",
+                  background: background(
+                    subcategory.active,
+                    subcategory.isChanged
+                  )
+                }}
+                onClick={(e) => updateCategoryHandler(e, subcategory)}
+              >
+                <Checkbox
+                  style={{ marginRight: 8 }}
+                  checked={subcategory.selected}
+                />
+                <Box sx={{ width: "350px", padding: "5px 0" }}>
+                  <Typography variant="h6">{subcategory.name}</Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {subcategory.description}
+                  </Typography>
+                </Box>
+                {subcategory.isChanged && (
+                  <FormControlLabel
+                    sx={{ width: "175px" }}
+                    control={<Switch defaultChecked onClick={(e) => test(e)} />}
+                    label={
+                      <Typography variant="caption">
+                        Save changes for future use
+                      </Typography>
+                    }
+                    labelPlacement="start"
+                  />
+                )}
+              </li>
+              <Divider variant="middle" />
+            </Box>
+          ))}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onCloseHandler}>Cancel</Button>
+          <Button onClick={addCategories}>Save</Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  )
+}
+export default TransactionImportAddCategory

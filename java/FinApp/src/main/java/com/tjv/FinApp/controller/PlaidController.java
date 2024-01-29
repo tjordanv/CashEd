@@ -97,7 +97,7 @@ public class PlaidController {
     public List<Transaction> transactions(@RequestParam String accountIds, Principal principal) throws Exception {
         List<PlaidToken> accessTokens = plaidService.getAccessTokens(accountIds, principal);
         List<Transaction> transactions = new ArrayList<>();
-        System.out.println(accessTokens);
+
         for (PlaidToken accessToken : accessTokens) {
             transactions.addAll(plaidService.getTransactions(accountIds, accessToken));
         }

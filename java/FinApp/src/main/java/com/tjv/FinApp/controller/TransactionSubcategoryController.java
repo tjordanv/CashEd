@@ -20,4 +20,8 @@ public class TransactionSubcategoryController {
     public List<TransactionSubcategory> getActiveSubcategoriesByUser(Principal principal) {
         return subcategoryDao.getActiveSubcategoriesByUser(principal);
     }
+    @GetMapping("/getSubcategoriesByUser")
+    public List<TransactionSubcategory> getSubcategoriesByUser(Principal principal) {
+        return subcategoryDao.getSubcategoriesByUser(principal);
+    }
 }

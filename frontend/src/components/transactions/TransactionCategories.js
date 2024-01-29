@@ -7,7 +7,7 @@ const TransactionSubcategoriesImportLoader = async () => {
   let subcategories = [[], [], [], []]
   try {
     const subcategoriesResponse = await fetcher(
-      "http://localhost:8080/getActiveSubcategoriesByUser"
+      "http://localhost:8080/getSubcategoriesByUser"
     )
     if (!subcategoriesResponse.ok) {
       throw new FetchError.fromResponse(subcategoriesResponse)

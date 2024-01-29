@@ -341,7 +341,7 @@ public class PlaidService {
         }
         return tokens;
     }
-    public List<PlaidToken> getAccessTokens(String accountIds, Principal principal) {
+    public List<PlaidToken> getAccessTokens(String accountIds, Principal principal) throws IOException {
         int userId = userDao.getUserIdByUsername(principal);
         String sql = "SELECT at.id, token FROM access_tokens at JOIN accounts a on at.id = a.access_token_id WHERE at.user_id = :userId AND at.is_deleted = false AND a.id = ANY(:accountIds)";
         int[] ids = StringToIntArray(accountIds);
@@ -377,7 +377,7 @@ public class PlaidService {
         LocalDate endDate = LocalDate.now();
         LocalDate startDate = endDate.minusMonths(1);
 
-        //String accessToken = this.getAccessToken(principal);
+//        String accessToken = this.getAccessToken(principal);
 //        AccountsGetRequest agRequest = new AccountsGetRequest()
 //                .accessToken(accessToken.getToken());
 //
