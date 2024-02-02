@@ -351,7 +351,8 @@ INSERT INTO transaction_categories (name) VALUES
 	('Income'), 
 	('Saving and Investments'),
 	('Variable Expenses'),
-	('Fixed Expenses');
+	('Fixed Expenses'),
+	('Other');
 
 CREATE TABLE transaction_subcategories (
 	id serial NOT NULL,
@@ -466,7 +467,11 @@ INSERT INTO transaction_subcategories (name, detailed_name, description, categor
 	('Phone Bill','Rent and Utilities Telephone','Cell phone bills', 4),
 	('Water Bill','Rent and Utilities Water','Water bills', 4),
 	('Utilities','Rent and Utilities Other Utilities','Other miscellaneous utility bills', 4);
-	
+
+INSERT INTO transaction_subcategories (id, name, detailed_name, description, category_id) VALUES
+	(999, 'Other','Unassigned Transactions','Transactions that were saved without any other category', 5);
+
+
 CREATE TABLE transaction_subcategory_user_xref (
 	subcategory_id int NOT NULL,
 	user_id int NOT NULL, 

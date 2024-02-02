@@ -14,6 +14,11 @@ const TransactionImport = () => {
   const [unassignedTransactions, setUnassignedTransactions] = useState([])
   const [activeTransactions, setActiveTransactions] = useState([])
 
+  const resetTransactions = () => {
+    setTransactions([])
+    setUnassignedTransactions([])
+  }
+
   const deleteTransactionHandler = (transaction) => {
     if (transaction.subcategoryId === (null || undefined || 0)) {
       const updatedTransactions = unassignedTransactions.filter(
@@ -210,7 +215,12 @@ const TransactionImport = () => {
               sx={{ width: "90%", borderColor: "rgba(119, 119, 119, 0.5)" }}
             />
           )}
-          <SaveTransactionsButton isActiveSubcategory={activeSubcategory} />
+          <SaveTransactionsButton
+            unassignedTransactions={unassignedTransactions}
+            transactions={transactions}
+            isActiveSubcategory={activeSubcategory}
+            resetTransactions={resetTransactions}
+          />
 
           {!activeSubcategory && (
             <Divider

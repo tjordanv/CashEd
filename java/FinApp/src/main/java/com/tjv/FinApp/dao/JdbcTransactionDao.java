@@ -40,26 +40,30 @@ public class JdbcTransactionDao implements TransactionDao{
     @Override
     public boolean saveTransactions(List<Transaction> transactions) {
         String sql = "INSERT INTO transactions (transaction_id, account_id, user_id, subcategory_id, name, description, date, amount) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
-            @Override
-            public void setValues(PreparedStatement ps, int i) throws SQLException {
-                Transaction transaction = transactions.get(i);
-                ps.setString(1, transaction.getTransactionId());
-                ps.setInt(2, transaction.getAccountId());
-                ps.setInt(3, transaction.getUserId());
-                ps.setInt(4, transaction.getSubcategoryId());
-                ps.setString(5, transaction.getName());
-                ps.setString(6, transaction.getDescription());
-                ps.setDate(7, Date.valueOf(transaction.getDate()));
-                ps.setDouble(8, transaction.getAmount());
-            }
+        try {
+            jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+                @Override
+                public void setValues(PreparedStatement ps, int i) throws SQLException {
+                    Transaction transaction = transactions.get(i);
+                    ps.setString(1, transaction.getTransactionId());
+                    ps.setInt(2, transaction.getAccountId());
+                    ps.setInt(3, transaction.getUserId());
+                    ps.setInt(4, transaction.getSubcategoryId());
+                    ps.setString(5, transaction.getName());
+                    ps.setString(6, transaction.getDescription());
+                    ps.setDate(7, Date.valueOf(transaction.getDate()));
+                    ps.setDouble(8, transaction.getAmount());
+                }
 
-            @Override
-            public int getBatchSize() {
-                return transactions.size();
-            }
-        });
-        return false;
+                @Override
+                public int getBatchSize() {
+                    return transactions.size();
+                }
+            });
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
     @Override

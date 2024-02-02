@@ -305,7 +305,6 @@ public class PlaidService {
             String transactionId = results.getString("transaction_id");
             for (int i = 0; i < transactions.size(); i++) {
                 if (transactions.get(i).getTransactionId().equals(transactionId)) {
-                    System.out.println("found  it");
                     transactions.remove(i);
                     break;
                 }
