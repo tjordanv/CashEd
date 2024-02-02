@@ -87,19 +87,22 @@ const DrawerLayout = () => {
   const drawerList = [
     {
       text: "Profile",
-      pathname: "/profile",
+      // pathname: "/profile",
+      pathname: "/comingSoon", // TODO: change to "/profile" when profile page is ready
       icon: AccountCircleIcon,
       badgeContent: notificationCounts !== null ? notificationCounts["2"] : 0
     },
     {
       text: "Notifications",
-      pathname: "/notifications",
+      // pathname: "/notifications",
+      pathname: "/comingSoon", // TODO: change to "/notifications" when notifications page is ready
       icon: MailIcon,
       badgeContent: notificationCounts !== null ? notificationCounts["1"] : 0
     },
     {
       text: "Settings",
-      pathname: "/settings",
+      // pathname: "/settings",
+      pathname: "/comingSoon", // TODO: change to "/settings" when settings page is ready
       icon: SettingsIcon,
       badgeContent: notificationCounts !== null ? notificationCounts["3"] : 0
     },
@@ -117,7 +120,7 @@ const DrawerLayout = () => {
       <List>
         {drawerList.map((obj) => (
           <ListItem key={obj.text} disablePadding>
-            {location !== "/" || obj.text === "Logout" ? (
+            {/* {location !== "/" || obj.text === "Logout" ? (
               <ConfirmationDialog
                 Component={Comp}
                 componentDetails={obj}
@@ -126,7 +129,8 @@ const DrawerLayout = () => {
               />
             ) : (
               <Comp obj={obj} func={() => navigationHandler(obj.pathname)} />
-            )}
+            )} */}
+            <Comp obj={obj} func={() => navigationHandler(obj.pathname)} />
           </ListItem>
         ))}
       </List>

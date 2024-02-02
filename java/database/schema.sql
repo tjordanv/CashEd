@@ -470,8 +470,6 @@ INSERT INTO transaction_subcategories (name, detailed_name, description, categor
 CREATE TABLE transaction_subcategory_user_xref (
 	subcategory_id int NOT NULL,
 	user_id int NOT NULL, 
-	is_deleted boolean NOT NULL DEFAULT false,
-	deleted_date timestamptz,
 	created_date timestamptz NOT NULL DEFAULT Now(),
 
 	CONSTRAINT FK_subcategory_id FOREIGN KEY (subcategory_id) REFERENCES transaction_subcategories (id), 

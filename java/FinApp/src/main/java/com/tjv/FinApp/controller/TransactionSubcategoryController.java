@@ -3,9 +3,7 @@ package com.tjv.FinApp.controller;
 import com.tjv.FinApp.dao.TransactionSubcategoryDao;
 import com.tjv.FinApp.model.TransactionSubcategory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -23,5 +21,9 @@ public class TransactionSubcategoryController {
     @GetMapping("/getSubcategoriesByUser")
     public List<TransactionSubcategory> getSubcategoriesByUser(Principal principal) {
         return subcategoryDao.getSubcategoriesByUser(principal);
+    }
+    @PostMapping("/updateUserSubcategories")
+    public void updateUserSubcategories(Principal principal, @RequestParam String subcategoryIdsToSave, @RequestParam String subcategoryIdsToDelete) {
+        subcategoryDao.updateUserSubcategories(principal, subcategoryIdsToSave, subcategoryIdsToDelete);
     }
 }

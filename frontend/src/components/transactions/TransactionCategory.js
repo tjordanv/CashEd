@@ -6,12 +6,10 @@ import { useState } from "react"
 import { useLoaderData } from "react-router-dom"
 import TransactionSubcategory from "./TransactionSubcategory"
 import classes from "./TransactionCategory.module.css"
-import IconButton from "@mui/material/IconButton"
-import AddBoxIcon from "@mui/icons-material/AddBox"
 import { usdFormatter } from "../../utils/usdFormatter"
 import fetcher from "../../utils/fetchAuthorize"
 import FetchError from "../../utils/fetchError"
-import TransactionImportAddCategory from "./TransactionImportAddCategoryV2"
+import TransactionImportAddCategory from "./TransactionImportAddCategory"
 
 const TransactionCategory = ({
   category,

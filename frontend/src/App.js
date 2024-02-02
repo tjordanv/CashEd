@@ -20,6 +20,7 @@ import Accounts from "./pages/Accounts"
 import { accountsLoader } from "./pages/Accounts"
 
 import "./App.css"
+import ComingSoon from "./pages/ComingSoon"
 
 // color palettes that can be used on any JSX component without the need for CSSs
 const theme = createTheme({
@@ -30,7 +31,7 @@ const theme = createTheme({
       text: "#454545"
     },
     danger: {
-      main: "#fa4343",
+      main: "#CC0000",
       dark: "#b53131"
     },
     secondary: {
@@ -81,8 +82,10 @@ const router = createBrowserRouter([
         loader: TransactionSubcategoriesImportLoader
       },
       {
-        path: "notifications",
-        element: <Notifications />,
+        // path: "notifications",
+        // element: <Notifications />,
+        path: "comingSoon",
+        element: <ComingSoon />,
         loader: notificationsLoader
       },
       {
