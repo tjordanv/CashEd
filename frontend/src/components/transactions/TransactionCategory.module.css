@@ -4,12 +4,13 @@ div .container {
   height: var(--height, 100%);
   position: relative;
   text-align: center;
-  min-width: 215px;
+  min-width: 240px;
 }
 div .container .cardContent {
   height: calc(100% - 130px);
   overflow: auto;
   padding: 0 5px;
+  scrollbar-gutter: stable;
 }
 
 div .container .cardContent .subcategoriesContainer {
