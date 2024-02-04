@@ -81,7 +81,6 @@ const TransactionImportAddCategory = ({
     if (!response.ok) {
       throw new FetchError.fromResponse(response)
     } else {
-      console.log("success")
     }
 
     setSubcategoriesHandler(subcategoriesToAdd)

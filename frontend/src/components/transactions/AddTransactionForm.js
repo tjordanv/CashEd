@@ -14,7 +14,26 @@ import Checkbox from "@mui/material/Checkbox"
 import FetchError from "../../utils/fetchError"
 import fetcher from "../../utils/fetchAuthorize"
 import FormControlLabel from "@mui/material/FormControlLabel"
+import CircularProgress from "@mui/material/CircularProgress"
 import { FormControl, InputLabel, OutlinedInput, Select } from "@mui/material"
+import Slider from "@mui/material/Slider"
+import Typography from "@mui/material/Typography"
+import classes from "./AddTransactionForm.module.css"
+import { DatePicker } from "@mui/x-date-pickers/DatePicker"
+import dayjs from "dayjs"
+
+const setDate = (props) => {
+  let date = dayjs()
+
+  // Subtract days
+  props.type === "initial"
+    ? (date = date.subtract(10, "day"))
+    : props.type === "min"
+    ? (date = date.subtract(90, "day"))
+    : (date = date)
+
+  return date
+}
 
 const AddTransactionsForm = ({
   setIsOpen,
@@ -35,6 +54,24 @@ const AddTransactionsForm = ({
   const [accounts, setAccounts] = useState([])
   const [isAllAccounts, setIsAllAccounts] = useState(false)
   const [selectedAccounts, setSelectedAccounts] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [startDate, setStartDate] = useState(setDate({ type: "initial" }))
+  const [dateHelperText, setDateHelperText] = useState("")
+  const [isError, setIsError] = useState(false)
+
+  const setDateError = (error) => {
+    setIsError(true)
+    if (error === "invalidDate") {
+      setDateHelperText("Invalid date")
+    } else if (error === "maxDate") {
+      setDateHelperText("Date cannot be in the future")
+    } else if (error === "minDate") {
+      setDateHelperText("Date cannot be more than 90 days ago")
+    } else {
+      setIsError(false)
+      setDateHelperText("")
+    }
+  }
 
   useEffect(() => {
     // load in the user's accounts from the database
@@ -109,6 +146,7 @@ const AddTransactionsForm = ({
 
   const addTransactionsHandler = async (e) => {
     e.preventDefault()
+    setIsLoading(true)
 
     if (isSingleTransaction) {
       transaction.subcategoryId === null
@@ -132,152 +170,192 @@ const AddTransactionsForm = ({
       try {
         const response = await fetcher(
           `http://localhost:8080/transactions?${new URLSearchParams({
-            accountIds: ids
+            accountIds: ids,
+            startDateOffset: dayjs().diff(startDate, "day")
           })}`
         )
         if (!response.ok) {
           throw new FetchError.fromResponse(response)
         } else if (response.status === 200) {
-          const responseJson = await response.json()
+          let responseJson = await response.json()
+          // add the account name to each transaction
+          responseJson = responseJson.map(
+            (transaction) =>
+              (transaction = {
+                ...transaction,
+                accountName: accounts.find(
+                  (account) => account.id === transaction.accountId
+                ).name
+              })
+          )
 
-          console.log(responseJson)
           addUnassignedTransactions((prevState) => [
             ...responseJson,
             ...prevState
           ])
         }
       } catch (error) {
+        setIsLoading(false)
         return []
       }
     }
+
     setIsOpen(false)
   }
 
   return (
-    <form
-      onSubmit={(event) => addTransactionsHandler(event)}
-      style={{ minWidth: "400px" }}
-    >
-      <DialogContent>
-        <DialogContentText id="alert-dialog-slide-description"></DialogContentText>
-        <Box sx={{ padding: "15px" }}>
-          <Stack spacing={2}>
-            {(isSingleTransaction && (
-              <>
-                <TextField
-                  id="accountSelect"
-                  select
-                  required
-                  variant="outlined"
-                  label="Account"
-                  value={transaction.accountId}
-                  onChange={(e) =>
-                    updateTransactionHandler({
-                      name: "accountId",
-                      value: e.target.value
-                    })
-                  }
-                >
-                  {accounts.map((account) => (
-                    <MenuItem key={account.id} value={account.id}>
-                      {account.name}
-                    </MenuItem>
-                  ))}
-                </TextField>
-                <TextField
-                  variant="outlined"
-                  label="Name"
-                  required
-                  multiline
-                  maxRows={5}
-                  value={transaction.name}
-                  onChange={(e) =>
-                    updateTransactionHandler({
-                      name: "name",
-                      value: e.target.value
-                    })
-                  }
-                />
-                <TextField
-                  variant="outlined"
-                  type="date"
-                  label="Transaction Date"
-                  InputLabelProps={{ shrink: true }}
-                  value={transaction.date}
-                  onChange={(e) =>
-                    updateTransactionHandler({
-                      name: "date",
-                      value: e.target.value
-                    })
-                  }
-                />
-                <TextField
-                  variant="outlined"
-                  type="number"
-                  required
-                  label="Amount"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">$</InputAdornment>
-                    )
-                  }}
-                  value={transaction.amount}
-                  onChange={(e) =>
-                    updateTransactionHandler({
-                      name: "amount",
-                      value: e.target.value
-                    })
-                  }
-                />
-                <Autocomplete
-                  onChange={updateSubcategoryId}
-                  options={subcategories}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Subcategory" />
-                  )}
-                />
-              </>
-            )) || (
-              <>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      value={isAllAccounts}
-                      onChange={() => setIsAllAccounts(!isAllAccounts)}
+    <>
+      <form
+        onSubmit={(event) => addTransactionsHandler(event)}
+        style={{ minWidth: "400px" }}
+      >
+        {(isLoading && (
+          <Box
+            sx={{
+              height: "200px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        )) || (
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description"></DialogContentText>
+            <Box sx={{ padding: "15px" }}>
+              <Stack spacing={2}>
+                {(isSingleTransaction && (
+                  <>
+                    <TextField
+                      id="accountSelect"
+                      select
+                      variant="outlined"
+                      label="Account"
+                      value={transaction.accountId}
+                      onChange={(e) =>
+                        updateTransactionHandler({
+                          name: "accountId",
+                          value: e.target.value
+                        })
+                      }
+                    >
+                      {accounts.map((account) => (
+                        <MenuItem key={account.id} value={account.id}>
+                          {account.name}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                    <TextField
+                      variant="outlined"
+                      label="Name"
+                      required
+                      multiline
+                      maxRows={5}
+                      value={transaction.name}
+                      onChange={(e) =>
+                        updateTransactionHandler({
+                          name: "name",
+                          value: e.target.value
+                        })
+                      }
                     />
-                  }
-                  label="Use all accounts?"
-                />
-                <FormControl>
-                  <InputLabel id="accountsLabel">Accounts</InputLabel>
-                  <Select
-                    id="accountSelect"
-                    labelId="accountsLabel"
-                    disabled={isAllAccounts}
-                    required
-                    multiple
-                    variant="outlined"
-                    value={selectedAccounts}
-                    input={<OutlinedInput label="Accounts" />}
-                    onChange={handleChange}
-                  >
-                    {accounts.map((account) => (
-                      <MenuItem key={account.id} value={account.id}>
-                        {account.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </>
-            )}
-          </Stack>
-        </Box>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={() => setIsOpen(false)}>Cancel</Button>
-        <Button type="submit">Import</Button>
-      </DialogActions>
-    </form>
+                    <TextField
+                      variant="outlined"
+                      type="date"
+                      label="Transaction Date"
+                      InputLabelProps={{ shrink: true }}
+                      value={transaction.date}
+                      onChange={(e) =>
+                        updateTransactionHandler({
+                          name: "date",
+                          value: e.target.value
+                        })
+                      }
+                    />
+                    <TextField
+                      variant="outlined"
+                      type="number"
+                      required
+                      label="Amount"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">$</InputAdornment>
+                        )
+                      }}
+                      value={transaction.amount}
+                      onChange={(e) =>
+                        updateTransactionHandler({
+                          name: "amount",
+                          value: e.target.value
+                        })
+                      }
+                    />
+                    <Autocomplete
+                      onChange={updateSubcategoryId}
+                      options={subcategories}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Subcategory" />
+                      )}
+                    />
+                  </>
+                )) || (
+                  <>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          value={isAllAccounts}
+                          onChange={() => setIsAllAccounts(!isAllAccounts)}
+                        />
+                      }
+                      label="Use all accounts?"
+                    />
+                    <FormControl>
+                      <InputLabel id="accountsLabel">Accounts</InputLabel>
+                      <Select
+                        id="accountSelect"
+                        labelId="accountsLabel"
+                        disabled={isAllAccounts}
+                        required
+                        multiple
+                        variant="outlined"
+                        value={selectedAccounts}
+                        input={<OutlinedInput label="Accounts" />}
+                        onChange={handleChange}
+                      >
+                        {accounts.map((account) => (
+                          <MenuItem key={account.id} value={account.id}>
+                            {account.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                    <DatePicker
+                      label="Start Date"
+                      value={startDate}
+                      onChange={(newDate) => setStartDate(newDate)}
+                      minDate={setDate({ type: "min" })}
+                      maxDate={setDate({ type: "max" })}
+                      onError={(error) => setDateError(error)}
+                      slotProps={{ textField: { helperText: dateHelperText } }}
+                    />
+                  </>
+                )}
+              </Stack>
+            </Box>
+          </DialogContent>
+        )}
+        {!isLoading && (
+          <DialogActions>
+            <Button onClick={() => setIsOpen(false)}>Cancel</Button>
+            <Button type="submit" disabled={isError}>
+              {isSingleTransaction ? "Add" : "Import"}
+            </Button>
+          </DialogActions>
+        )}
+      </form>
+    </>
   )
 }
 

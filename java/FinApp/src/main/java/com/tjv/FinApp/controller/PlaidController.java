@@ -94,12 +94,12 @@ public class PlaidController {
         return plaidService.test2(institutionId);
     }
     @GetMapping("/transactions")
-    public List<Transaction> transactions(@RequestParam String accountIds, Principal principal) throws Exception {
+    public List<Transaction> transactions(@RequestParam String accountIds, @RequestParam String startDateOffset, Principal principal) throws Exception {
         List<PlaidToken> accessTokens = plaidService.getAccessTokens(accountIds, principal);
         List<Transaction> transactions = new ArrayList<>();
 
         for (PlaidToken accessToken : accessTokens) {
-            transactions.addAll(plaidService.getTransactions(accountIds, accessToken));
+            transactions.addAll(plaidService.getTransactions(accountIds, accessToken, Integer.parseInt(startDateOffset)));
         }
         return transactions;
     }

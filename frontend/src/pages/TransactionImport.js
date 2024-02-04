@@ -101,8 +101,8 @@ const TransactionImport = () => {
       destination.index !== source.index
     ) {
       let tempTransactions = isUnassigned
-        ? unassignedTransactions
-        : activeTransactions
+        ? Array.from(unassignedTransactions)
+        : Array.from(activeTransactions)
       const transaction = tempTransactions[source.index]
       tempTransactions.splice(source.index, 1)
       tempTransactions.splice(destination.index, 0, transaction)
@@ -148,7 +148,6 @@ const TransactionImport = () => {
       )
     }
   }, [activeSubcategory, transactions])
-
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className={classes.container}>

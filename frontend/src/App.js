@@ -18,6 +18,8 @@ import Home from "./pages/Home"
 import Contact from "./pages/Contact"
 import Accounts from "./pages/Accounts"
 import { accountsLoader } from "./pages/Accounts"
+import { LocalizationProvider } from "@mui/x-date-pickers"
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 
 import "./App.css"
 import ComingSoon from "./pages/ComingSoon"
@@ -100,9 +102,11 @@ const router = createBrowserRouter([
 
 export default function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </LocalizationProvider>
   )
 }
 export { theme }

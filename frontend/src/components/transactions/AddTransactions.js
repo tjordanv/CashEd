@@ -30,6 +30,7 @@ const AddTransactions = ({
       />
       <Dialog
         open={isOpen}
+        onClose={() => setIsOpen(false)}
         TransitionComponent={Transition}
         keepMounted={false}
         disableRestoreFocus={true}

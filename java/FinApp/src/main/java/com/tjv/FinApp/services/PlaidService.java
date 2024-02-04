@@ -210,7 +210,7 @@ public class PlaidService {
     }
     public List<PlaidToken> getAccessTokens(String accountIds, Principal principal) throws IOException {
         int userId = userDao.getUserIdByUsername(principal);
-        String sql = "SELECT at.id, token FROM access_tokens at JOIN accounts a on at.id = a.access_token_id WHERE at.user_id = :userId AND at.is_deleted = false AND a.id = ANY(:accountIds)";
+        String sql = "SELECT DISTINCT at.id, token FROM access_tokens at JOIN accounts a on at.id = a.access_token_id WHERE at.user_id = :userId AND at.is_deleted = false AND a.id = ANY(:accountIds)";
         int[] ids = StringToIntArray(accountIds);
         SqlParameterSource namedParameters = new MapSqlParameterSource()
                 .addValue("accountIds", ids, Types.ARRAY)
@@ -240,9 +240,9 @@ public class PlaidService {
      * @return The transactions.
      * @throws Exception if an error occurs while retrieving the transactions.
      */
-    public List<Transaction> getTransactions(String accountIds, @NotNull PlaidToken accessToken) throws Exception {
+    public List<Transaction> getTransactions(String accountIds, @NotNull PlaidToken accessToken, int startDateOffset) throws Exception {
         LocalDate endDate = LocalDate.now();
-        LocalDate startDate = endDate.minusMonths(2);
+        LocalDate startDate = endDate.minusDays(startDateOffset);
 
 //        String accessToken = this.getAccessToken(principal);
 //        AccountsGetRequest agRequest = new AccountsGetRequest()
@@ -393,7 +393,7 @@ public class PlaidService {
        newTransaction.setMerchantLogoUrl(transaction.getLogoUrl());
        newTransaction.setMerchantWebsite(transaction.getWebsite());
        newTransaction.setDate(transaction.getDate());
-       newTransaction.setAmount(transaction.getAmount());
+       newTransaction.setAmount(Math.abs(transaction.getAmount()));
        newTransaction.setPaymentChannelId(paymentChannelId);
        newTransaction.setCheckNumber(transaction.getCheckNumber());
        //newTransaction.setPaymentMeta()

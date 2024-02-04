@@ -1,4 +1,4 @@
-li div .transactionCardContent {
+div .transactionCardContent {
   display: flex;
   width: 200px;
   padding: 5px;
@@ -6,7 +6,7 @@ li div .transactionCardContent {
   background-color: var(--backgroundColor, red);
 }
 
-li div .transactionCardContent:last-child {
+div .transactionCardContent:last-child {
   padding-bottom: 5px; /* Override the padding */
 }
 
