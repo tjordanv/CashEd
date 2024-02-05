@@ -15,8 +15,8 @@ public class TransactionController {
     private TransactionDao transactionDao;
 
     @PostMapping("/saveTransactions")
-    public boolean saveTransactions(@RequestBody List<Transaction> transactions) {
-        return transactionDao.saveTransactions(transactions);
+    public boolean saveTransactions(@RequestBody List<Transaction> transactions, Principal principal) {
+        return transactionDao.saveTransactions(transactions, principal);
     }
     @GetMapping("/getCurrentMonthTransactions")
     public List<Transaction> getCurrentMonthTransactions(@RequestParam(required = false) String accountIds, Principal principal) {

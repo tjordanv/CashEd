@@ -20,7 +20,7 @@ const TransactionImport = () => {
   }
 
   const deleteTransactionHandler = (transaction) => {
-    if (transaction.subcategoryId === (null || undefined || 0)) {
+    if (!transaction.subcategoryId) {
       const updatedTransactions = unassignedTransactions.filter(
         (trans) => trans.transactionId !== transaction.transactionId
       )

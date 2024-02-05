@@ -1,5 +1,4 @@
 import { useState } from "react"
-import Box from "@mui/material/Box"
 import Button from "@mui/material/Button"
 import DialogContent from "@mui/material/DialogContent"
 import DialogTitle from "@mui/material/DialogTitle"
@@ -7,11 +6,12 @@ import DialogActions from "@mui/material/DialogActions"
 import DialogContentText from "@mui/material/DialogContentText"
 import Dialog from "@mui/material/Dialog"
 import Switch from "@mui/material/Switch"
-import FormControlLabel from "@mui/material/FormControlLabel"
-import Typography from "@mui/material/Typography"
 import fetcher from "../utils/fetchAuthorize"
 import FetchError from "../utils/fetchError"
-import Stack from "@mui/material/Stack"
+import Backdrop from "@mui/material/Backdrop"
+import CircularProgress from "@mui/material/CircularProgress"
+import Snackbar from "@mui/material/Snackbar"
+import Alert from "@mui/material/Alert"
 
 const SaveTransactionsButton = ({
   transactions,
@@ -20,6 +20,8 @@ const SaveTransactionsButton = ({
   resetTransactions
 }) => {
   const [isOpen, setIsOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [isSuccessful, setIsSuccessful] = useState(false)
   const [assignToOther, setAssignToOther] = useState(false)
   const style = isActiveSubcategory
     ? null
@@ -28,8 +30,12 @@ const SaveTransactionsButton = ({
   const setAssignToOtherHandler = () => {
     setAssignToOther((prevState) => !prevState)
   }
+  const closeHandler = () => {
+    setIsSuccessful(false)
+  }
 
   const saveTransactions = async () => {
+    setIsLoading(true)
     let requestBody = [...transactions]
     try {
       if (assignToOther) {
@@ -59,6 +65,8 @@ const SaveTransactionsButton = ({
     } catch (error) {
       console.error(error)
     }
+    setIsLoading(false)
+    setIsSuccessful(true)
   }
 
   const saveHandler = () => {
@@ -81,6 +89,9 @@ const SaveTransactionsButton = ({
         sx={{ marginTop: "14px" }}
         style={style}
         onClick={saveHandler}
+        disabled={
+          transactions.length === 0 && unassignedTransactions.length === 0
+        }
       >
         Save
       </Button>
@@ -110,6 +121,27 @@ const SaveTransactionsButton = ({
           </Button>
         </DialogActions>
       </Dialog>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      <Snackbar
+        open={isSuccessful}
+        autoHideDuration={5000}
+        onClose={closeHandler}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert
+          onClose={closeHandler}
+          severity="success"
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          Transactions Saved.
+        </Alert>
+      </Snackbar>
     </>
   )
 }
