@@ -82,9 +82,11 @@ public class JdbcTransactionDao implements TransactionDao{
 
     @Override
     public List<Transaction> getCurrentMonthTransactions(Principal principal) {
-        String sql = "SELECT id, transaction_id, account_id, user_id, subcategory_id, name, description, merchant_logo_url, merchant_website, date, amount," +
+        String sql = "SELECT t.id, transaction_id, account_id, user_id, subcategory_id, s.name as subcategory_name, " +
+                "category_id, t.name, t.description, merchant_logo_url, merchant_website, date, amount," +
                 "payment_channel_id, check_number, address, city, region, postal_code, country, created_date " +
-                "FROM transactions WHERE user_id = ? AND is_deleted = false AND date BETWEEN ? AND NOW()";
+                "FROM transactions t JOIN transaction_subcategories s on t.subcategory_id = s.id " +
+                "WHERE user_id = ? AND is_deleted = false AND date BETWEEN ? AND NOW()";
 
         int userId = userDao.getUserIdByUsername(principal);
         LocalDate startOfMonth = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth());
@@ -99,32 +101,34 @@ public class JdbcTransactionDao implements TransactionDao{
         return transactions;
     }
 
-    @Override
-    public List<Transaction> getCurrentMonthTransactions(String accountIds, Principal principal) {
-       int[] accountIdsArray = StringToIntArray(accountIds);
 
-        int userId = userDao.getUserIdByUsername(principal);
-        LocalDate startOfMonth = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth());
 
-        SqlParameterSource namedParameters = new MapSqlParameterSource()
-                .addValue("accountIds", accountIdsArray, Types.ARRAY)
-                .addValue("userId", userId, Types.INTEGER)
-                .addValue("startDate", startOfMonth, Types.DATE);
-
-        String sql = "SELECT id, transaction_id, account_id, user_id, subcategory_id, name, description, merchant_logo_url, merchant_website, date, amount," +
-                "payment_channel_id, check_number, address, city, region, postal_code, country, created_date " +
-                "FROM transactions WHERE user_id = :userId AND is_deleted = false AND date BETWEEN :startDate AND NOW() AND account_id = ANY(:accountIds)";
-
-        NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate.getDataSource());
-        SqlRowSet results = namedParameterJdbcTemplate.queryForRowSet(sql,namedParameters);
-
-        List<Transaction> transactions = new ArrayList<>();
-        while (results.next()) {
-            transactions.add(mapRowToTransaction(results));
-        }
-
-        return transactions;
-    }
+//    @Override
+//    public List<Transaction> getCurrentMonthTransactions(String accountIds, Principal principal) {
+//       int[] accountIdsArray = StringToIntArray(accountIds);
+//
+//        int userId = userDao.getUserIdByUsername(principal);
+//        LocalDate startOfMonth = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth());
+//
+//        SqlParameterSource namedParameters = new MapSqlParameterSource()
+//                .addValue("accountIds", accountIdsArray, Types.ARRAY)
+//                .addValue("userId", userId, Types.INTEGER)
+//                .addValue("startDate", startOfMonth, Types.DATE);
+//
+//        String sql = "SELECT id, transaction_id, account_id, user_id, subcategory_id, name, description, merchant_logo_url, merchant_website, date, amount," +
+//                "payment_channel_id, check_number, address, city, region, postal_code, country, created_date " +
+//                "FROM transactions WHERE user_id = :userId AND is_deleted = false AND date BETWEEN :startDate AND NOW() AND account_id = ANY(:accountIds)";
+//
+//        NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate.getDataSource());
+//        SqlRowSet results = namedParameterJdbcTemplate.queryForRowSet(sql,namedParameters);
+//
+//        List<Transaction> transactions = new ArrayList<>();
+//        while (results.next()) {
+//            transactions.add(mapRowToTransaction(results));
+//        }
+//
+//        return transactions;
+//    }
 
     private Transaction mapRowToTransaction(SqlRowSet rs) {
         Transaction transaction = new Transaction();
@@ -133,6 +137,10 @@ public class JdbcTransactionDao implements TransactionDao{
         transaction.setAccountId(rs.getInt("account_id"));
         transaction.setUserId(rs.getInt("user_id"));
         transaction.setSubcategoryId(rs.getInt("subcategory_id"));
+        if (rs.findColumn("subcategory_name") > 0) {
+            transaction.setCategoryId(rs.getInt("category_id"));
+            transaction.setSubcategoryName(rs.getString("subcategory_name"));
+        }
         transaction.setPaymentChannelId(rs.getInt("payment_channel_id"));
         transaction.setName(rs.getString("name"));
         transaction.setDescription(rs.getString("description"));

@@ -7,28 +7,6 @@ import { MenuItem, Typography } from "@mui/material"
 import { styled } from "@mui/material/styles"
 import Box from "@mui/material/Box"
 import Select from "@mui/material/Select"
-import { usdFormatter } from "../utils/usdFormatter"
-import { useLoaderData } from "react-router-dom"
-
-const testLoader = async () => {
-  const response = await fetcher("http://localhost:8080/getTest")
-
-  if (!response.ok) {
-    throw new Error("Network response was not ok")
-  }
-
-  let data = await response.json()
-  data.map((item) => {
-    item.value = parseInt(item.total)
-    item.label = item.name
-
-    return item
-  })
-
-  return data
-}
-
-export { testLoader }
 
 const StyledText = styled("text")(({ theme }) => ({
   fill: theme.palette.text.primary,
@@ -70,14 +48,23 @@ const PieCenterLabel = ({ children }) => {
 
 const DashboardTest = () => {
   const [highlightedAmount, setHighlightedAmount] = useState()
-  const [testData, setTestData] = useState(useLoaderData())
+  const [transactionsView, setTransactionsView] = useState("monthly")
+  const [currentView, setCurrentView] = useState()
+
+  const changeViewHandler = (event) => {
+    setTransactionsView(event.target.value)
+  }
+
+  const changeCurrentViewHandler = (event) => {
+    setCurrentView(event.target.value)
+  }
+
   const data1 = [
     { label: "Group A", value: 400 },
     { label: "Group B", value: 300 },
     { label: "Group C", value: 300 },
     { label: "Group D", value: 200 }
   ]
-  console.log(testData)
 
   const data2 = [
     { label: "A1", value: 100 },
@@ -99,12 +86,22 @@ const DashboardTest = () => {
 
   return (
     <Box>
+      <Select value={transactionsView} onChange={changeViewHandler}>
+        <MenuItem value={"monthly"}>Monthly</MenuItem>
+        <MenuItem value={"annual"}>Annual</MenuItem>
+        <MenuItem value={"ytd"}>YTD</MenuItem>
+      </Select>
+      <Select
+        disabled={transactionsView === "ytd"}
+        value={currentView}
+        onChange={changeCurrentViewHandler}
+      ></Select>
       <PieChart
         series={[
           {
             innerRadius: 60,
             outerRadius: 90,
-            data: testData,
+            data: data1,
             highlightScope: { faded: "global", highlighted: "item" },
             faded: { innerRadius: 55, additionalRadius: -10, color: "gray" }
           }

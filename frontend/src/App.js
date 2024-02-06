@@ -9,7 +9,7 @@ import Header from "./pages/Header"
 import Notifications from "./pages/Notifications"
 import PasswordReset from "./pages/auth/PasswordReset"
 import LandingWrapper from "./pages/LandingWrapper"
-import DashboardTest from "./components/DashboardTest"
+import DashboardTest, { testLoader } from "./components/DashboardTest"
 import AboutUs from "./pages/AboutUs"
 import { passwordResetLoader } from "./components/auth/PasswordResetForm"
 import { headerNotificationsLoader } from "./components/header/HeaderLayout"
@@ -76,7 +76,8 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <DashboardTest />
+        element: <DashboardTest />,
+        loader: testLoader
       },
       {
         path: "TransactionImport",

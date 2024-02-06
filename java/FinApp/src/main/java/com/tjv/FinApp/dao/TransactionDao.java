@@ -9,5 +9,6 @@ public interface TransactionDao {
     List<Transaction> getTransactions();
     boolean saveTransactions(List<Transaction> transactions, Principal principal);
     List<Transaction> getCurrentMonthTransactions(Principal principal);
-    List<Transaction> getCurrentMonthTransactions(String accountIds, Principal principal);
+//    List<Transaction> getCurrentMonthTransactions(String accountIds, Principal principal);
+
 }

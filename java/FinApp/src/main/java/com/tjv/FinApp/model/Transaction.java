@@ -12,6 +12,8 @@ public class Transaction {
     private int accountId;
     private int userId;
     private int subcategoryId;
+    private String subcategoryName;
+    private int categoryId;
     private int paymentChannelId;
     private String name;
     private String description;
@@ -32,12 +34,15 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(int id, String transactionId, int accountId, int userId, int subcategoryId, int paymentChannelId, String name, String description, String merchantLogoUrl, String merchantWebsite, LocalDate date, Double amount, String checkNumber, String address, String city, String region, String postalCode, String country, Date createdDate, boolean isDeleted, Date deletedDate) {
+    public Transaction(int id, String transactionId, int accountId, int userId, int subcategoryId, int paymentChannelId, String name, String subcategoryName,
+                       String description, String merchantLogoUrl, String merchantWebsite, LocalDate date, Double amount, String checkNumber, int categoryId,
+                       String address, String city, String region, String postalCode, String country, Date createdDate, boolean isDeleted, Date deletedDate) {
         this.id = id;
         this.transactionId = transactionId;
         this.accountId = accountId;
         this.userId = userId;
         this.subcategoryId = subcategoryId;
+        this.categoryId = categoryId;
         this.paymentChannelId = paymentChannelId;
         this.name = name;
         this.description = description;
@@ -54,6 +59,7 @@ public class Transaction {
         this.createdDate = createdDate;
         this.isDeleted = isDeleted;
         this.deletedDate = deletedDate;
+        this.subcategoryName = subcategoryName;
     }
 
     public int getId() {
@@ -222,6 +228,22 @@ public class Transaction {
 
     public void setDeletedDate(Date deletedDate) {
         this.deletedDate = deletedDate;
+    }
+
+    public String getSubcategoryName() {
+        return subcategoryName;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public void setSubcategoryName(String subcategoryName) {
+        this.subcategoryName = subcategoryName;
     }
 
     @Override

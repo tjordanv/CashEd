@@ -1,5 +1,7 @@
 package com.tjv.FinApp.model;
 
+import java.util.List;
+
 public class TransactionSubcategory {
     private int id;
     private String name;
@@ -8,10 +10,12 @@ public class TransactionSubcategory {
     private String description;
     private boolean isDeleted;
     private boolean isActive;
+    private Double total;
+    private List<Transaction> transactions;
     public TransactionSubcategory() {
     }
 
-    public TransactionSubcategory(int id, String name, int categoryId, String detailedName, String description, boolean isDeleted, boolean isActive) {
+    public TransactionSubcategory(int id, String name, int categoryId, String detailedName, String description, boolean isDeleted, boolean isActive, Double total, List<Transaction> transactions) {
         this.id = id;
         this.name = name;
         this.categoryId = categoryId;
@@ -19,6 +23,8 @@ public class TransactionSubcategory {
         this.description = description;
         this.isDeleted = isDeleted;
         this.isActive = isActive;
+        this.total = total;
+        this.transactions = transactions;
     }
 
     public int getId() {
@@ -75,5 +81,29 @@ public class TransactionSubcategory {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public Double getTotal() {
+        return total;
+    }
+
+    public void setTotal(Double total) {
+        this.total = total;
+    }
+    public void updateTotal() {
+        this.total = this.transactions.stream()
+                .mapToDouble(Transaction::getAmount)
+                .sum();
+    }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
+    }
+    public void addTransaction(Transaction transaction) {
+        this.transactions.add(transaction);
     }
 }
