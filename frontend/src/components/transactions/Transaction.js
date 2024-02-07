@@ -40,9 +40,13 @@ const backgroundColor = (transaction) => {
 }
 
 const getItemStyle = (provided, style, isDragging) => {
+  const draggablePropsStyle = provided
+    ? { ...provided.draggableProps.style }
+    : null
+
   const combined = {
     ...style,
-    ...provided.draggableProps.style
+    ...draggablePropsStyle
   }
   const withSpacing = {
     ...combined,
@@ -72,12 +76,14 @@ const Transaction = ({
       "This cannot be undone and this transaction will not appear in future imports.",
     confirmationLabel: "Delete"
   }
+  const draggableProps = provided ? { ...provided.draggableProps } : null
+  const dragHandleProps = provided ? { ...provided.dragHandleProps } : null
 
   return (
     <Card
-      ref={provided.innerRef}
-      {...provided.draggableProps}
-      {...provided.dragHandleProps}
+      ref={provided ? provided.innerRef : null}
+      {...draggableProps}
+      {...dragHandleProps}
       style={getItemStyle(provided, style)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

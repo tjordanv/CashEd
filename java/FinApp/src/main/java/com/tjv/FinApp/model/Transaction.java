@@ -10,6 +10,7 @@ public class Transaction {
     private String transactionId;
     // The accountId in this case is the FK id from the accounts table, not the accountId
     private int accountId;
+    private String accountName;
     private int userId;
     private int subcategoryId;
     private String subcategoryName;
@@ -34,7 +35,7 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(int id, String transactionId, int accountId, int userId, int subcategoryId, int paymentChannelId, String name, String subcategoryName,
+    public Transaction(int id, String transactionId, int accountId, int userId, int subcategoryId, int paymentChannelId, String name, String subcategoryName, String accountName,
                        String description, String merchantLogoUrl, String merchantWebsite, LocalDate date, Double amount, String checkNumber, int categoryId,
                        String address, String city, String region, String postalCode, String country, Date createdDate, boolean isDeleted, Date deletedDate) {
         this.id = id;
@@ -60,6 +61,15 @@ public class Transaction {
         this.isDeleted = isDeleted;
         this.deletedDate = deletedDate;
         this.subcategoryName = subcategoryName;
+        this.accountName = accountName;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
     public int getId() {

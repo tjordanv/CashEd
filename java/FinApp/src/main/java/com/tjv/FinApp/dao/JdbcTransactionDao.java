@@ -82,11 +82,11 @@ public class JdbcTransactionDao implements TransactionDao{
 
     @Override
     public List<Transaction> getCurrentMonthTransactions(Principal principal) {
-        String sql = "SELECT t.id, transaction_id, account_id, user_id, subcategory_id, s.name as subcategory_name, " +
-                "category_id, t.name, t.description, merchant_logo_url, merchant_website, date, amount," +
-                "payment_channel_id, check_number, address, city, region, postal_code, country, created_date " +
-                "FROM transactions t JOIN transaction_subcategories s on t.subcategory_id = s.id " +
-                "WHERE user_id = ? AND is_deleted = false AND date BETWEEN ? AND NOW()";
+        String sql = "SELECT t.id, transaction_id, t.account_id, a.name as account_name, t.user_id, subcategory_id, s.name as subcategory_name, " +
+                "category_id, t.name, t.description, merchant_logo_url, merchant_website, date, amount, " +
+                "payment_channel_id, check_number, address, city, region, postal_code, country, t.created_date " +
+                "FROM transactions t JOIN transaction_subcategories s on t.subcategory_id = s.id LEFT JOIN accounts a on t.account_id = a.id " +
+                "WHERE t.user_id = ? AND t.is_deleted = false AND date BETWEEN ? AND NOW()";
 
         int userId = userDao.getUserIdByUsername(principal);
         LocalDate startOfMonth = LocalDate.now().with(TemporalAdjusters.firstDayOfMonth());
@@ -135,6 +135,7 @@ public class JdbcTransactionDao implements TransactionDao{
         transaction.setId(rs.getInt("id"));
         transaction.setTransactionId(rs.getString("transaction_id"));
         transaction.setAccountId(rs.getInt("account_id"));
+        transaction.setAccountName(rs.getString("account_name"));
         transaction.setUserId(rs.getInt("user_id"));
         transaction.setSubcategoryId(rs.getInt("subcategory_id"));
         if (rs.findColumn("subcategory_name") > 0) {
