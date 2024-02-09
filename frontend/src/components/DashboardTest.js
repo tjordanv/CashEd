@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { usePlaidLink } from "react-plaid-link"
 import fetcher from "../utils/fetchAuthorize"
 import { PieChart } from "@mui/x-charts/PieChart"
@@ -16,6 +16,7 @@ import { ClassNames } from "@emotion/react"
 import classes from "./DashboardTest.module.css"
 import TransactionsList from "./transactions/TransactionsList"
 import Transaction from "./transactions/Transaction"
+import { ResponsivePie } from "@nivo/pie"
 
 const testLoader = async () => {
   try {
@@ -81,6 +82,7 @@ const PieCenterLabel = ({ children }) => {
 }
 
 const DashboardTest = () => {
+  const [activeId, setActiveId] = useState()
   const [highlightedAmount, setHighlightedAmount] = useState()
   const [transactions, setTransactions] = useState([])
   const [testData, setTestData] = useState(useLoaderData())
@@ -96,13 +98,65 @@ const DashboardTest = () => {
     useLoaderData().filter((item) => item.categoryId === 4)
   )
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setActiveId(null)
+        setTransactions([])
+        setHighlightedAmount(null)
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+
+    // Cleanup function to remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [])
+
+  const pieClickHandler = (node) => {
+    if (node.id === activeId && transactions.length > 0) {
+      setActiveId(null)
+      setTransactions([])
+      setHighlightedAmount(null)
+    } else {
+      setHighlightedAmount(node.value)
+      setTransactions(node.data.transactions)
+      setActiveId(node.id)
+    }
+  }
+  const pieMouseEnterHandler = (node) => {
+    if (!activeId) setActiveId(node.id)
+  }
+  const pieMouseLeaveHandler = (node) => {
+    if (activeId && transactions.length === 0) setActiveId(null)
+  }
+  const listClickHandler = (node) => {
+    if (node.id === activeId && transactions.length > 0) {
+      setActiveId(null)
+      setTransactions([])
+      setHighlightedAmount(null)
+    } else {
+      setTransactions(node.transactions)
+      setActiveId(node.id)
+      setHighlightedAmount(node.value)
+    }
+  }
+
+  const listMouseEnterHandler = (e) => {
+    if (transactions.length === 0) setActiveId(parseInt(e.target.id))
+  }
+  const listMouseLeaveHandler = (e) => {
+    if (transactions.length === 0) setActiveId(null)
+  }
+
   const data1 = [
     { label: "Group A", value: 400 },
     { label: "Group B", value: 300 },
     { label: "Group C", value: 300 },
     { label: "Group D", value: 200 }
   ]
-  console.log(testData)
 
   const data2 = [
     { label: "A1", value: 100 },
@@ -118,10 +172,19 @@ const DashboardTest = () => {
     { label: "D2", value: 50 }
   ]
 
-  const pieClickHandler = (event, itemIdentifier, item) => {
-    console.log("event")
-    setHighlightedAmount(item.value)
-    setTransactions(item.transactions)
+  const listEvents = (item) => ({
+    onClick: () => listClickHandler(item),
+    onMouseEnter: listMouseEnterHandler,
+    onMouseLeave: listMouseLeaveHandler
+  })
+
+  const test = ({ datum }) => {
+    return (
+      <Box>
+        <Typography variant="h6">{datum.label}</Typography>
+        <Typography variant="h6">{usdFormatter(datum.value)}</Typography>
+      </Box>
+    )
   }
 
   return (
@@ -130,7 +193,7 @@ const DashboardTest = () => {
         <Typography variant="h6">Income</Typography>
         <List dense={true} className={classes.list}>
           {incomeCategories.map((item, index) => (
-            <ListItem key={index}>
+            <ListItem key={index} id={item.id} {...listEvents(item)}>
               <ListItemText
                 primary={item.label}
                 // secondary={usdFormatter(item.value)}
@@ -141,7 +204,7 @@ const DashboardTest = () => {
         <Typography variant="h6">Savings & Investment </Typography>
         <List dense={true} className={classes.list}>
           {savingsAndInvestmentCategories.map((item, index) => (
-            <ListItem key={index}>
+            <ListItem key={index} id={item.id} {...listEvents(item)}>
               <ListItemText
                 primary={item.label}
                 // secondary={usdFormatter(item.value)}
@@ -152,7 +215,7 @@ const DashboardTest = () => {
         <Typography variant="h6">Variable Expenditures</Typography>
         <List dense={true} className={classes.list}>
           {variableExpCategories.map((item, index) => (
-            <ListItem key={index}>
+            <ListItem key={index} id={item.id} {...listEvents(item)}>
               <ListItemText
                 primary={item.label}
                 // secondary={usdFormatter(item.value)}
@@ -163,7 +226,7 @@ const DashboardTest = () => {
         <Typography variant="h6">Fixed Expenditures</Typography>
         <List dense={true} className={classes.list}>
           {fixedExpCategories.map((item, index) => (
-            <ListItem key={index}>
+            <ListItem key={index} id={item.id} {...listEvents(item)}>
               <ListItemText
                 primary={item.label}
                 // secondary={usdFormatter(item.value)}
@@ -172,43 +235,31 @@ const DashboardTest = () => {
           ))}
         </List>
       </List>
-      <PieChart
-        series={[
-          {
-            innerRadius: 120,
-            outerRadius: 170,
-            data: [
-              ...savingsAndInvestmentCategories,
-              ...variableExpCategories,
-              ...fixedExpCategories
-            ],
-            highlightScope: {
-              faded: "global",
-              highlighted: "item"
-            },
-            faded: { innerRadius: 125, additionalRadius: -10, color: "gray" }
-          }
-          // {
-          //   innerRadius: 105,
-          //   outerRadius: 145,
-          //   data: data2,
-          //   highlightScope: { faded: "global", highlighted: "item" },
-          //   faded: { innerRadius: 100, additionalRadius: -10, color: "gray" }
-          // }
-        ]}
-        onMouseEnter={pieClickHandler}
-        onClick={pieClickHandler}
-        width={800}
-        height={800}
-        slotProps={{
-          legend: { hidden: true }
-        }}
+      <Box
+        className={classes.pieContainer}
+        sx={{ width: "800px", height: "800px" }}
       >
-        <Label>{highlightedAmount}</Label>
-      </PieChart>
+        <ResponsivePie
+          data={testData}
+          innerRadius={0.5}
+          activeId={activeId}
+          padAngle={0.5}
+          cornerRadius={2}
+          activeInnerRadiusOffset={6}
+          activeOuterRadiusOffset={12}
+          margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+          onClick={pieClickHandler}
+          onMouseEnter={pieMouseEnterHandler}
+          onMouseLeave={pieMouseLeaveHandler}
+          enableArcLabels={false}
+          enableArcLinkLabels={false}
+          motionConfig="wobbly"
+          tooltip={test}
+        ></ResponsivePie>
+      </Box>
       <List>
         {transactions.map((item, index) => (
-          <Transaction transaction={item} />
+          <Transaction transaction={item} canDelete={false} key={item.id} />
         ))}
       </List>
     </Box>

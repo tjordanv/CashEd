@@ -59,6 +59,7 @@ const getItemStyle = (provided, style, isDragging) => {
 const Transaction = ({
   transaction,
   style,
+  canDelete,
   deleteTransactionHandler,
   provided
 }) => {
@@ -128,7 +129,7 @@ const Transaction = ({
             {usdFormatter(transaction.amount)}
           </Typography>
         </Box>
-        {(isHovered && (
+        {(isHovered && canDelete && (
           <ConfirmationDialog
             dialogDetails={confirmationDialogDetails}
             onConfirm={() => deleteTransactionHandler(transaction)}

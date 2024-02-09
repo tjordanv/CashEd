@@ -6,3 +6,14 @@ ul .list li {
   padding-top: 1px;
   padding-bottom: 1px;
 }
+.pie {
+  cursor: pointer;
+}
+.pieContainer {
+  width: 800px;
+  height: 800px;
+}
+
+.pieContainer div div svg g {
+  cursor: pointer;
+}
