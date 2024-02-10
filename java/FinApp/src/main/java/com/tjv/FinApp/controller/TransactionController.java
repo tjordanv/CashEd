@@ -53,6 +53,7 @@ public class TransactionController {
         }
 
         List<TransactionSubcategory> subcategories = new ArrayList<>(subcategoryMap.values());
+        subcategories.sort((TransactionSubcategory subcategory1, TransactionSubcategory subcategory2) -> subcategory1.getName().compareTo(subcategory2.getName()));
         for (TransactionSubcategory subcategory : subcategories) {
             subcategory.updateTotal();;
         }

@@ -10,13 +10,16 @@ import Select from "@mui/material/Select"
 import { usdFormatter } from "../utils/usdFormatter"
 import { useLoaderData } from "react-router-dom"
 import List from "@mui/material/List"
-import ListItem from "@mui/material/ListItem"
+import ListItemButton from "@mui/material/ListItemButton"
 import ListItemText from "@mui/material/ListItemText"
 import { ClassNames } from "@emotion/react"
 import classes from "./DashboardTest.module.css"
 import TransactionsList from "./transactions/TransactionsList"
 import Transaction from "./transactions/Transaction"
 import { ResponsivePie } from "@nivo/pie"
+import FormGroup from "@mui/material/FormGroup"
+import FormControlLabel from "@mui/material/FormControlLabel"
+import Checkbox from "@mui/material/Checkbox"
 
 const testLoader = async () => {
   try {
@@ -42,6 +45,21 @@ const testLoader = async () => {
 }
 
 export { testLoader }
+
+const StyledListItemButton = styled(ListItemButton)(
+  ({ theme, hoverColor, selectedColor }) => ({
+    marginLeft: 25,
+    "&:hover": {
+      backgroundColor: hoverColor
+    },
+    "&.Mui-selected": {
+      backgroundColor: selectedColor
+    },
+    "&.Mui-selected:hover": {
+      backgroundColor: hoverColor
+    }
+  })
+)
 
 const StyledText = styled("text")(({ theme }) => ({
   fill: theme.palette.text.primary,
@@ -86,17 +104,68 @@ const DashboardTest = () => {
   const [highlightedAmount, setHighlightedAmount] = useState()
   const [transactions, setTransactions] = useState([])
   const [testData, setTestData] = useState(useLoaderData())
+  let counter = 0
   const [incomeCategories, setIncomeCategories] = useState(
-    useLoaderData().filter((item) => item.categoryId === 1)
+    useLoaderData()
+      .filter((item) => {
+        if (item.categoryId === 1) counter++
+        return item.categoryId === 1
+      })
+      .map((item, index) => {
+        const opacity = 1 - ((1 / counter) * index).toFixed(2)
+        item.color = `rgba(23, 195, 178, ${opacity})`
+        item.hoverColor = `rgba(23, 195, 178, ${opacity - 0.1})`
+        return item
+      })
   )
+  counter = 0
   const [savingsAndInvestmentCategories, setSavingsAndInvestmentCategories] =
-    useState(useLoaderData().filter((item) => item.categoryId === 2))
+    useState(
+      useLoaderData()
+        .filter((item) => {
+          if (item.categoryId === 2) counter += 1.5
+          return item.categoryId === 2
+        })
+        .map((item, index) => {
+          const opacity = 1 - ((1 / counter) * index).toFixed(2)
+          item.color = `rgba(34, 124, 157, ${opacity})`
+          item.hoverColor = `rgba(34, 124, 157, ${opacity - 0.1})`
+          return item
+        })
+    )
+  counter = 0
   const [variableExpCategories, setVariableExpCategories] = useState(
-    useLoaderData().filter((item) => item.categoryId === 3)
+    useLoaderData()
+      .filter((item) => {
+        if (item.categoryId === 3) counter += 1.75
+        return item.categoryId === 3
+      })
+      .map((item, index) => {
+        const opacity = 1 - ((1 / counter) * index).toFixed(2)
+        item.color = `rgba(255, 203, 119, ${opacity})`
+        item.hoverColor = `rgba(255, 203, 119, ${opacity - 0.1})`
+        return item
+      })
   )
+  counter = 0
   const [fixedExpCategories, setFixedExpCategories] = useState(
-    useLoaderData().filter((item) => item.categoryId === 4)
+    useLoaderData()
+      .filter((item) => {
+        if (item.categoryId === 4) counter += 1.6
+        return item.categoryId === 4
+      })
+      .map((item, index) => {
+        const opacity = 1 - ((1 / counter) * index).toFixed(2)
+        item.color = `rgba(254, 109, 115, ${opacity})`
+        item.hoverColor = `rgba(254, 109, 115, ${opacity - 0.1})`
+        return item
+      })
   )
+  const colors = [
+    ...savingsAndInvestmentCategories,
+    ...variableExpCategories,
+    ...fixedExpCategories
+  ].map((item) => item.color)
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -129,7 +198,7 @@ const DashboardTest = () => {
   const pieMouseEnterHandler = (node) => {
     if (!activeId) setActiveId(node.id)
   }
-  const pieMouseLeaveHandler = (node) => {
+  const pieMouseLeaveHandler = () => {
     if (activeId && transactions.length === 0) setActiveId(null)
   }
   const listClickHandler = (node) => {
@@ -147,35 +216,15 @@ const DashboardTest = () => {
   const listMouseEnterHandler = (e) => {
     if (transactions.length === 0) setActiveId(parseInt(e.target.id))
   }
-  const listMouseLeaveHandler = (e) => {
+  const listMouseLeaveHandler = () => {
     if (transactions.length === 0) setActiveId(null)
   }
-
-  const data1 = [
-    { label: "Group A", value: 400 },
-    { label: "Group B", value: 300 },
-    { label: "Group C", value: 300 },
-    { label: "Group D", value: 200 }
-  ]
-
-  const data2 = [
-    { label: "A1", value: 100 },
-    { label: "A2", value: 300 },
-    { label: "B1", value: 100 },
-    { label: "B2", value: 80 },
-    { label: "B3", value: 40 },
-    { label: "B4", value: 30 },
-    { label: "B5", value: 50 },
-    { label: "C1", value: 100 },
-    { label: "C2", value: 200 },
-    { label: "D1", value: 150 },
-    { label: "D2", value: 50 }
-  ]
 
   const listEvents = (item) => ({
     onClick: () => listClickHandler(item),
     onMouseEnter: listMouseEnterHandler,
-    onMouseLeave: listMouseLeaveHandler
+    onMouseLeave: listMouseLeaveHandler,
+    selected: item.id === activeId && transactions.length > 0
   })
 
   const test = ({ datum }) => {
@@ -190,48 +239,123 @@ const DashboardTest = () => {
   return (
     <Box sx={{ display: "flex" }}>
       <List dense={true}>
-        <Typography variant="h6">Income</Typography>
+        <Box display="flex" alignItems="center">
+          <Box
+            width={16}
+            height={16}
+            bgcolor={"rgba(23, 195, 178, 1)"}
+            marginRight={1}
+            borderRadius="50%"
+          />
+          <Typography variant="h6" style={{ textDecoration: "underline" }}>
+            Income
+          </Typography>
+        </Box>
         <List dense={true} className={classes.list}>
           {incomeCategories.map((item, index) => (
-            <ListItem key={index} id={item.id} {...listEvents(item)}>
+            <StyledListItemButton
+              key={index}
+              id={item.id}
+              {...listEvents(item)}
+              selectedColor={item.color}
+              hoverColor={item.hoverColor}
+            >
               <ListItemText
                 primary={item.label}
                 // secondary={usdFormatter(item.value)}
               />
-            </ListItem>
+            </StyledListItemButton>
           ))}
         </List>
-        <Typography variant="h6">Savings & Investment </Typography>
+        <Box display="flex" alignItems="center">
+          <Box
+            width={16}
+            height={16}
+            bgcolor={"rgba(34, 124, 157, 1)"}
+            marginRight={1}
+            borderRadius="50%"
+          />
+          <Typography variant="h6" style={{ textDecoration: "underline" }}>
+            Savings & Investment{" "}
+          </Typography>
+        </Box>
         <List dense={true} className={classes.list}>
           {savingsAndInvestmentCategories.map((item, index) => (
-            <ListItem key={index} id={item.id} {...listEvents(item)}>
+            <StyledListItemButton
+              key={index}
+              id={item.id}
+              {...listEvents(item)}
+              selectedColor={item.color}
+              hoverColor={item.hoverColor}
+            >
               <ListItemText
                 primary={item.label}
                 // secondary={usdFormatter(item.value)}
               />
-            </ListItem>
+            </StyledListItemButton>
           ))}
         </List>
-        <Typography variant="h6">Variable Expenditures</Typography>
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox
+                defaultChecked
+                sx={{
+                  "&.Mui-checked": {
+                    color: "rgba(255, 203, 119, 1)"
+                  }
+                }}
+              />
+            }
+            label={
+              <Typography variant="h6" style={{ textDecoration: "underline" }}>
+                Variable Expenditures
+              </Typography>
+            }
+          />
+        </FormGroup>
         <List dense={true} className={classes.list}>
           {variableExpCategories.map((item, index) => (
-            <ListItem key={index} id={item.id} {...listEvents(item)}>
+            <StyledListItemButton
+              key={index}
+              id={item.id}
+              {...listEvents(item)}
+              selectedColor={item.color}
+              hoverColor={item.hoverColor}
+            >
               <ListItemText
                 primary={item.label}
                 // secondary={usdFormatter(item.value)}
               />
-            </ListItem>
+            </StyledListItemButton>
           ))}
         </List>
-        <Typography variant="h6">Fixed Expenditures</Typography>
+        <Box display="flex" alignItems="center">
+          <Box
+            width={16}
+            height={16}
+            bgcolor={"rgba(254, 109, 115, 1)"}
+            marginRight={1}
+            borderRadius="50%"
+          />
+          <Typography variant="h6" style={{ textDecoration: "underline" }}>
+            Fixed Expenditures
+          </Typography>
+        </Box>
         <List dense={true} className={classes.list}>
           {fixedExpCategories.map((item, index) => (
-            <ListItem key={index} id={item.id} {...listEvents(item)}>
+            <StyledListItemButton
+              key={index}
+              id={item.id}
+              {...listEvents(item)}
+              selectedColor={item.color}
+              hoverColor={item.hoverColor}
+            >
               <ListItemText
                 primary={item.label}
                 // secondary={usdFormatter(item.value)}
               />
-            </ListItem>
+            </StyledListItemButton>
           ))}
         </List>
       </List>
@@ -240,7 +364,11 @@ const DashboardTest = () => {
         sx={{ width: "800px", height: "800px" }}
       >
         <ResponsivePie
-          data={testData}
+          data={[
+            ...savingsAndInvestmentCategories,
+            ...variableExpCategories,
+            ...fixedExpCategories
+          ]}
           innerRadius={0.5}
           activeId={activeId}
           padAngle={0.5}
@@ -255,6 +383,7 @@ const DashboardTest = () => {
           enableArcLinkLabels={false}
           motionConfig="wobbly"
           tooltip={test}
+          colors={colors}
         ></ResponsivePie>
       </Box>
       <List>
