@@ -49,6 +49,7 @@ export { testLoader }
 const StyledListItemButton = styled(ListItemButton)(
   ({ theme, hoverColor, selectedColor }) => ({
     marginLeft: 25,
+    borderRadius: 8,
     "&:hover": {
       backgroundColor: hoverColor
     },
@@ -101,14 +102,24 @@ const PieCenterLabel = ({ children }) => {
 
 const DashboardTest = () => {
   const [activeId, setActiveId] = useState()
-  const [highlightedAmount, setHighlightedAmount] = useState()
+  const [highlightedCategory, setHighlightedCategory] = useState()
   const [transactions, setTransactions] = useState([])
   const [testData, setTestData] = useState(useLoaderData())
+  const [incomeCategoriesSelected, setIncomeCategoriesSelected] =
+    useState(false)
+  const [
+    savingsAndInvestmentCategoriesSelected,
+    setSavingsAndInvestmentCategoriesSelected
+  ] = useState(true)
+  const [variableExpCategoriesSelected, setVariableExpCategoriesSelected] =
+    useState(true)
+  const [fixedExpCategoriesSelected, setFixedExpCategoriesSelected] =
+    useState(true)
   let counter = 0
   const [incomeCategories, setIncomeCategories] = useState(
     useLoaderData()
       .filter((item) => {
-        if (item.categoryId === 1) counter++
+        if (item.categoryId === 1) counter += 1.4
         return item.categoryId === 1
       })
       .map((item, index) => {
@@ -161,18 +172,29 @@ const DashboardTest = () => {
         return item
       })
   )
-  const colors = [
-    ...savingsAndInvestmentCategories,
-    ...variableExpCategories,
-    ...fixedExpCategories
-  ].map((item) => item.color)
+  const data = () => {
+    let result = []
+    if (incomeCategoriesSelected && Array.isArray(incomeCategories))
+      result = [...result, ...incomeCategories]
+    if (
+      savingsAndInvestmentCategoriesSelected &&
+      Array.isArray(savingsAndInvestmentCategories)
+    )
+      result = [...result, ...savingsAndInvestmentCategories]
+    if (variableExpCategoriesSelected && Array.isArray(variableExpCategories))
+      result = [...result, ...variableExpCategories]
+    if (fixedExpCategoriesSelected && Array.isArray(fixedExpCategories))
+      result = [...result, ...fixedExpCategories]
+    return result
+  }
+  const colors = data().map((item) => item.color)
 
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === "Escape") {
         setActiveId(null)
         setTransactions([])
-        setHighlightedAmount(null)
+        setHighlightedCategory(null)
       }
     }
 
@@ -188,9 +210,9 @@ const DashboardTest = () => {
     if (node.id === activeId && transactions.length > 0) {
       setActiveId(null)
       setTransactions([])
-      setHighlightedAmount(null)
+      setHighlightedCategory(null)
     } else {
-      setHighlightedAmount(node.value)
+      setHighlightedCategory({ name: node.label, amount: node.value })
       setTransactions(node.data.transactions)
       setActiveId(node.id)
     }
@@ -205,11 +227,11 @@ const DashboardTest = () => {
     if (node.id === activeId && transactions.length > 0) {
       setActiveId(null)
       setTransactions([])
-      setHighlightedAmount(null)
+      setHighlightedCategory(null)
     } else {
       setTransactions(node.transactions)
       setActiveId(node.id)
-      setHighlightedAmount(node.value)
+      setHighlightedCategory({ name: node.label, amount: node.value })
     }
   }
 
@@ -239,18 +261,26 @@ const DashboardTest = () => {
   return (
     <Box sx={{ display: "flex" }}>
       <List dense={true}>
-        <Box display="flex" alignItems="center">
-          <Box
-            width={16}
-            height={16}
-            bgcolor={"rgba(23, 195, 178, 1)"}
-            marginRight={1}
-            borderRadius="50%"
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox
+                value={incomeCategoriesSelected}
+                onChange={(e) => setIncomeCategoriesSelected(e.target.checked)}
+                sx={{
+                  "&.Mui-checked": {
+                    color: "rgba(23, 195, 178, 1)"
+                  }
+                }}
+              />
+            }
+            label={
+              <Typography variant="h6" style={{ textDecoration: "underline" }}>
+                Income
+              </Typography>
+            }
           />
-          <Typography variant="h6" style={{ textDecoration: "underline" }}>
-            Income
-          </Typography>
-        </Box>
+        </FormGroup>
         <List dense={true} className={classes.list}>
           {incomeCategories.map((item, index) => (
             <StyledListItemButton
@@ -267,18 +297,29 @@ const DashboardTest = () => {
             </StyledListItemButton>
           ))}
         </List>
-        <Box display="flex" alignItems="center">
-          <Box
-            width={16}
-            height={16}
-            bgcolor={"rgba(34, 124, 157, 1)"}
-            marginRight={1}
-            borderRadius="50%"
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox
+                defaultChecked
+                value={savingsAndInvestmentCategoriesSelected}
+                onChange={(e) =>
+                  setSavingsAndInvestmentCategoriesSelected(e.target.checked)
+                }
+                sx={{
+                  "&.Mui-checked": {
+                    color: "rgba(34, 124, 157, 1)"
+                  }
+                }}
+              />
+            }
+            label={
+              <Typography variant="h6" style={{ textDecoration: "underline" }}>
+                Savings & Investment
+              </Typography>
+            }
           />
-          <Typography variant="h6" style={{ textDecoration: "underline" }}>
-            Savings & Investment{" "}
-          </Typography>
-        </Box>
+        </FormGroup>
         <List dense={true} className={classes.list}>
           {savingsAndInvestmentCategories.map((item, index) => (
             <StyledListItemButton
@@ -300,6 +341,10 @@ const DashboardTest = () => {
             control={
               <Checkbox
                 defaultChecked
+                value={variableExpCategoriesSelected}
+                onChange={(e) =>
+                  setVariableExpCategoriesSelected(e.target.checked)
+                }
                 sx={{
                   "&.Mui-checked": {
                     color: "rgba(255, 203, 119, 1)"
@@ -330,18 +375,29 @@ const DashboardTest = () => {
             </StyledListItemButton>
           ))}
         </List>
-        <Box display="flex" alignItems="center">
-          <Box
-            width={16}
-            height={16}
-            bgcolor={"rgba(254, 109, 115, 1)"}
-            marginRight={1}
-            borderRadius="50%"
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox
+                defaultChecked
+                value={fixedExpCategoriesSelected}
+                onChange={(e) =>
+                  setFixedExpCategoriesSelected(e.target.checked)
+                }
+                sx={{
+                  "&.Mui-checked": {
+                    color: "rgba(254, 109, 115, 1)"
+                  }
+                }}
+              />
+            }
+            label={
+              <Typography variant="h6" style={{ textDecoration: "underline" }}>
+                Fixed Expenditures
+              </Typography>
+            }
           />
-          <Typography variant="h6" style={{ textDecoration: "underline" }}>
-            Fixed Expenditures
-          </Typography>
-        </Box>
+        </FormGroup>
         <List dense={true} className={classes.list}>
           {fixedExpCategories.map((item, index) => (
             <StyledListItemButton
@@ -361,20 +417,16 @@ const DashboardTest = () => {
       </List>
       <Box
         className={classes.pieContainer}
-        sx={{ width: "800px", height: "800px" }}
+        sx={{ position: "relative", width: "800px", height: "800px" }}
       >
         <ResponsivePie
-          data={[
-            ...savingsAndInvestmentCategories,
-            ...variableExpCategories,
-            ...fixedExpCategories
-          ]}
-          innerRadius={0.5}
+          data={data()}
+          innerRadius={0.6}
           activeId={activeId}
           padAngle={0.5}
           cornerRadius={2}
-          activeInnerRadiusOffset={6}
-          activeOuterRadiusOffset={12}
+          activeInnerRadiusOffset={12}
+          activeOuterRadiusOffset={18}
           margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
           onClick={pieClickHandler}
           onMouseEnter={pieMouseEnterHandler}
@@ -384,7 +436,25 @@ const DashboardTest = () => {
           motionConfig="wobbly"
           tooltip={test}
           colors={colors}
-        ></ResponsivePie>
+        >
+          {/* <Label>{highlightedAmount}</Label> */}
+        </ResponsivePie>
+        {highlightedCategory && (
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              textAlign: "center"
+            }}
+          >
+            <Typography variant="h6">{highlightedCategory.name}</Typography>
+            <Typography variant="h4">
+              {usdFormatter(highlightedCategory.amount)}
+            </Typography>
+          </div>
+        )}
       </Box>
       <List>
         {transactions.map((item, index) => (
