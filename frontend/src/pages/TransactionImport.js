@@ -184,7 +184,8 @@ const TransactionImport = () => {
             />
           )}
         </Box>
-        <Box className={classes.leftDivider}></Box>
+        <Divider orientation="vertical" flexItem />
+        {/* <Box className={classes.leftDivider}></Box> */}
         <Box>
           <TransactionCategories
             activeSubcategoryId={
@@ -194,7 +195,8 @@ const TransactionImport = () => {
             transactions={transactions}
           />
         </Box>
-        <Box className={classes.leftDivider}></Box>
+        <Divider orientation="vertical" flexItem />
+        {/* <Box className={classes.leftDivider}></Box> */}
         <Box className={classes.newTransactionsContainer}>
           <Typography variant="h6" sx={{ textAlign: "center" }}>
             {activeSubcategory ? activeSubcategory.name : "Click a category"}

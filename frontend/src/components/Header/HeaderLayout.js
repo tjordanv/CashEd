@@ -98,13 +98,13 @@ const Header = () => {
           Accounts
         </NavLink>
         <NavLink
-          to="home/AboutUs"
+          to="AboutUs"
           className={({ isActive }) => (isActive ? classes.active : undefined)}
         >
           About Us
         </NavLink>
         <NavLink
-          to="last"
+          to="contact"
           className={({ isActive }) => (isActive ? classes.active : undefined)}
         >
           Contact Us

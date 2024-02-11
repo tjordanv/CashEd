@@ -3,7 +3,7 @@ import { usePlaidLink } from "react-plaid-link"
 import fetcher from "../utils/fetchAuthorize"
 import { PieChart } from "@mui/x-charts/PieChart"
 import { useDrawingArea } from "@mui/x-charts/hooks"
-import { MenuItem, Typography } from "@mui/material"
+import { Divider, MenuItem, Typography } from "@mui/material"
 import { styled } from "@mui/material/styles"
 import Box from "@mui/material/Box"
 import Select from "@mui/material/Select"
@@ -46,21 +46,19 @@ const testLoader = async () => {
 
 export { testLoader }
 
-const StyledListItemButton = styled(ListItemButton)(
-  ({ theme, hoverColor, selectedColor }) => ({
-    marginLeft: 25,
-    borderRadius: 8,
-    "&:hover": {
-      backgroundColor: hoverColor
-    },
-    "&.Mui-selected": {
-      backgroundColor: selectedColor
-    },
-    "&.Mui-selected:hover": {
-      backgroundColor: hoverColor
-    }
-  })
-)
+const StyledListItemButton = styled(ListItemButton)(({ theme, props }) => ({
+  marginLeft: 25,
+  borderRadius: 8,
+  "&:hover": {
+    backgroundColor: props.hoverColor
+  },
+  "&.Mui-selected": {
+    backgroundColor: props.selectedColor
+  },
+  "&.Mui-selected:hover": {
+    backgroundColor: props.hoverColor
+  }
+}))
 
 const StyledText = styled("text")(({ theme }) => ({
   fill: theme.palette.text.primary,
@@ -99,6 +97,20 @@ const PieCenterLabel = ({ children }) => {
     </Typography>
   )
 }
+const monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+]
 
 const DashboardTest = () => {
   const [activeId, setActiveId] = useState()
@@ -116,10 +128,14 @@ const DashboardTest = () => {
   const [fixedExpCategoriesSelected, setFixedExpCategoriesSelected] =
     useState(true)
   let counter = 0
+  let incomeTotal = 0
   const [incomeCategories, setIncomeCategories] = useState(
     useLoaderData()
       .filter((item) => {
-        if (item.categoryId === 1) counter += 1.4
+        if (item.categoryId === 1) {
+          counter += 1.4
+          incomeTotal += item.value
+        }
         return item.categoryId === 1
       })
       .map((item, index) => {
@@ -130,11 +146,15 @@ const DashboardTest = () => {
       })
   )
   counter = 0
+  let savingsAndInvestmentTotal = 0
   const [savingsAndInvestmentCategories, setSavingsAndInvestmentCategories] =
     useState(
       useLoaderData()
         .filter((item) => {
-          if (item.categoryId === 2) counter += 1.5
+          if (item.categoryId === 2) {
+            counter += 1.5
+            savingsAndInvestmentTotal += item.value
+          }
           return item.categoryId === 2
         })
         .map((item, index) => {
@@ -145,10 +165,14 @@ const DashboardTest = () => {
         })
     )
   counter = 0
+  let variableExpTotal = 0
   const [variableExpCategories, setVariableExpCategories] = useState(
     useLoaderData()
       .filter((item) => {
-        if (item.categoryId === 3) counter += 1.75
+        if (item.categoryId === 3) {
+          counter += 1.75
+          variableExpTotal += item.value
+        }
         return item.categoryId === 3
       })
       .map((item, index) => {
@@ -159,10 +183,14 @@ const DashboardTest = () => {
       })
   )
   counter = 0
+  let fixedExpTotal = 0
   const [fixedExpCategories, setFixedExpCategories] = useState(
     useLoaderData()
       .filter((item) => {
-        if (item.categoryId === 4) counter += 1.6
+        if (item.categoryId === 4) {
+          counter += 1.6
+          fixedExpTotal += item.value
+        }
         return item.categoryId === 4
       })
       .map((item, index) => {
@@ -188,6 +216,8 @@ const DashboardTest = () => {
     return result
   }
   const colors = data().map((item) => item.color)
+
+  const currentMonth = monthNames[new Date().getMonth()]
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -259,8 +289,8 @@ const DashboardTest = () => {
   }
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <List dense={true}>
+    <Box className={classes.container}>
+      <List className={classes.subcategoryListParent}>
         <FormGroup>
           <FormControlLabel
             control={
@@ -275,20 +305,28 @@ const DashboardTest = () => {
               />
             }
             label={
-              <Typography variant="h6" style={{ textDecoration: "underline" }}>
-                Income
-              </Typography>
+              <>
+                <Typography className={classes.reducedLineHeight} variant="h6">
+                  Income
+                </Typography>
+                <Typography
+                  className={classes.reducedLineHeight}
+                  variant="subtitle1"
+                >
+                  {usdFormatter(incomeTotal)}
+                </Typography>
+              </>
             }
           />
+          <Divider variant="middle" />
         </FormGroup>
-        <List dense={true} className={classes.list}>
+        <List dense={true} className={classes.subcategoryList}>
           {incomeCategories.map((item, index) => (
             <StyledListItemButton
               key={index}
               id={item.id}
               {...listEvents(item)}
-              selectedColor={item.color}
-              hoverColor={item.hoverColor}
+              props={{ selectedColor: item.color, hoverColor: item.hoverColor }}
             >
               <ListItemText
                 primary={item.label}
@@ -314,20 +352,28 @@ const DashboardTest = () => {
               />
             }
             label={
-              <Typography variant="h6" style={{ textDecoration: "underline" }}>
-                Savings & Investment
-              </Typography>
+              <>
+                <Typography className={classes.reducedLineHeight} variant="h6">
+                  Savings & Investment
+                </Typography>
+                <Typography
+                  className={classes.reducedLineHeight}
+                  variant="subtitle1"
+                >
+                  {usdFormatter(savingsAndInvestmentTotal)}
+                </Typography>
+              </>
             }
           />
+          <Divider variant="middle" />
         </FormGroup>
-        <List dense={true} className={classes.list}>
+        <List dense={true} className={classes.subcategoryList}>
           {savingsAndInvestmentCategories.map((item, index) => (
             <StyledListItemButton
               key={index}
               id={item.id}
               {...listEvents(item)}
-              selectedColor={item.color}
-              hoverColor={item.hoverColor}
+              props={{ selectedColor: item.color, hoverColor: item.hoverColor }}
             >
               <ListItemText
                 primary={item.label}
@@ -353,20 +399,28 @@ const DashboardTest = () => {
               />
             }
             label={
-              <Typography variant="h6" style={{ textDecoration: "underline" }}>
-                Variable Expenditures
-              </Typography>
+              <>
+                <Typography className={classes.reducedLineHeight} variant="h6">
+                  Variable Expenditures
+                </Typography>
+                <Typography
+                  className={classes.reducedLineHeight}
+                  variant="subtitle1"
+                >
+                  {usdFormatter(variableExpTotal)}
+                </Typography>
+              </>
             }
           />
+          <Divider variant="middle" />
         </FormGroup>
-        <List dense={true} className={classes.list}>
+        <List dense={true} className={classes.subcategoryList}>
           {variableExpCategories.map((item, index) => (
             <StyledListItemButton
               key={index}
               id={item.id}
               {...listEvents(item)}
-              selectedColor={item.color}
-              hoverColor={item.hoverColor}
+              props={{ selectedColor: item.color, hoverColor: item.hoverColor }}
             >
               <ListItemText
                 primary={item.label}
@@ -392,20 +446,28 @@ const DashboardTest = () => {
               />
             }
             label={
-              <Typography variant="h6" style={{ textDecoration: "underline" }}>
-                Fixed Expenditures
-              </Typography>
+              <>
+                <Typography className={classes.reducedLineHeight} variant="h6">
+                  Fixed Expenditures
+                </Typography>
+                <Typography
+                  className={classes.reducedLineHeight}
+                  variant="subtitle1"
+                >
+                  {usdFormatter(fixedExpTotal)}
+                </Typography>
+              </>
             }
           />
+          <Divider variant="middle" />
         </FormGroup>
-        <List dense={true} className={classes.list}>
+        <List dense={true} className={classes.subcategoryList}>
           {fixedExpCategories.map((item, index) => (
             <StyledListItemButton
               key={index}
               id={item.id}
               {...listEvents(item)}
-              selectedColor={item.color}
-              hoverColor={item.hoverColor}
+              props={{ selectedColor: item.color, hoverColor: item.hoverColor }}
             >
               <ListItemText
                 primary={item.label}
@@ -417,16 +479,23 @@ const DashboardTest = () => {
       </List>
       <Box
         className={classes.pieContainer}
-        sx={{ position: "relative", width: "800px", height: "800px" }}
+        sx={{
+          position: "relative",
+          width: "calc(100vw - 600px)",
+          height: "calc(100vh - 105px)"
+        }}
       >
+        <Typography variant="h4" style={{ textAlign: "center" }}>
+          {currentMonth}
+        </Typography>
         <ResponsivePie
           data={data()}
-          innerRadius={0.6}
+          innerRadius={0.65}
           activeId={activeId}
           padAngle={0.5}
           cornerRadius={2}
-          activeInnerRadiusOffset={12}
-          activeOuterRadiusOffset={18}
+          activeInnerRadiusOffset={10}
+          activeOuterRadiusOffset={16}
           margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
           onClick={pieClickHandler}
           onMouseEnter={pieMouseEnterHandler}
@@ -446,21 +515,42 @@ const DashboardTest = () => {
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%)",
-              textAlign: "center"
+              textAlign: "center",
+              padding: "5px"
             }}
           >
             <Typography variant="h6">{highlightedCategory.name}</Typography>
-            <Typography variant="h4">
+            <Typography variant="h5">
               {usdFormatter(highlightedCategory.amount)}
             </Typography>
           </div>
         )}
       </Box>
-      <List>
-        {transactions.map((item, index) => (
-          <Transaction transaction={item} canDelete={false} key={item.id} />
-        ))}
-      </List>
+      <Box className={classes.detailsContainer}>
+        {highlightedCategory && (
+          <Box>
+            <Typography
+              className={classes.reducedLineHeight}
+              variant="subtitle2"
+            >
+              Target Goal: $$$$$
+            </Typography>
+            <Typography
+              className={classes.reducedLineHeight}
+              variant="subtitle2"
+            >
+              Current Total: {usdFormatter(highlightedCategory.amount)}
+            </Typography>
+            <Typography
+              className={classes.reducedLineHeight}
+              variant="subtitle2"
+            >
+              Previous Month: $$$$$
+            </Typography>
+          </Box>
+        )}
+        <TransactionsList transactions={transactions} />
+      </Box>
     </Box>
   )
 }

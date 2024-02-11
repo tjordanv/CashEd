@@ -1,9 +1,11 @@
 import { Droppable } from "react-beautiful-dnd"
 import Transaction from "./Transaction"
-import { FixedSizeList as List } from "react-window"
+import { FixedSizeList as VirtualizedList } from "react-window"
 import { Draggable } from "react-beautiful-dnd"
+import List from "@mui/material/List"
 
 import classes from "./TransactionsList.module.css"
+import { ListItem } from "@mui/material"
 
 const TransactionsList = ({
   transactions,
@@ -26,7 +28,6 @@ const TransactionsList = ({
             provided={provided}
             transaction={transaction}
             style={style}
-            className={classes.listItem}
             index={index}
             deleteTransactionHandler={deleteTransactionHandler}
           />
@@ -35,38 +36,54 @@ const TransactionsList = ({
     )
   }
 
-  return (
-    <Droppable
-      droppableId={droppableId}
-      mode="virtual"
-      renderClone={(provided, snapshot, rubric) => {
-        const transaction = transactions[rubric.source.index]
-        return (
-          <Transaction
-            transaction={transaction}
-            index={rubric.source.index}
-            deleteTransactionHandler={deleteTransactionHandler}
-            provided={provided}
-            snapshot={snapshot}
-          />
-        )
-      }}
-    >
-      {(provided, snapshot) => (
-        <List
-          height={heightInPixels}
-          width={215}
-          outerRef={provided.innerRef}
-          itemCount={transactions.length}
-          itemSize={68}
-          itemData={transactions}
-          className={classes.list}
-        >
-          {Row}
-        </List>
-      )}
-    </Droppable>
-  )
+  if (droppableId) {
+    return (
+      <Droppable
+        droppableId={droppableId}
+        mode="virtual"
+        renderClone={(provided, snapshot, rubric) => {
+          const transaction = transactions[rubric.source.index]
+          return (
+            <Transaction
+              transaction={transaction}
+              index={rubric.source.index}
+              deleteTransactionHandler={deleteTransactionHandler}
+              provided={provided}
+              snapshot={snapshot}
+            />
+          )
+        }}
+      >
+        {(provided, snapshot) => (
+          <VirtualizedList
+            height={heightInPixels}
+            width={215}
+            outerRef={provided.innerRef}
+            itemCount={transactions.length}
+            itemSize={68}
+            itemData={transactions}
+            className={classes.list}
+          >
+            {Row}
+          </VirtualizedList>
+        )}
+      </Droppable>
+    )
+  } else {
+    return (
+      <List className={classes.nonDraggableList}>
+        {transactions.map((transaction, index) => (
+          <ListItem key={index} className={classes.listItem}>
+            <Transaction
+              transaction={transaction}
+              deleteTransactionHandler={deleteTransactionHandler}
+              index={index}
+            />
+          </ListItem>
+        ))}
+      </List>
+    )
+  }
 }
 
 export default TransactionsList
