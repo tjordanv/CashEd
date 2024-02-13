@@ -3,9 +3,10 @@
   justify-content: space-evenly;
 }
 .container .subcategoryListParent {
-  max-height: calc(100vh - 75px);
+  max-height: calc(100vh - 115px);
   overflow-y: auto;
-  padding: 0 0 10px 0;
+  margin: 25px auto;
+  padding: 0;
   scrollbar-gutter: stable;
 }
 .subcategoryListParent::-webkit-scrollbar {
@@ -19,7 +20,9 @@
   background-color: rgba(119, 119, 119, 0.7);
   border-radius: 8px;
 }
-
+.container .subcategory {
+  /* margin-top: 25px; */
+}
 ul .subcategoryList {
   padding: 0;
 }
@@ -38,4 +41,18 @@ ul .subcategoryList li {
 
 .pieContainer div div svg g {
   cursor: pointer;
+}
+.container .expandMore {
+  margin-left: auto;
+  transform: rotate(0deg);
+  transition: transform 0.2s;
+}
+
+.container .expandMoreExpanded {
+  transform: rotate(180deg);
+}
+
+.container .detailsContainer {
+  min-width: 285px;
+  margin: 25px auto;
 }

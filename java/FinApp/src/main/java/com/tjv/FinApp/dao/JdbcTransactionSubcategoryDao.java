@@ -15,6 +15,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +64,26 @@ public class JdbcTransactionSubcategoryDao implements TransactionSubcategoryDao{
         }
         return subcategories;
     }
+    @Override
+    public List<TransactionSubcategory> getSubcategoriesByMonth(Principal principal, int month, int year) {
+        String sql = "SELECT s.id, s.name, category_id, detailed_name, s.description, sum(t.amount) as total " +
+        "FROM transactions t " +
+        "JOIN transaction_subcategories s on t.subcategory_id = s.id " +
+        "WHERE user_id = ? AND t.is_deleted = false AND date BETWEEN ? AND ? " +
+        "GROUP BY s.id, s.name, category_id, detailed_name, s.description " +
+        "ORDER BY s.name";
+        int userId = userDao.getUserIdByUsername(principal);
+        LocalDate startOfMonth = LocalDate.of(year, month, 1); //LocalDate.now().with(TemporalAdjusters.firstDayOfMonth());
+        LocalDate endOfMonth = startOfMonth.with(TemporalAdjusters.lastDayOfMonth());
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, startOfMonth, endOfMonth);
+        List<TransactionSubcategory> subcategories = new ArrayList<>();
+
+        while (results.next()) {
+            subcategories.add(mapRowToSubcategory(results));
+        }
+        return subcategories;
+    }
 
     @Override
     public void updateUserSubcategories(Principal principal, String subcategoryIdsToSave, String subcategoryIdsToDelete) {
@@ -99,8 +121,15 @@ public class JdbcTransactionSubcategoryDao implements TransactionSubcategoryDao{
         subcategory.setCategoryId(rs.getInt("category_id"));
         subcategory.setDetailedName(rs.getString("detailed_name"));
         subcategory.setDescription(rs.getString("description"));
-        if (rs.findColumn("isActive") > 0) {
+        try {
             subcategory.setActive(rs.getBoolean("isActive"));
+        } catch (Exception e) {
+            // Handle exception or ignore if "isActive" column is optional
+        }
+        try {
+            subcategory.setTotal(rs.getDouble("total"));
+        } catch (Exception e) {
+            // Handle exception or ignore if "total" column is optional
         }
         return subcategory;
     }

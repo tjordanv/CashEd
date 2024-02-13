@@ -11,6 +11,10 @@ const usdFormatter = (amount) => {
     currency: "USD"
   })
 
+  if (amount === 0) {
+    return "$0.00"
+  }
+
   if (typeof amount === "number") {
     return usd.format(amount)
   }
