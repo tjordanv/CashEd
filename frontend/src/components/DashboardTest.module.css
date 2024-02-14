@@ -5,7 +5,7 @@
 .container .subcategoryListParent {
   max-height: calc(100vh - 115px);
   overflow-y: auto;
-  margin: 25px auto;
+  margin: 25px auto 25px 25px;
   padding: 0;
   scrollbar-gutter: stable;
 }
@@ -54,5 +54,9 @@ ul .subcategoryList li {
 
 .container .detailsContainer {
   min-width: 285px;
-  margin: 25px auto;
+  margin: 25px 25px 25px auto;
+}
+.container .detailsContainer .detailText {
+  display: flex;
+  justify-content: space-between;
 }

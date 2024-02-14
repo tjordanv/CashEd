@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { usePlaidLink } from "react-plaid-link"
 import fetcher from "../utils/fetchAuthorize"
-import { PieChart } from "@mui/x-charts/PieChart"
-import { useDrawingArea } from "@mui/x-charts/hooks"
 import {
   Divider,
   IconButton,
@@ -23,6 +21,7 @@ import classes from "./DashboardTest.module.css"
 import TransactionsList from "./transactions/TransactionsList"
 import Transaction from "./transactions/Transaction"
 import { ResponsivePie } from "@nivo/pie"
+import { ResponsiveBar } from "@nivo/bar"
 import FormGroup from "@mui/material/FormGroup"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import Checkbox from "@mui/material/Checkbox"
@@ -70,7 +69,6 @@ const testLoader = async () => {
       return item
     })
 
-    console.log(currentMonthData)
     return currentMonthData
   } catch (error) {
     console.error("Error fetching data: ", error)
@@ -147,6 +145,7 @@ const DashboardTest = () => {
         const opacity = 1 - ((1 / counter) * index).toFixed(2)
         item.color = `rgba(23, 195, 178, ${opacity})`
         item.hoverColor = `rgba(23, 195, 178, ${opacity - 0.1})`
+        item.barColor = "rgba(23, 195, 178, 1)"
         return item
       })
   )
@@ -166,6 +165,7 @@ const DashboardTest = () => {
           const opacity = 1 - ((1 / counter) * index).toFixed(2)
           item.color = `rgba(34, 124, 157, ${opacity})`
           item.hoverColor = `rgba(34, 124, 157, ${opacity - 0.1})`
+          item.barColor = "rgba(34, 124, 157, 1)"
           return item
         })
     )
@@ -184,6 +184,7 @@ const DashboardTest = () => {
         const opacity = 1 - ((1 / counter) * index).toFixed(2)
         item.color = `rgba(255, 203, 119, ${opacity})`
         item.hoverColor = `rgba(255, 203, 119, ${opacity - 0.1})`
+        item.barColor = "rgba(255, 203, 119, 1)"
         return item
       })
   )
@@ -202,6 +203,7 @@ const DashboardTest = () => {
         const opacity = 1 - ((1 / counter) * index).toFixed(2)
         item.color = `rgba(254, 109, 115, ${opacity})`
         item.hoverColor = `rgba(254, 109, 115, ${opacity - 0.1})`
+        item.barColor = "rgba(254, 109, 115, 1)"
         return item
       })
   )
@@ -251,11 +253,11 @@ const DashboardTest = () => {
       setActiveId(null)
       setHighlightedCategory(null)
     } else {
-      console.log(node)
       setHighlightedCategory({
         name: node.label,
         total: node.value,
-        previousTotal: node.data.previousTotal
+        previousTotal: node.data.previousTotal,
+        colors: node.data.barColor
       })
       setActiveId(node.id)
     }
@@ -275,7 +277,8 @@ const DashboardTest = () => {
       setHighlightedCategory({
         name: node.label,
         total: node.value,
-        previousTotal: node.previousTotal
+        previousTotal: node.previousTotal,
+        colors: node.barColor
       })
     }
   }
@@ -299,6 +302,14 @@ const DashboardTest = () => {
       <Box>
         <Typography variant="h6">{datum.label}</Typography>
         <Typography variant="h6">{usdFormatter(datum.value)}</Typography>
+      </Box>
+    )
+  }
+  const test2 = ({ id, value, indexValue }) => {
+    return (
+      <Box>
+        <Typography variant="h6">{indexValue}</Typography>
+        <Typography variant="h6">{usdFormatter(value)}</Typography>
       </Box>
     )
   }
@@ -471,7 +482,6 @@ const DashboardTest = () => {
           </List>
         </Collapse>
         <Box sx={{ height: "25px" }} />
-
         <FormGroup className={classes.subcategory}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <FormControlLabel
@@ -555,7 +565,6 @@ const DashboardTest = () => {
           </List>
         </Collapse>
         <Box sx={{ height: "25px" }} />
-
         <FormGroup className={classes.subcategory}>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <FormControlLabel
@@ -664,10 +673,8 @@ const DashboardTest = () => {
           motionConfig="wobbly"
           tooltip={test}
           colors={colors}
-        >
-          {/* <Label>{highlightedAmount}</Label> */}
-        </ResponsivePie>
-        {highlightedCategory && (
+        />
+        {/* {highlightedCategory && (
           <div
             style={{
               position: "absolute",
@@ -683,29 +690,114 @@ const DashboardTest = () => {
               {usdFormatter(highlightedCategory.total)}
             </Typography>
           </div>
-        )}
+        )} */}
       </Box>
       <Box className={classes.detailsContainer}>
         {highlightedCategory && (
           <Box>
-            <Typography
-              className={classes.reducedLineHeight}
-              variant="subtitle2"
-            >
-              Target Goal: $$$$$
-            </Typography>
-            <Typography
-              className={classes.reducedLineHeight}
-              variant="subtitle2"
-            >
-              Current Total: {usdFormatter(highlightedCategory.total)}
-            </Typography>
-            <Typography
-              className={classes.reducedLineHeight}
-              variant="subtitle2"
-            >
-              Previous Month: {usdFormatter(highlightedCategory.previousTotal)}
-            </Typography>
+            <Typography variant="h5">{highlightedCategory.name}</Typography>
+            {/* <Typography variant="h5">
+              {usdFormatter(highlightedCategory.total)}
+            </Typography> */}
+            <Box sx={{ height: "600px", width: "200px" }}>
+              <ResponsiveBar
+                data={[
+                  {
+                    label: "Current Total",
+                    amount: highlightedCategory.total
+                  },
+                  {
+                    label: "Previous Month",
+                    amount: highlightedCategory.previousTotal
+                  },
+                  {
+                    label: "Goal Total",
+                    amount: highlightedCategory.total + 100
+                  }
+                ]}
+                keys={["amount"]}
+                indexBy="label"
+                colors={highlightedCategory.colors}
+                colorBy="indexValue"
+                margin={{ top: 20, right: 10, bottom: 120, left: 0 }}
+                padding={0.3}
+                tooltip={test2}
+                enableLabel={false}
+                enableGridY={false}
+                axisBottom={null}
+                legends={[
+                  {
+                    dataFrom: "indexes",
+                    anchor: "bottom-left",
+                    direction: "column",
+                    justify: false,
+                    translateX: 15,
+                    translateY: 75,
+                    itemWidth: 100,
+                    itemHeight: 20,
+                    itemsSpacing: 2,
+                    symbolSize: 20,
+                    itemDirection: "left-to-right"
+                  }
+                ]}
+                defs={[
+                  {
+                    id: "dots",
+                    type: "patternDots",
+                    background: "inherit",
+                    color: "#38bcb2",
+                    size: 4,
+                    padding: 1,
+                    stagger: true
+                  },
+                  {
+                    id: "lines",
+                    type: "patternLines",
+                    background: "#eed312",
+                    color: "#eed312",
+                    rotation: -45,
+                    lineWidth: 6,
+                    spacing: 10
+                  }
+                ]}
+                fill={[
+                  {
+                    match: (bar) => bar.indexValue === "Previous Month",
+                    id: "dots"
+                  }
+                  // {
+                  //   match: {
+                  //     id: "amoun"
+                  //   },
+                  //   id: "lines"
+                  // }
+                ]}
+              />
+            </Box>
+            {/* <span className={classes.detailText}>
+              <Typography className={classes.reducedLineHeight} variant="h6">
+                Target Goal:
+              </Typography>
+              <Typography className={classes.reducedLineHeight} variant="h6">
+                $$$$$
+              </Typography>
+            </span>
+            <span className={classes.detailText}>
+              <Typography className={classes.reducedLineHeight} variant="h6">
+                Current Total:
+              </Typography>
+              <Typography className={classes.reducedLineHeight} variant="h6">
+                {usdFormatter(highlightedCategory.total)}
+              </Typography>
+            </span>
+            <span className={classes.detailText}>
+              <Typography className={classes.reducedLineHeight} variant="h6">
+                Previous Month:
+              </Typography>
+              <Typography className={classes.reducedLineHeight} variant="h6">
+                {usdFormatter(highlightedCategory.previousTotal)}
+              </Typography>
+            </span> */}
           </Box>
         )}
       </Box>
