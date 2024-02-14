@@ -145,7 +145,7 @@ const DashboardTest = () => {
         const opacity = 1 - ((1 / counter) * index).toFixed(2)
         item.color = `rgba(23, 195, 178, ${opacity})`
         item.hoverColor = `rgba(23, 195, 178, ${opacity - 0.1})`
-        item.barColor = "rgba(23, 195, 178, 1)"
+        item.barColor = "#17C3B2"
         return item
       })
   )
@@ -165,7 +165,7 @@ const DashboardTest = () => {
           const opacity = 1 - ((1 / counter) * index).toFixed(2)
           item.color = `rgba(34, 124, 157, ${opacity})`
           item.hoverColor = `rgba(34, 124, 157, ${opacity - 0.1})`
-          item.barColor = "rgba(34, 124, 157, 1)"
+          item.barColor = "#227C9D"
           return item
         })
     )
@@ -184,7 +184,7 @@ const DashboardTest = () => {
         const opacity = 1 - ((1 / counter) * index).toFixed(2)
         item.color = `rgba(255, 203, 119, ${opacity})`
         item.hoverColor = `rgba(255, 203, 119, ${opacity - 0.1})`
-        item.barColor = "rgba(255, 203, 119, 1)"
+        item.barColor = "#FFCB77"
         return item
       })
   )
@@ -203,7 +203,7 @@ const DashboardTest = () => {
         const opacity = 1 - ((1 / counter) * index).toFixed(2)
         item.color = `rgba(254, 109, 115, ${opacity})`
         item.hoverColor = `rgba(254, 109, 115, ${opacity - 0.1})`
-        item.barColor = "rgba(254, 109, 115, 1)"
+        item.barColor = "#FE6D73"
         return item
       })
   )
@@ -695,11 +695,13 @@ const DashboardTest = () => {
       <Box className={classes.detailsContainer}>
         {highlightedCategory && (
           <Box>
-            <Typography variant="h5">{highlightedCategory.name}</Typography>
+            <Typography variant="h5" sx={{ textAlign: "center" }}>
+              {highlightedCategory.name}
+            </Typography>
             {/* <Typography variant="h5">
               {usdFormatter(highlightedCategory.total)}
             </Typography> */}
-            <Box sx={{ height: "600px", width: "200px" }}>
+            <Box sx={{ height: "calc(100vh - 175px)", width: "300px" }}>
               <ResponsiveBar
                 data={[
                   {
@@ -708,44 +710,35 @@ const DashboardTest = () => {
                   },
                   {
                     label: "Previous Month",
-                    amount: highlightedCategory.previousTotal
+                    previousAmount: highlightedCategory.previousTotal
                   },
                   {
                     label: "Goal Total",
-                    amount: highlightedCategory.total + 100
+                    goalAmount: highlightedCategory.total + 100
                   }
                 ]}
-                keys={["amount"]}
+                keys={["amount", "previousAmount", "goalAmount"]}
                 indexBy="label"
                 colors={highlightedCategory.colors}
                 colorBy="indexValue"
-                margin={{ top: 20, right: 10, bottom: 120, left: 0 }}
+                margin={{ top: 20, right: 0, bottom: 70, left: 0 }}
                 padding={0.3}
                 tooltip={test2}
                 enableLabel={false}
                 enableGridY={false}
-                axisBottom={null}
-                legends={[
-                  {
-                    dataFrom: "indexes",
-                    anchor: "bottom-left",
-                    direction: "column",
-                    justify: false,
-                    translateX: 15,
-                    translateY: 75,
-                    itemWidth: 100,
-                    itemHeight: 20,
-                    itemsSpacing: 2,
-                    symbolSize: 20,
-                    itemDirection: "left-to-right"
-                  }
-                ]}
+                axisBottom={{
+                  tickSize: 0,
+                  tickPadding: 10,
+                  tickRotation: 25,
+                  legendPosition: "middle",
+                  truncateTickAt: 0
+                }}
                 defs={[
                   {
                     id: "dots",
                     type: "patternDots",
                     background: "inherit",
-                    color: "#38bcb2",
+                    color: "#fff7e7",
                     size: 4,
                     padding: 1,
                     stagger: true
@@ -753,24 +746,26 @@ const DashboardTest = () => {
                   {
                     id: "lines",
                     type: "patternLines",
-                    background: "#eed312",
-                    color: "#eed312",
+                    background: "inherit",
+                    color: "#fff7e7",
                     rotation: -45,
-                    lineWidth: 6,
+                    lineWidth: 4,
                     spacing: 10
                   }
                 ]}
                 fill={[
                   {
-                    match: (bar) => bar.indexValue === "Previous Month",
+                    match: {
+                      id: "previousAmount"
+                    },
                     id: "dots"
+                  },
+                  {
+                    match: {
+                      id: "goalAmount"
+                    },
+                    id: "lines"
                   }
-                  // {
-                  //   match: {
-                  //     id: "amoun"
-                  //   },
-                  //   id: "lines"
-                  // }
                 ]}
               />
             </Box>

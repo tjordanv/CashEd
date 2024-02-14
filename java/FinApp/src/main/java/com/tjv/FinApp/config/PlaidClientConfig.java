@@ -25,7 +25,7 @@ public class PlaidClientConfig {
         apiKeys.put("clientId", clientId);
         apiKeys.put("secret", secret);
         ApiClient apiClient = new ApiClient(apiKeys);
-        apiClient.setPlaidAdapter(ApiClient.Development);
+        apiClient.setPlaidAdapter(ApiClient.Sandbox);
         plaidClient = apiClient.createService(PlaidApi.class);
         return plaidClient;
     }

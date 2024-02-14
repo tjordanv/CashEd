@@ -3,9 +3,10 @@
   justify-content: space-evenly;
 }
 .container .subcategoryListParent {
-  max-height: calc(100vh - 115px);
+  max-height: calc(100vh - 150px);
+  min-width: 300px;
   overflow-y: auto;
-  margin: 25px auto 25px 25px;
+  margin: 50px auto 25px 50px;
   padding: 0;
   scrollbar-gutter: stable;
 }
@@ -53,8 +54,9 @@ ul .subcategoryList li {
 }
 
 .container .detailsContainer {
-  min-width: 285px;
-  margin: 25px 25px 25px auto;
+  display: flex;
+  min-width: 300px;
+  margin: 50px 40px 25px auto;
 }
 .container .detailsContainer .detailText {
   display: flex;
