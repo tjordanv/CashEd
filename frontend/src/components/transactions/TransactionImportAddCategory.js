@@ -20,10 +20,12 @@ import fetcher from "../../utils/fetchAuthorize"
 import FetchError from "../../utils/fetchError"
 
 const TransactionImportAddCategory = ({
+  isOpen,
+  setIsOpen,
   categoryId,
   setSubcategoriesHandler
 }) => {
-  const [isOpen, setIsOpen] = useState(false)
+  // const [isOpen, setIsOpen] = useState(false)
   const [subcategories, setSubcategories] = useState(
     useLoaderData()[categoryId - 1].map((subcategory) => ({
       ...subcategory,
@@ -34,9 +36,10 @@ const TransactionImportAddCategory = ({
     }))
   )
 
+  // store the initial state of the subcategories
   const initialSubcategories = useRef(subcategories)
 
-  const addCategories = async () => {
+  const saveCategoriesHandler = async () => {
     let nonSelectedSubcategories = subcategories
       .filter((subcategory) => !subcategory.selected)
       .map((subcategory) => ({
@@ -87,14 +90,16 @@ const TransactionImportAddCategory = ({
     setSubcategories([...subcategoriesToAdd, ...nonSelectedSubcategories])
     setIsOpen(false)
   }
+  // reset the subcategories to the initial state when the dialog is closed without saving
   const onCloseHandler = () => {
     setIsOpen(false)
     setSubcategories(initialSubcategories.current)
   }
 
-  const test = (e, value) => {
+  const setSaveChanges = (e, value) => {
     e.stopPropagation()
 
+    // update the save changes property of the subcategory
     setSubcategories((prevState) => {
       return prevState.map((subcategory) => {
         if (subcategory.id === value.id) {
@@ -127,103 +132,96 @@ const TransactionImportAddCategory = ({
     return isChanged && isActive ? "rgba(200, 10, 10, 0.10)" : undefined
   }
   return (
-    <>
-      <Tooltip title="Add categories" placement="top">
-        <IconButton aria-label="Import" onClick={() => setIsOpen(true)}>
-          <AddBoxIcon color="lightWhite" fontSize="large" />
-        </IconButton>
-      </Tooltip>
-      <Dialog
-        open={isOpen}
-        aria-labelledby="alert-dialog-title"
-        onClose={onCloseHandler}
-      >
-        <DialogTitle id="alert-dialog-title">
-          Select categories
-          <Paper
-            sx={{
-              display: "flex",
-              justifyContent: "start",
-              flexDirection: "row",
-              flexWrap: "wrap",
-              p: 0.5,
-              m: 0
-            }}
-            component="ul"
-          >
-            {subcategories
-              .filter((subcategory) => subcategory.selected)
-              .map((subcategory) => (
-                <ListItem
-                  key={subcategory.id}
-                  sx={{ padding: "2px", width: "auto" }}
-                >
-                  <Chip
-                    label={subcategory.name}
-                    onDelete={() => selectCategoryHandler(subcategory)}
-                  />
-                </ListItem>
-              ))}
-          </Paper>
-        </DialogTitle>
-        <DialogContent sx={{ width: "500px" }}>
-          <ol style={{ padding: 0 }}>
-            {subcategories.map((subcategory) => (
-              <Box key={subcategory.id}>
-                <li
-                  style={{
-                    listStyleType: "none",
-                    display: "flex",
-                    background: background(
-                      subcategory.active,
-                      subcategory.isChanged
-                    )
-                  }}
-                  onClick={() => selectCategoryHandler(subcategory)}
-                >
-                  <Checkbox
-                    style={{ marginRight: 8 }}
-                    checked={subcategory.selected}
-                  />
-                  <Box sx={{ width: "350px", padding: "5px 0" }}>
-                    <Typography variant="h6">{subcategory.name}</Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {subcategory.description}
-                    </Typography>
-                  </Box>
-                  {subcategory.isChanged && (
-                    <FormControlLabel
-                      sx={{ width: "175px" }}
-                      control={
-                        <Switch
-                          defaultChecked
-                          onClick={(e) => test(e, subcategory)}
-                        />
-                      }
-                      label={
-                        <Typography variant="caption">
-                          Save changes for future use
-                        </Typography>
-                      }
-                      labelPlacement="start"
-                    />
-                  )}
-                </li>
-                <Divider variant="middle" />
-              </Box>
+    <Dialog
+      open={isOpen}
+      aria-labelledby="alert-dialog-title"
+      onClose={onCloseHandler}
+    >
+      <DialogTitle id="alert-dialog-title">
+        Select categories
+        <Paper
+          sx={{
+            display: "flex",
+            justifyContent: "start",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            p: 0.5,
+            m: 0
+          }}
+          component="ul"
+        >
+          {subcategories
+            .filter((subcategory) => subcategory.selected)
+            .map((subcategory) => (
+              <ListItem
+                key={subcategory.id}
+                sx={{ padding: "2px", width: "auto" }}
+              >
+                <Chip
+                  label={subcategory.name}
+                  onDelete={() => selectCategoryHandler(subcategory)}
+                />
+              </ListItem>
             ))}
-          </ol>
-        </DialogContent>
-        <DialogActions>
-          <Button variant="contained" color="warning" onClick={onCloseHandler}>
-            Cancel
-          </Button>
-          <Button variant="contained" onClick={addCategories}>
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </>
+        </Paper>
+      </DialogTitle>
+      <DialogContent sx={{ width: "500px" }}>
+        <ol style={{ padding: 0 }}>
+          {subcategories.map((subcategory) => (
+            <Box key={subcategory.id}>
+              <li
+                style={{
+                  listStyleType: "none",
+                  display: "flex",
+                  background: background(
+                    subcategory.active,
+                    subcategory.isChanged
+                  )
+                }}
+                onClick={() => selectCategoryHandler(subcategory)}
+              >
+                <Checkbox
+                  style={{ marginRight: 8 }}
+                  checked={subcategory.selected}
+                />
+                <Box sx={{ width: "350px", padding: "5px 0" }}>
+                  <Typography variant="h6">{subcategory.name}</Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {subcategory.description}
+                  </Typography>
+                </Box>
+                {subcategory.isChanged && (
+                  <FormControlLabel
+                    sx={{ width: "175px" }}
+                    control={
+                      <Switch
+                        defaultChecked
+                        onClick={(e) => setSaveChanges(e, subcategory)}
+                      />
+                    }
+                    label={
+                      <Typography variant="caption">
+                        Save changes for future use
+                      </Typography>
+                    }
+                    labelPlacement="start"
+                  />
+                )}
+              </li>
+              <Divider variant="middle" />
+            </Box>
+          ))}
+        </ol>
+      </DialogContent>
+      <DialogActions>
+        <Button variant="contained" color="warning" onClick={onCloseHandler}>
+          Cancel
+        </Button>
+        <Button variant="contained" onClick={saveCategoriesHandler}>
+          Save
+        </Button>
+      </DialogActions>
+    </Dialog>
   )
 }
 export default TransactionImportAddCategory

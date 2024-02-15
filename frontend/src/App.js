@@ -23,6 +23,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 
 import "./App.css"
 import ComingSoon from "./pages/ComingSoon"
+import Budget from "./components/budget/Budget"
 
 // color palettes that can be used on any JSX component without the need for CSSs
 const theme = createTheme({
@@ -38,6 +39,26 @@ const theme = createTheme({
     },
     secondary: {
       main: "#227C9D"
+    },
+    income: {
+      main: "#17C3B2",
+      dark: "#0f877b",
+      text: "#454545"
+    },
+    savings: {
+      main: "#227C9D",
+      dark: "#1a6179",
+      text: "#454545"
+    },
+    variable: {
+      main: "#FFCB77",
+      dark: "#cc9e4c",
+      text: "#454545"
+    },
+    fixed: {
+      main: "#FE6D73",
+      dark: "#c95356",
+      text: "#454545"
     }
   }
 })
@@ -95,7 +116,8 @@ const router = createBrowserRouter([
         path: "accounts",
         element: <Accounts />,
         loader: accountsLoader
-      }
+      },
+      { path: "budget", element: <Budget /> }
     ]
   },
   { path: "/logout", element: <p>logout</p> }

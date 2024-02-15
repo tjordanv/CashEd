@@ -86,7 +86,7 @@ const Header = () => {
           Transaction Import
         </NavLink>
         <NavLink
-          to="/comingSoon" //TODO: change to budget when the page is ready
+          to="budget" //TODO: change to budget when the page is ready
           className={({ isActive }) => (isActive ? classes.active : undefined)}
         >
           Budget
