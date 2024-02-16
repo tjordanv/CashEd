@@ -24,7 +24,7 @@ const Budget = () => {
     setIsExpanded(false)
   }
   const setIsOpenHandler = (isOpen) => {
-    setDialogDetails({ isOpen: isOpen, categoryId: null })
+    setDialogDetails({ isOpen: isOpen, categoryId: 1 })
   }
   return (
     <Box>
@@ -49,17 +49,29 @@ const Budget = () => {
             </Button>
           </ListItem>
           <ListItem>
-            <Button variant="contained" color="savings">
+            <Button
+              variant="contained"
+              color="savings"
+              onClick={() => openDialogHandler(2)}
+            >
               Savings & Investments
             </Button>
           </ListItem>
           <ListItem>
-            <Button variant="contained" color="variable">
+            <Button
+              variant="contained"
+              color="variable"
+              onClick={() => openDialogHandler(3)}
+            >
               Variable Expenditures
             </Button>
           </ListItem>
           <ListItem>
-            <Button variant="contained" color="fixed">
+            <Button
+              variant="contained"
+              color="fixed"
+              onClick={() => openDialogHandler(4)}
+            >
               Fixed Expenditures
             </Button>
           </ListItem>

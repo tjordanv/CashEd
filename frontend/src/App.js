@@ -117,7 +117,11 @@ const router = createBrowserRouter([
         element: <Accounts />,
         loader: accountsLoader
       },
-      { path: "budget", element: <Budget /> }
+      {
+        path: "budget",
+        element: <Budget />,
+        loader: TransactionSubcategoriesImportLoader
+      }
     ]
   },
   { path: "/logout", element: <p>logout</p> }
