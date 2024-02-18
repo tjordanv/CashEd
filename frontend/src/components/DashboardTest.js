@@ -27,6 +27,7 @@ import FormControlLabel from "@mui/material/FormControlLabel"
 import Checkbox from "@mui/material/Checkbox"
 import Collapse from "@mui/material/Collapse"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
+import SubcategoryList from "./SubcategoryList"
 
 const testLoader = async () => {
   const date = new Date()
@@ -317,333 +318,46 @@ const DashboardTest = () => {
   return (
     <Box className={classes.container}>
       <List className={classes.subcategoryListParent}>
-        <FormGroup className={classes.subcategory}>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={incomeCategoriesSelected}
-                  onChange={(e) => {
-                    setIncomeCategoriesSelected(e.target.checked)
-                    setIncomeCategoriesExpanded(e.target.checked)
-                  }}
-                  sx={{
-                    "&.Mui-checked": {
-                      color: "rgba(23, 195, 178, 1)"
-                    }
-                  }}
-                />
-              }
-              label={
-                <>
-                  <Typography
-                    className={classes.reducedLineHeight}
-                    variant="h6"
-                  >
-                    Income
-                  </Typography>
-                  <Typography
-                    className={classes.reducedLineHeight}
-                    variant="subtitle1"
-                  >
-                    {usdFormatter(incomeTotal)}
-                  </Typography>
-                </>
-              }
-            />
-            <IconButton
-              className={expandClasses(incomeCategoriesExpanded)}
-              aria-expanded={incomeCategoriesExpanded}
-              aria-label="show more"
-              onClick={() => {
-                setIncomeCategoriesExpanded(!incomeCategoriesExpanded)
-              }}
-            >
-              <ExpandMoreIcon />
-            </IconButton>
-          </Box>
-          <Divider variant="middle" />
-        </FormGroup>
-        <Collapse in={incomeCategoriesExpanded} timeout="auto" unmountOnExit>
-          <List dense={true} className={classes.subcategoryList}>
-            {incomeCategories.map((item, index) => (
-              <Tooltip
-                arrow
-                placement="right"
-                key={index}
-                title={
-                  <Typography variant="subtitle1">
-                    {usdFormatter(item.total)}
-                  </Typography>
-                }
-              >
-                <StyledListItemButton
-                  key={index}
-                  id={item.id}
-                  {...listEvents(item)}
-                  props={{
-                    selectedColor: item.color,
-                    hoverColor: item.hoverColor
-                  }}
-                >
-                  <ListItemText
-                    primary={item.label}
-                    // secondary={usdFormatter(item.value)}
-                  />
-                </StyledListItemButton>
-              </Tooltip>
-            ))}
-          </List>
-        </Collapse>
-        <Box sx={{ height: "25px" }} />
-        <FormGroup className={classes.subcategory}>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  defaultChecked
-                  value={savingsAndInvestmentCategoriesSelected}
-                  onChange={(e) => {
-                    setSavingsAndInvestmentCategoriesSelected(e.target.checked)
-                    setSavingsAndInvestmentCategoriesExpanded(e.target.checked)
-                  }}
-                  sx={{
-                    "&.Mui-checked": {
-                      color: "rgba(34, 124, 157, 1)"
-                    }
-                  }}
-                />
-              }
-              label={
-                <>
-                  <Typography
-                    className={classes.reducedLineHeight}
-                    variant="h6"
-                  >
-                    Savings & Investment
-                  </Typography>
-                  <Typography
-                    className={classes.reducedLineHeight}
-                    variant="subtitle1"
-                  >
-                    {usdFormatter(savingsAndInvestmentTotal)}
-                  </Typography>
-                </>
-              }
-            />
-            <IconButton
-              className={expandClasses(savingsAndInvestmentCategoriesExpanded)}
-              aria-expanded={savingsAndInvestmentCategoriesExpanded}
-              aria-label="show more"
-              onClick={() => {
-                setSavingsAndInvestmentCategoriesExpanded(
-                  !savingsAndInvestmentCategoriesExpanded
-                )
-              }}
-            >
-              <ExpandMoreIcon />
-            </IconButton>
-          </Box>
-          <Divider variant="middle" />
-        </FormGroup>
-        <Collapse
-          in={savingsAndInvestmentCategoriesExpanded}
-          timeout="auto"
-          unmountOnExit
-        >
-          <List dense={true} className={classes.subcategoryList}>
-            {savingsAndInvestmentCategories.map((item, index) => (
-              <Tooltip
-                arrow
-                placement="right"
-                key={index}
-                title={
-                  <Typography variant="subtitle1">
-                    {usdFormatter(item.total)}
-                  </Typography>
-                }
-              >
-                <StyledListItemButton
-                  key={index}
-                  id={item.id}
-                  {...listEvents(item)}
-                  props={{
-                    selectedColor: item.color,
-                    hoverColor: item.hoverColor
-                  }}
-                >
-                  <ListItemText
-                    primary={item.label}
-                    // secondary={usdFormatter(item.value)}
-                  />
-                </StyledListItemButton>
-              </Tooltip>
-            ))}
-          </List>
-        </Collapse>
-        <Box sx={{ height: "25px" }} />
-        <FormGroup className={classes.subcategory}>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={variableExpCategoriesSelected}
-                  onChange={(e) => {
-                    setVariableExpCategoriesSelected(e.target.checked)
-                    setVariableExpCategoriesExpanded(e.target.checked)
-                  }}
-                  sx={{
-                    "&.Mui-checked": {
-                      color: "rgba(255, 203, 119, 1)"
-                    }
-                  }}
-                />
-              }
-              label={
-                <>
-                  <Typography
-                    className={classes.reducedLineHeight}
-                    variant="h6"
-                  >
-                    Variable Expenditures
-                  </Typography>
-                  <Typography
-                    className={classes.reducedLineHeight}
-                    variant="subtitle1"
-                  >
-                    {usdFormatter(variableExpTotal)}
-                  </Typography>
-                </>
-              }
-            />
-            <IconButton
-              className={expandClasses(variableExpCategoriesExpanded)}
-              aria-expanded={variableExpCategoriesExpanded}
-              aria-label="show more"
-              onClick={() => {
-                setVariableExpCategoriesExpanded(!variableExpCategoriesExpanded)
-              }}
-            >
-              <ExpandMoreIcon />
-            </IconButton>
-          </Box>
-          <Divider variant="middle" />
-        </FormGroup>
-        <Collapse
-          in={variableExpCategoriesExpanded}
-          timeout="auto"
-          unmountOnExit
-        >
-          <List dense={true} className={classes.subcategoryList}>
-            {variableExpCategories.map((item, index) => (
-              <Tooltip
-                arrow
-                placement="right"
-                key={index}
-                title={
-                  <Typography variant="subtitle1">
-                    {usdFormatter(item.total)}
-                  </Typography>
-                }
-              >
-                <StyledListItemButton
-                  key={index}
-                  id={item.id}
-                  {...listEvents(item)}
-                  props={{
-                    selectedColor: item.color,
-                    hoverColor: item.hoverColor
-                  }}
-                >
-                  <ListItemText
-                    primary={item.label}
-                    // secondary={usdFormatter(item.value)}
-                  />
-                </StyledListItemButton>
-              </Tooltip>
-            ))}
-          </List>
-        </Collapse>
-        <Box sx={{ height: "25px" }} />
-        <FormGroup className={classes.subcategory}>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  defaultChecked
-                  value={fixedExpCategoriesSelected}
-                  onChange={(e) => {
-                    setFixedExpCategoriesSelected(e.target.checked)
-                    setFixedExpCategoriesExpanded(e.target.checked)
-                  }}
-                  sx={{
-                    "&.Mui-checked": {
-                      color: "rgba(254, 109, 115, 1)"
-                    }
-                  }}
-                />
-              }
-              label={
-                <>
-                  <Typography
-                    className={classes.reducedLineHeight}
-                    variant="h6"
-                  >
-                    Fixed Expenditures
-                  </Typography>
-                  <Typography
-                    className={classes.reducedLineHeight}
-                    variant="subtitle1"
-                  >
-                    {usdFormatter(fixedExpTotal)}
-                  </Typography>
-                </>
-              }
-            />
-            <IconButton
-              className={expandClasses(fixedExpCategoriesExpanded)}
-              aria-expanded={fixedExpCategoriesExpanded}
-              aria-label="show more"
-              onClick={() => {
-                setFixedExpCategoriesExpanded(!fixedExpCategoriesExpanded)
-              }}
-            >
-              <ExpandMoreIcon />
-            </IconButton>
-          </Box>
-          <Divider variant="middle" />
-        </FormGroup>
-        <Collapse in={fixedExpCategoriesExpanded} timeout="auto" unmountOnExit>
-          <List dense={true} className={classes.subcategoryList}>
-            {fixedExpCategories.map((item, index) => (
-              <Tooltip
-                arrow
-                placement="right"
-                key={index}
-                title={
-                  <Typography variant="subtitle1">
-                    {usdFormatter(item.total)}
-                  </Typography>
-                }
-              >
-                <StyledListItemButton
-                  key={index}
-                  id={item.id}
-                  {...listEvents(item)}
-                  props={{
-                    selectedColor: item.color,
-                    hoverColor: item.hoverColor
-                  }}
-                >
-                  <ListItemText
-                    primary={item.label}
-                    // secondary={usdFormatter(item.value)}
-                  />
-                </StyledListItemButton>
-              </Tooltip>
-            ))}
-          </List>
-        </Collapse>
+        <SubcategoryList
+          isSelected={incomeCategoriesSelected}
+          setIsSelected={setIncomeCategoriesSelected}
+          isExpanded={incomeCategoriesExpanded}
+          setIsExpanded={setIncomeCategoriesExpanded}
+          categoryTotal={incomeTotal}
+          category="income"
+          subcategories={incomeCategories}
+          events={listEvents}
+        />
+        <SubcategoryList
+          isSelected={savingsAndInvestmentCategoriesSelected}
+          setIsSelected={setSavingsAndInvestmentCategoriesSelected}
+          isExpanded={savingsAndInvestmentCategoriesExpanded}
+          setIsExpanded={setSavingsAndInvestmentCategoriesExpanded}
+          categoryTotal={savingsAndInvestmentTotal}
+          category="savings"
+          subcategories={savingsAndInvestmentCategories}
+          events={listEvents}
+        />
+        <SubcategoryList
+          isSelected={variableExpCategoriesSelected}
+          setIsSelected={setVariableExpCategoriesSelected}
+          isExpanded={variableExpCategoriesExpanded}
+          setIsExpanded={setVariableExpCategoriesExpanded}
+          categoryTotal={variableExpTotal}
+          category="variable"
+          subcategories={variableExpCategories}
+          events={listEvents}
+        />
+        <SubcategoryList
+          isSelected={fixedExpCategoriesSelected}
+          setIsSelected={setFixedExpCategoriesSelected}
+          isExpanded={fixedExpCategoriesExpanded}
+          setIsExpanded={setFixedExpCategoriesExpanded}
+          categoryTotal={fixedExpTotal}
+          category="fixed"
+          subcategories={fixedExpCategories}
+          events={listEvents}
+        />
       </List>
       <Box
         className={classes.pieContainer}

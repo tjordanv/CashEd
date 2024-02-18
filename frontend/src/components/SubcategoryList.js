@@ -9,7 +9,7 @@ import List from "@mui/material/List"
 import ListItemButton from "@mui/material/ListItemButton"
 import ListItemText from "@mui/material/ListItemText"
 import { ClassNames } from "@emotion/react"
-import classes from "./DashboardTest.module.css"
+import classes from "./SubcategoryList.module.css"
 import FormGroup from "@mui/material/FormGroup"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import Checkbox from "@mui/material/Checkbox"
@@ -34,17 +34,37 @@ const StyledListItemButton = styled(ListItemButton)(({ theme, props }) => ({
 const expandClasses = (isExpanded) =>
   `${classes["expandMore"]} ${isExpanded ? classes["expandMoreExpanded"] : ""}`
 
+const categoryProps = {
+  income: {
+    name: "Income",
+    selectedColor: "#17C3B2"
+  },
+  savings: {
+    name: "Savings & Investments",
+    selectedColor: "#227C9D"
+  },
+  variable: {
+    name: "Variable Expenditures",
+    selectedColor: "#FFCB77"
+  },
+  fixed: {
+    name: "Fixed Expenditures",
+    selectedColor: "#FE6D73"
+  }
+}
+
 const SubcategoryList = ({
   isSelected,
   setIsSelected,
   isExpanded,
   setIsExpanded,
   categoryTotal,
-  categories,
+  category,
+  subcategories,
   events
 }) => {
   return (
-    <FormGroup className={classes.subcategory}>
+    <FormGroup className={classes.container}>
       <Box sx={{ display: "flex", alignItems: "center" }}>
         <FormControlLabel
           control={
@@ -56,7 +76,7 @@ const SubcategoryList = ({
               }}
               sx={{
                 "&.Mui-checked": {
-                  color: "rgba(23, 195, 178, 1)"
+                  color: categoryProps[category].selectedColor
                 }
               }}
             />
@@ -64,7 +84,7 @@ const SubcategoryList = ({
           label={
             <>
               <Typography className={classes.reducedLineHeight} variant="h6">
-                Income
+                {categoryProps[category].name}
               </Typography>
               <Typography
                 className={classes.reducedLineHeight}
@@ -89,7 +109,7 @@ const SubcategoryList = ({
       <Divider variant="middle" />
       <Collapse in={isExpanded} timeout="auto" unmountOnExit>
         <List dense={true} className={classes.subcategoryList}>
-          {categories.map((item, index) => (
+          {subcategories.map((item, index) => (
             <Tooltip
               arrow
               placement="right"

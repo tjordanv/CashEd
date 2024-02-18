@@ -1,0 +1,24 @@
+.container {
+  margin-bottom: 25px;
+}
+ul .subcategoryList {
+  padding: 0;
+}
+
+ul .subcategoryList li {
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+.container .reducedLineHeight {
+  line-height: 1.2;
+}
+
+.container .expandMore {
+  margin-left: auto;
+  transform: rotate(0deg);
+  transition: transform 0.2s;
+}
+
+.container .expandMoreExpanded {
+  transform: rotate(180deg);
+}
