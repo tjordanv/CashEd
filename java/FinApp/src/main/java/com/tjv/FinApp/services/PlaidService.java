@@ -1,136 +1,3 @@
-// Dev version
-
-//package com.tjv.FinApp.services;
-//
-//import com.google.gson.Gson;
-////import com.plaid.client.model;
-//import com.plaid.client.model.*;
-//import com.plaid.client.request.PlaidApi;
-//
-//
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//
-//import retrofit2.Response;
-//
-//import java.time.LocalDate;
-//import java.util.Arrays;
-//import java.util.Date;
-//
-//
-//@Service
-//public class PlaidService {
-//    Logger log = LoggerFactory.getLogger(PlaidService.class);
-//
-//    @Autowired
-//    private PlaidApi plaidClient;
-//    String Acctkn = null;
-//    public String pliadAccessToken(String ptkn) throws Exception {
-//        String accessToken = "not got";
-//
-//        ItemPublicTokenExchangeRequest request = new ItemPublicTokenExchangeRequest().publicToken(ptkn);
-//        Response<ItemPublicTokenExchangeResponse> response = plaidClient.itemPublicTokenExchange(request).execute();
-//
-//        if (response.isSuccessful()) {
-//            this.Acctkn =  accessToken = response.body().getAccessToken();
-//        }
-//
-//        try {
-//            Gson gson = new Gson();
-//            PlaidError error = gson.fromJson(response.errorBody().string(), PlaidError.class);
-//            log.info(error.toString());
-//        } catch (Exception e) {
-//            log.info("exception: "+e);
-//        }
-//        return accessToken;
-//    }
-//
-//    public String pliadToken() throws Exception {
-//
-//        String clientUserId = Long.toString((new Date()).getTime());
-//
-//        LinkTokenCreateRequestUser user = new LinkTokenCreateRequestUser()
-//                .clientUserId(clientUserId);
-//
-//        LinkTokenCreateRequest request = new LinkTokenCreateRequest()
-//                .user(user)
-//                .clientName("client name")
-//                .products(Arrays.asList(Products.TRANSACTIONS))
-//                .countryCodes(Arrays.asList(CountryCode.US))
-//                .language("en");
-//
-//        Response<LinkTokenCreateResponse> response = plaidClient
-//                .linkTokenCreate(request)
-//                .execute();
-//
-//        System.out.println("token response " +response.body().getLinkToken());
-//        return response.body().getLinkToken();
-//
-//    }
-//
-//    public TransactionsGetResponse transactions(String ptkn) throws Exception {
-//        LocalDate startDate = LocalDate.ofEpochDay(02-02-2023);
-//        LocalDate endDate = LocalDate.ofEpochDay(07-06-2023);
-//        String accessToken = pliadAccessToken(ptkn);
-//
-//        AccountsGetRequest agRequest = new AccountsGetRequest()
-//                .accessToken(accessToken);
-//
-//        Response<AccountsGetResponse> accountsGetResponse = plaidClient
-//                .accountsGet(agRequest)
-//                .execute();
-//        log.info("account response "+accountsGetResponse);
-//        String someAccountId = accountsGetResponse
-//                .body()
-//                .getAccounts()
-//                .get(0)
-//                .getAccountId();
-//        log.info("account id: "+someAccountId );
-//        int numTxns = 2;
-//        TransactionsGetRequestOptions options = new TransactionsGetRequestOptions()
-//                .accountIds(Arrays.asList(someAccountId))
-//                .count(numTxns)
-//                .offset(1);
-//        TransactionsGetRequest request = new TransactionsGetRequest()
-//                .accessToken(accessToken)
-//                .startDate(startDate)
-//                .endDate(endDate)
-//                .options(options);
-//        Response<TransactionsGetResponse> apiResponse = null;
-//        for (int i = 0; i < 5; i++) {
-//            apiResponse = plaidClient.transactionsGet(request).execute();
-//            if (apiResponse.isSuccessful()) {
-//                log.info("transaction response: "+apiResponse);
-//                break;
-//            }
-//        }
-//        return apiResponse.body();
-//    }
-//
-//    public AccountBalance accountBalance(String ptkn) throws Exception {
-//        String accessToken = pliadAccessToken(ptkn);
-//
-//        AccountsBalanceGetRequest request = new AccountsBalanceGetRequest()
-//                .accessToken(accessToken);
-//        Response<AccountsGetResponse> response = plaidClient
-//                .accountsBalanceGet(request)
-//                .execute();
-//        log.info("account balance: "+response);
-//        String accountId = response.body().getAccounts().get(0).getAccountId();
-//        AccountsBalanceGetRequestOptions options = new AccountsBalanceGetRequestOptions()
-//                .accountIds(Arrays.asList(accountId));
-//        request.setOptions(options);
-//        response = plaidClient.accountsBalanceGet(request).execute();
-//
-//        return response.body().getAccounts().get(0).getBalances();
-//    }
-//}
-//
-
-// Sandbox version
-
 package com.tjv.FinApp.services;
 
 import com.google.gson.Gson;
@@ -343,7 +210,7 @@ public class PlaidService {
     }
     public List<PlaidToken> getAccessTokens(String accountIds, Principal principal) throws IOException {
         int userId = userDao.getUserIdByUsername(principal);
-        String sql = "SELECT at.id, token FROM access_tokens at JOIN accounts a on at.id = a.access_token_id WHERE at.user_id = :userId AND at.is_deleted = false AND a.id = ANY(:accountIds)";
+        String sql = "SELECT DISTINCT at.id, token FROM access_tokens at JOIN accounts a on at.id = a.access_token_id WHERE at.user_id = :userId AND at.is_deleted = false AND a.id = ANY(:accountIds)";
         int[] ids = StringToIntArray(accountIds);
         SqlParameterSource namedParameters = new MapSqlParameterSource()
                 .addValue("accountIds", ids, Types.ARRAY)
@@ -373,9 +240,9 @@ public class PlaidService {
      * @return The transactions.
      * @throws Exception if an error occurs while retrieving the transactions.
      */
-    public List<Transaction> getTransactions(String accountIds, @NotNull PlaidToken accessToken) throws Exception {
+    public List<Transaction> getTransactions(String accountIds, @NotNull PlaidToken accessToken, int startDateOffset) throws Exception {
         LocalDate endDate = LocalDate.now();
-        LocalDate startDate = endDate.minusMonths(1);
+        LocalDate startDate = endDate.minusDays(startDateOffset);
 
 //        String accessToken = this.getAccessToken(principal);
 //        AccountsGetRequest agRequest = new AccountsGetRequest()
@@ -438,7 +305,6 @@ public class PlaidService {
             String transactionId = results.getString("transaction_id");
             for (int i = 0; i < transactions.size(); i++) {
                 if (transactions.get(i).getTransactionId().equals(transactionId)) {
-                    System.out.println("found  it");
                     transactions.remove(i);
                     break;
                 }
@@ -527,7 +393,7 @@ public class PlaidService {
        newTransaction.setMerchantLogoUrl(transaction.getLogoUrl());
        newTransaction.setMerchantWebsite(transaction.getWebsite());
        newTransaction.setDate(transaction.getDate());
-       newTransaction.setAmount(transaction.getAmount());
+       newTransaction.setAmount(Math.abs(transaction.getAmount()));
        newTransaction.setPaymentChannelId(paymentChannelId);
        newTransaction.setCheckNumber(transaction.getCheckNumber());
        //newTransaction.setPaymentMeta()

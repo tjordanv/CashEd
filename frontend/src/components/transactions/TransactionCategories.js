@@ -14,7 +14,10 @@ const TransactionSubcategoriesImportLoader = async () => {
     } else if (subcategoriesResponse.status === 200) {
       const subcategoriesJson = await subcategoriesResponse.json()
       subcategoriesJson.forEach((category) => {
-        subcategories[category.categoryId - 1].push(category)
+        // exclude the "Other" category and its subcategories
+        if (category.categoryId !== 5) {
+          subcategories[category.categoryId - 1].push(category)
+        }
       })
       return subcategories
     }

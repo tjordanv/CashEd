@@ -14,8 +14,13 @@ const TransactionImport = () => {
   const [unassignedTransactions, setUnassignedTransactions] = useState([])
   const [activeTransactions, setActiveTransactions] = useState([])
 
+  const resetTransactions = () => {
+    setTransactions([])
+    setUnassignedTransactions([])
+  }
+
   const deleteTransactionHandler = (transaction) => {
-    if (transaction.subcategoryId === (null || undefined || 0)) {
+    if (!transaction.subcategoryId) {
       const updatedTransactions = unassignedTransactions.filter(
         (trans) => trans.transactionId !== transaction.transactionId
       )
@@ -96,8 +101,8 @@ const TransactionImport = () => {
       destination.index !== source.index
     ) {
       let tempTransactions = isUnassigned
-        ? unassignedTransactions
-        : activeTransactions
+        ? Array.from(unassignedTransactions)
+        : Array.from(activeTransactions)
       const transaction = tempTransactions[source.index]
       tempTransactions.splice(source.index, 1)
       tempTransactions.splice(destination.index, 0, transaction)
@@ -143,7 +148,6 @@ const TransactionImport = () => {
       )
     }
   }, [activeSubcategory, transactions])
-
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className={classes.container}>
@@ -180,7 +184,8 @@ const TransactionImport = () => {
             />
           )}
         </Box>
-        <Box className={classes.leftDivider}></Box>
+        <Divider orientation="vertical" flexItem />
+        {/* <Box className={classes.leftDivider}></Box> */}
         <Box>
           <TransactionCategories
             activeSubcategoryId={
@@ -190,7 +195,8 @@ const TransactionImport = () => {
             transactions={transactions}
           />
         </Box>
-        <Box className={classes.leftDivider}></Box>
+        <Divider orientation="vertical" flexItem />
+        {/* <Box className={classes.leftDivider}></Box> */}
         <Box className={classes.newTransactionsContainer}>
           <Typography variant="h6" sx={{ textAlign: "center" }}>
             {activeSubcategory ? activeSubcategory.name : "Click a category"}
@@ -210,7 +216,12 @@ const TransactionImport = () => {
               sx={{ width: "90%", borderColor: "rgba(119, 119, 119, 0.5)" }}
             />
           )}
-          <SaveTransactionsButton isActiveSubcategory={activeSubcategory} />
+          <SaveTransactionsButton
+            unassignedTransactions={unassignedTransactions}
+            transactions={transactions}
+            isActiveSubcategory={activeSubcategory}
+            resetTransactions={resetTransactions}
+          />
 
           {!activeSubcategory && (
             <Divider

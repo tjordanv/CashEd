@@ -12,7 +12,7 @@ const TooltipInfoBox = styled(Box)(({ theme }) => ({
 
   "& .InfoName": { textAlign: "right", minWidth: "85px", marginRight: "10px" }
 }))
-const TransactionInfoTooltip = ({ date, name, amount }) => {
+const TransactionInfoTooltip = ({ date, name, amount, accountName }) => {
   return (
     <Tooltip
       cursor="default"
@@ -43,6 +43,14 @@ const TransactionInfoTooltip = ({ date, name, amount }) => {
               </u>
             </Typography>
             <Typography variant="subtitle2">{amount}</Typography>
+          </Box>
+          <Box className="RowBox">
+            <Typography className="InfoName" variant="subtitle2">
+              <u>
+                <b>Account:</b>
+              </u>
+            </Typography>
+            <Typography variant="subtitle2">{accountName}</Typography>
           </Box>
         </TooltipInfoBox>
       }

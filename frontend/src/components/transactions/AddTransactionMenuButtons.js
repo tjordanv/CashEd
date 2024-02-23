@@ -8,7 +8,8 @@ import EditRounded from "@mui/icons-material/EditRounded"
 const AddTransactionMenuButtons = ({
   setIsOpen,
   setIsSingleTransaction,
-  isTransactions
+  isTransactions,
+  isDragging
 }) => {
   const openDialogHandler = (isSingleTransaction) => {
     setIsOpen(true)
@@ -20,6 +21,7 @@ const AddTransactionMenuButtons = ({
     : { marginLeft: "-28px", position: "absolute", top: "50%" }
   return (
     <SpeedDial
+      hidden={isDragging}
       ariaLabel="SpeedDial basic example"
       icon={<SpeedDialIcon />}
       direction={direction}

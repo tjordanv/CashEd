@@ -9,7 +9,7 @@ import Header from "./pages/Header"
 import Notifications from "./pages/Notifications"
 import PasswordReset from "./pages/auth/PasswordReset"
 import LandingWrapper from "./pages/LandingWrapper"
-import DashboardTest from "./components/DashboardTest"
+import DashboardTest, { testLoader } from "./components/DashboardTest"
 import AboutUs from "./pages/AboutUs"
 import { passwordResetLoader } from "./components/auth/PasswordResetForm"
 import { headerNotificationsLoader } from "./components/header/HeaderLayout"
@@ -18,8 +18,12 @@ import Home from "./pages/Home"
 import Contact from "./pages/Contact"
 import Accounts from "./pages/Accounts"
 import { accountsLoader } from "./pages/Accounts"
+import { LocalizationProvider } from "@mui/x-date-pickers"
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 
 import "./App.css"
+import ComingSoon from "./pages/ComingSoon"
+import Budget from "./components/budget/Budget"
 
 // color palettes that can be used on any JSX component without the need for CSSs
 const theme = createTheme({
@@ -30,11 +34,31 @@ const theme = createTheme({
       text: "#454545"
     },
     danger: {
-      main: "#fa4343",
+      main: "#CC0000",
       dark: "#b53131"
     },
     secondary: {
       main: "#227C9D"
+    },
+    income: {
+      main: "#17C3B2",
+      dark: "#0f877b",
+      text: "#454545"
+    },
+    savings: {
+      main: "#227C9D",
+      dark: "#1a6179",
+      text: "#454545"
+    },
+    variable: {
+      main: "#FFCB77",
+      dark: "#cc9e4c",
+      text: "#454545"
+    },
+    fixed: {
+      main: "#FE6D73",
+      dark: "#c95356",
+      text: "#454545"
     }
   }
 })
@@ -73,7 +97,8 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <DashboardTest />
+        element: <DashboardTest />,
+        loader: testLoader
       },
       {
         path: "TransactionImport",
@@ -81,14 +106,21 @@ const router = createBrowserRouter([
         loader: TransactionSubcategoriesImportLoader
       },
       {
-        path: "notifications",
-        element: <Notifications />,
+        // path: "notifications",
+        // element: <Notifications />,
+        path: "comingSoon",
+        element: <ComingSoon />,
         loader: notificationsLoader
       },
       {
         path: "accounts",
         element: <Accounts />,
         loader: accountsLoader
+      },
+      {
+        path: "budget",
+        element: <Budget />,
+        loader: TransactionSubcategoriesImportLoader
       }
     ]
   },
@@ -97,9 +129,11 @@ const router = createBrowserRouter([
 
 export default function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </LocalizationProvider>
   )
 }
 export { theme }

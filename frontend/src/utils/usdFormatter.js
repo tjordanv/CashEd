@@ -11,7 +11,20 @@ const usdFormatter = (amount) => {
     currency: "USD"
   })
 
-  return usd.format(amount)
+  if (amount === 0) {
+    return "$0.00"
+  }
+
+  if (typeof amount === "number") {
+    return usd.format(amount)
+  }
+
+  const parsedAmount = parseFloat(amount)
+  if (isNaN(parsedAmount)) {
+    throw new Error("Invalid amount")
+  }
+
+  return usd.format(parsedAmount)
 }
 
 export { usdFormatter }

@@ -86,7 +86,7 @@ const Header = () => {
           Transaction Import
         </NavLink>
         <NavLink
-          to="nothing"
+          to="budget" //TODO: change to budget when the page is ready
           className={({ isActive }) => (isActive ? classes.active : undefined)}
         >
           Budget
@@ -98,13 +98,13 @@ const Header = () => {
           Accounts
         </NavLink>
         <NavLink
-          to="home/AboutUs"
+          to="AboutUs"
           className={({ isActive }) => (isActive ? classes.active : undefined)}
         >
           About Us
         </NavLink>
         <NavLink
-          to="last"
+          to="contact"
           className={({ isActive }) => (isActive ? classes.active : undefined)}
         >
           Contact Us

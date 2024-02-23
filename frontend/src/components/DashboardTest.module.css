@@ -1,0 +1,64 @@
+.container {
+  display: flex;
+  justify-content: space-evenly;
+}
+.container .subcategoryListParent {
+  max-height: calc(100vh - 150px);
+  min-width: 300px;
+  overflow-y: auto;
+  margin: 50px auto 25px 50px;
+  padding: 0;
+  scrollbar-gutter: stable;
+}
+.subcategoryListParent::-webkit-scrollbar {
+  width: 7px;
+}
+.subcategoryListParent::-webkit-scrollbar-track {
+  background-color: rgba(119, 119, 119, 0.2);
+  border-radius: 8px;
+}
+.subcategoryListParent::-webkit-scrollbar-thumb {
+  background-color: rgba(119, 119, 119, 0.7);
+  border-radius: 8px;
+}
+.container .subcategory {
+  /* margin-top: 25px; */
+}
+ul .subcategoryList {
+  padding: 0;
+}
+
+ul .subcategoryList li {
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+.container .reducedLineHeight {
+  line-height: 1.2;
+}
+.pieContainer {
+  width: 800px;
+  height: 800px;
+}
+
+.pieContainer div div svg g {
+  cursor: pointer;
+}
+.container .expandMore {
+  margin-left: auto;
+  transform: rotate(0deg);
+  transition: transform 0.2s;
+}
+
+.container .expandMoreExpanded {
+  transform: rotate(180deg);
+}
+
+.container .detailsContainer {
+  display: flex;
+  min-width: 300px;
+  margin: 50px 40px 25px auto;
+}
+.container .detailsContainer .detailText {
+  display: flex;
+  justify-content: space-between;
+}

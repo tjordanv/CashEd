@@ -6,12 +6,13 @@ import { useState } from "react"
 import { useLoaderData } from "react-router-dom"
 import TransactionSubcategory from "./TransactionSubcategory"
 import classes from "./TransactionCategory.module.css"
-import IconButton from "@mui/material/IconButton"
-import AddBoxIcon from "@mui/icons-material/AddBox"
 import { usdFormatter } from "../../utils/usdFormatter"
 import fetcher from "../../utils/fetchAuthorize"
 import FetchError from "../../utils/fetchError"
-import TransactionImportAddCategory from "./TransactionImportAddCategoryV2"
+import TransactionImportAddCategory from "./TransactionImportAddCategory"
+import IconButton from "@mui/material/IconButton"
+import AddBoxIcon from "@mui/icons-material/AddBox"
+import Tooltip from "@mui/material/Tooltip"
 
 const TransactionCategory = ({
   category,
@@ -19,6 +20,7 @@ const TransactionCategory = ({
   setActiveSubcategory,
   transactions
 }) => {
+  const [isOpen, setIsOpen] = useState(false)
   const [subcategories, setSubcategories] = useState(
     useLoaderData()[category.id - 1].filter((subcategory) => subcategory.active)
   )
@@ -108,7 +110,14 @@ const TransactionCategory = ({
           })}
         </Stack>
       </CardContent>
+      <Tooltip title="Add categories" placement="top">
+        <IconButton aria-label="Import" onClick={() => setIsOpen(true)}>
+          <AddBoxIcon color="lightWhite" fontSize="large" />
+        </IconButton>
+      </Tooltip>
       <TransactionImportAddCategory
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
         categoryId={category.id}
         setSubcategoriesHandler={setSubcategories}
       />
