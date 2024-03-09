@@ -60,8 +60,8 @@ const RegisterFormPt2 = ({ backHandler, submitHandler, user }) => {
         )
       } else {
         // once username is validated, check that it is available
-        let isUsernameAvailable = await checkUsernameAvailability(username)
-        if (!isUsernameAvailable) {
+        const isUsernameTaken = await checkUsernameAvailability(username)
+        if (isUsernameTaken) {
           errorList.push(new InputError("Username already taken.", "username"))
         }
       }
