@@ -1,32 +1,13 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { usePlaidLink } from "react-plaid-link"
+import React, { useEffect, useState } from "react"
 import fetcher from "../utils/fetchAuthorize"
-import {
-  Divider,
-  IconButton,
-  MenuItem,
-  Tooltip,
-  Typography
-} from "@mui/material"
-import { styled } from "@mui/material/styles"
+import { Typography } from "@mui/material"
 import Box from "@mui/material/Box"
-import Select from "@mui/material/Select"
 import { usdFormatter } from "../utils/usdFormatter"
 import { useLoaderData } from "react-router-dom"
 import List from "@mui/material/List"
-import ListItemButton from "@mui/material/ListItemButton"
-import ListItemText from "@mui/material/ListItemText"
-import { ClassNames } from "@emotion/react"
 import classes from "./DashboardTest.module.css"
-import TransactionsList from "./transactions/TransactionsList"
-import Transaction from "./transactions/Transaction"
 import { ResponsivePie } from "@nivo/pie"
 import { ResponsiveBar } from "@nivo/bar"
-import FormGroup from "@mui/material/FormGroup"
-import FormControlLabel from "@mui/material/FormControlLabel"
-import Checkbox from "@mui/material/Checkbox"
-import Collapse from "@mui/material/Collapse"
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import SubcategoryList from "./SubcategoryList"
 
 const testLoader = async () => {
@@ -78,20 +59,6 @@ const testLoader = async () => {
 }
 
 export { testLoader }
-
-const StyledListItemButton = styled(ListItemButton)(({ theme, props }) => ({
-  marginLeft: 25,
-  borderRadius: 8,
-  "&:hover": {
-    backgroundColor: props.hoverColor
-  },
-  "&.Mui-selected": {
-    backgroundColor: props.selectedColor
-  },
-  "&.Mui-selected:hover": {
-    backgroundColor: props.hoverColor
-  }
-}))
 
 const monthNames = [
   "January",
@@ -226,12 +193,6 @@ const DashboardTest = () => {
   const colors = data().map((item) => item.color)
 
   const currentMonth = monthNames[new Date().getMonth()]
-
-  // classes used for styling the card when expanded
-  const expandClasses = (isExpanded) =>
-    `${classes["expandMore"]} ${
-      isExpanded ? classes["expandMoreExpanded"] : ""
-    }`
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -388,23 +349,6 @@ const DashboardTest = () => {
           tooltip={test}
           colors={colors}
         />
-        {/* {highlightedCategory && (
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              textAlign: "center",
-              padding: "5px"
-            }}
-          >
-            <Typography variant="h6">{highlightedCategory.name}</Typography>
-            <Typography variant="h5">
-              {usdFormatter(highlightedCategory.total)}
-            </Typography>
-          </div>
-        )} */}
       </Box>
       <Box className={classes.detailsContainer}>
         {highlightedCategory && (
@@ -483,30 +427,6 @@ const DashboardTest = () => {
                 ]}
               />
             </Box>
-            {/* <span className={classes.detailText}>
-              <Typography className={classes.reducedLineHeight} variant="h6">
-                Target Goal:
-              </Typography>
-              <Typography className={classes.reducedLineHeight} variant="h6">
-                $$$$$
-              </Typography>
-            </span>
-            <span className={classes.detailText}>
-              <Typography className={classes.reducedLineHeight} variant="h6">
-                Current Total:
-              </Typography>
-              <Typography className={classes.reducedLineHeight} variant="h6">
-                {usdFormatter(highlightedCategory.total)}
-              </Typography>
-            </span>
-            <span className={classes.detailText}>
-              <Typography className={classes.reducedLineHeight} variant="h6">
-                Previous Month:
-              </Typography>
-              <Typography className={classes.reducedLineHeight} variant="h6">
-                {usdFormatter(highlightedCategory.previousTotal)}
-              </Typography>
-            </span> */}
           </Box>
         )}
       </Box>
